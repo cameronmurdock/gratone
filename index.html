@@ -3,25 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Email Verification</title>
+  <title>ONE Local - Welcome</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #eeeeee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #000000;
+    }
+    .header, .footer {
+      background: linear-gradient(135deg, #003333, #339999);
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .header img {
+      display: block;
+      width: 120px;
+      height: auto;
+      margin: auto;
+    }
+    .main-content {
+      background-color: #ffffff;
+      padding: 40px 20px;
+    }
+    .button {
+      background-color: #BF820A;
+      color: #ffffff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+      border: 1px solid #ffffff;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      margin: 10px 0;
+    }
+    .button:hover {
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+    .button:active {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(2px);
+    }
+    .call-to-action {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .call-to-action h2 {
+      margin-top: 0;
+    }
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+    }
+    @media (max-width: 600px) {
+      .call-to-action {
+        margin: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Email Verification</h1>
-  <p>Thank you for verifying your email. You will be redirected shortly...</p>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Function to detect if the user is on a mobile device
-      function isMobileDevice() {
-        return /Mobi|Android/i.test(navigator.userAgent);
-      }
+  <div class="header">
+    <img alt="ONE Local Logo" src="https://i.imgur.com/UYJyU4Q.png">
+    <h1>Welcome to ONE Local</h1>
+  </div>
+  <div class="main-content">
+    <h2>Your Journey to Connection Starts Now</h2>
+    <p>Join ONE Local, the community-driven platform where you can connect with your tribe, discover your city, and create a more fulfilling life.</p>
+    <p>We're so excited to have you join the movement! 🎉</p>
 
-      // Redirect based on the device type
-      if (isMobileDevice()) {
-        window.location.href = 'your-app-scheme://'; // Replace with your app's custom URL scheme
-      } else {
-        window.location.href = 'https://app.onelocal.one';
-      }
-    });
-  </script>
+    <div class="call-to-action">
+      <h2>Complete Your Profile</h2>
+      <p>Let people know who you are and what you're passionate about. Add a photo, share your interests, and connect with like-minded individuals. 🧑‍🤝‍🧑</p>
+      <a href="onelocal://profile" class="button" onclick="event.preventDefault(); window.location.href='{{links.profile}}';">Complete Your Profile</a>
+    </div>
+
+    <div class="call-to-action">
+      <h2>Explore Your Community</h2>
+      <p>Discover local events, projects, and organizations happening near you. Find something that sparks your interest and get involved. 🌍</p>
+      <a href="onelocal://map" class="button" onclick="event.preventDefault(); window.location.href='{{links.map}}';">Explore Your Community</a>
+    </div>
+
+    <div class="call-to-action">
+      <h2>Share Your Gifts</h2>
+      <p>Offer your skills, talents, or resources to the community. You'll be surprised how much you have to offer! 🎁</p>
+      <a href="onelocal://create_post" class="button" onclick="event.preventDefault(); window.location.href='{{links.create_post}}';">Share Your Gifts</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Follow us on social media</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
+      <a href="https://www.instagram.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+    </div>
+    <p>© 2024 ONE Local. All rights reserved.</p>
+    <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
+  </div>
 </body>
 </html>
