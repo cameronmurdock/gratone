@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE Local</title>
+    <style>
+        @font-face {
+            font-family: "IBM Plex Sans Roman";
+            src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/85648/IBMPlexSansVar-Roman.ttf");
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "IBM Plex Sans Roman", Times;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            background-color: #DCEDC8;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-weight: 100;
+            font-size: 10vw;
+            line-height: 10vw;
+            font-variation-settings: 'wght' 100, 'wdth' 85;
+        }
+
+        h1 .char {
+            --delay: calc((var(--char-index) + 1) * 400ms);
+            animation: breathe 4000ms infinite both;
+            animation-delay: var(--delay);
+        }
+
+        h1:hover span {
+            animation-play-state: paused;
+        }
+
+        @keyframes breathe {
+            0% {
+                font-variation-settings: 'wght' 100, 'wdth' 85;
+                font-size: 10vw;
+            }
+            60% {
+                font-variation-settings: 'wght' 700, 'wdth' 100;
+                font-size: 11vw;
+            }
+            100% {
+                font-variation-settings: 'wght' 100, 'wdth' 85;
+                font-size: 10vw;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .feature img {
+            max-width: 100px;
+            border-radius: 50%;
+        }
+
+        .feature-text {
+            text-align: left;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>
+                <span class="char" style="--char-index: 0;">O</span>
+                <span class="char" style="--char-index: 1;">N</span>
+                <span class="char" style="--char-index: 2;">E</span>
+                <span class="char" style="--char-index: 3;"> </span>
+                <span class="char" style="--char-index: 4;">L</span>
+                <span class="char" style="--char-index: 5;">o</span>
+                <span class="char" style="--char-index: 6;">c</span>
+                <span class="char" style="--char-index: 7;">a</span>
+                <span class="char" style="--char-index: 8;">l</span>
+            </h1>
+        </header>
+        <div class="content">
+            <div class="feature">
+                <img src="https://via.placeholder.com/100" alt="Community">
+                <div class="feature-text">
+                    <h2>Community</h2>
+                    <p>Connect with like-minded individuals and build a thriving local community.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <img src="https://via.placeholder.com/100" alt="Empowerment">
+                <div class="feature-text">
+                    <h2>Empowerment</h2>
+                    <p>Gain the tools and resources needed to make a positive impact in your locality.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <img src="https://via.placeholder.com/100" alt="Sustainability">
+                <div class="feature-text">
+                    <h2>Sustainability</h2>
+                    <p>Promote sustainable practices and support local ecosystems.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        © 2024 ONE Local. All rights reserved.
+    </footer>
+</body>
+</html>
