@@ -125,7 +125,7 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        const decodedUrl = decodeURIComponent(verifyUrl);
+        const decodedUrl = decodeURI(verifyUrl);
         fetch(decodedUrl)
           .then(response => {
             if (!response.ok) {
