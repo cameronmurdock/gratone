@@ -1,330 +1,145 @@
-const reqlib = require("app-root-path").require;
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
-const httpStatus = require("http-status");
-const config = reqlib("/config/config");
-const userService = require("./user.service");
-const { Token, User } = reqlib("/models");
-const ApiError = reqlib("/utils/ApiError");
-const { tokenTypes } = reqlib("/config/tokens");
-const { sendServiceSuccessObj, defaultSuccessMessage } =
-  reqlib("/utils/success");
-const { sendFailureResponse, sendServiceFailureObj } = reqlib("/utils/failure");
-
-/**
- * Generate token
- * @param {ObjectId} userId
- * @param {Moment} expires
- * @param {string} type
- * @param {string} [secret]
- * @returns {string}
- */
-const generateToken = (userId, expires, type, options = {}) => {
-  const payload = {
-    sub: userId,
-    iat: Date.now(),
-    exp: expires.unix(),
-    type,
-  };
-  return jwt.sign(payload, config.jwt.secret, options);
-};
-
-/**
- * Save a token
- * @param {Object} token
- * @param {ObjectId} userId
- * @returns {Promise<User>}
- */
-const saveToken = async (tokens, userId) => {
-  // console.log(`saveToken (user: ${userId})`, tokens);
-  const filter = { _id: userId };
-  const update = { ...tokens };
-  const options = { new: true };
-
-  const user = await User.findOneAndUpdate(filter, update, options);
-  // console.log('Saved token', user);
-  return user;
-};
-
-/**
- * Verify token and return token doc (or throw an error if it is not valid)
- * @param {string} token
- * @param {string} type
- * @returns {Promise<Token>}
- */
-// const verifyToken = async (token) => {
-//   const payload = jwt.verify(token, config.jwt.secret);
-//   const user = await User.findOne({ _id : payload.sub});
-//   //const user = await User.findOne({ id : payload.sub, access_token : token});
-//   if (!user) {
-//     throw new Error('User not found.');
-//   }
-//   return user;
-// };
-
-const verifyToken = (token, options = {}) => {
-  try {
-    const payload = jwt.verify(token, config.jwt.secret, options);
-    return sendServiceSuccessObj(defaultSuccessMessage, payload);
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      return sendServiceFailureObj("Token expired", httpStatus.UNAUTHORIZED);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONE Local - Welcome</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #eeeeee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #000000;
     }
-    return sendServiceFailureObj(
-      `Caught exception verifying token: ${error}`,
-      httpStatus.UNAUTHORIZED,
-    );
-  }
-};
+    .header, .footer {
+      background: linear-gradient(135deg, #003333, #339999);
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .header img {
+      display: block;
+      width: 120px;
+      height: auto;
+      margin: auto;
+    }
+    .main-content {
+      background-color: #ffffff;
+      padding: 40px 20px;
+    }
+    .button {
+      background-color: #BF820A;
+      color: #ffffff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+      border: 1px solid #ffffff;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      margin: 10px 0;
+    }
+    .button:hover {
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+    .button:active {
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transform: translateY(2px);
+    }
+    .call-to-action {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .call-to-action h2 {
+      margin-top: 0;
+    }
+    .social-icons img {
+      width: 30px;
+      height: 30px;
+      margin: 0 10px;
+    }
+    @media (max-width: 600px) {
+      .call-to-action {
+        margin: 10px;
+      }
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify');
 
-/**
- * Generate auth tokens
- * @param {User} user
- * @returns {Promise<Object>}
- */
-const generateAuthTokens = async (user) => {
-  // const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessTokenExpires = moment().add(
-    config.jwt.accessExpirationDays,
-    "days",
-  );
-  const accessToken = generateToken(
-    user._id,
-    accessTokenExpires,
-    tokenTypes.ACCESS,
-  );
+      if (verifyUrl) {
+        console.log('Verification URL:', verifyUrl); // Debugging line
+        fetch(verifyUrl)
+          .then(response => {
+            console.log('Response status:', response.status); // Debugging line
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Verification successful:', data);
+            // Additional logic to handle successful verification
+            // e.g., display a message to the user or redirect
+          })
+          .catch(error => {
+            console.error('Error during verification:', error);
+            // Additional logic to handle errors
+            // e.g., display an error message to the user
+          });
+      } else {
+        console.error('No verify URL parameter found.');
+        // Additional logic if no verify parameter is found
+        // e.g., redirect the user or display a message
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="header">
+    <img alt="ONE Local Logo" src="https://i.imgur.com/UYJyU4Q.png">
+    <h1>Welcome to ONE Local</h1>
+  </div>
+  <div class="main-content">
+    <h2>Your Journey to Connection Starts Now</h2>
+    <p>Join ONE Local, the community-driven platform where you can connect with your tribe, discover your city, and create a more fulfilling life.</p>
+    <p>We're so excited to have you join the movement! 🎉</p>
 
-  const refreshTokenExpires = moment().add(
-    config.jwt.refreshExpirationDays,
-    "days",
-  );
-  const refreshToken = generateToken(
-    user._id,
-    refreshTokenExpires,
-    tokenTypes.REFRESH,
-  );
-  await saveToken(
-    { access_token: accessToken, refresh_token: refreshToken },
-    user._id,
-  );
+    <div class="call-to-action">
+      <h2>Complete Your Profile</h2>
+      <p>Let people know who you are and what you're passionate about. Add a photo, share your interests, and connect with like-minded individuals. 🧑‍🤝‍🧑</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://profile', 'my-profile'); return false;">Complete Your Profile</a>
+    </div>
 
-  const tokenData = {
-    access: {
-      token: accessToken,
-      expires: accessTokenExpires.toDate(),
-    },
-    refresh: {
-      token: refreshToken,
-      expires: refreshTokenExpires.toDate(),
-    },
-  };
+    <div class="call-to-action">
+      <h2>Explore Your Community</h2>
+      <p>Discover local events, projects, and organizations happening near you. Find something that sparks your interest and get involved. 🌍</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://map', ''); return false;">Explore Your Community</a>
+    </div>
 
-  return sendServiceSuccessObj(defaultSuccessMessage, tokenData);
-};
+    <div class="call-to-action">
+      <h2>Share Your Gifts</h2>
+      <p>Offer your skills, talents, or resources to the community. You'll be surprised how much you have to offer! 🎁</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://create_post', 'create-event'); return false;">Share Your Gifts</a>
+    </div>
+  </div>
 
-/**
- * Generate auth tokens
- * @param {User} user
- * @returns {Promise<Object>}
- */
-const generateWebAuthTokens = async (user) => {
-  // const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessTokenExpires = moment().add(
-    config.jwt.accessExpirationDays,
-    "days",
-  );
-  const accessToken = generateToken(
-    user.id,
-    accessTokenExpires,
-    tokenTypes.ACCESS,
-  );
-
-  const refreshTokenExpires = moment().add(
-    config.jwt.refreshExpirationDays,
-    "days",
-  );
-  const refreshToken = generateToken(
-    user.id,
-    refreshTokenExpires,
-    tokenTypes.REFRESH,
-  );
-  // await saveToken({ access_token: accessToken, refresh_token: refreshToken }, user.id);
-
-  const tokenData = {
-    access: {
-      token: accessToken,
-      expires: accessTokenExpires.toDate(),
-    },
-    refresh: {
-      token: refreshToken,
-      expires: refreshTokenExpires.toDate(),
-    },
-  };
-
-  return sendServiceSuccessObj(defaultSuccessMessage, tokenData);
-};
-
-/**
- * Generate auth tokens
- * @param {User} user
- * @returns {Promise<Object>}
- */
-const generateAccessTokenFromRefreshToken = async (user) => {
-  if (!user.refresh_token) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Refresh token not found.");
-  }
-  // const accessTokenExpires = moment().add(config.jwt.accessExpirationMinutes, 'minutes');
-  const accessTokenExpires = moment().add(
-    config.jwt.accessExpirationDays,
-    "days",
-  );
-  const accessToken = generateToken(
-    user.id,
-    accessTokenExpires,
-    tokenTypes.ACCESS,
-  );
-
-  await saveToken({ access_token: accessToken }, user.id);
-
-  return {
-    access: {
-      token: accessToken,
-      expires: accessTokenExpires.toDate(),
-    },
-  };
-};
-
-/**
- * Generate reset password token
- * @param {string} email
- * @returns {Promise<string>}
- */
-const generateResetPasswordToken = async (email) => {
-  const user = await userService.getUserByEmail(email);
-  if (!user) {
-    return sendServiceFailureObj("No users found with this email");
-  }
-
-  if (user && user.is_deleted == true) {
-    return sendServiceFailureObj("Your account is inactive.");
-  }
-
-  const expires = moment().add(
-    config.jwt.resetPasswordExpirationMinutes,
-    "minutes",
-  );
-  const resetPasswordToken = generateToken(
-    user.id,
-    expires,
-    tokenTypes.RESET_PASSWORD,
-  );
-  await saveToken(resetPasswordToken, user.id);
-
-  return sendServiceSuccessObj(defaultSuccessMessage, resetPasswordToken);
-};
-
-//web
-const generateRandomSixDigit = (digit) => {
-  const min = 10 ** (digit - 1); // Minimum value with specified digits
-  const max = 10 ** digit - 1; // Maximum value with specified digits
-
-  // Generate a random number within the specified range
-  const otp = Math.floor(min + Math.random() * (max - min + 1));
-  return otp;
-};
-
-function generateRandomUniqueKey(length) {
-  const charset =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  if (typeof length !== "number" || length <= 0) {
-    throw new Error("Invalid length. Please provide a positive number.");
-  }
-
-  let key = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    key += charset.charAt(randomIndex);
-  }
-
-  return key;
-}
-const generateOTP = async (email) => {
-  const user = await userService.getUserByEmail(email);
-  if (!user || user === null) {
-    return sendServiceFailureObj(
-      "No users found with this email",
-      httpStatus.UNAUTHORIZED,
-    );
-  }
-
-  if (user && user.is_deleted == true) {
-    return sendServiceFailureObj(
-      "Your account is inactive.",
-      httpStatus.FORBIDDEN,
-    );
-  }
-
-  const OTP = generateRandomSixDigit(6);
-  const otpUniqueKey = generateRandomUniqueKey(60);
-  user.otp = OTP;
-  user.otpUniqueKey = otpUniqueKey;
-  await user.save();
-
-  return sendServiceSuccessObj(defaultSuccessMessage, { OTP, otpUniqueKey });
-};
-
-const adminGenerateResetPasswordToken = async (email) => {
-  const admin = await userService.getUserByEmail(email);
-  if (!admin) {
-    throw new ApiError(httpStatus.NOT_FOUND, "No admin found with this email");
-  }
-  const expires = moment().add(
-    config.jwt.resetPasswordExpirationMinutes,
-    "minutes",
-  );
-  const resetPasswordToken = generateToken(
-    admin.id,
-    expires,
-    tokenTypes.RESET_PASSWORD,
-  );
-  await saveToken(resetPasswordToken, admin.id);
-  return resetPasswordToken;
-};
-
-/**
- * Generate verify email token
- * @param {User} user
- * @returns {Promise<string>}
- */
-const generateVerifyEmailToken = async (user) => {
-  const expires = moment().add(
-    config.jwt.verifyEmailExpirationMinutes,
-    "minutes",
-  );
-  const verifyEmailToken = generateToken(
-    user._id,
-    expires,
-    tokenTypes.VERIFY_EMAIL,
-  );
-  await saveToken(
-    {
-      verify_email_token: verifyEmailToken,
-      expires: expires,
-    },
-    user.id,
-  );
-  return verifyEmailToken;
-};
-
-module.exports = {
-  generateToken,
-  saveToken,
-  verifyToken,
-  generateAuthTokens,
-  generateWebAuthTokens,
-  generateAccessTokenFromRefreshToken,
-  generateResetPasswordToken,
-  generateVerifyEmailToken,
-  adminGenerateResetPasswordToken,
-  generateOTP,
-};
+  <div class="footer">
+    <p>Follow us on social media</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
+      <a href="https://www.instagram.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+    </div>
+    <p>© 2024 ONE Local. All rights reserved.</p>
+    <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
+  </div>
+</body>
+</html>
