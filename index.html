@@ -71,15 +71,22 @@
     }
   </style>
   <script>
+    function redirectToAppropriateLink(mobileLink, webLink) {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = mobileLink;
+      } else {
+        window.location.href = webLink;
+      }
+    }
+
     window.onload = function() {
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        console.log('Verification URL:', verifyUrl); // Debugging line
         fetch(verifyUrl)
           .then(response => {
-            console.log('Response status:', response.status); // Debugging line
             if (!response.ok) {
               throw new Error('Network response was not ok ' + response.statusText);
             }
@@ -87,18 +94,13 @@
           })
           .then(data => {
             console.log('Verification successful:', data);
-            // Additional logic to handle successful verification
-            // e.g., display a message to the user or redirect
+            // You can add more code here to handle the response, e.g., display a message to the user
           })
           .catch(error => {
             console.error('Error during verification:', error);
-            // Additional logic to handle errors
-            // e.g., display an error message to the user
           });
       } else {
         console.error('No verify URL parameter found.');
-        // Additional logic if no verify parameter is found
-        // e.g., redirect the user or display a message
       }
     }
   </script>
