@@ -71,6 +71,34 @@
     }
   </style>
   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify');
+
+      if (verifyUrl) {
+        fetch(verifyUrl)
+          .then(response => response.json())
+          .then(data => {
+            const messageDiv = document.createElement('div');
+            if (data.success) {
+              messageDiv.innerHTML = '<p>Email verified successfully!</p>';
+            } else {
+              messageDiv.innerHTML = '<p>Email verification failed. Please try again.</p>';
+            }
+            document.body.appendChild(messageDiv);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = '<p>An error occurred during email verification. Please try again later.</p>';
+            document.body.appendChild(messageDiv);
+          });
+      } else {
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = '<p>Invalid verification link.</p>';
+        document.body.appendChild(messageDiv);
+      }
+    });
     function redirectToAppropriateLink(mobileLink, webLink) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
