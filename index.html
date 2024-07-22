@@ -119,29 +119,34 @@
         window.location.href = webLink;
       }
     }
-    const urlParams = new URLSearchParams(window.location.search);
-    const verifyUrl = urlParams.get('verify');
+    function verifyEmail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify');
 
-    if (verifyUrl) {
-      const decodedUrl = decodeURIComponent(verifyUrl);
-      console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
-      
-      const url = new URL(decodedUrl);
-      if (!url.searchParams.has('token')) {
-        console.error('No token parameter found in the verify URL');
-      } else {
-        fetch(decodedUrl)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data); // Log response data for debugging
+      if (verifyUrl) {
+        // Make a GET request to the verification API endpoint
+        fetch(verifyUrl)
+          .then(response => {
+            if (response.ok) {
+              // Verification successful
+              alert('Your email has been verified! Welcome to ONE Local.');
+              // Redirect to a success page or update the UI accordingly
+            } else {
+              // Verification failed
+              alert('Email verification failed. Please try again later.');
+              // Handle the error appropriately
+            }
           })
           .catch(error => {
-            console.error('Error during verification:', error); // Log errors for debugging
+            console.error('Error during verification:', error);
+            alert('An error occurred during verification. Please try again later.');
+            // Handle the error appropriately
           });
       }
-    } else {
-      console.error('No verify URL parameter found.'); // Log missing parameter for debugging
     }
+
+    // Call the verification function when the page loads
+    window.onload = verifyEmail;
   </script>
 </body>
 </html>
