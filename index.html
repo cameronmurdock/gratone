@@ -119,34 +119,34 @@
         window.location.href = webLink;
       }
     }
+
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        // Make a GET request to the verification API endpoint
-        fetch(verifyUrl)
+        const decodedUrl = decodeURIComponent(verifyUrl);
+        fetch(decodedUrl)
           .then(response => {
-            if (response.ok) {
-              // Verification successful
-              alert('Your email has been verified! Welcome to ONE Local.');
-              // Redirect to a success page or update the UI accordingly
-            } else {
-              // Verification failed
-              alert('Email verification failed. Please try again later.');
-              // Handle the error appropriately
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
             }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            // You can handle the response here if needed
           })
           .catch(error => {
             console.error('Error during verification:', error);
-            alert('An error occurred during verification. Please try again later.');
-            // Handle the error appropriately
           });
+      } else {
+        console.error('No verify URL parameter found.');
       }
     }
 
-    // Call the verification function when the page loads
-    window.onload = verifyEmail;
+    // Call the function to verify the email when the script loads
+    verifyEmail();
   </script>
 </body>
 </html>
