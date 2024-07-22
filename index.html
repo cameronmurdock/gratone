@@ -89,11 +89,11 @@
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            console.log('Verification successful:', data);
-            // You can add more code here to handle the response, e.g., display a message to the user
+            console.log('Verification successful:', data.data);
+            // Additional logic for successful verification, e.g., display a success message to the user
           } else {
             console.error('Verification failed:', data.message);
-            // Handle verification failure
+            // Additional logic for verification failure, e.g., display an error message to the user
           }
         })
         .catch(error => {
