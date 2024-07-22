@@ -110,7 +110,7 @@
     <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
   </div>
   <script>
-        function redirectToAppropriateLink(mobileLink, webLink) {
+    function redirectToAppropriateLink(mobileLink, webLink) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         window.location.href = mobileLink;
