@@ -128,13 +128,7 @@
         .then(response => response.json())
         .then(data => {
           console.log(data);
-          // Additional handling based on your backend response structure
         })
-        .catch(error => {
-          console.error('Error during verification:', error);
-        });
-    } else {
-      console.error('No verify URL parameter found.');
     }
   </script>
 </body>
