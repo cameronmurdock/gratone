@@ -79,30 +79,6 @@
         window.location.href = webLink;
       }
     }
-
-  window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const verifyUrl = urlParams.get('verify');
-
-    if (verifyUrl) {
-      fetch(verifyUrl)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            console.log('Verification successful:', data.data);
-            // Additional logic for successful verification, e.g., display a success message to the user
-          } else {
-            console.error('Verification failed:', data.message);
-            // Additional logic for verification failure, e.g., display an error message to the user
-          }
-        })
-        .catch(error => {
-          console.error('Error during verification:', error);
-        });
-    } else {
-      console.error('No verify URL parameter found.');
-    }
-  };
   </script>
 </head>
 <body>
@@ -143,5 +119,25 @@
     <p>© 2024 ONE Local. All rights reserved.</p>
     <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify');
+
+      if (verifyUrl) {
+        fetch(verifyUrl)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            // Additional handling based on your backend response structure
+          })
+          .catch(error => {
+            console.error('Error during verification:', error);
+          });
+      } else {
+        console.error('No verify URL parameter found.');
+      }
+    });
+  </script>
 </body>
 </html>
