@@ -109,6 +109,7 @@
     <p>© 2024 ONE Local. All rights reserved.</p>
     <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
   </div>
+
   <script>
     function redirectToAppropriateLink(mobileLink, webLink) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -119,18 +120,21 @@
       }
     }
     const urlParams = new URLSearchParams(window.location.search);
-    const verifyUrl = decodeURIComponent(urlParams.get('verify'));
-
+    const verifyUrl = urlParams.get('verify');
+    
     if (verifyUrl) {
-      fetch(verifyUrl)
+      const decodedUrl = decodeURIComponent(verifyUrl);
+      console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
+      fetch(decodedUrl)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
-          // Additional handling based on your backend response structure
+          console.log(data); // Log response data for debugging
         })
         .catch(error => {
-          console.error('Error during verification:', error);
+          console.error('Error during verification:', error); // Log errors for debugging
         });
+    } else {
+      console.error('No verify URL parameter found.'); // Log missing parameter for debugging
     }
   </script>
 </body>
