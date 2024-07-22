@@ -80,29 +80,29 @@
       }
     }
 
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = urlParams.get('verify');
+  window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verifyUrl = urlParams.get('verify');
 
-      if (verifyUrl) {
-        fetch(verifyUrl)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-          })
-          .then(data => {
+    if (verifyUrl) {
+      fetch(verifyUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
             console.log('Verification successful:', data);
             // You can add more code here to handle the response, e.g., display a message to the user
-          })
-          .catch(error => {
-            console.error('Error during verification:', error);
-          });
-      } else {
-        console.error('No verify URL parameter found.');
-      }
+          } else {
+            console.error('Verification failed:', data.message);
+            // Handle verification failure
+          }
+        })
+        .catch(error => {
+          console.error('Error during verification:', error);
+        });
+    } else {
+      console.error('No verify URL parameter found.');
     }
+  };
   </script>
 </head>
 <body>
