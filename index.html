@@ -73,20 +73,20 @@
   <script>
       document.addEventListener('DOMContentLoaded', function() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = urlParams.get('verify');
+      const email = urlParams.get('email');
+      const token = urlParams.get('token');
 
-      console.log('Verification URL:', verifyUrl); // Log the verification URL
+      if (email && token) {
+        const verifyUrl = `/verify-email?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
 
-      if (verifyUrl) {
         fetch(verifyUrl)
           .then(response => response.json())
           .then(data => {
-            console.log('Response Data:', data); // Log the response data
             const messageDiv = document.createElement('div');
             if (data.success) {
               messageDiv.innerHTML = '<p>Email verified successfully!</p>';
             } else {
-              messageDiv.innerHTML = '<p>Email verification failed. Please try again.</p>';
+              messageDiv.innerHTML = `<p>Email verification failed: ${data.message}. Please try again.</p>`;
             }
             document.body.appendChild(messageDiv);
           })
