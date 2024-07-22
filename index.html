@@ -70,16 +70,6 @@
       }
     }
   </style>
-  <script>
-    function redirectToAppropriateLink(mobileLink, webLink) {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        window.location.href = mobileLink;
-      } else {
-        window.location.href = webLink;
-      }
-    }
-  </script>
 </head>
 <body>
   <div class="header">
@@ -120,15 +110,27 @@
     <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
   </div>
   <script>
+        function redirectToAppropriateLink(mobileLink, webLink) {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = mobileLink;
+      } else {
+        window.location.href = webLink;
+      }
+    }
     const urlParams = new URLSearchParams(window.location.search);
-    const verifyUrl = urlParams.get('verify');
+    const verifyUrl = decodeURIComponent(urlParams.get('verify'));
 
     if (verifyUrl) {
       fetch(verifyUrl)
         .then(response => response.json())
         .then(data => {
           console.log(data);
+          // Additional handling based on your backend response structure
         })
+        .catch(error => {
+          console.error('Error during verification:', error);
+        });
     }
   </script>
 </body>
