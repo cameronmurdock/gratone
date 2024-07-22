@@ -75,10 +75,13 @@
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = urlParams.get('verify');
 
+      console.log('Verification URL:', verifyUrl); // Log the verification URL
+
       if (verifyUrl) {
         fetch(verifyUrl)
           .then(response => response.json())
           .then(data => {
+            console.log('Response Data:', data); // Log the response data
             const messageDiv = document.createElement('div');
             if (data.success) {
               messageDiv.innerHTML = '<p>Email verified successfully!</p>';
@@ -88,7 +91,7 @@
             document.body.appendChild(messageDiv);
           })
           .catch(error => {
-            console.error('Error:', error);
+            console.error('Verification Error:', error);
             const messageDiv = document.createElement('div');
             messageDiv.innerHTML = '<p>An error occurred during email verification. Please try again later.</p>';
             document.body.appendChild(messageDiv);
