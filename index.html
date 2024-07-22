@@ -71,43 +71,32 @@
     }
   </style>
   <script>
-      document.addEventListener('DOMContentLoaded', function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const email = urlParams.get('email');
-      const token = urlParams.get('token');
-
-      if (email && token) {
-        const verifyUrl = `/verify-email?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
-
-        fetch(verifyUrl)
-          .then(response => response.json())
-          .then(data => {
-            const messageDiv = document.createElement('div');
-            if (data.success) {
-              messageDiv.innerHTML = '<p>Email verified successfully!</p>';
-            } else {
-              messageDiv.innerHTML = `<p>Email verification failed: ${data.message}. Please try again.</p>`;
-            }
-            document.body.appendChild(messageDiv);
-          })
-          .catch(error => {
-            console.error('Verification Error:', error);
-            const messageDiv = document.createElement('div');
-            messageDiv.innerHTML = '<p>An error occurred during email verification. Please try again later.</p>';
-            document.body.appendChild(messageDiv);
-          });
-      } else {
-        const messageDiv = document.createElement('div');
-        messageDiv.innerHTML = '<p>Invalid verification link.</p>';
-        document.body.appendChild(messageDiv);
-      }
-    });
     function redirectToAppropriateLink(mobileLink, webLink) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         window.location.href = mobileLink;
       } else {
         window.location.href = webLink;
+      }
+    }
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify');
+
+      if (verifyUrl) {
+        fetch(verifyUrl, {
+          method: "GET"
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Verification successful:', data);
+          // You can add more code here to handle the response, e.g., display a message to the user
+        })
+        .catch(error => {
+          console.error('Error during verification:', error);
+        });
+      } else {
+        console.error('No verify URL parameter found.');
       }
     }
   </script>
