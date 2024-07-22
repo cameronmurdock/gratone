@@ -84,17 +84,10 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        fetch(verifyUrl, {
-          method: "GET"
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Verification successful:', data);
-          // You can add more code here to handle the response, e.g., display a message to the user
-        })
-        .catch(error => {
-          console.error('Error during verification:', error);
-        });
+        fetch(verifyUrl)
+          .then(response => response.json())
+          .then(data => console.log('Verification successful:', data))
+          .catch(error => console.error('Error during verification:', error));
       } else {
         console.error('No verify URL parameter found.');
       }
