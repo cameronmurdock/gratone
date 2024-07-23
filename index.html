@@ -123,21 +123,21 @@
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = urlParams.get('verify');
-
+  
       if (verifyUrl) {
         const decodedUrl = decodeURI(verifyUrl);
         console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
-
+  
         // Create a URL object from the decoded URL
         const url = new URL(decodedUrl);
-
+  
         // Extract the token and email parameters from the URL object
         const token = url.searchParams.get('token');
         const email = url.searchParams.get('email');
-
+  
         console.log("Token: ", token); // Log token for debugging
         console.log("Email: ", email); // Log email for debugging
-
+  
         if (!token || !email) {
           console.error('Token or email parameter is missing in the verify URL');
         } else {
@@ -160,7 +160,7 @@
         console.error('No verify URL parameter found.');
       }
     }
-
+  
     // Call the function to verify the email when the script loads
     verifyEmail();
   </script>
