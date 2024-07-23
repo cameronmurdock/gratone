@@ -119,14 +119,15 @@
         window.location.href = webLink;
       }
     }
+
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = decodeURIComponent(urlParams.get('verify'));
-    
+
       console.log("Verify URL:", verifyUrl);
-    
+
       if (verifyUrl) {
-        fetch(verifyUrl)  
+        fetch(verifyUrl)
           .then(response => {
             if (!response.ok) {
               return response.json().then(errData => {
@@ -147,7 +148,7 @@
         console.error('No verify URL parameter found.');
       }
     }
-    
+
     verifyEmail();
   </script>
 </body>
