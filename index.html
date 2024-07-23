@@ -128,8 +128,10 @@
         const decodedUrl = decodeURIComponent(verifyUrl);
         console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
 
-        // Extracting parameters manually to handle nested query strings
+        // Create a URL object from the decoded URL
         const url = new URL(decodedUrl);
+
+        // Extract the token and email parameters from the URL object
         const token = url.searchParams.get('token');
         const email = url.searchParams.get('email');
 
