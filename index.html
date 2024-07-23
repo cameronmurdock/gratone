@@ -121,7 +121,7 @@
     }
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = decodeURIComponent(urlParams.get('verify')); 
+      const verifyUrl = decodeURI(urlParams.get('verify')); 
     
       console.log("Verify URL:", verifyUrl); 
     
