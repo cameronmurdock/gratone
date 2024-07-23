@@ -126,9 +126,6 @@
       console.log("Verify URL:", verifyUrl);
     
       if (verifyUrl) {
-        // No need to extract the token here.
-        // The 'verifyUrl' already contains it as a query parameter.
-    
         fetch(verifyUrl)  
           .then(response => {
             if (!response.ok) {
