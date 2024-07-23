@@ -112,52 +112,52 @@
 
   <script>
     function verifyEmail() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const verifyUrl = urlParams.get('verify'); 
-
-  if (verifyUrl) {
-    try {
-      // Manually extract token and email
-      const tokenMatch = verifyUrl.match(/token=([^&]+)/);
-      const emailMatch = verifyUrl.match(/email=([^&]+)/);
-
-      if (tokenMatch && emailMatch) {
-        const token = decodeURIComponent(tokenMatch[1]);
-        const email = decodeURIComponent(decodeURIComponent(emailMatch[1])); // Double decode email
-
-        console.log("Token: ", token); 
-        console.log("Email: ", email); 
-
-        // Now you have the correct token and email, you can make the fetch call
-        fetch(verifyUrl) 
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Verification successful:', data);
-            alert('Email verified successfully!'); 
-          })
-          .catch(error => {
-            console.error('Error during verification:', error);
-            alert('An error occurred during verification.'); 
-          });
-
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = urlParams.get('verify'); 
+    
+      if (verifyUrl) {
+        try {
+          // Manually extract token and email
+          const tokenMatch = verifyUrl.match(/token=([^&]+)/);
+          const emailMatch = verifyUrl.match(/email=([^&]+)/);
+    
+          if (tokenMatch && emailMatch) {
+            const token = decodeURIComponent(tokenMatch[1]);
+            const email = decodeURIComponent(decodeURIComponent(emailMatch[1])); // Double decode email
+    
+            console.log("Token: ", token); 
+            console.log("Email: ", email); 
+    
+            // Now you have the correct token and email, you can make the fetch call
+            fetch(verifyUrl) 
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                console.log('Verification successful:', data);
+                alert('Email verified successfully!'); 
+              })
+              .catch(error => {
+                console.error('Error during verification:', error);
+                alert('An error occurred during verification.'); 
+              });
+    
+          } else {
+            console.error('Token or email parameter not found in URL');
+          }
+    
+        } catch (error) {
+          console.error('Error parsing URL parameters:', error);
+        } 
       } else {
-        console.error('Token or email parameter not found in URL');
+        console.error('No verify URL parameter found.');
       }
-
-    } catch (error) {
-      console.error('Error parsing URL parameters:', error);
-    } 
-  } else {
-    console.error('No verify URL parameter found.');
-  }
-}
-
-verifyEmail();
+    }
+    
+    verifyEmail();
   </script>
 </body>
 </html>
