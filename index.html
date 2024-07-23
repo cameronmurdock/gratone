@@ -120,35 +120,35 @@
       }
     }
     function verifyEmail() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const verifyUrl = decodeURIComponent(urlParams.get('verify')); 
-
-  console.log("Verify URL:", verifyUrl); 
-
-  if (verifyUrl) {
-    fetch(verifyUrl)
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(errData => { 
-            throw new Error(errData.message || 'Verification failed'); 
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = decodeURIComponent(urlParams.get('verify')); 
+    
+      console.log("Verify URL:", verifyUrl); 
+    
+      if (verifyUrl) {
+        fetch(verifyUrl)
+          .then(response => {
+            if (!response.ok) {
+              return response.json().then(errData => { 
+                throw new Error(errData.message || 'Verification failed'); 
+              });
+            }
+            return response.json(); 
+          })
+          .then(data => {
+            console.log('Verification successful:', data);
+            alert('Email verified successfully!'); 
+          })
+          .catch(error => {
+            console.error('Error during verification:', error);
+            alert('An error occurred during verification.');
           });
-        }
-        return response.json(); 
-      })
-      .then(data => {
-        console.log('Verification successful:', data);
-        alert('Email verified successfully!'); 
-      })
-      .catch(error => {
-        console.error('Error during verification:', error);
-        alert('An error occurred during verification.');
-      });
-  } else {
-    console.error('No verify URL parameter found.');
-  }
-}
-
-verifyEmail();
+      } else {
+        console.error('No verify URL parameter found.');
+      }
+    }
+    
+    verifyEmail();
   </script>
 </body>
 </html>
