@@ -113,46 +113,49 @@
   <script>
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = urlParams.get('verify');
-  
+      const verifyUrl = decodeURIComponent(urlParams.get('verify')); 
+
       if (verifyUrl) {
-        const decodedUrl = decodeURI(verifyUrl);
-        console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
-  
-        // Extract the token and email parameters manually
-        const urlParts = decodedUrl.split('?')[1];
-        const params = new URLSearchParams(urlParts);
-  
-        const token = params.get('token');
-        const email = params.get('email');
-  
-        console.log("Token: ", token); // Log token for debugging
-        console.log("Email: ", email); // Log email for debugging
-  
+        console.log("Decoded Verify URL: ", verifyUrl); 
+
+        const url = new URL(verifyUrl);
+        const token = url.searchParams.get('token');
+        const email = url.searchParams.get('email');
+
+        console.log("Token: ", token);
+        console.log("Email: ", email);
+
         if (!token || !email) {
           console.error('Token or email parameter is missing in the verify URL');
         } else {
-          fetch(decodedUrl)
+          // Make the fetch request to your backend API
+          fetch(verifyUrl)
             .then(response => {
               if (!response.ok) {
                 throw new Error('Network response was not ok');
               }
-              return response.json();
+              return response.json(); // Assuming your API returns JSON
             })
             .then(data => {
-              console.log(data);
-              // Handle the response here if needed
+              console.log('Verification successful:', data);
+
+              // Display success message to the user
+              // You might want to redirect to a success page or
+              // update the UI to indicate successful verification.
+              alert('Email verified successfully!'); 
             })
             .catch(error => {
               console.error('Error during verification:', error);
+
+              // Display an error message to the user 
+              alert('An error occurred during verification.'); 
             });
         }
       } else {
         console.error('No verify URL parameter found.');
       }
     }
-  
-    // Call the function to verify the email when the script loads
+
     verifyEmail();
   </script>
 </body>
