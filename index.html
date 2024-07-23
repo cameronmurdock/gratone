@@ -125,7 +125,7 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        const decodedUrl = decodeURIComponent(verifyUrl);
+        const decodedUrl = decodeURI(verifyUrl);
         console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
 
         // Create a URL object from the decoded URL
