@@ -125,21 +125,34 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        const decodedUrl = decodeURI(verifyUrl);
-        fetch(decodedUrl)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log(data);
-            // You can handle the response here if needed
-          })
-          .catch(error => {
-            console.error('Error during verification:', error);
-          });
+        const decodedUrl = decodeURIComponent(verifyUrl);
+        console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
+
+        const url = new URL(decodedUrl);
+        const token = url.searchParams.get('token');
+        const email = url.searchParams.get('email');
+
+        console.log("Token: ", token); // Log token for debugging
+        console.log("Email: ", email); // Log email for debugging
+
+        if (!token || !email) {
+          console.error('Token or email parameter is missing in the verify URL');
+        } else {
+          fetch(decodedUrl)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log(data);
+              // Handle the response here if needed
+            })
+            .catch(error => {
+              console.error('Error during verification:', error);
+            });
+        }
       } else {
         console.error('No verify URL parameter found.');
       }
