@@ -125,9 +125,10 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        const decodedUrl = decodeURI(verifyUrl);
+        const decodedUrl = decodeURIComponent(verifyUrl);
         console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
 
+        // Extracting parameters manually to handle nested query strings
         const url = new URL(decodedUrl);
         const token = url.searchParams.get('token');
         const email = url.searchParams.get('email');
