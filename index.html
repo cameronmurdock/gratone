@@ -117,38 +117,43 @@
     
       if (verifyUrl) {
         try {
-          // Manually extract token and email
+          // 1. Extract token and email (same as before)
           const tokenMatch = verifyUrl.match(/token=([^&]+)/);
           const emailMatch = verifyUrl.match(/email=([^&]+)/);
     
           if (tokenMatch && emailMatch) {
             const token = decodeURIComponent(tokenMatch[1]);
-            const email = decodeURIComponent(decodeURIComponent(emailMatch[1])); // Double decode email
+            const email = decodeURIComponent(decodeURIComponent(emailMatch[1])); 
     
             console.log("Token: ", token); 
             console.log("Email: ", email); 
     
-            // Now you have the correct token and email, you can make the fetch call
-            fetch(verifyUrl) 
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                return response.json();
-              })
-              .then(data => {
-                console.log('Verification successful:', data);
-                alert('Email verified successfully!'); 
-              })
-              .catch(error => {
-                console.error('Error during verification:', error);
-                alert('An error occurred during verification.'); 
-              });
+            // 2. Make the fetch call with token and email in the BODY
+            fetch('https://prod.onelocal.one/api/v3/auth/verify-email', { // Correct API endpoint
+              method: 'POST', // Assuming your API expects a POST request
+              headers: {
+                'Content-Type': 'application/json' 
+              },
+              body: JSON.stringify({ token, email })
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log('Verification successful:', data);
+              alert('Email verified successfully!'); 
+            })
+            .catch(error => {
+              console.error('Error during verification:', error);
+              alert('An error occurred during verification.'); 
+            });
     
           } else {
             console.error('Token or email parameter not found in URL');
           }
-    
         } catch (error) {
           console.error('Error parsing URL parameters:', error);
         } 
