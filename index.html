@@ -111,29 +111,20 @@
   </div>
 
   <script>
-    function redirectToAppropriateLink(mobileLink, webLink) {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        window.location.href = mobileLink;
-      } else {
-        window.location.href = webLink;
-      }
-    }
-
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = urlParams.get('verify');
   
       if (verifyUrl) {
-        const decodedUrl = decodeURI(verifyUrl);
+        const decodedUrl = decodeURIComponent(verifyUrl);
         console.log("Decoded Verify URL: ", decodedUrl); // Debugging line to check URL
   
-        // Create a URL object from the decoded URL
-        const url = new URL(decodedUrl);
+        // Extract the token and email parameters manually
+        const urlParts = decodedUrl.split('?')[1];
+        const params = new URLSearchParams(urlParts);
   
-        // Extract the token and email parameters from the URL object
-        const token = url.searchParams.get('token');
-        const email = url.searchParams.get('email');
+        const token = params.get('token');
+        const email = params.get('email');
   
         console.log("Token: ", token); // Log token for debugging
         console.log("Email: ", email); // Log email for debugging
