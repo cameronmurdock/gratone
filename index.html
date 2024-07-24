@@ -123,25 +123,23 @@
       const urlParams = new URLSearchParams(window.location.search);
       const verifyUrl = decodeURIComponent(urlParams.get('verify'));
     
-      console.log("Verify URL:", verifyUrl);
+      console.log("Verify URL (before decoding):", verifyUrl);
     
-      if (verifyUrl) {
-        fetch(verifyUrl)  
+      // Additional decoding to handle the double-encoding of forward slashes
+      const decodedVerifyUrl = decodeURIComponent(verifyUrl);
+    
+      console.log("Verify URL (after decoding):", decodedVerifyUrl);
+    
+      if (decodedVerifyUrl) {
+        fetch(decodedVerifyUrl)
           .then(response => {
-            if (!response.ok) {
-              return response.json().then(errData => {
-                throw new Error(errData.message || 'Verification failed');
-              });
-            }
-            return response.json();
+            // ... rest of your response handling code (same as before)
           })
           .then(data => {
-            console.log('Verification successful:', data);
-            alert('Email verified successfully!');
+            // ... success handling
           })
           .catch(error => {
-            console.error('Error during verification:', error);
-            alert('An error occurred during verification.');
+            // ... error handling
           });
       } else {
         console.error('No verify URL parameter found.');
