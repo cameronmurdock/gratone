@@ -97,7 +97,8 @@
         let encodedVerifyUrl = `${url.origin}${url.pathname}?email=${encodedEmail}&token=${token}`;
         console.log('Verifying URL:', encodedVerifyUrl);
 
-        fetch(encodedVerifyUrl)
+        // Make the GET request
+        fetch(encodedVerifyUrl, { method: 'GET' })
           .then(response => {
             if (!response.ok) {
               console.error('Verification failed:', response);
