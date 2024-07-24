@@ -85,9 +85,19 @@
       const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        console.log('Verifying URL:', verifyUrl);
+        // Parse the URL to encode the email parameter
+        let url = new URL(verifyUrl);
+        let email = url.searchParams.get("email");
+        let token = url.searchParams.get("token");
 
-        fetch(decodeURIComponent(verifyUrl))
+        // URL encode the email
+        let encodedEmail = encodeURIComponent(email);
+
+        // Construct the new verification URL with encoded email
+        let encodedVerifyUrl = `${url.origin}${url.pathname}?email=${encodedEmail}&token=${token}`;
+        console.log('Verifying URL:', encodedVerifyUrl);
+
+        fetch(encodedVerifyUrl)
           .then(response => {
             if (!response.ok) {
               console.error('Verification failed:', response);
