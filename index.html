@@ -84,19 +84,19 @@
     <div class="call-to-action">
       <h2>Complete Your Profile</h2>
       <p>Let people know who you are and what you're passionate about. Add a photo, share your interests, and connect with like-minded individuals. 🧑‍🤝‍🧑</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://profile', 'my-profile'); return false;">Complete Your Profile</a>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://profile', 'https://app.onelocal.one/my-profile'); return false;">Complete Your Profile</a>
     </div>
 
     <div class="call-to-action">
       <h2>Explore Your Community</h2>
       <p>Discover local events, projects, and organizations happening near you. Find something that sparks your interest and get involved. 🌍</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://map', ''); return false;">Explore Your Community</a>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://map', 'https://app.onelocal.one/map'); return false;">Explore Your Community</a>
     </div>
 
     <div class="call-to-action">
       <h2>Share Your Gifts</h2>
       <p>Offer your skills, talents, or resources to the community. You'll be surprised how much you have to offer! 🎁</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://create_post', 'create-event'); return false;">Share Your Gifts</a>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://create_post', 'https://app.onelocal.one/create-event'); return false;">Share Your Gifts</a>
     </div>
   </div>
 
@@ -119,6 +119,7 @@
         window.location.href = webLink;
       }
     }
+
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
       let verifyUrl = decodeURIComponent(urlParams.get('verify'));
@@ -139,20 +140,27 @@
         // 4. Now proceed with the fetch request:
         fetch(verifyUrl)
           .then(response => {
-            // ... your response handling code 
+            if (!response.ok) {
+              return response.json().then(errData => {
+                throw new Error(errData.message || 'Verification failed');
+              });
+            }
+            return response.json();
           })
           .then(data => {
-            // ... success handling
+            console.log('Verification successful:', data);
+            alert('Email verified successfully!');
           })
           .catch(error => {
-            // ... error handling
-          }); 
+            console.error('Error during verification:', error);
+            alert('An error occurred during verification.');
+          });
       } else {
         console.error('No email address found in the URL.');
       }
     }
-    
-    verifyEmail();
+
+    document.addEventListener("DOMContentLoaded", verifyEmail);
   </script>
 </body>
 </html>
