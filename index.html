@@ -82,12 +82,15 @@
 
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = decodeURIComponent(urlParams.get('verify'));
+      const verifyUrl = urlParams.get('verify');
 
       if (verifyUrl) {
-        fetch(verifyUrl)
+        console.log('Verifying URL:', verifyUrl);
+
+        fetch(decodeURIComponent(verifyUrl))
           .then(response => {
             if (!response.ok) {
+              console.error('Verification failed:', response);
               return response.json().then(errData => {
                 throw new Error(errData.message || 'Verification failed');
               });
