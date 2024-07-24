@@ -70,6 +70,46 @@
       }
     }
   </style>
+</head>
+<body>
+  <div class="header">
+    <img alt="ONE Local Logo" src="https://i.imgur.com/UYJyU4Q.png">
+    <h1>Welcome to ONE Local</h1>
+  </div>
+  <div class="main-content">
+    <h2>Your Journey to Connection Starts Now</h2>
+    <p>Join ONE Local, the community-driven platform where you can connect with your tribe, discover your city, and create a more fulfilling life.</p>
+    <p>We're so excited to have you join the movement! 🎉</p>
+
+    <div class="call-to-action">
+      <h2>Complete Your Profile</h2>
+      <p>Let people know who you are and what you're passionate about. Add a photo, share your interests, and connect with like-minded individuals. 🧑‍🤝‍🧑</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://profile', 'my-profile'); return false;">Complete Your Profile</a>
+    </div>
+
+    <div class="call-to-action">
+      <h2>Explore Your Community</h2>
+      <p>Discover local events, projects, and organizations happening near you. Find something that sparks your interest and get involved. 🌍</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://map', ''); return false;">Explore Your Community</a>
+    </div>
+
+    <div class="call-to-action">
+      <h2>Share Your Gifts</h2>
+      <p>Offer your skills, talents, or resources to the community. You'll be surprised how much you have to offer! 🎁</p>
+      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://create_post', 'create-event'); return false;">Share Your Gifts</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Follow us on social media</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
+      <a href="https://www.instagram.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
+    </div>
+    <p>© 2024 ONE Local. All rights reserved.</p>
+    <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
+  </div>
+
   <script>
     function redirectToAppropriateLink(mobileLink, webLink) {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -79,29 +119,16 @@
         window.location.href = webLink;
       }
     }
-
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = urlParams.get('verify');
-
+      const verifyUrl = decodeURIComponent(urlParams.get('verify'));
+    
+      console.log("Verify URL:", verifyUrl);
+    
       if (verifyUrl) {
-        // Parse the URL to encode the email parameter
-        let url = new URL(verifyUrl);
-        let email = url.searchParams.get("email");
-        let token = url.searchParams.get("token");
-
-        // URL encode the email
-        let encodedEmail = encodeURIComponent(email);
-
-        // Construct the new verification URL with encoded email
-        let encodedVerifyUrl = `${url.origin}${url.pathname}?email=${encodedEmail}&token=${token}`;
-        console.log('Verifying URL:', encodedVerifyUrl);
-
-        // Make the GET request
-        fetch(encodedVerifyUrl, { method: 'GET' })
+        fetch(verifyUrl)  
           .then(response => {
             if (!response.ok) {
-              console.error('Verification failed:', response);
               return response.json().then(errData => {
                 throw new Error(errData.message || 'Verification failed');
               });
@@ -120,47 +147,8 @@
         console.error('No verify URL parameter found.');
       }
     }
-
-    document.addEventListener("DOMContentLoaded", verifyEmail);
+    
+    verifyEmail();
   </script>
-</head>
-<body>
-  <div class="header">
-    <img alt="ONE Local Logo" src="https://i.imgur.com/UYJyU4Q.png">
-    <h1>Welcome to ONE Local</h1>
-  </div>
-  <div class="main-content">
-    <h2>Your Journey to Connection Starts Now</h2>
-    <p>Join ONE Local, the community-driven platform where you can connect with your tribe, discover your city, and create a more fulfilling life.</p>
-    <p>We're so excited to have you join the movement! 🎉</p>
-
-    <div class="call-to-action">
-      <h2>Complete Your Profile</h2>
-      <p>Let people know who you are and what you're passionate about. Add a photo, share your interests, and connect with like-minded individuals. 🧑‍🤝‍🧑</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://profile', 'https://app.onelocal.one/my-profile'); return false;">Complete Your Profile</a>
-    </div>
-
-    <div class="call-to-action">
-      <h2>Explore Your Community</h2>
-      <p>Discover local events, projects, and organizations happening near you. Find something that sparks your interest and get involved. 🌍</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://map', 'https://app.onelocal.one/map'); return false;">Explore Your Community</a>
-    </div>
-
-    <div class="call-to-action">
-      <h2>Share Your Gifts</h2>
-      <p>Offer your skills, talents, or resources to the community. You'll be surprised how much you have to offer! 🎁</p>
-      <a href="#" class="button" onclick="redirectToAppropriateLink('onelocal://create_post', 'https://app.onelocal.one/create-event'); return false;">Share Your Gifts</a>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>Follow us on social media</p>
-    <div class="social-icons">
-      <a href="https://www.facebook.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook"></a>
-      <a href="https://www.instagram.com/onelocal"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"></a>
-    </div>
-    <p>© 2024 ONE Local. All rights reserved.</p>
-    <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
-  </div>
 </body>
 </html>
