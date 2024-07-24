@@ -121,28 +121,34 @@
     }
     function verifyEmail() {
       const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = decodeURIComponent(urlParams.get('verify'));
+      let verifyUrl = decodeURIComponent(urlParams.get('verify'));
     
-      console.log("Verify URL (before decoding):", verifyUrl);
+      // 1. Extract the email address:
+      const emailMatch = verifyUrl.match(/email=([^&]+)/);
+      let emailAddress = emailMatch ? emailMatch[1] : null; // Extract email
     
-      // Additional decoding to handle the double-encoding of forward slashes
-      const decodedVerifyUrl = decodeURIComponent(verifyUrl);
+      if (emailAddress) {
+        // 2. Fully encode the email address:
+        emailAddress = encodeURIComponent(emailAddress);
     
-      console.log("Verify URL (after decoding):", decodedVerifyUrl);
+        // 3. Replace the original email parameter with the encoded one:
+        verifyUrl = verifyUrl.replace(/email=[^&]+/, `email=${emailAddress}`);
     
-      if (decodedVerifyUrl) {
-        fetch(decodedVerifyUrl)
+        console.log("Verify URL (after email encoding):", verifyUrl);
+    
+        // 4. Now proceed with the fetch request:
+        fetch(verifyUrl)
           .then(response => {
-            // ... rest of your response handling code (same as before)
+            // ... your response handling code 
           })
           .then(data => {
             // ... success handling
           })
           .catch(error => {
             // ... error handling
-          });
+          }); 
       } else {
-        console.error('No verify URL parameter found.');
+        console.error('No email address found in the URL.');
       }
     }
     
