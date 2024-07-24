@@ -70,6 +70,45 @@
       }
     }
   </style>
+  <script>
+    function redirectToAppropriateLink(mobileLink, webLink) {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = mobileLink;
+      } else {
+        window.location.href = webLink;
+      }
+    }
+
+    function verifyEmail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const verifyUrl = decodeURIComponent(urlParams.get('verify'));
+
+      if (verifyUrl) {
+        fetch(verifyUrl)
+          .then(response => {
+            if (!response.ok) {
+              return response.json().then(errData => {
+                throw new Error(errData.message || 'Verification failed');
+              });
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Verification successful:', data);
+            alert('Email verified successfully!');
+          })
+          .catch(error => {
+            console.error('Error during verification:', error);
+            alert('An error occurred during verification.');
+          });
+      } else {
+        console.error('No verify URL parameter found.');
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", verifyEmail);
+  </script>
 </head>
 <body>
   <div class="header">
@@ -109,47 +148,5 @@
     <p>© 2024 ONE Local. All rights reserved.</p>
     <p><a href="https://www.onelocal.one/privacypolicy" style="color: #BF820A;">Privacy Policy</a> | <a href="https://www.onelocal.one/contact" style="color: #BF820A;">Contact Details</a></p>
   </div>
-
-  <script>
-    function redirectToAppropriateLink(mobileLink, webLink) {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        window.location.href = mobileLink;
-      } else {
-        window.location.href = webLink;
-      }
-    }
-
-    function verifyEmail() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const verifyUrl = decodeURIComponent(urlParams.get('verify'));
-
-      console.log("Verify URL:", verifyUrl);
-
-      if (verifyUrl) {
-        fetch(verifyUrl)
-          .then(response => {
-            if (!response.ok) {
-              return response.json().then(errData => {
-                throw new Error(errData.message || 'Verification failed');
-              });
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Verification successful:', data);
-            alert('Email verified successfully!');
-          })
-          .catch(error => {
-            console.error('Error during verification:', error);
-            alert('An error occurred during verification.');
-          });
-      } else {
-        console.error('No verify URL parameter found.');
-      }
-    }
-
-    verifyEmail();
-  </script>
 </body>
 </html>
