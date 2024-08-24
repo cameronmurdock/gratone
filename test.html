@@ -16,6 +16,8 @@
 
         header {
             background: linear-gradient(135deg, #003333, #339999);
+            background-size: 600% 100%;
+            animation: gradient-animation 26s ease infinite;
             color: #ffffff;
             text-align: center;
             padding: 100px 20px;
@@ -161,6 +163,8 @@
 
         footer {
             background: linear-gradient(135deg, #003333, #339999);
+            background-size: 600% 100%;
+            animation: gradient-animation 26s ease infinite;
             color: #ffffff;
             text-align: center;
             padding: 20px 0;
@@ -176,6 +180,29 @@
         footer p {
             margin: 0;
         }
+
+        /* Alternating background sections with animated gradient */
+        .gradient-background {
+            background: linear-gradient(135deg, #003333, #339999);
+            background-size: 600% 100%;
+            animation: gradient-animation 26s ease infinite;
+            color: white;
+        }
+
+        /* Gradient animation keyframes */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 50% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
     </style>
 </head>
 
@@ -189,15 +216,15 @@
 
     <div class="main-content">
 
-        <!-- Hero Section -->
+        <!-- Hero Section (White Background) -->
         <section class="section">
             <h2>ONE Local: Find Your People. Build Your World.</h2>
             <p><span class="highlight">ONE Local</span> is a community-powered platform that empowers you to connect with people who share your passions, engage with your local community, and contribute to building a more connected, sustainable, and equitable world. Discover your community, share your gifts, and join a movement that’s changing how we live.</p>
             <a href="https://app.onelocal.one/signup" class="button">Join the Movement</a>
         </section>
 
-        <!-- For Individuals Seeking Connection -->
-        <section class="section" style="background-color: #eeeeee;">
+        <!-- Discover Your Tribe Section (Gradient Background) -->
+        <section class="section gradient-background">
             <h2>Discover Your Tribe. Rediscover Yourself.</h2>
             <p>We understand the desire to break free from superficial online interactions. <span class="highlight">ONE Local</span> helps you create genuine connections through shared passions, real-world experiences, and a flourishing gift economy. You’ll find your tribe, discover hidden gems in your community, and make a lasting impact.</p>
             <div class="side-scroller">
@@ -224,17 +251,17 @@
             </div>
         </section>
 
-        <!-- Strengthen Your Circle Section -->
+        <!-- Strengthen Your Circle Section (White Background) -->
         <section class="section">
             <h2>Strengthen Your Circle. Simplify Your Life.</h2>
             <p><span class="highlight">ONE Local</span> helps you build closer, more supportive relationships with your trusted circle. Whether it's sharing skills, coordinating resources, or just staying connected, ONE Local ensures that your inner circle is always there for you.</p>
             <a href="https://app.onelocal.one/groups" class="button">Create Your Group</a>
         </section>
 
-        <!-- For Event Producers and Businesses -->
-        <section class="section" style="background-color: #eeeeee;">
-            <h2>Run Events, Build Connections, Grow Your Business</h2>
-            <p>As a local business or event producer, you play a vital role in shaping your community. <span class="highlight">ONE Local</span> provides the tools to host events, grow your following, and build a brand that aligns with your values while driving a thriving local economy.</p>
+        <!-- For Businesses & Event Producers (Gradient Background) -->
+        <section class="section gradient-background">
+            <h2>Run Your Events. Grow Your Business.</h2>
+            <p><span class="highlight">ONE Local</span> is designed for purpose-driven businesses and event producers looking to reach a values-driven audience. Host workshops, markets, and festivals, or promote your offerings to conscious consumers who support local craftsmanship and sustainability.</p>
             <div class="side-scroller">
                 <div class="scroller-item">
                     <h3>Effortless Event Hosting</h3>
@@ -254,7 +281,7 @@
             </div>
         </section>
 
-        <!-- For Organizations and Collectives -->
+        <!-- For Organizations and Collectives (White Background) -->
         <section class="section">
             <h2>Manage Your Community. Amplify Your Impact.</h2>
             <p><span class="highlight">ONE Local</span> is your toolkit for building a stronger, more resilient organization. Manage members, finances, events, and projects all in one place while fostering transparency and collaboration within your community.</p>
