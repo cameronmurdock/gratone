@@ -7,54 +7,83 @@
     <style>
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            padding: 0;
+            background-color: #eeeeee;
+            font-family: Arial, sans-serif;
             color: #333;
         }
         header {
-            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
-            background-size: 600% 100%;
-            animation: gradient-animation 26s ease infinite;
-            color: white;
+            background: linear-gradient(135deg, #003333, #339999);
+            color: #ffffff;
             text-align: center;
-            padding: 100px 20px;
+            padding: 60px 20px;
+        }
+        header img {
+            width: 100px;
+            margin-bottom: 20px;
         }
         header h1 {
-            font-size: 3.5em;
+            font-size: 3em;
             margin: 0;
         }
         header p {
             font-size: 1.5em;
-            margin: 10px 0 0;
+            margin: 10px 0;
         }
-        .content {
+        .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px;
+            background-color: #ffffff;
         }
-        section {
-            padding: 80px 0;
-            margin: 0;
+        .section {
+            padding: 40px 0;
+            text-align: center;
         }
-        h2 {
+        .section h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            text-align: center;
         }
-        p {
+        .section p {
             font-size: 1.2em;
             line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        .side-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+        .scroller-item {
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 40px;
+            flex: 0 0 250px;
         }
-        .white-background {
-            background-color: white;
+        .scroller-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
         }
-        .gradient-background {
-            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
-            background-size: 600% 100%;
-            animation: gradient-animation 26s ease infinite;
-            color: white;
+        .scroller-item p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        .scroller-item .button {
+            background-color: #BF820A;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .scroller-item .button:hover {
+            background-color: #993c07;
         }
         .cta {
             background-color: #003333;
@@ -62,170 +91,80 @@
             text-align: center;
             padding: 60px 20px;
             margin: 0;
-            border-radius: 0;
         }
         .cta a {
-            background-color: #339999;
+            background-color: #BF820A;
             color: white;
-            text-decoration: none;
             padding: 15px 30px;
+            text-decoration: none;
             border-radius: 5px;
             font-size: 1.5em;
             display: inline-block;
             margin-top: 20px;
         }
         footer {
+            background: linear-gradient(135deg, #003333, #339999);
+            color: #ffffff;
             text-align: center;
-            padding: 20px;
-            background-color: #003333;
-            color: white;
-            margin: 0;
+            padding: 20px 0;
+            font-size: 14px;
         }
-
-        /* Image and video placeholder styling */
-        .media-placeholder {
-            width: 100%;
-            height: 400px;
-            background-color: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            color: #6c757d;
-        }
-        .section-image {
-            background: url('path-to-image') center/cover no-repeat;
-            height: 400px;
-        }
-        /* Grid Section */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .grid-item {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Gradient animation keyframes */
-        @keyframes gradient-animation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 50% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
+        footer a {
+            color: #BF820A;
+            text-decoration: none;
+            margin: 0 10px;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>ONE Local: Find Your People. Build Your World.</h1>
+    <img src="https://i.imgur.com/UYJyU4Q.png" alt="ONE Local Logo">
+    <h1>Find Your People. Build Your World.</h1>
     <p>Connect. Contribute. Create.</p>
 </header>
 
-<div class="content">
-
-    <!-- Hero Section -->
-    <section class="white-background">
-        <div class="media-placeholder">Hero Image / Video</div>
-        <p>
-            ONE Local is the community-driven platform that empowers you to live a more connected, fulfilling, and impactful life.
-        </p>
-        <p>
-            <a href="#cta" class="cta">Join the Movement</a>
-        </p>
-    </section>
-
-    <!-- Section 1: For Locals Seeking Connection -->
-    <section class="gradient-background">
-        <h2>Feeling Disconnected? Find Your Tribe on ONE Local.</h2>
-        <div class="grid-container">
-            <div class="grid-item">
-                <h3>Community Networking</h3>
-                <p>Find groups based on your interests, connect with individuals nearby, and participate in meaningful discussions.</p>
+<div class="main-content">
+    <!-- Section: For Individuals Seeking Connection -->
+    <section class="section">
+        <h2>Discover Your Community</h2>
+        <p>Feeling disconnected? ONE Local helps you find like-minded individuals, explore local events, and contribute to your community. Connect and be part of something bigger.</p>
+        <div class="side-scroller">
+            <div class="scroller-item">
+                <h3>Community Membership</h3>
+                <p>Join our community, attend events, and connect with your tribe.</p>
+                <a href="https://app.onelocal.one/membership/community" class="button">Join Now - $7</a>
             </div>
-            <div class="grid-item">
-                <h3>Event Discovery</h3>
-                <p>Explore a curated calendar of local events, from workshops and gatherings to festivals and markets.</p>
+            <div class="scroller-item">
+                <h3>Host Membership</h3>
+                <p>Create and manage events, share experiences, and help foster local culture.</p>
+                <a href="https://app.onelocal.one/membership/host" class="button">Host Events - $22</a>
             </div>
-            <div class="grid-item">
-                <h3>Gift Economy</h3>
-                <p>Offer your skills and talents, request support when you need it, and experience the joy of giving and receiving.</p>
+            <div class="scroller-item">
+                <h3>Seller Membership</h3>
+                <p>Promote your local business, grow your brand, and connect with customers.</p>
+                <a href="https://app.onelocal.one/membership/seller" class="button">Start Selling - $22</a>
+            </div>
+            <div class="scroller-item">
+                <h3>Org Membership</h3>
+                <p>Manage your community, grow your impact, and steward local resilience.</p>
+                <a href="https://app.onelocal.one/membership/org" class="button">Organize - $44</a>
             </div>
         </div>
     </section>
 
-    <!-- Section 2: For Tight Support Rings -->
-    <section class="white-background">
-        <h2>Strengthen Your Circle. Simplify Your Life.</h2>
-        <div class="media-placeholder">Support Group Image / Video</div>
-        <p>
-            ONE Local helps you create a stronger and more supportive network with the people you trust most.
-        </p>
-        <p>
-            Share your needs and offerings: See what your friends and family need and offer your help, creating a more balanced and reciprocal flow of support.
-        </p>
-    </section>
-
-    <!-- Section 3: For Event Producers and Businesses -->
-    <section class="gradient-background">
-        <h2>ONE Local: Run Your Events. Grow Your Business.</h2>
-        <div class="grid-container">
-            <div class="grid-item">
-                <h3>Create and Manage Events</h3>
-                <p>Reach a targeted audience, sell tickets, track attendance, and promote your events with ease.</p>
-            </div>
-            <div class="grid-item">
-                <h3>Showcase Your Offerings</h3>
-                <p>Connect with customers who share your values and contribute to a thriving local economy.</p>
-            </div>
-            <div class="grid-item">
-                <h3>Build a Strong Brand</h3>
-                <p>Engage with your community, foster loyalty, and grow your impact.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 4: For Organizations and Collectives -->
-    <section class="white-background">
-        <h2>ONE Local: Manage Your Community. Amplify Your Impact.</h2>
-        <div class="media-placeholder">Community Collaboration Image / Video</div>
-        <p>
-            ONE Local provides the tools and features you need to streamline your operations, engage your members, and achieve your goals.
-        </p>
-        <p>
-            Simplify your workflow: Manage members, events, projects, resources, and finances all in one place.
-        </p>
-    </section>
-
-    <!-- Shared Values Section -->
-    <section class="gradient-background">
-        <h2>Building a Better World, Together</h2>
-        <div class="media-placeholder">Values Image / Video</div>
-        <p>ONE Local is a movement toward a more connected, sustainable, and fulfilling future.</p>
-        <p>We believe in the power of community to create positive change, and we're providing the platform to make it happen.</p>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="cta" id="cta">
+    <!-- CTA Section -->
+    <section class="cta">
         <h2>Join the ONE Local Movement</h2>
         <p>Be part of something bigger. Join us today.</p>
         <a href="mailto:contact@onelocal.com">Contact Us</a>
     </section>
-
 </div>
 
 <footer>
     <p>&copy; 2024 ONE Local. All Rights Reserved.</p>
+    <a href="https://www.onelocal.one/privacypolicy">Privacy Policy</a>
+    <a href="https://www.onelocal.one/contact">Contact</a>
 </footer>
 
 </body>
