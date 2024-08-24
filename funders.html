@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE Local - Investor Landing Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
+            background-size: 60000% 100%;
+            animation: gradient-animation 26s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        header h1 {
+            font-size: 3.5em;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.5em;
+            margin: 10px 0 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        section {
+            padding: 40px 0;
+            margin: 0;
+        }
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #003333;
+            text-align: center;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        /* Alternating section backgrounds */
+        .white-background {
+            background-color: white;
+        }
+        .gradient-background {
+            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
+            background-size: 60000% 100%;
+            animation: gradient-animation 26s ease infinite;
+            color: white;
+        }
+        /* Side Scroller for images and metrics */
+        .side-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding-bottom: 20px;
+            scroll-behavior: smooth;
+        }
+        .scroller-item {
+            min-width: 300px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .scroller-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        /* Graph Placeholder */
+        .graph-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #6c757d;
+            border-radius: 10px;
+        }
+        /* Team Section */
+        .team {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        .team-member {
+            text-align: center;
+            flex: 1;
+        }
+        .team-member img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        .cta {
+            background-color: #003333;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin: 0;
+            border-radius: 0;
+        }
+        .cta a {
+            background-color: #339999;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #003333;
+            color: white;
+            margin: 0;
+        }
+
+        /* Gradient animation keyframes */
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 50% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ONE Local: Investing in the Future of Community</h1>
+    <p>Empowering Local Economies, Building Resilient Communities</p>
+</header>
+
+<div class="content">
+
+    <!-- Problem Section - White Background -->
+    <section class="white-background">
+        <h2>The Problem</h2>
+        <p>
+            The world is facing a crisis of connection. Loneliness and social isolation are at epidemic levels, impacting millions globally. Local economies are struggling, and traditional social media platforms are exacerbating division and disengagement. 
+            (Cigna Loneliness Index data can be inserted here for further context).
+        </p>
+    </section>
+
+    <!-- Solution Section - Gradient Background -->
+    <section class="gradient-background">
+        <h2>ONE Local: The Solution</h2>
+        <p>
+            ONE Local is the solution. We're building a community-owned and governed platform that connects people with shared values, empowers local businesses, and enables collective action for a better future.
+        </p>
+    </section>
+
+    <!-- Value Proposition - White Background -->
+    <section class="white-background">
+        <h2>Value Proposition</h2>
+        <p>
+            ONE Local: From Isolated to Integrated. Find Your People. Build Your World.<br><br>
+            We’re creating a more connected, equitable, and fulfilling world, one community at a time.
+        </p>
+    </section>
+
+    <!-- Key Features Section - Gradient Background -->
+    <section class="gradient-background">
+        <h2>Key Features</h2>
+        <p>
+            Community Networking: Connect with like-minded people, join groups, and build meaningful relationships.<br><br>
+            Event Management: Create and manage events that bring people together and foster a vibrant local culture.<br><br>
+            Project Collaboration: Organize projects, assign tasks, track progress, and work together to achieve shared goals.<br><br>
+            Resource Sharing & Gift Economy: Share your skills and resources, request help when you need it, and participate in a thriving gift economy.<br><br>
+            Marketplace: Discover and support local businesses that align with your values.<br><br>
+            Collective Management & Governance: Manage your organization or community with tools for transparent decision-making, financial management, and member engagement.
+        </p>
+    </section>
+
+    <!-- Business Model Section - White Background -->
+    <section class="white-background">
+        <h2>Business Model</h2>
+        <p>
+            Cooperative Structure: ONE Local is a member-owned cooperative, aligning the incentives of members with the platform’s success.<br><br>
+            Multiple Revenue Streams: We generate revenue through tiered memberships, transaction fees, premium features, and ethical investment opportunities.<br><br>
+            Sustainable Growth: Our business model is designed to foster long-term sustainability and impact, creating a win-win for members, investors, and communities.
+        </p>
+    </section>
+
+    <!-- Impact Section - Gradient Background -->
+    <section class="gradient-background">
+        <h2>Our Impact</h2>
+        <div class="side-scroller">
+            <div class="scroller-item">
+                <img src="https://via.placeholder.com/400x200" alt="Community Engagement">
+                <p>Community Engagement</p>
+            </div>
+            <div class="scroller-item">
+                <img src="https://via.placeholder.com/400x200" alt="Revenue Growth">
+                <p>Revenue Growth</p>
+            </div>
+            <div class="scroller-item">
+                <img src="https://via.placeholder.com/400x200" alt="Events Supported">
+                <p>Events Supported</p>
+            </div>
+            <div class="scroller-item">
+                <img src="https://via.placeholder.com/400x200" alt="Active Users">
+                <p>Active Users</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section - White Background -->
+    <section class="white-background">
+        <h2>Meet Our Team</h2>
+        <div class="team">
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="CEO">
+                <h3>Jane Doe</h3>
+                <p>CEO - Visionary leader driving ONE Local forward.</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="CTO">
+                <h3>John Smith</h3>
+                <p>CTO - Building technology that connects communities.</p>
+            </div>
+            <div class="team-member">
+                <img src="https://via.placeholder.com/150" alt="CFO">
+                <h3>Sarah Lee</h3>
+                <p>CFO - Ensuring sustainable growth and success.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action - Gradient Background -->
+    <section class="cta">
+        <h2>Join Us in Building the Future</h2>
+        <p>
+            ONE Local is at the forefront of community empowerment and local economic transformation. We invite investors to join us in scaling this impactful platform.
+        </p>
+        <a href="mailto:invest@onelocal.com">Contact Us</a>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 ONE Local. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
