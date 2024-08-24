@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE Local - Investor Landing Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow: hidden;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, auto);
+            gap: 10px;
+            padding: 20px;
+            transform: scale(1);
+            transform-origin: 0 0;
+            transition: transform 0.3s ease;
+            width: 100vw;
+            height: 100vh;
+            overflow: scroll;
+        }
+        .grid-container:hover {
+            cursor: grab;
+        }
+        .grid-container:active {
+            cursor: grabbing;
+        }
+        .grid-item {
+            background-color: white;
+            border: 2px solid #003333;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-background {
+            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
+            background-size: 60000% 100%;
+            animation: gradient-animation 26s ease infinite;
+            color: white;
+            border: 2px solid #003333;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #003333;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .team-member img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .cta a {
+            background-color: #339999;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 50% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="grid-container" id="grid-container">
+
+    <!-- Hero Section -->
+    <div class="gradient-background grid-item">
+        <h1>ONE Local: Investing in the Future of Community</h1>
+        <p>Empowering Local Economies, Building Resilient Communities</p>
+    </div>
+
+    <!-- Problem Section -->
+    <div class="grid-item">
+        <h2>The Problem</h2>
+        <p>
+            The world is facing a crisis of connection. Loneliness and social isolation are at epidemic levels, impacting millions globally. Local economies are struggling, and traditional social media platforms are exacerbating division and disengagement. 
+        </p>
+    </div>
+
+    <!-- Solution Section -->
+    <div class="gradient-background grid-item">
+        <h2>ONE Local: The Solution</h2>
+        <p>
+            ONE Local is the solution. We're building a community-owned and governed platform that connects people with shared values, empowers local businesses, and enables collective action for a better future.
+        </p>
+    </div>
+
+    <!-- Value Proposition Section -->
+    <div class="grid-item">
+        <h2>Value Proposition</h2>
+        <p>
+            ONE Local: From Isolated to Integrated. Find Your People. Build Your World. <br>We’re creating a more connected, equitable, and fulfilling world, one community at a time.
+        </p>
+    </div>
+
+    <!-- Key Features Section -->
+    <div class="gradient-background grid-item">
+        <h2>Key Features</h2>
+        <p>
+            Community Networking, Event Management, Project Collaboration, Resource Sharing & Gift Economy, Marketplace, and Collective Management & Governance.
+        </p>
+    </div>
+
+    <!-- Business Model Section -->
+    <div class="grid-item">
+        <h2>Business Model</h2>
+        <p>
+            Cooperative Structure, Multiple Revenue Streams, Sustainable Growth ensuring long-term success and positive impact for members, investors, and communities.
+        </p>
+    </div>
+
+    <!-- Impact Section -->
+    <div class="gradient-background grid-item">
+        <h2>Our Impact</h2>
+        <p>
+            Tangible impact on the lives of individuals, local businesses, and community well-being.
+        </p>
+    </div>
+
+    <!-- Team Section -->
+    <div class="grid-item">
+        <h2>Meet Our Team</h2>
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="CEO">
+            <h3>Jane Doe</h3>
+            <p>CEO - Visionary leader driving ONE Local forward.</p>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="gradient-background grid-item cta">
+        <h2>Join Us in Building the Future</h2>
+        <p>ONE Local is at the forefront of community empowerment and local economic transformation. We invite investors to join us in scaling this impactful platform.</p>
+        <a href="mailto:invest@onelocal.com">Contact Us</a>
+    </div>
+
+</div>
+
+<script>
+    // Zooming Functionality
+    const gridContainer = document.getElementById('grid-container');
+    let scale = 1;
+
+    window.addEventListener('wheel', function(event) {
+        if (event.deltaY > 0) {
+            scale = Math.max(0.5, scale - 0.1);  // Zoom Out
+        } else {
+            scale = Math.min(2, scale + 0.1);  // Zoom In
+        }
+        gridContainer.style.transform = `scale(${scale})`;
+    });
+
+    // Enable dragging of grid while zoomed in
+    let isDragging = false;
+    let startX, startY;
+
+    gridContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX - gridContainer.offsetLeft;
+        startY = e.pageY - gridContainer.offsetTop;
+        gridContainer.style.cursor = 'grabbing';
+    });
+
+    gridContainer.addEventListener('mouseup', () => {
+        isDragging = false;
+        gridContainer.style.cursor = 'grab';
+    });
+
+    gridContainer.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            gridContainer.scrollLeft = startX - e.pageX;
+            gridContainer.scrollTop = startY - e.pageY;
+        }
+    });
+</script>
+
+</body>
+</html>
