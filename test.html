@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONE Local - Public Landing Page</title>
+    <title>ONE Local - Find Your People. Build Your World.</title>
     <style>
         body {
             margin: 0;
@@ -56,6 +56,27 @@
             animation: gradient-animation 26s ease infinite;
             color: white;
         }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .grid-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .grid-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .grid-item p {
+            font-size: 1em;
+            color: #666;
+        }
         .cta {
             background-color: #003333;
             color: white;
@@ -93,22 +114,11 @@
             font-size: 2em;
             color: #6c757d;
         }
-        .section-image {
-            background: url('path-to-image') center/cover no-repeat;
-            height: 400px;
-        }
-        /* Grid Section */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .grid-item {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        /* Grid item icons */
+        .grid-item img {
+            max-width: 80px;
+            margin-bottom: 15px;
         }
 
         /* Gradient animation keyframes */
@@ -129,7 +139,7 @@
 
 <header>
     <h1>ONE Local: Find Your People. Build Your World.</h1>
-    <p>Connect. Contribute. Create.</p>
+    <p>Connect. Contribute. Create. Join the movement for a better tomorrow.</p>
 </header>
 
 <div class="content">
@@ -138,66 +148,79 @@
     <section class="white-background">
         <div class="media-placeholder">Hero Image / Video</div>
         <p>
-            ONE Local is the community-driven platform that empowers you to live a more connected, fulfilling, and impactful life.
+            ONE Local is the community-powered platform that helps you build a more fulfilling life, right where you are.
         </p>
         <p>
-            <a href="#cta" class="cta">Join the Movement</a>
+            <a href="#cta" class="cta">Download the App Now</a>
         </p>
     </section>
 
-    <!-- Section 1: For Isolated Seekers -->
+    <!-- Section 1: For Individuals Seeking Connection -->
     <section class="gradient-background">
-        <h2>Feeling Disconnected? Find Your Tribe on ONE Local.</h2>
+        <h2>ONE Local: Find Your Tribe and Build Meaningful Connections</h2>
         <div class="grid-container">
             <div class="grid-item">
-                <h3>Community Networking</h3>
-                <p>Find groups based on your interests, connect with individuals nearby, and participate in meaningful discussions.</p>
+                <img src="https://via.placeholder.com/80" alt="Connect Icon">
+                <h3>Connect with Your Tribe</h3>
+                <p>Find like-minded individuals who share your interests, values, and passions.</p>
             </div>
             <div class="grid-item">
-                <h3>Event Discovery</h3>
-                <p>Explore a curated calendar of local events, from workshops and gatherings to festivals and markets.</p>
+                <img src="https://via.placeholder.com/80" alt="Explore Icon">
+                <h3>Discover Your City</h3>
+                <p>Explore local events, activities, and resources you wouldn't find anywhere else.</p>
             </div>
             <div class="grid-item">
-                <h3>Gift Economy</h3>
+                <img src="https://via.placeholder.com/80" alt="Gift Icon">
+                <h3>Participate in the Gift Economy</h3>
                 <p>Offer your skills and talents, request support when you need it, and experience the joy of giving and receiving.</p>
             </div>
         </div>
     </section>
 
-    <!-- Section 2: For Conscious Businesses -->
+    <!-- Section 2: For Businesses and Event Producers -->
     <section class="white-background">
-        <h2>Reach Your Ideal Customer. Build a Brand That Matters.</h2>
+        <h2>ONE Local: Grow Your Business and Reach a Purpose-Driven Audience</h2>
         <div class="media-placeholder">Business Promotion Image / Video</div>
         <p>
-            ONE Local connects you with a community of conscious consumers who share your values and are eager to support local businesses.
+            Connect with conscious consumers who share your values and are eager to support local businesses. Promote your offerings and host events to build community around your brand.
+        </p>
+        <p>
+            <a href="#cta" class="cta">Claim Your Free Business Profile</a>
         </p>
     </section>
 
-    <!-- Section 3: For Community Catalysts -->
+    <!-- Section 3: For Tight Support Rings -->
     <section class="gradient-background">
-        <h2>ONE Local: Your Toolkit for Building Thriving Communities</h2>
+        <h2>Strengthen Your Circle. Simplify Your Life.</h2>
         <div class="grid-container">
             <div class="grid-item">
-                <h3>Organization Management</h3>
-                <p>Manage members, finances, events, and projects with ease.</p>
+                <img src="https://via.placeholder.com/80" alt="Support Icon">
+                <h3>Share Your Needs and Offerings</h3>
+                <p>Coordinate with your group to share resources and support each other effortlessly.</p>
             </div>
             <div class="grid-item">
-                <h3>Collaborative Tools</h3>
-                <p>Coordinate tasks, communicate with your team, and track your progress.</p>
+                <img src="https://via.placeholder.com/80" alt="Coordinate Icon">
+                <h3>Coordinate Easily</h3>
+                <p>Organize schedules, resources, and decisions in a streamlined, easy-to-use platform.</p>
             </div>
             <div class="grid-item">
-                <h3>Transparent Governance</h3>
-                <p>Empower members to participate in decision-making and build a more equitable and democratic community.</p>
+                <img src="https://via.placeholder.com/80" alt="Connect Icon">
+                <h3>Deepen Your Connections</h3>
+                <p>Strengthen bonds through acts of kindness, shared experiences, and mutual support.</p>
             </div>
         </div>
     </section>
 
-    <!-- Shared Values Section -->
+    <!-- Section 4: For Organizations and Collectives -->
     <section class="white-background">
-        <h2>Building a Better World, Together</h2>
-        <div class="media-placeholder">Values Image / Video</div>
-        <p>ONE Local is a movement toward a more connected, sustainable, and fulfilling future.</p>
-        <p>We believe in the power of community to create positive change, and we're providing the platform to make it happen.</p>
+        <h2>ONE Local: Manage Your Community and Amplify Your Impact</h2>
+        <div class="media-placeholder">Organization Image / Video</div>
+        <p>
+            Streamline your operations, engage your members, and achieve your goals with ONE Local’s comprehensive toolkit for organizations and collectives.
+        </p>
+        <p>
+            <a href="#cta" class="cta">Start Your Free Trial Today</a>
+        </p>
     </section>
 
     <!-- Call to Action -->
