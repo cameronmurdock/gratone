@@ -17,21 +17,15 @@
             animation: gradient-animation 26s ease infinite;
             color: white;
             text-align: center;
-            padding: 120px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 100px 20px;
         }
         header h1 {
-            font-size: 3em;
-            margin: 0 0 10px;
-            line-height: 1.2;
+            font-size: 3.5em;
+            margin: 0;
         }
         header p {
             font-size: 1.5em;
-            margin: 10px 0;
-            max-width: 800px;
+            margin: 10px 0 0;
         }
         .content {
             max-width: 1200px;
@@ -39,20 +33,19 @@
             padding: 0 20px;
         }
         section {
-            padding: 60px 0;
+            padding: 80px 0;
             margin: 0;
-            text-align: center;
         }
         h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #003333;
+            text-align: center;
         }
         p {
             font-size: 1.2em;
-            line-height: 1.8;
-            max-width: 800px;
-            margin: 0 auto 40px;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 40px;
         }
         .white-background {
             background-color: white;
@@ -68,6 +61,7 @@
             color: white;
             text-align: center;
             padding: 60px 20px;
+            margin: 0;
             border-radius: 0;
         }
         .cta a {
@@ -88,7 +82,7 @@
             margin: 0;
         }
 
-        /* Media placeholders */
+        /* Image and video placeholder styling */
         .media-placeholder {
             width: 100%;
             height: 400px;
@@ -98,34 +92,23 @@
             justify-content: center;
             font-size: 2em;
             color: #6c757d;
-            border-radius: 10px;
         }
-
-        /* Grid Layout */
+        .section-image {
+            background: url('path-to-image') center/cover no-repeat;
+            height: 400px;
+        }
+        /* Grid Section */
         .grid-container {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            justify-content: center;
-            padding: 0 20px;
+            padding: 20px;
         }
         .grid-item {
             background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            flex: 1 1 300px;
-            max-width: 300px;
-        }
-        .grid-item h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #003333;
-        }
-        .grid-item p {
-            font-size: 1em;
-            line-height: 1.6;
-            margin-bottom: 0;
         }
 
         /* Gradient animation keyframes */
@@ -146,7 +129,7 @@
 
 <header>
     <h1>ONE Local: Find Your People. Build Your World.</h1>
-    <p>Connect. Contribute. Create. ONE Local is the community-driven platform that empowers you to live a more connected, fulfilling, and impactful life.</p>
+    <p>Connect. Contribute. Create.</p>
 </header>
 
 <div class="content">
@@ -155,7 +138,7 @@
     <section class="white-background">
         <div class="media-placeholder">Hero Image / Video</div>
         <p>
-            ONE Local connects you with like-minded individuals, events, and opportunities to contribute to your local community and live a more meaningful life.
+            ONE Local is the community-driven platform that empowers you to live a more connected, fulfilling, and impactful life.
         </p>
         <p>
             <a href="#cta" class="cta">Join the Movement</a>
@@ -186,7 +169,7 @@
         <h2>Reach Your Ideal Customer. Build a Brand That Matters.</h2>
         <div class="media-placeholder">Business Promotion Image / Video</div>
         <p>
-            ONE Local connects you with conscious consumers who value your products and services and are eager to support local businesses like yours.
+            ONE Local connects you with a community of conscious consumers who share your values and are eager to support local businesses.
         </p>
     </section>
 
@@ -204,7 +187,7 @@
             </div>
             <div class="grid-item">
                 <h3>Transparent Governance</h3>
-                <p>Empower members to participate in decision-making and build a more equitable community.</p>
+                <p>Empower members to participate in decision-making and build a more equitable and democratic community.</p>
             </div>
         </div>
     </section>
@@ -213,15 +196,14 @@
     <section class="white-background">
         <h2>Building a Better World, Together</h2>
         <div class="media-placeholder">Values Image / Video</div>
-        <p>
-            ONE Local is a movement toward a more connected, sustainable, and fulfilling future. Join us in shaping a better world.
-        </p>
+        <p>ONE Local is a movement toward a more connected, sustainable, and fulfilling future.</p>
+        <p>We believe in the power of community to create positive change, and we're providing the platform to make it happen.</p>
     </section>
 
     <!-- Call to Action -->
     <section class="cta">
         <h2>Join the ONE Local Movement</h2>
-        <p>Be part of something bigger. Join us today and start making an impact in your local community.</p>
+        <p>Be part of something bigger. Join us today.</p>
         <a href="mailto:contact@onelocal.com">Contact Us</a>
     </section>
 
