@@ -10,7 +10,6 @@
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
             color: #333;
-            overflow: hidden;
         }
         header {
             background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
@@ -18,62 +17,117 @@
             animation: gradient-animation 26s ease infinite;
             color: white;
             text-align: center;
-            padding: 100px 20px;
+            padding: 120px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         header h1 {
-            font-size: 3.5em;
-            margin: 0;
+            font-size: 3em;
+            margin: 0 0 10px;
+            line-height: 1.2;
         }
         header p {
             font-size: 1.5em;
-            margin: 10px 0 0;
+            margin: 10px 0;
+            max-width: 800px;
         }
-        .zoom-container {
-            overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
-            position: relative;
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-        .zoom-content {
-            transform: scale(1);
-            transform-origin: center;
-            transition: transform 0.5s ease;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-            padding: 40px;
-        }
-        .zoom-container:hover .zoom-content {
-            transform: scale(1.2);
-        }
-        .zoom-container:active .zoom-content {
-            cursor: grab;
-        }
-        .grid-item {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-        .grid-item:hover {
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        section {
+            padding: 60px 0;
+            margin: 0;
+            text-align: center;
         }
         h2 {
-            font-size: 2em;
-            text-align: center;
+            font-size: 2.5em;
             margin-bottom: 20px;
+            color: #003333;
         }
         p {
             font-size: 1.2em;
-            text-align: center;
-            margin-bottom: 20px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 40px;
         }
+        .white-background {
+            background-color: white;
+        }
+        .gradient-background {
+            background: linear-gradient(315deg, #339999, #003333, #BCDED2, #339999);
+            background-size: 600% 100%;
+            animation: gradient-animation 26s ease infinite;
+            color: white;
+        }
+        .cta {
+            background-color: #003333;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 0;
+        }
+        .cta a {
+            background-color: #339999;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.5em;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #003333;
+            color: white;
+            margin: 0;
+        }
+
+        /* Media placeholders */
+        .media-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: #6c757d;
+            border-radius: 10px;
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 0 20px;
+        }
+        .grid-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 1 1 300px;
+            max-width: 300px;
+        }
+        .grid-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #003333;
+        }
+        .grid-item p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
         /* Gradient animation keyframes */
         @keyframes gradient-animation {
             0% {
@@ -92,86 +146,90 @@
 
 <header>
     <h1>ONE Local: Find Your People. Build Your World.</h1>
-    <p>Connect. Contribute. Create.</p>
+    <p>Connect. Contribute. Create. ONE Local is the community-driven platform that empowers you to live a more connected, fulfilling, and impactful life.</p>
 </header>
 
-<div class="zoom-container">
-    <div class="zoom-content">
-        <!-- Grid Item 1 -->
-        <div class="grid-item">
-            <h2>Community Networking</h2>
-            <p>Find groups based on your interests, connect with individuals nearby, and participate in meaningful discussions.</p>
+<div class="content">
+
+    <!-- Hero Section -->
+    <section class="white-background">
+        <div class="media-placeholder">Hero Image / Video</div>
+        <p>
+            ONE Local connects you with like-minded individuals, events, and opportunities to contribute to your local community and live a more meaningful life.
+        </p>
+        <p>
+            <a href="#cta" class="cta">Join the Movement</a>
+        </p>
+    </section>
+
+    <!-- Section 1: For Isolated Seekers -->
+    <section class="gradient-background">
+        <h2>Feeling Disconnected? Find Your Tribe on ONE Local.</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>Community Networking</h3>
+                <p>Find groups based on your interests, connect with individuals nearby, and participate in meaningful discussions.</p>
+            </div>
+            <div class="grid-item">
+                <h3>Event Discovery</h3>
+                <p>Explore a curated calendar of local events, from workshops and gatherings to festivals and markets.</p>
+            </div>
+            <div class="grid-item">
+                <h3>Gift Economy</h3>
+                <p>Offer your skills and talents, request support when you need it, and experience the joy of giving and receiving.</p>
+            </div>
         </div>
-        <!-- Grid Item 2 -->
-        <div class="grid-item">
-            <h2>Event Discovery</h2>
-            <p>Explore a curated calendar of local events, from workshops and gatherings to festivals and markets.</p>
+    </section>
+
+    <!-- Section 2: For Conscious Businesses -->
+    <section class="white-background">
+        <h2>Reach Your Ideal Customer. Build a Brand That Matters.</h2>
+        <div class="media-placeholder">Business Promotion Image / Video</div>
+        <p>
+            ONE Local connects you with conscious consumers who value your products and services and are eager to support local businesses like yours.
+        </p>
+    </section>
+
+    <!-- Section 3: For Community Catalysts -->
+    <section class="gradient-background">
+        <h2>ONE Local: Your Toolkit for Building Thriving Communities</h2>
+        <div class="grid-container">
+            <div class="grid-item">
+                <h3>Organization Management</h3>
+                <p>Manage members, finances, events, and projects with ease.</p>
+            </div>
+            <div class="grid-item">
+                <h3>Collaborative Tools</h3>
+                <p>Coordinate tasks, communicate with your team, and track your progress.</p>
+            </div>
+            <div class="grid-item">
+                <h3>Transparent Governance</h3>
+                <p>Empower members to participate in decision-making and build a more equitable community.</p>
+            </div>
         </div>
-        <!-- Grid Item 3 -->
-        <div class="grid-item">
-            <h2>Gift Economy</h2>
-            <p>Offer your skills and talents, request support when you need it, and experience the joy of giving and receiving.</p>
-        </div>
-        <!-- Grid Item 4 -->
-        <div class="grid-item">
-            <h2>Marketplace</h2>
-            <p>Create a profile for your business, list your products and services, and reach a targeted audience.</p>
-        </div>
-        <!-- Grid Item 5 -->
-        <div class="grid-item">
-            <h2>Collaborative Tools</h2>
-            <p>Coordinate tasks, communicate with your team, and track your progress.</p>
-        </div>
-        <!-- Grid Item 6 -->
-        <div class="grid-item">
-            <h2>Transparent Governance</h2>
-            <p>Empower members to participate in decision-making and build a more equitable and democratic community.</p>
-        </div>
-    </div>
+    </section>
+
+    <!-- Shared Values Section -->
+    <section class="white-background">
+        <h2>Building a Better World, Together</h2>
+        <div class="media-placeholder">Values Image / Video</div>
+        <p>
+            ONE Local is a movement toward a more connected, sustainable, and fulfilling future. Join us in shaping a better world.
+        </p>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <h2>Join the ONE Local Movement</h2>
+        <p>Be part of something bigger. Join us today and start making an impact in your local community.</p>
+        <a href="mailto:contact@onelocal.com">Contact Us</a>
+    </section>
+
 </div>
 
 <footer>
     <p>&copy; 2024 ONE Local. All Rights Reserved.</p>
 </footer>
-
-<script>
-    // Allow dragging and panning on zoom-content
-    const zoomContainer = document.querySelector('.zoom-container');
-    const zoomContent = document.querySelector('.zoom-content');
-    
-    let isDragging = false;
-    let startX, startY, scrollLeft, scrollTop;
-    
-    zoomContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX - zoomContainer.offsetLeft;
-        startY = e.pageY - zoomContainer.offsetTop;
-        scrollLeft = zoomContainer.scrollLeft;
-        scrollTop = zoomContainer.scrollTop;
-        zoomContainer.style.cursor = 'grabbing';
-    });
-    
-    zoomContainer.addEventListener('mouseleave', () => {
-        isDragging = false;
-        zoomContainer.style.cursor = 'default';
-    });
-    
-    zoomContainer.addEventListener('mouseup', () => {
-        isDragging = false;
-        zoomContainer.style.cursor = 'default';
-    });
-    
-    zoomContainer.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - zoomContainer.offsetLeft;
-        const y = e.pageY - zoomContainer.offsetTop;
-        const walkX = (x - startX) * 1; // Scroll speed
-        const walkY = (y - startY) * 1; // Scroll speed
-        zoomContainer.scrollLeft = scrollLeft - walkX;
-        zoomContainer.scrollTop = scrollTop - walkY;
-    });
-</script>
 
 </body>
 </html>
