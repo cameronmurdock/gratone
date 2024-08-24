@@ -18,7 +18,8 @@
             background: linear-gradient(135deg, #003333, #339999);
             color: #ffffff;
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         header img {
@@ -27,8 +28,9 @@
         }
 
         header h1 {
-            font-size: 3em;
+            font-size: 3.5em;
             margin: 0;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
         }
 
         header p {
@@ -39,8 +41,9 @@
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
             background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .section {
@@ -50,14 +53,23 @@
 
         .section h2 {
             font-size: 2.5em;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            color: #003333;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .section p {
-            font-size: 1.2em;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto 40px;
+            font-size: 1.25em;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 50px;
+            color: #555;
+        }
+
+        .section .highlight {
+            color: #BF820A;
+            font-weight: bold;
         }
 
         .side-scroller {
@@ -66,36 +78,44 @@
             gap: 30px;
             padding: 20px 0;
             scroll-behavior: smooth;
+            margin-bottom: 40px;
         }
 
         .scroller-item {
             background-color: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
-            flex: 0 0 250px;
+            flex: 0 0 280px;
             margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .scroller-item:hover {
+            transform: scale(1.05);
         }
 
         .scroller-item h3 {
-            font-size: 1.5em;
+            font-size: 1.75em;
             margin-bottom: 15px;
+            color: #003333;
         }
 
         .scroller-item p {
-            font-size: 1em;
+            font-size: 1.1em;
             margin-bottom: 20px;
+            color: #555;
         }
 
         .scroller-item .button {
             background-color: #BF820A;
             color: #ffffff;
-            padding: 10px 20px;
+            padding: 12px 25px;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 5px;
             display: inline-block;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
         .scroller-item .button:hover {
@@ -106,7 +126,22 @@
             background-color: #003333;
             color: white;
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .cta p {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .cta a {
@@ -117,7 +152,11 @@
             border-radius: 5px;
             font-size: 1.5em;
             display: inline-block;
-            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .cta a:hover {
+            background-color: #993c07;
         }
 
         footer {
@@ -133,6 +172,10 @@
             text-decoration: none;
             margin: 0 10px;
         }
+
+        footer p {
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -140,8 +183,8 @@
 
     <header>
         <img src="https://i.imgur.com/UYJyU4Q.png" alt="ONE Local Logo">
-        <h1>Find Your People. Build Your World.</h1>
-        <p>Connect. Contribute. Create.</p>
+        <h1>Welcome to ONE Local</h1>
+        <p>Your Journey to Connection Starts Now.</p>
     </header>
 
     <div class="main-content">
@@ -149,86 +192,79 @@
         <!-- Hero Section -->
         <section class="section">
             <h2>ONE Local: Find Your People. Build Your World.</h2>
-            <p>ONE Local is the community-powered platform that helps you live a more connected, fulfilling, and impactful life. Discover your community, share your gifts, and contribute to building a better world together.</p>
+            <p><span class="highlight">ONE Local</span> is a community-powered platform that empowers you to connect with people who share your passions, engage with your local community, and contribute to building a more connected, sustainable, and equitable world. Discover your community, share your gifts, and join a movement that’s changing how we live.</p>
             <a href="https://app.onelocal.one/signup" class="button">Join the Movement</a>
         </section>
 
         <!-- For Individuals Seeking Connection -->
         <section class="section" style="background-color: #eeeeee;">
-            <h2>Discover Your Community</h2>
-            <p>Feeling disconnected? Tired of superficial online interactions? ONE Local helps you connect with like-minded people, explore local events, and participate in a thriving gift economy that fosters real connections and meaningful relationships.</p>
+            <h2>Discover Your Tribe. Rediscover Yourself.</h2>
+            <p>We understand the desire to break free from superficial online interactions. <span class="highlight">ONE Local</span> helps you create genuine connections through shared passions, real-world experiences, and a flourishing gift economy. You’ll find your tribe, discover hidden gems in your community, and make a lasting impact.</p>
             <div class="side-scroller">
                 <div class="scroller-item">
                     <h3>Community Membership</h3>
-                    <p>Join our community, attend events, and connect with your tribe.</p>
+                    <p>Engage with your community, attend local events, and connect with like-minded individuals.</p>
                     <a href="https://app.onelocal.one/membership/community" class="button">Join Now - $7</a>
                 </div>
                 <div class="scroller-item">
                     <h3>Host Membership</h3>
-                    <p>Create and manage events, share experiences, and help foster local culture.</p>
+                    <p>Curate and host meaningful events that foster connection, learning, and celebration.</p>
                     <a href="https://app.onelocal.one/membership/host" class="button">Host Events - $22</a>
                 </div>
                 <div class="scroller-item">
                     <h3>Seller Membership</h3>
-                    <p>Promote your local business, grow your brand, and connect with customers.</p>
+                    <p>Showcase your creations, grow your business, and be part of an ethical local economy.</p>
                     <a href="https://app.onelocal.one/membership/seller" class="button">Start Selling - $22</a>
                 </div>
                 <div class="scroller-item">
                     <h3>Org Membership</h3>
-                    <p>Manage your community, grow your impact, and steward local resilience.</p>
+                    <p>Collaborate, organize, and lead with purpose while building a resilient community.</p>
                     <a href="https://app.onelocal.one/membership/org" class="button">Organize - $44</a>
                 </div>
             </div>
         </section>
 
-        <!-- Tight Support Rings Section -->
+        <!-- Strengthen Your Circle Section -->
         <section class="section">
             <h2>Strengthen Your Circle. Simplify Your Life.</h2>
-            <p>ONE Local helps you create stronger, more supportive relationships with the people who matter most. Share what you have, receive what you need, and coordinate with ease, all within a trusted, tight-knit group.</p>
+            <p><span class="highlight">ONE Local</span> helps you build closer, more supportive relationships with your trusted circle. Whether it's sharing skills, coordinating resources, or just staying connected, ONE Local ensures that your inner circle is always there for you.</p>
             <a href="https://app.onelocal.one/groups" class="button">Create Your Group</a>
         </section>
 
         <!-- For Event Producers and Businesses -->
         <section class="section" style="background-color: #eeeeee;">
-            <h2>ONE Local: Run Your Events. Grow Your Business.</h2>
-            <p>Reach your ideal audience, build a loyal following, and grow your local business. ONE Local makes it easy to create and promote events, sell products and services, and connect with your community in a meaningful way.</p>
+            <h2>Run Events, Build Connections, Grow Your Business</h2>
+            <p>As a local business or event producer, you play a vital role in shaping your community. <span class="highlight">ONE Local</span> provides the tools to host events, grow your following, and build a brand that aligns with your values while driving a thriving local economy.</p>
             <div class="side-scroller">
                 <div class="scroller-item">
-                    <h3>Market Your Offerings</h3>
-                    <p>Engage with conscious consumers and showcase your unique offerings.</p>
-                    <a href="https://app.onelocal.one/business" class="button">Grow Your Business</a>
+                    <h3>Effortless Event Hosting</h3>
+                    <p>Host and manage events with ease, from workshops and markets to concerts and festivals.</p>
+                    <a href="https://app.onelocal.one/host-event" class="button">Host Now</a>
                 </div>
                 <div class="scroller-item">
-                    <h3>Host Events</h3>
-                    <p>Reach a targeted audience and host events that build community around your brand.</p>
-                    <a href="https://app.onelocal.one/host" class="button">Host Events</a>
+                    <h3>Connect with Conscious Consumers</h3>
+                    <p>Grow your business by connecting with people who value sustainability and local craftsmanship.</p>
+                    <a href="https://app.onelocal.one/business" class="button">Claim Your Profile</a>
                 </div>
                 <div class="scroller-item">
-                    <h3>Promote Sustainability</h3>
-                    <p>Be part of a movement that values ethical consumption and local craftsmanship.</p>
-                    <a href="https://app.onelocal.one/sustainability" class="button">Join the Movement</a>
+                    <h3>Promote Your Offerings</h3>
+                    <p>Showcase your products and services to an engaged, values-driven audience.</p>
+                    <a href="https://app.onelocal.one/business/promote" class="button">Promote Now</a>
                 </div>
             </div>
         </section>
 
         <!-- For Organizations and Collectives -->
         <section class="section">
-            <h2>ONE Local: Manage Your Community. Amplify Your Impact.</h2>
-            <p>ONE Local provides the tools and features you need to streamline operations, engage members, and build a stronger community. Simplify your workflow, communicate with ease, and empower your members to contribute their talents.</p>
-            <a href="https://app.onelocal.one/org" class="button">Start Your Free Trial</a>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta">
-            <h2>Join the ONE Local Movement</h2>
-            <p>Be part of something bigger. Join us today and help build a more connected, sustainable, and equitable world.</p>
-            <a href="mailto:contact@onelocal.com">Contact Us</a>
+            <h2>Manage Your Community. Amplify Your Impact.</h2>
+            <p><span class="highlight">ONE Local</span> is your toolkit for building a stronger, more resilient organization. Manage members, finances, events, and projects all in one place while fostering transparency and collaboration within your community.</p>
+            <a href="https://app.onelocal.one/organizations" class="button">Get Started</a>
         </section>
 
     </div>
 
     <footer>
-        <p>&copy; 2024 ONE Local. All Rights Reserved.</p>
+        <p>&copy; 2024 ONE Local. All rights reserved.</p>
         <a href="https://www.onelocal.one/privacypolicy">Privacy Policy</a>
         <a href="https://www.onelocal.one/contact">Contact</a>
     </footer>
