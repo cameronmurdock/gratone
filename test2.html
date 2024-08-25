@@ -41,7 +41,7 @@
             font-size: 3em;
         }
 
-        h2 {
+        h2 { 
             font-size: 2.2em;
         }
 
@@ -163,7 +163,7 @@
             <p>The world is facing a crisis of connection. Loneliness and social isolation are at epidemic levels, impacting millions across the globe. Traditional social platforms, while promising connection, often exacerbate these problems, contributing to superficial interactions, information overload, and a sense of inadequacy.</p>
 
             <!-- Side Scroller to Highlight Key Problems -->
-            <div class="side-scroller" id="scroller-1">
+            <div class="side-scroller">
                 <div class="scroller-item">
                     <h3>Loneliness is an Epidemic</h3>
                     <p>74% of Millennials report feeling lonely. (Cigna Loneliness Index, 2023)</p>
@@ -195,7 +195,7 @@
             <p>ONE Local transforms isolation into connection. Find your people. Build your world.</p>
 
             <!-- Side Scroller for Value Proposition Highlights -->
-            <div class="side-scroller" id="scroller-2">
+            <div class="side-scroller">
                 <div class="scroller-item">
                     <h3>Connect Authentically</h3>
                     <p>Find your tribe, build meaningful relationships, and experience a sense of belonging.</p>
@@ -216,7 +216,7 @@
     <section class="gradient-section" id="investment-section">
         <div class="main-content">
             <h2>Investment Highlights</h2>
-            <div class="side-scroller" id="scroller-3">
+            <div class="side-scroller">
                 <div class="scroller-item">
                     <h3>Strong Team</h3>
                     <p>Our experienced team has a proven track record in community building, technology, and social impact.</p>
@@ -237,6 +237,31 @@
         </div>
     </section>
 
+    <!-- Roadmap Section -->
+    <section class="white-background" id="roadmap-section">
+        <div class="main-content">
+            <h2>Roadmap: Building a Platform for the Future</h2>
+            <div class="roadmap">
+                <div class="roadmap-item">
+                    <h3>Public Goods</h3>
+                    <p>ONE Local is committed to creating public goods, including tools for self-governance and resource management, fostering a more harmonious and equitable world.</p>
+                </div>
+                <div class="roadmap-item">
+                    <h3>Blockchain Integration</h3>
+                    <p>We're exploring blockchain technology to enhance data security, transparency, and user control over their information.</p>
+                </div>
+                <div class="roadmap-item">
+                    <h3>Privacy by Design</h3>
+                    <p>ONE Local prioritizes user privacy and data security, giving users control over how their information is shared and used.</p>
+                </div>
+                <div class="roadmap-item">
+                    <h3>Empowering the Sovereignty Economy</h3>
+                    <p>We're building a platform that supports micro-entrepreneurship, collaborative consumption, and a more decentralized and equitable economic model.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Call to Action Section with Gradient Background -->
     <section class="gradient-section" id="invest">
         <div class="main-content cta-content">
@@ -252,8 +277,8 @@
             <h2>Contact Us</h2>
             <p>We'd love to connect and discuss investment opportunities in ONE Local. Please fill out the form below, and we'll be in touch shortly. </p>
             
-            <!-- Contact Form (requires backend integration) -->
-            <form action="/submit_form" method="POST">
+            <!-- Contact Form -->
+            <form action="/submit_form" method="POST"> 
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" required><br><br>
 
@@ -264,7 +289,7 @@
                 <textarea id="message" name="message" rows="5" required></textarea><br><br>
 
                 <button type="submit" class="button">Submit</button>
-            </form>
+            </form> 
         </div>
     </section>
 
@@ -275,7 +300,7 @@
         <a href="https://www.onelocal.one/contact">Contact</a>
     </footer>
 
-    <!-- Scroll Hijacking Script -->
+    <!-- Enhanced Scroll Hijacking Script -->
     <script>
         const sections = document.querySelectorAll('section');
         let isScrollingHorizontally = false;
@@ -286,7 +311,6 @@
 
             sections.forEach((section) => {
                 const sideScroller = section.querySelector('.side-scroller');
-
                 if (sideScroller && isInViewport(section)) {
                     hijackScroll(sideScroller);
                 }
@@ -296,18 +320,18 @@
         function hijackScroll(scroller) {
             isScrollingHorizontally = true;
 
-            if (window.scrollY > this.lastScrollY) {
-                scroller.scrollLeft += window.innerHeight / 2;
-            } else {
-                scroller.scrollLeft -= window.innerHeight / 2;
-            }
+            let scrollAmount = scroller.scrollLeft;
+            const scrollStep = window.innerHeight / 8;
 
-            this.lastScrollY = window.scrollY;
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                isScrollingHorizontally = false;
-            }, 500);
+            const horizontalScroll = setInterval(() => {
+                if (scrollAmount < scroller.scrollWidth - scroller.clientWidth) {
+                    scroller.scrollLeft += scrollStep;
+                    scrollAmount += scrollStep;
+                } else {
+                    clearInterval(horizontalScroll);
+                    isScrollingHorizontally = false;
+                }
+            }, 50);
         }
 
         function isInViewport(element) {
