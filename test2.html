@@ -7,101 +7,96 @@
     <meta name="description" content="Invest in ONE Local, a community-powered platform transforming how people connect and contribute.">
     <link rel="icon" type="image/png" href="https://i.imgur.com/UYJyU4Q.png">
     <style>
-        /* General Styles */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            background-color: #121212;
-            scroll-behavior: smooth;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            margin: 1.2em 0 0.6em 0;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        h1 { font-size: 3em; }
-        h2 { font-size: 2.5em; }
-        h3 { font-size: 2em; }
-        p { margin-bottom: 1.2em; font-size: 1.2em; }
-
         a {
-            color: #BF820A; 
+            color: #BF820A;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
-        a:hover { color: #993c07; }
+        a:hover {
+            color: #993c07;
+        }
 
         img {
             max-width: 100%;
             height: auto;
         }
 
-        .gradient-background, .gradient-section {
+        h1, h2, h3 {
+            font-weight: 600;
+            margin: 1.2em 0 0.6em 0;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+
+        h2 {
+            font-size: 2.2em;
+        }
+
+        h3 {
+            font-size: 1.8em;
+        }
+
+        p {
+            margin-bottom: 1.2em;
+        }
+
+        header, .gradient-section {
+            width: 100%;
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px;
             background: linear-gradient(135deg, #003333, #339999);
+            background-size: 600% 100%;
             animation: gradient-animation 26s ease infinite;
         }
 
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 50% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        header {
-            position: relative;
-            text-align: center;
-            color: #fff;
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #003333, #339999);
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        header img {
-            width: 150px;
-            margin: 0 auto 20px;
-            display: block;
-        }
-
-        .hero-image {
-            position: absolute;
-            top: 0;
-            left: 0;
+        section {
             width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            z-index: 1;
-            object-fit: cover;
+            padding: 60px 20px;
+        }
+
+        .white-background {
+            background-color: #fff;
+            color: #333;
         }
 
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 20px;
         }
 
-        .section {
-            padding: 80px 20px;
+        .side-scroller {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .white-background {
-            background-color: #ffffff;
-            color: #333;
-        }
-
-        .cta-content {
+        .scroller-item {
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 30px;
             text-align: center;
-            padding: 60px 20px;
-            color: #fff;
+            flex: 0 0 280px;
+            min-width: 280px;
+            scroll-snap-align: start;
         }
 
         .button {
@@ -119,82 +114,39 @@
             background-color: #993c07;
         }
 
-        .side-scroller {
-            display: flex;
-            overflow-x: hidden;
-            gap: 30px;
-            padding: 20px 0;
-            scroll-snap-type: x mandatory;
-        }
-
-        .scroller-item {
-            background-color: #2C2C2C;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            flex: 0 0 280px; 
-            min-width: 280px;
-        }
-
-        .roadmap-item {
-            background-color: #2C2C2C;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .highlights, .roadmap {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
         footer {
-            background-color: #121212; 
+            background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 30px 20px; 
+            padding: 30px 20px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
         }
 
         footer a {
-            color: #BF820A; 
+            color: #BF820A;
             margin: 0 10px;
         }
 
-        @keyframes horizontal-scroll {
-            from { transform: translateX(100%); }
-            to { transform: translateX(-100%); }
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 50% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
         }
-
-        /* Hijacking Scroll */
-        .side-scroller {
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            overflow-x: auto;
-        }
-
-        .side-scroller::-webkit-scrollbar {
-            display: none;
-        }
-
-        .side-scroller:active {
-            scroll-snap-type: none;
-        }
-        
-        .side-scroller-container {
-            overflow: hidden;
-        }
-
-        .side-scroller-container:hover .side-scroller {
-            animation: horizontal-scroll 12s linear infinite;
-        }
-
     </style>
 </head>
 <body>
 
+    <!-- Header Section with Animated Gradient -->
     <header>
         <div class="header-content">
             <img src="https://i.imgur.com/UYJyU4Q.png" alt="ONE Local Logo">
@@ -204,76 +156,80 @@
         </div>
     </header>
 
-    <section class="white-background">
+    <!-- Problem Section with Side-Scroller -->
+    <section class="white-background" id="problem-section">
         <div class="main-content">
             <h2>The Problem: A Crisis of Connection</h2>
             <p>The world is facing a crisis of connection. Loneliness and social isolation are at epidemic levels, impacting millions across the globe. Traditional social platforms, while promising connection, often exacerbate these problems, contributing to superficial interactions, information overload, and a sense of inadequacy.</p>
-            <div class="side-scroller-container">
-                <div class="side-scroller">
-                    <div class="scroller-item">
-                        <h3>Loneliness is an Epidemic</h3>
-                        <p>74% of Millennials report feeling lonely. (Cigna Loneliness Index, 2023)</p>
-                    </div>
-                    <div class="scroller-item">
-                        <h3>Local Businesses are Struggling</h3>
-                        <p>60% of Americans prefer to shop locally, yet only 48% find it easy. (Nielsen, 2021)</p>
-                    </div>
-                    <div class="scroller-item">
-                        <h3>Communities Lack Effective Tools</h3>
-                        <p>Existing platforms fail to empower collective action, transparency, and meaningful engagement.</p>
-                    </div>
+
+            <!-- Side Scroller to Highlight Key Problems -->
+            <div class="side-scroller" id="scroller-1">
+                <div class="scroller-item">
+                    <h3>Loneliness is an Epidemic</h3>
+                    <p>74% of Millennials report feeling lonely. (Cigna Loneliness Index, 2023)</p>
+                </div>
+                <div class="scroller-item">
+                    <h3>Local Businesses are Struggling</h3>
+                    <p>60% of Americans prefer to shop locally, yet only 48% find it easy. (Nielsen, 2021)</p>
+                </div>
+                <div class="scroller-item">
+                    <h3>Communities Lack Effective Tools</h3>
+                    <p>Existing platforms fail to empower collective action, transparency, and meaningful engagement.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="gradient-section">
+    <!-- Solution Section with Gradient Background -->
+    <section class="gradient-section" id="solution-section">
         <div class="main-content">
             <h2>The Solution: ONE Local</h2>
             <p>ONE Local is building the "Community Operating System" — a community-owned and governed platform that empowers individuals, strengthens local economies, and fosters a vibrant sense of belonging.</p>
         </div>
     </section>
 
-    <section class="white-background">
+    <!-- Value Proposition Section with Side Scroller -->
+    <section class="white-background" id="value-prop-section">
         <div class="main-content">
             <h2>Value Proposition: From Isolated to Integrated</h2>
             <p>ONE Local transforms isolation into connection. Find your people. Build your world.</p>
-            <div class="side-scroller-container">
-                <div class="side-scroller">
-                    <div class="scroller-item">
-                        <h3>Connect Authentically</h3>
-                        <p>Find your tribe, build meaningful relationships, and experience a sense of belonging. </p>
-                    </div>
-                    <div class="scroller-item">
-                        <h3>Contribute Meaningfully</h3>
-                        <p>Share your talents, support local businesses, and participate in projects that make a difference.</p>
-                    </div>
-                    <div class="scroller-item">
-                        <h3>Co-Create a Better Future</h3>
-                        <p>Be part of a movement that's building a more equitable, sustainable, and fulfilling world.</p>
-                    </div>
+
+            <!-- Side Scroller for Value Proposition Highlights -->
+            <div class="side-scroller" id="scroller-2">
+                <div class="scroller-item">
+                    <h3>Connect Authentically</h3>
+                    <p>Find your tribe, build meaningful relationships, and experience a sense of belonging.</p>
+                </div>
+                <div class="scroller-item">
+                    <h3>Contribute Meaningfully</h3>
+                    <p>Share your talents, support local businesses, and participate in projects that make a difference.</p>
+                </div>
+                <div class="scroller-item">
+                    <h3>Co-Create a Better Future</h3>
+                    <p>Be part of a movement that's building a more equitable, sustainable, and fulfilling world.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="gradient-section">
+    <!-- Investment Highlights Section with Gradient Background -->
+    <section class="gradient-section" id="investment-section">
         <div class="main-content">
             <h2>Investment Highlights</h2>
-            <div class="highlights">
-                <div class="highlight-item">
+            <div class="side-scroller" id="scroller-3">
+                <div class="scroller-item">
                     <h3>Strong Team</h3>
                     <p>Our experienced team has a proven track record in community building, technology, and social impact.</p>
                 </div>
-                <div class="highlight-item">
+                <div class="scroller-item">
                     <h3>Unique Co-op Model</h3>
                     <p>ONE Local is a member-owned cooperative, aligning incentives and fostering community ownership.</p>
                 </div>
-                <div class="highlight-item">
+                <div class="scroller-item">
                     <h3>Multiple Revenue Streams</h3>
                     <p>We generate revenue through tiered memberships, transaction fees, premium features, and ethical investments.</p>
                 </div>
-                <div class="highlight-item">
+                <div class="scroller-item">
                     <h3>Traction & Validation</h3>
                     <p>ONE Local has a growing user base, strong engagement metrics, and positive community feedback.</p>
                 </div>
@@ -281,31 +237,8 @@
         </div>
     </section>
 
-    <section class="white-background">
-        <div class="main-content">
-            <h2>Roadmap: Building a Platform for the Future</h2>
-            <div class="roadmap">
-                <div class="roadmap-item">
-                    <h3>Public Goods</h3>
-                    <p>ONE Local is committed to creating public goods, including tools for self-governance and resource management, fostering a more harmonious and equitable world. </p>
-                </div>
-                <div class="roadmap-item">
-                    <h3>Blockchain Integration</h3>
-                    <p>We're exploring blockchain technology to enhance data security, transparency, and user control over their information.</p>
-                </div>
-                <div class="roadmap-item">
-                    <h3>Privacy by Design</h3>
-                    <p>ONE Local prioritizes user privacy and data security, giving users control over how their information is shared and used.</p>
-                </div>
-                <div class="roadmap-item">
-                    <h3>Empowering the Sovereignty Economy</h3>
-                    <p>We're building a platform that supports micro-entrepreneurship, collaborative consumption, and a more decentralized and equitable economic model.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="invest" class="gradient-section">
+    <!-- Call to Action Section with Gradient Background -->
+    <section class="gradient-section" id="invest">
         <div class="main-content cta-content">
             <h2>Join the Movement. Invest in ONE Local.</h2>
             <p>ONE Local offers a unique opportunity to invest in a company that's not just building a profitable business, but also creating a more connected, equitable, and fulfilling world.</p>
@@ -313,12 +246,14 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact" class="white-background">
         <div class="main-content">
             <h2>Contact Us</h2>
             <p>We'd love to connect and discuss investment opportunities in ONE Local. Please fill out the form below, and we'll be in touch shortly. </p>
             
-            <form action="/submit_form" method="POST"> 
+            <!-- Contact Form (requires backend integration) -->
+            <form action="/submit_form" method="POST">
                 <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" required><br><br>
 
@@ -329,15 +264,56 @@
                 <textarea id="message" name="message" rows="5" required></textarea><br><br>
 
                 <button type="submit" class="button">Submit</button>
-            </form> 
+            </form>
         </div>
     </section>
 
+    <!-- Footer Section -->
     <footer>
         <p>© 2024 ONE Local. All rights reserved.</p>
         <a href="https://www.onelocal.one/privacypolicy">Privacy Policy</a>
         <a href="https://www.onelocal.one/contact">Contact</a>
     </footer>
 
+    <!-- Scroll Hijacking Script -->
+    <script>
+        const sections = document.querySelectorAll('section');
+        let isScrollingHorizontally = false;
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            if (isScrollingHorizontally) return;
+
+            sections.forEach((section) => {
+                const sideScroller = section.querySelector('.side-scroller');
+
+                if (sideScroller && isInViewport(section)) {
+                    hijackScroll(sideScroller);
+                }
+            });
+        });
+
+        function hijackScroll(scroller) {
+            isScrollingHorizontally = true;
+
+            if (window.scrollY > this.lastScrollY) {
+                scroller.scrollLeft += window.innerHeight / 2;
+            } else {
+                scroller.scrollLeft -= window.innerHeight / 2;
+            }
+
+            this.lastScrollY = window.scrollY;
+
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                isScrollingHorizontally = false;
+            }, 500);
+        }
+
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top >= 0 && rect.bottom <= window.innerHeight;
+        }
+    </script>
 </body>
 </html>
