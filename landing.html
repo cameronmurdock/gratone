@@ -135,6 +135,125 @@
             }
         }
 
+        /* Our Mission Section */
+        .mission {
+            padding: 80px 50px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .mission h2 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #003333;
+        }
+
+        .mission p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Key Features Section */
+        .features {
+            padding: 80px 50px;
+            background: #f9f9f9;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.8em;
+            margin-bottom: 50px;
+            color: #003333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: #fff;
+            padding: 40px 20px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-item i {
+            font-size: 3em;
+            color: #339999;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #003333;
+        }
+
+        .feature-item p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* The Seven Pillars Section */
+        .pillars {
+            padding: 80px 50px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .pillars h2 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #003333;
+        }
+
+        .pillars ul {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .pillars ul li {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .pillars ul li strong {
+            color: #339999;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 50px;
+            background: #f9f9f9;
+            text-align: center;
+        }
+
+        .how-it-works h2 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #003333;
+        }
+
+        .how-it-works p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
         /* Screenshots Section */
         .screenshots {
             padding: 80px 50px;
@@ -223,6 +342,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
 
         .roadmap-timeline {
@@ -244,6 +364,7 @@
         .timeline-event p {
             font-size: 1em;
             color: #666;
+            line-height: 1.5;
         }
 
         /* Footer */
@@ -291,18 +412,22 @@
                 font-size: 2.5em;
             }
 
-            .screenshots h2, .community-interaction h2, .roadmap h2 {
+            .mission h2,
+            .features h2,
+            .pillars h2,
+            .how-it-works h2,
+            .screenshots h2,
+            .community-interaction h2,
+            .roadmap h2 {
                 font-size: 2em;
             }
 
-            .screenshots {
-                padding: 60px 20px;
-            }
-
-            .community-interaction {
-                padding: 60px 20px;
-            }
-
+            .mission,
+            .features,
+            .pillars,
+            .how-it-works,
+            .screenshots,
+            .community-interaction,
             .roadmap {
                 padding: 60px 20px;
             }
@@ -329,10 +454,11 @@
     <nav>
         <div class="logo">ONE Local</div>
         <ul class="nav-links">
-            <li><a href="#screenshots">App</a></li>
-            <li><a href="#community">Community</a></li>
+            <li><a href="#mission">Mission</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pillars">Pillars</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#roadmap">Roadmap</a></li>
-            <li><a href="#whitepaper">Whitepaper</a></li>
         </ul>
     </nav>
 
@@ -347,6 +473,63 @@
             </div>
         </div>
     </header>
+
+    <!-- Our Mission Section -->
+    <section id="mission" class="mission">
+        <h2>Our Mission</h2>
+        <p>
+            ONE Local aims to empower communities by facilitating social coordination, resource sharing, skill development, and participatory governance. Our goal is to foster stronger local economies, enhance civic engagement, and create a resilient, interconnected network of communities.
+        </p>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <i class="fas fa-users"></i>
+                <h3>Connect & Collaborate</h3>
+                <p>Build meaningful relationships and collaborate on projects that matter.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-handshake"></i>
+                <h3>Resource Sharing</h3>
+                <p>Share and access resources within your community to promote sustainability.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h3>Skill Development</h3>
+                <p>Offer your skills, learn from others, and grow together.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-vote-yea"></i>
+                <h3>Participatory Governance</h3>
+                <p>Engage in community decisions through transparent and democratic processes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Seven Foundational Pillars Section -->
+    <section id="pillars" class="pillars">
+        <h2>The Seven Foundational Pillars</h2>
+        <ul>
+            <li><strong>Connection and Collaboration</strong>: Facilitating meaningful connections and collaborations within communities.</li>
+            <li><strong>Resource Sharing and Sustainability</strong>: Promoting sustainable practices through resource sharing.</li>
+            <li><strong>Knowledge and Skill Development</strong>: Fostering continuous learning and personal growth.</li>
+            <li><strong>Community Governance and Decision-Making</strong>: Empowering participatory governance and decision-making.</li>
+            <li><strong>Event Coordination and Participation</strong>: Organizing and participating in community events.</li>
+            <li><strong>Personal and Community Wellness</strong>: Supporting well-being through resources and programs.</li>
+            <li><strong>Communication and Information Sharing</strong>: Ensuring effective communication within the community.</li>
+        </ul>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <h2>How It Works</h2>
+        <p>
+            ONE Local operates on a tiered cooperative model that emphasizes local autonomy while promoting collaboration across broader geographical regions, referred to as basin regions. Users can connect with others, share resources, develop skills, participate in governance, and more, all through our intuitive platform.
+        </p>
+    </section>
 
     <!-- Screenshots Section -->
     <section id="screenshots" class="screenshots">
