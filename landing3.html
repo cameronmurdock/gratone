@@ -4,414 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE|Local - Empower Your Community</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        * {
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body, html {
             font-family: 'Montserrat', sans-serif;
-            scroll-behavior: smooth;
-            background-color: #f9f9f9;
             color: #333;
         }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        nav {
-            position: fixed;
-            width: 100%;
-            background: rgba(0, 51, 51, 0.95);
-            padding: 15px 50px;
+        /* Header */
+        header {
+            background-color: #003333;
+            padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
         }
-
-        nav .logo {
-            color: #fff;
+        header .logo {
+            color: white;
             font-size: 1.8em;
+        }
+        header nav {
+            display: flex;
+        }
+        header nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
             font-weight: 600;
         }
-
-        nav .nav-links {
-            list-style: none;
-            display: flex;
-            align-items: center;
-        }
-
-        nav .nav-links li {
-            margin-left: 20px;
-        }
-
-        nav .nav-links a {
-            color: #fff;
-            font-weight: 500;
-            padding: 8px 12px;
-            transition: background 0.3s;
-        }
-
-        nav .nav-links a:hover {
-            background: #fff;
-            color: #003333;
-            border-radius: 5px;
-        }
-
         /* Hero Section */
         .hero {
             height: 80vh;
+            background: url('hero-bg.jpg') center/cover no-repeat;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #339999, #003333, #bcdecf, #339999);
-            background-size: 600% 600%;
             color: white;
             text-align: center;
-            animation: gradientAnimation 20s ease infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            z-index: 1;
             padding: 0 20px;
         }
-
         .hero h1 {
-            font-size: 3.2em;
+            font-size: 3.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
-
         .hero p {
             font-size: 1.5em;
             margin-bottom: 30px;
         }
-
-        .hero .btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero .btn {
+        .cta-btn {
             padding: 15px 30px;
             background: #ffdd00;
-            color: #003333;
             border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .hero .btn:hover {
-            background: #fff;
-        }
-
-        /* Persistent CTA (Download Button) */
-        .floating-cta {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #ffdd00;
             color: #003333;
-            padding: 15px 20px;
-            border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            font-size: 1.2em;
+            text-transform: uppercase;
         }
-
-        /* Section Styling */
-        .section {
+        /* Features Section */
+        .features {
             padding: 80px 50px;
             text-align: center;
         }
-
-        .section h2 {
-            font-size: 2.8em;
-            margin-bottom: 30px;
-            color: #003333;
+        .features h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
         }
-
-        .section p {
-            font-size: 1.2em;
-            max-width: 1000px;
-            margin: 0 auto 50px;
-            line-height: 1.6;
-        }
-
         .features-grid {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
+            justify-content: space-around;
+            gap: 50px;
         }
-
-        .feature-card {
-            background: #fff;
-            padding: 30px 20px;
-            border-radius: 10px;
-            max-width: 300px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-            text-align: left;
+        .feature-item {
+            flex: 1;
+            padding: 20px;
         }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-card i {
-            font-size: 3em;
-            color: #339999;
+        .feature-item img {
+            width: 60px;
             margin-bottom: 20px;
         }
-
-        .feature-card h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #003333;
-        }
-
-        .quote-section {
-            background: #003333;
-            color: #fff;
-            padding: 60px 20px;
-            text-align: center;
-            font-style: italic;
-        }
-
-        .quote-section p {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.5em;
-        }
-
-        .additional-section {
-            padding: 80px 50px;
-            text-align: center;
-            background-color: #f9f9f9;
-        }
-
-        .additional-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            color: #003333;
-        }
-
-        .additional-section p {
+        .feature-item p {
             font-size: 1.2em;
-            max-width: 1000px;
-            margin: 0 auto 50px;
             line-height: 1.6;
         }
-
-        /* Footer */
-        footer {
-            background: #002626;
-            color: #bbb;
-            padding: 30px 20px;
+        /* App Preview */
+        .app-preview {
+            background-color: #f5f5f5;
+            padding: 80px 50px;
             text-align: center;
         }
-
-        footer a {
+        .app-preview h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .app-carousel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            overflow-x: auto;
+        }
+        .app-carousel img {
+            height: 500px;
+            width: auto;
+        }
+        /* Footer */
+        footer {
+            background-color: #002626;
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        footer nav {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        footer nav a {
+            color: white;
+            text-decoration: none;
+        }
+        footer p {
+            margin-top: 30px;
+            font-size: 0.9em;
             color: #bbb;
-            margin: 0 15px;
         }
-
-        footer a:hover {
-            color: #ffdd00;
-        }
-
-        footer .social-icons {
-            margin: 20px 0;
-        }
-
-        footer .social-icons a {
-            color: #bbb;
-            margin: 0 10px;
-            font-size: 1.5em;
-        }
-
-        footer .newsletter {
-            margin-top: 20px;
-        }
-
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                padding: 10px 20px;
-            }
-
-            .hero h1 {
-                font-size: 2.5em;
-            }
-
-            .hero p {
-                font-size: 1.2em;
-            }
-
-            .section {
-                padding: 60px 20px;
-            }
-
             .features-grid {
                 flex-direction: column;
-                align-items: center;
             }
-
-            .feature-card {
-                max-width: 100%;
-            }
-
-            .floating-cta {
-                bottom: 10px;
-                right: 10px;
+            .app-carousel img {
+                height: 300px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <div class="logo">ONE|Local</div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#app-preview">App</a>
+            <a href="#community">Community</a>
+            <a href="#about">About Us</a>
+        </nav>
+    </header>
 
-<!-- Navigation Bar -->
-<nav>
-    <div class="logo">ONE|Local</div>
-    <ul class="nav-links">
-        <li><a href="#mission">Mission</a></li>
-        <li><a href="#key-features">Features</a></li>
-        <li><a href="#community">Community</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="#get-started" class="btn">Download App</a>
-</nav>
-
-<!-- Hero Section -->
-<header class="hero">
-    <div class="hero-content">
+    <!-- Hero Section -->
+    <section class="hero">
         <h1>Empower Your Community</h1>
         <p>Together, we're building a sustainable future through collaboration and shared resources.</p>
-        <div class="btn-group">
-            <a href="#get-started" class="btn">Download the App</a>
-            <a href="#contact" class="btn">Contact Us</a>
+        <button class="cta-btn">Download the App</button>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2>Discover the Power of ONE|Local</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <img src="connect-icon.png" alt="Connect Icon">
+                <p>Connect with your community and build meaningful relationships.</p>
+            </div>
+            <div class="feature-item">
+                <img src="resources-icon.png" alt="Resources Icon">
+                <p>Share resources and skills to create a thriving local economy.</p>
+            </div>
+            <div class="feature-item">
+                <img src="governance-icon.png" alt="Governance Icon">
+                <p>Participate in community governance and decision-making processes.</p>
+            </div>
         </div>
-    </div>
-</header>
+    </section>
 
-<!-- Persistent CTA -->
-<a href="#get-started" class="floating-cta">Download App</a>
-
-<!-- Mission Section -->
-<section id="mission" class="section">
-    <h2>We’re Transforming How You Connect, Share, and Belong</h2>
-    <p>Your community. Your platform. Your world.</p>
-    <p>Reclaim your place in the web of life—locally and globally.</p>
-    <p>It’s time to stop scrolling and start building.</p>
-</section>
-
-<!-- Features Preview Section -->
-<section class="section">
-    <h2>Discover the Power of ONE|Local</h2>
-    <div class="features-grid">
-        <div class="feature-card">
-            <i class="fas fa-handshake"></i>
-            <h3>Connect & Collaborate</h3>
-            <p>Find events and neighbors, grow your social network.</p>
+    <!-- App Preview Section -->
+    <section id="app-preview" class="app-preview">
+        <h2>Experience ONE|Local</h2>
+        <div class="app-carousel">
+            <img src="app1.png" alt="App Screenshot 1">
+            <img src="app2.png" alt="App Screenshot 2">
+            <img src="app3.png" alt="App Screenshot 3">
         </div>
-        <div class="feature-card">
-            <i class="fas fa-leaf"></i>
-            <h3>Resource Sharing</h3>
-            <p>Offer or request what you need, help each other out.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-chalkboard-teacher"></i>
-            <h3>Skill Development</h3>
-            <p>Grow your skills, contribute, and learn together.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-balance-scale"></i>
-            <h3>Participatory Governance</h3>
-            <p>Engage in decisions that shape your community.</p>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- Community Impact Section -->
-<section class="section">
-    <h2>Our Growing Community</h2>
-    <p>We’re building a vibrant, thriving network across the globe.</p>
-    <div class="metrics">
-        <p><strong>10,000+</strong> Active Members</p>
-        <p><strong>500+</strong> Local Groups</p>
-        <p><strong>1,200+</strong> Resources Shared</p>
-        <p><strong>300+</strong> Events Hosted</p>
-    </div>
-    <a href="#get-started" class="btn">Join Our Community</a>
-</section>
-
-<!-- App Preview Section -->
-<section class="additional-section">
-    <h2>Experience ONE|Local</h2>
-    <p>Your community engine, in your hands. Host, share, collaborate—watch your local network thrive.</p>
-    <p>Give help, get help, grow together.</p>
-    <a href="#get-started" class="btn">Get Started</a>
-</section>
-
-<!-- About Us Preview Section -->
-<section class="additional-section">
-    <h2>Transforming How We Social Network</h2>
-    <p>From isolated to integrated. Find your people, build your world.</p>
-    <a href="#about" class="btn">Learn Our Story</a>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="section">
-    <h2>Contact Us</h2>
-    <p>Have questions or want to get involved? We'd love to hear from you.</p>
-    <form action="#" method="post" style="max-width:600px;margin:0 auto;text-align:left;">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required style="width:100%;padding:10px;margin-bottom:15px;"><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required style="width:100%;padding:10px;margin-bottom:15px;"><br>
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message" rows="6" required style="width:100%;padding:10px;margin-bottom:15px;"></textarea><br>
-        <button type="submit" class="btn" style="width:100%;">Send Message</button>
-    </form>
-</section>
-
-<!-- Footer -->
-<footer>
-    <a href="#mission">Mission</a>
-    <a href="#key-features">Features</a>
-    <a href="#community">Community</a>
-    <a href="#contact">Contact</a>
-    <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-    </div>
-    <div class="newsletter">
-        <p>Subscribe to our newsletter for the latest updates:</p>
-        <form action="#">
-            <input type="email" placeholder="Your email address" required>
-            <button type="submit" class="btn">Subscribe</button>
-        </form>
-    </div>
-    <p>&copy; 2024 ONE|Local. All rights reserved.</p>
-    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-</footer>
-
+    <!-- Footer -->
+    <footer>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#app-preview">App</a>
+            <a href="#community">Community</a>
+            <a href="#about">About Us</a>
+        </nav>
+        <p>&copy; 2024 ONE|Local. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </footer>
 </body>
 </html>
