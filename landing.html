@@ -175,7 +175,7 @@
         }
 
         .section-transparent {
-    
+
         }
 
         /* Card Styling */
@@ -223,6 +223,8 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 40px;
             margin-top: 40px;
+            justify-content: center;
+            align-items: center;
         }
 
         /* How It Works Grid */
@@ -231,6 +233,30 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 30px;
             margin-top: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Image Container for How It Works */
+        .image-container {
+            position: relative;
+        }
+
+        .image-container .caption {
+            opacity: 0;
+            transition: opacity 0.3s;
+            position: absolute;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .image-container:hover .caption {
+            opacity: 1;
         }
 
         /* Metrics Grid */
@@ -238,7 +264,10 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 30px;
+            margin-top: 40px;
             justify-items: center;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Roadmap Grid */
@@ -247,6 +276,8 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 30px;
             margin-top: 40px;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Roadmap Item */
@@ -459,61 +490,87 @@
 
 <!-- How It Works Section with Marta's Journey -->
 <section id="how-it-works" class="section section-transparent">
-    <h2>Marta's Journey</h2>
+    <h2>How It Works</h2>
+    <h1>Marta's Journey</h1>
     <div class="how-it-works-grid">
         <!-- Card 1 -->
         <div class="card">
-            <img src="https://i.imgur.com/FCm8kyL.png" alt="Marta Awakens">
+            <div class="image-container">
+                <img src="https://i.imgur.com/FCm8kyL.png" alt="Marta Awakens">
+                <div class="caption">Marta Awakens</div>
+            </div>
             <h3>1. Awakening</h3>
             <p>Marta opens ONE|Local and sees opportunities—requests, offers, events.</p>
         </div>
-        
-    
         <!-- Card 2 -->
         <div class="card">
-            <img src="images/marta_need.jpg" alt="Marta Feels the Need">
+            <div class="image-container">
+                <img src="images/marta_need.jpg" alt="Marta Feels the Need">
+                <div class="caption">Marta Feels the Need</div>
+            </div>
             <h3>2. Connecting</h3>
             <p>She wants to help in a community garden and offer a yoga class.</p>
         </div>
         <!-- Card 3 -->
         <div class="card">
-            <img src="images/marta_go.jpg" alt="Marta Takes the Step">
+            <div class="image-container">
+                <img src="images/marta_go.jpg" alt="Marta Takes the Step">
+                <div class="caption">Marta Takes the Step</div>
+            </div>
             <h3>3. Engaging</h3>
             <p>Marta confirms participation and posts her event, stepping forward.</p>
         </div>
         <!-- Card 4 -->
         <div class="card">
-            <img src="https://i.imgur.com/9vjkWii.png" alt="Marta Engages">
+            <div class="image-container">
+                <img src="https://i.imgur.com/9vjkWii.png" alt="Marta Engages">
+                <div class="caption">Marta Engages</div>
+            </div>
             <h3>4. Collaborating</h3>
             <p>She collaborates at the garden, strengthening community bonds.</p>
         </div>
         <!-- Card 5 -->
         <div class="card">
-            <img src="images/marta_find.jpg" alt="Marta Sees Results">
+            <div class="image-container">
+                <img src="images/marta_find.jpg" alt="Marta Sees Results">
+                <div class="caption">Marta Sees Results</div>
+            </div>
             <h3>5. Achieving</h3>
             <p>The garden blooms; Marta logs her contribution.</p>
         </div>
         <!-- Card 6 -->
         <div class="card">
-            <img src="https://i.imgur.com/MUNq56b.png" alt="Marta Overcomes Doubt">
+            <div class="image-container">
+                <img src="https://i.imgur.com/MUNq56b.png" alt="Marta Overcomes Doubt">
+                <div class="caption">Marta Overcomes Doubt</div>
+            </div>
             <h3>6. Overcoming</h3>
             <p>She moves forward despite uncertainties about her yoga class.</p>
         </div>
         <!-- Card 7 -->
         <div class="card">
-            <img src="https://i.imgur.com/wMORcQb.png" alt="Marta Shares">
+            <div class="image-container">
+                <img src="https://i.imgur.com/wMORcQb.png" alt="Marta Shares">
+                <div class="caption">Marta Shares</div>
+            </div>
             <h3>7. Sharing</h3>
             <p>The class is a success; she feels purposeful.</p>
         </div>
         <!-- Card 8 -->
         <div class="card">
-            <img src="images/marta_change.jpg" alt="Marta Reflects">
+            <div class="image-container">
+                <img src="images/marta_change.jpg" alt="Marta Reflects">
+                <div class="caption">Marta Reflects</div>
+            </div>
             <h3>8. Reflecting</h3>
             <p>Marta feels transformed by community connections. Inspired, she continues to engage and inspire others.</p>
         </div>
         <!-- Card 9 (Conclusion) -->
         <div class="card">
-            <img src="images/marta_future.jpg" alt="Marta Looks Ahead">
+            <div class="image-container">
+                <img src="images/marta_future.jpg" alt="Marta Looks Ahead">
+                <div class="caption">Marta Looks Ahead</div>
+            </div>
             <h3>9. Inspiring</h3>
             <p>Inspired, Marta continues to engage and inspire others.</p>
         </div>
