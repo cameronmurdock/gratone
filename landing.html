@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONE|Local - A Global Collective on a Local Mission</title>
+    <title>ONE|Local - Empower Your Community</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
+        /* Define the gradient animation keyframes */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         /* General Reset and Styling */
         * {
             margin: 0;
@@ -17,10 +30,13 @@
         }
 
         body, html {
+            height: 100%;
             font-family: 'Montserrat', sans-serif;
             scroll-behavior: smooth;
-            background-color: #f9f9f9;
-            color: #333;
+            background: linear-gradient(45deg, #339999, #003333, #bcdecf, #339999);
+            background-size: 600% 600%;
+            animation: gradientAnimation 20s ease infinite;
+            color: #fff;
         }
 
         a {
@@ -30,20 +46,20 @@
 
         /* Navigation Bar */
         nav {
-            position: fixed;
             width: 100%;
-            background: rgba(0, 51, 51, 0.95);
             padding: 15px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: rgba(0, 51, 51, 0.8);
             z-index: 100;
         }
 
         nav .logo {
-            color: #fff;
+            color: #ffffff;
             font-size: 1.8em;
             font-weight: 600;
+            font-family: 'Playfair Display', serif;
         }
 
         nav .nav-links {
@@ -57,7 +73,7 @@
         }
 
         nav .nav-links a {
-            color: #fff;
+            color: #ffffff;
             font-weight: 500;
             padding: 8px 12px;
             transition: background 0.3s;
@@ -75,11 +91,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #339999, #003333, #bcdecf, #339999);
-            background-size: 600% 600%;
-            color: white;
             text-align: center;
-            animation: gradientAnimation 20s ease infinite;
+            background: none;
+            color: white;
             position: relative;
             overflow: hidden;
         }
@@ -87,11 +101,13 @@
         .hero-content {
             z-index: 1;
             padding: 0 20px;
+            max-width: 800px;
         }
 
         .hero h1 {
             font-size: 3.2em;
             margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
@@ -100,283 +116,201 @@
             margin-bottom: 30px;
         }
 
-        .hero .btn-group {
+        /* Button Group */
+        .btn-group {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .hero .btn {
+        .btn {
             padding: 15px 30px;
-            background: #ffdd00;
+            background: #BF820A;
             color: #003333;
             border: none;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
         }
 
-        .hero .btn:hover {
+        .btn:hover {
             background: #fff;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
         }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        .btn:active {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
         }
 
         /* Section Styling */
         .section {
             padding: 80px 50px;
             text-align: center;
+            color: white;
+            min-height: 600px;
         }
 
         .section h2 {
             font-size: 2.8em;
             margin-bottom: 30px;
-            color: #003333;
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
         }
 
         .section p {
             font-size: 1.2em;
-            max-width: 1000px;
-            margin: 0 auto 50px;
+            max-width: 800px;
+            margin: 0 auto 20px;
             line-height: 1.6;
         }
 
-        /* Feature Cards */
-        .features-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
+        /* Alternating Section Backgrounds */
+        .section-dark {
+            background-color: rgba(0, 51, 51, 0.8);
         }
 
-        .feature-card {
+        .section-transparent {
+    
+        }
+
+        /* Card Styling */
+        .card {
             background: #fff;
-            padding: 30px 20px;
+            padding: 20px 15px;
             border-radius: 10px;
-            max-width: 300px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            color: #000;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .feature-card:hover {
+        .card:hover {
             transform: translateY(-10px);
         }
 
-        .feature-card i {
-            font-size: 3em;
-            color: #339999;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #003333;
-        }
-
-        .feature-card ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .feature-card ul li {
-            display: flex;
-            align-items: flex-start;
-            font-size: 1em;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .feature-card ul li i {
-            margin-right: 10px;
-            color: #339999;
-            margin-top: 5px;
-        }
-
-        .feature-card ul li div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .feature-card ul li div strong {
-            color: #003333;
-            margin-bottom: 5px;
-        }
-
-        /* How It Works Section */
-        .how-it-works-section {
-            padding: 80px 50px;
-            text-align: center;
-            background-color: #f0f0f0;
-        }
-
-        .how-it-works-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 60px;
-            margin-top: 50px;
-        }
-
-        .how-it-works-step {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .how-it-works-step img {
-            flex: 1 1 300px;
-            max-width: 500px;
-            border-radius: 10px;
+        .card img {
             width: 100%;
-        }
-
-        .how-it-works-content {
-            flex: 1 1 300px;
-            text-align: left;
-        }
-
-        .how-it-works-content h3 {
-            font-size: 1.8em;
-            color: #003333;
+            border-radius: 10px;
             margin-bottom: 15px;
         }
 
-        .how-it-works-content p {
-            font-size: 1.1em;
-            color: #666;
-            line-height: 1.6;
+        .card h3 {
+            font-size: 1.4em;
+            color: #BF820A;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
         }
 
-        /* Alternate step styling */
-        .how-it-works-step:nth-child(even) {
-            flex-direction: row-reverse;
+        .card p {
+            font-size: 1em;
+            color: #000;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* How It Works Grid */
+        .how-it-works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        /* Roadmap Grid */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Roadmap Item */
+        .roadmap-item {
+            /* Styles moved to .card */
         }
 
         /* Quote Section */
         .quote-section {
-            background: #003333;
+            background: rgba(0, 51, 51, 0.8);
             color: #fff;
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
             font-style: italic;
         }
 
         .quote-section p {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
 
         /* Additional Sections */
         .additional-section {
-            padding: 80px 50px;
+            padding: 60px 30px;
             text-align: center;
-            background-color: #f9f9f9;
+            color: #fff;
+            min-height: 600px;
         }
 
         .additional-section h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            color: #003333;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
         }
 
         .additional-section p {
-            font-size: 1.2em;
-            max-width: 1000px;
-            margin: 0 auto 50px;
-            line-height: 1.6;
-        }
-
-        /* Metrics Section */
-        .metrics-section {
-            padding: 80px 50px;
-            text-align: center;
-            background-color: #e0f7fa;
-        }
-
-        .metrics-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-        }
-
-        .metric-card {
-            background: #fff;
-            padding: 30px 20px;
-            border-radius: 10px;
-            max-width: 250px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            text-align: center;
-        }
-
-        .metric-card h3 {
-            font-size: 2em;
-            color: #003333;
-            margin-bottom: 10px;
-        }
-
-        .metric-card p {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        /* Roadmap Section */
-        .roadmap-section {
-            padding: 80px 50px;
-            text-align: center;
-            background-color: #f0f0f0;
-        }
-
-        .roadmap-grid {
+            font-size: 1em;
             max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .roadmap-item {
-            margin-bottom: 40px;
-        }
-
-        .roadmap-item h3 {
-            font-size: 1.8em;
-            color: #003333;
-            margin-bottom: 10px;
-        }
-
-        .roadmap-item p {
-            font-size: 1.1em;
-            color: #666;
+            margin: 0 auto 20px;
+            line-height: 1.5;
         }
 
         /* Footer */
         footer {
-            background: #002626;
-            color: #bbb;
-            padding: 30px 20px;
+            background-color: #003333;
+            color: #ffffff;
+            padding: 20px 15px;
             text-align: center;
         }
 
+        footer nav {
+            margin-bottom: 10px;
+        }
+
         footer a {
-            color: #bbb;
-            margin: 0 15px;
+            color: #BF820A;
+            margin: 0 10px;
+            text-decoration: none;
         }
 
         footer a:hover {
-            color: #ffdd00;
+            color: #ffffff;
         }
 
         /* Responsive Design */
@@ -387,32 +321,23 @@
             }
 
             .hero h1 {
-                font-size: 2.5em;
+                font-size: 2.2em;
             }
 
             .hero p {
                 font-size: 1.2em;
             }
 
-            .section {
-                padding: 60px 20px;
+            .section, .additional-section {
+                padding: 40px 20px;
             }
 
-            .features-grid, .metrics-grid {
-                flex-direction: column;
-                align-items: center;
+            .features-grid, .metrics-grid, .roadmap-grid, .how-it-works-grid {
+                grid-template-columns: 1fr;
             }
 
-            .feature-card, .metric-card {
+            .card, .roadmap-item {
                 max-width: 100%;
-            }
-
-            .how-it-works-step {
-                flex-direction: column;
-            }
-
-            .how-it-works-step:nth-child(even) {
-                flex-direction: column;
             }
         }
     </style>
@@ -434,8 +359,8 @@
 <!-- Hero Section -->
 <header class="hero">
     <div class="hero-content">
-        <h1>Introducing ONE|Local, a Global Collective on a Local Mission</h1>
-        <p>Discover a new way to connect and co-create with your local community, all around the world.</p>
+        <h1>Empower Your Community</h1>
+        <p>Connect and co-create with your local community worldwide.</p>
         <div class="btn-group">
             <a href="#get-started" class="btn">Get Started</a>
             <a href="#contact" class="btn">Contact Us</a>
@@ -444,260 +369,207 @@
 </header>
 
 <!-- Mission Section -->
-<section id="mission" class="section">
-    <h2>We are Transforming How We Social Network</h2>
-    <p>An app technology to connect, collaborate, and coordinate with your local community, all around the world.</p>
-    <p>Don’t you want a social platform to connect, share, grow, and be known within your community? Remember your place in the interconnectedness of life. Reclaim your belonging.</p>
-    <p>We are Transforming how we Social Network through remembering our mutual belonging.</p>
-    <p>With ONE|Local, we are building an integrated future through collaboration and shared resources.</p>
-    <p>Through this app technology, we empower communities by facilitating social coordination, resource sharing, skill development, and participatory governance. Our goal is to foster stronger local economies, enhance civic engagement, and create a resilient, interconnected network of communities.</p>
-    <p>More connected to community, active to culture—identity discovering place in an ever-renewing culture.</p>
+<section id="mission" class="section section-dark">
+    <h2>Transform Social Networking</h2>
+    <p>ONE|Local connects you with your local community, fostering stronger economies and civic engagement.</p>
+    <p>We build a resilient, interconnected network through collaboration and shared resources.</p>
+    <p>Reclaim your belonging in a nourishing, collective local scene.</p>
     <p>"The foundation of our mission has always been to connect people with the things humans really need. The true nourishing things..."</p>
-    <p>We are Transforming how we Social Network—remembering you are part of the local scene in a nourishing, collective way.</p>
 </section>
 
 <!-- App Introduction Section -->
-<section class="additional-section">
-    <h2>A Technology That Connects Us in New and Remembered Ways</h2>
-    <p>The new ONE|Local app is for a more beautifully thriving future.</p>
-    <p>Discover events, connect with others, share resources, and engage in your local community. Organize, promote, and manage your events with ease. Showcase your products or services to a community that values local businesses. Manage your group, coordinate activities, and engage with members effectively.</p>
+<section class="additional-section section-transparent">
+    <h2>Connect Through Technology</h2>
+    <p>The ONE|Local app is for a beautifully thriving future.</p>
+    <p>Discover events, connect with others, share resources, and engage locally. Organize and promote events, showcase your offerings, and manage your group effectively.</p>
 </section>
 
 <!-- Features Section -->
-<section id="features" class="section">
+<section id="features" class="section section-dark">
     <h2>Key Features</h2>
-    <p>Discover new ways to collaborate, co-create, and coordinate with your local community, all around the world.</p>
+    <p>New ways to collaborate and co-create with your community.</p>
 
-    <!-- Customer Segment Products -->
+    <!-- Feature Cards -->
     <div class="features-grid">
-        <!-- For Local Members -->
-        <div class="feature-card">
-            <i class="fas fa-user-friends"></i>
-            <h3>For Local Members</h3>
-            <ul>
-                <li><i class="fas fa-handshake"></i>
-                    <div><strong>Connect with People</strong><p>Build meaningful relationships and expand your social network.</p></div>
-                </li>
-                <li><i class="fas fa-calendar-alt"></i>
-                    <div><strong>Discover Events</strong><p>Find local events that match your interests and passions.</p></div>
-                </li>
-                <li><i class="fas fa-share-alt"></i>
-                    <div><strong>Share Resources</strong><p>Participate in a community-driven sharing economy.</p></div>
-                </li>
-            </ul>
+        <!-- Local Members -->
+        <div class="card">
+            <i class="fas fa-user-friends" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Local Members</h3>
+            <p>Connect with people, find events, and share resources.</p>
         </div>
-        <!-- For Event Hosts -->
-        <div class="feature-card">
-            <i class="fas fa-calendar-plus"></i>
-            <h3>For Event Hosts</h3>
-            <ul>
-                <li><i class="fas fa-edit"></i>
-                    <div><strong>Create Events</strong><p>Set up events with all the details your attendees need.</p></div>
-                </li>
-                <li><i class="fas fa-bullhorn"></i>
-                    <div><strong>Promote Widely</strong><p>Reach a wider audience within the local community.</p></div>
-                </li>
-                <li><i class="fas fa-chart-line"></i>
-                    <div><strong>Track Engagement</strong><p>Monitor attendance and gather feedback to improve future events.</p></div>
-                </li>
-            </ul>
+        <!-- Event Hosts -->
+        <div class="card">
+            <i class="fas fa-calendar-plus" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Event Hosts</h3>
+            <p>Create events, manage attendance, and engage audiences.</p>
         </div>
-        <!-- For Product & Service Sellers -->
-        <div class="feature-card">
-            <i class="fas fa-store"></i>
-            <h3>For Product & Service Sellers</h3>
-            <ul>
-                <li><i class="fas fa-store-alt"></i>
-                    <div><strong>Set Up Shop</strong><p>Create a storefront to display your offerings, and supercharge your gig network.</p></div>
-                </li>
-                <li><i class="fas fa-comments"></i>
-                    <div><strong>Connect with Customers</strong><p>Engage directly with local buyers interested in your products or services.</p></div>
-                </li>
-                <li><i class="fas fa-lock"></i>
-                    <div><strong>Secure Transactions</strong><p>Utilize our secure platform for seamless transactions.</p></div>
-                </li>
-            </ul>
+        <!-- Sellers -->
+        <div class="card">
+            <i class="fas fa-store" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Sellers</h3>
+            <p>Showcase products, connect with customers, secure transactions.</p>
         </div>
-        <!-- For Organizations -->
-        <div class="feature-card">
-            <i class="fas fa-building"></i>
-            <h3>For Organizations</h3>
-            <ul>
-                <li><i class="fas fa-id-badge"></i>
-                    <div><strong>Organization Profiles</strong><p>Create a dedicated space for your organization's information.</p></div>
-                </li>
-                <li><i class="fas fa-tasks"></i>
-                    <div><strong>Manage Activities</strong><p>Coordinate tasks, projects, and events efficiently.</p></div>
-                </li>
-                <li><i class="fas fa-users-cog"></i>
-                    <div><strong>Member Engagement</strong><p>Communicate and collaborate with your members seamlessly.</p></div>
-                </li>
-            </ul>
+        <!-- Organizations -->
+        <div class="card">
+            <i class="fas fa-building" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Organizations</h3>
+            <p>Create profiles, manage activities, engage members.</p>
         </div>
     </div>
 
-    <!-- Key Features with Benefits -->
-    <div class="additional-section" style="padding-top: 0;">
-        <h2>Our Features and How They Benefit You</h2>
+    <!-- Additional Features with Benefits -->
+    <div class="additional-section section-transparent" style="padding-top: 60px;">
+        <h2>Features & Benefits</h2>
         <div class="features-grid">
             <!-- Events & Calendar -->
-            <div class="feature-card">
-                <i class="fas fa-calendar-check"></i>
-                <h3>Events & Calendar</h3>
-                <p><strong>Discover & Connect:</strong> Explore a vibrant calendar of local events, from workshops and classes to community gatherings and festivals. Find activities that match your interests and connect with others who share your passions.</p>
-                <p><strong>Stay Organized:</strong> Easily manage your schedule by adding events to your personalized calendar, receiving reminders, and staying up-to-date on the latest happenings in your community.</p>
-                <p><strong>Create & Promote:</strong> Planning an event? Utilize ONE|Local's tools to create event listings, manage registrations, and promote your event to a wider audience within the community.</p>
+            <div class="card">
+                <i class="fas fa-calendar-check" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+                <h3>Events Calendar</h3>
+                <p><strong>Discover:</strong> Explore local events and connect with others.</p>
+                <p><strong>Organize:</strong> Manage your schedule with personalized calendars.</p>
+                <p><strong>Create:</strong> List events, manage registrations, promote widely.</p>
             </div>
-            <!-- Resource & Skill Sharing -->
-            <div class="feature-card">
-                <i class="fas fa-hands-helping"></i>
-                <h3>Resource & Skill Sharing</h3>
-                <p><strong>Share What You Have:</strong> Offer your skills, resources, and expertise to others in the community. Contribute to a culture of mutual support and collaboration.</p>
-                <p><strong>Get What You Need:</strong> Request specific skills, resources, or assistance from your local network. Connect with individuals who can provide the support you need.</p>
-                <p><strong>Build Community:</strong> Foster a sense of community and interconnectedness by participating in a shared economy.</p>
+            <!-- Resource Sharing -->
+            <div class="card">
+                <i class="fas fa-hands-helping" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+                <h3>Resource Sharing</h3>
+                <p><strong>Share:</strong> Offer skills and resources to the community.</p>
+                <p><strong>Request:</strong> Find help and support from local members.</p>
+                <p><strong>Build:</strong> Foster a culture of mutual support.</p>
             </div>
-            <!-- Community Profiles -->
-            <div class="feature-card">
-                <i class="fas fa-id-card-alt"></i>
-                <h3>Community Member Profiles</h3>
-                <p><strong>Connect with Your Neighbors:</strong> Explore profiles of fellow community members, discover shared interests, and build meaningful connections.</p>
-                <p><strong>Showcase Your Skills:</strong> Highlight your unique talents, skills, and experiences. Let others know how you can contribute to the community.</p>
-                <p><strong>Find Local Experts:</strong> Search for individuals with specific skills or expertise for projects or tasks.</p>
+            <!-- Member Profiles -->
+            <div class="card">
+                <i class="fas fa-id-card-alt" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+                <h3>Member Profiles</h3>
+                <p><strong>Connect:</strong> Discover neighbors with shared interests.</p>
+                <p><strong>Showcase:</strong> Highlight your talents and contributions.</p>
+                <p><strong>Find:</strong> Search for experts and collaborators.</p>
             </div>
             <!-- Interactive Map -->
-            <div class="feature-card">
-                <i class="fas fa-map-marked-alt"></i>
+            <div class="card">
+                <i class="fas fa-map-marked-alt" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
                 <h3>Interactive Map</h3>
-                <p><strong>Explore Your Surroundings:</strong> Discover local businesses, services, events, and community resources through an interactive map.</p>
-                <p><strong>Navigate with Ease:</strong> Find your way around your community and locate points of interest effortlessly.</p>
-                <p><strong>Visualize Connections:</strong> See how you're connected to others and explore the network of resources available to you.</p>
+                <p><strong>Explore:</strong> Find local businesses and resources.</p>
+                <p><strong>Navigate:</strong> Locate points of interest easily.</p>
+                <p><strong>Visualize:</strong> See your community connections.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- How It Works Section with Marta's Journey -->
-<section id="how-it-works" class="how-it-works-section">
-    <h2>How It Works: Marta's Journey Through the Story Circle</h2>
+<section id="how-it-works" class="section section-transparent">
+    <h2>Marta's Journey</h2>
     <div class="how-it-works-grid">
-        <!-- Step 1: You (Zone of Comfort) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_awakens.jpg" alt="Marta Awakens in Her Apartment">
-            <div class="how-it-works-content">
-                <h3>1. You (Zone of Comfort): Morning – Awakening to Possibilities</h3>
-                <p>Marta awakens in her eco-integrated apartment, bathed in sunlight that filters through the lush greenery. Everything feels familiar, cozy, but she knows there’s more to explore beyond her morning routine. Instead of mindlessly scrolling through social feeds, Marta opens the ONE|Local app. Instantly, she’s greeted by opportunities to interact with her community—requests, offers, events. The app pulls her gently toward the pulse of her neighborhood.</p>
-            </div>
+        <!-- Card 1 -->
+        <div class="card">
+            <img src="https://i.imgur.com/FCm8kyL.png" alt="Marta Awakens">
+            <h3>1. Awakening</h3>
+            <p>Marta opens ONE|Local and sees opportunities—requests, offers, events.</p>
         </div>
-        <!-- Step 2: Need (Desire for Something More) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_need.jpg" alt="Marta Feeling the Need for Connection">
-            <div class="how-it-works-content">
-                <h3>2. Need (Desire for Something More): Mid-Morning – Connecting and Sharing</h3>
-                <p>As Marta sips her tea, she feels a tug to connect deeper with her community, to engage with the people around her in a more meaningful way. She sees a request in the app—a neighbor is looking for help in the community garden. This need resonates with Marta’s desire to give back. At the same time, she feels a spark of inspiration to offer her own gift: a yoga class in the park. Her day is beginning to take shape, filled with purpose.</p>
-            </div>
+        
+    
+        <!-- Card 2 -->
+        <div class="card">
+            <img src="images/marta_need.jpg" alt="Marta Feels the Need">
+            <h3>2. Connecting</h3>
+            <p>She wants to help in a community garden and offer a yoga class.</p>
         </div>
-        <!-- Step 3: Go (Entering Unfamiliar Territory) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_go.jpg" alt="Marta Taking the First Step">
-            <div class="how-it-works-content">
-                <h3>3. Go (Entering Unfamiliar Territory): Late Morning – Taking the First Step</h3>
-                <p>Just lean in. With a few taps, Marta confirms her participation in the garden project and posts her yoga event. Although she’s taken similar steps before, there’s always a small hesitation before jumping into something new—what if no one shows up? What if her help isn’t enough? But she trusts the process. ONE|Local is designed to make these connections possible, and she’s ready to step out of her comfort zone.</p>
-            </div>
+        <!-- Card 3 -->
+        <div class="card">
+            <img src="images/marta_go.jpg" alt="Marta Takes the Step">
+            <h3>3. Engaging</h3>
+            <p>Marta confirms participation and posts her event, stepping forward.</p>
         </div>
-        <!-- Step 4: Search (Trials and Adaptation) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_search.jpg" alt="Marta Engaging in Community">
-            <div class="how-it-works-content">
-                <h3>4. Search (Trials and Adaptation): Early Afternoon – Engaging in Community</h3>
-                <p>Arriving at the garden, Marta finds herself among familiar and new faces. They work together to turn an overgrown space into a thriving green haven. The tasks require coordination, adaptation, and effort. The app helps them manage the distribution of work, ensuring that everyone contributes and no one feels overwhelmed. For Marta, it’s both collaborative and transformative, as she witnesses how a small group can bring life back to a neglected corner of their neighborhood.</p>
-            </div>
+        <!-- Card 4 -->
+        <div class="card">
+            <img src="https://i.imgur.com/9vjkWii.png" alt="Marta Engages">
+            <h3>4. Collaborating</h3>
+            <p>She collaborates at the garden, strengthening community bonds.</p>
         </div>
-        <!-- Step 5: Find (Meeting the Goal) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_find.jpg" alt="Marta Seeing the Results">
-            <div class="how-it-works-content">
-                <h3>5. Find (Meeting the Goal): Mid-Afternoon – Seeing the Results</h3>
-                <p>All paths lead home. With the garden blooming under their collective care, Marta steps back to admire what they’ve accomplished. There’s a deep satisfaction in seeing the fruits of their labor, not just in the physical transformation but in the sense of community it fosters. People who were once strangers now share a connection. Marta logs her work in the app, feeling that her contribution is part of something larger—a regenerative movement.</p>
-            </div>
+        <!-- Card 5 -->
+        <div class="card">
+            <img src="images/marta_find.jpg" alt="Marta Sees Results">
+            <h3>5. Achieving</h3>
+            <p>The garden blooms; Marta logs her contribution.</p>
         </div>
-        <!-- Step 6: Take (Paying a Price) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_take.jpg" alt="Marta Overcoming Doubt">
-            <div class="how-it-works-content">
-                <h3>6. Take (Paying a Price): Late Afternoon – Overcoming Doubt</h3>
-                <p>But storms test the strength of roots. As Marta prepares for her evening yoga class, she faces an unexpected moment of doubt. Will anyone actually come? It’s easy to feel discouraged, especially in the face of uncertainty or fear of rejection. She knows that building community takes time, and the price of connection is vulnerability. Still, she moves forward, ready to offer her skills regardless of the turnout.</p>
-            </div>
+        <!-- Card 6 -->
+        <div class="card">
+            <img src="https://i.imgur.com/MUNq56b.png" alt="Marta Overcomes Doubt">
+            <h3>6. Overcoming</h3>
+            <p>She moves forward despite uncertainties about her yoga class.</p>
         </div>
-        <!-- Step 7: Return (The Road Back) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_return.jpg" alt="Marta Sharing Her Passions">
-            <div class="how-it-works-content">
-                <h3>7. Return (The Road Back): Evening – Sharing Her Passions</h3>
-                <p>The yoga class begins, and to Marta’s joy, people arrive—some familiar faces from the garden, others new, all drawn by her event listing on ONE|Local. The class flows naturally, with gratitude and joy exchanged between Marta and the participants. In this moment, she feels a deep sense of purpose. Her offering isn’t just about yoga—it’s about creating space for others to recharge, to connect, and to find balance.</p>
-            </div>
+        <!-- Card 7 -->
+        <div class="card">
+            <img src="https://i.imgur.com/wMORcQb.png" alt="Marta Shares">
+            <h3>7. Sharing</h3>
+            <p>The class is a success; she feels purposeful.</p>
         </div>
-        <!-- Step 8: Change (Transformation and Return to Comfort) -->
-        <div class="how-it-works-step">
-            <img src="images/marta_change.jpg" alt="Marta Reflecting and Feeling Grateful">
-            <div class="how-it-works-content">
-                <h3>8. Change (Transformation and Return to Comfort): Night – Reflection and Gratitude</h3>
-                <p>As the day winds down, Marta reflects on how ONE|Local guided her journey. From the moment she opened the app in the morning to her evening of shared connection, she feels a transformation—not just in her day, but in herself. Marta uses the app to express gratitude to those she connected with, reflecting on the sense of belonging and meaning that now fills her life. As she drifts to sleep, the community feels closer, the world more connected, and tomorrow filled with possibilities.</p>
-            </div>
+        <!-- Card 8 -->
+        <div class="card">
+            <img src="images/marta_change.jpg" alt="Marta Reflects">
+            <h3>8. Reflecting</h3>
+            <p>Marta feels transformed by community connections. Inspired, she continues to engage and inspire others.</p>
+        </div>
+        <!-- Card 9 (Conclusion) -->
+        <div class="card">
+            <img src="images/marta_future.jpg" alt="Marta Looks Ahead">
+            <h3>9. Inspiring</h3>
+            <p>Inspired, Marta continues to engage and inspire others.</p>
         </div>
     </div>
 </section>
 
 <!-- Metrics Section -->
-<section class="metrics-section">
-    <h2>Our Growing Community</h2>
+<section class="section section-dark">
+    <h2>Community Growth</h2>
     <div class="metrics-grid">
-        <div class="metric-card">
-            <h3>10,000+</h3>
+        <div class="card">
+            <h3 style="text-align: center;">300+</h3>
             <p>Active Members</p>
         </div>
-        <div class="metric-card">
-            <h3>500+</h3>
+        <div class="card">
+            <h3 style="text-align: center;">30+</h3>
             <p>Local Groups</p>
         </div>
-        <div class="metric-card">
-            <h3>1,200+</h3>
+        <div class="card">
+            <h3 style="text-align: center;">1,200+</h3>
             <p>Resources Shared</p>
         </div>
-        <div class="metric-card">
-            <h3>300+</h3>
+        <div class="card">
+            <h3 style="text-align: center;">6000+</h3>
             <p>Events Hosted</p>
         </div>
     </div>
 </section>
 
 <!-- Roadmap Section -->
-<section class="roadmap-section">
-    <h2>Our Roadmap</h2>
+<section class="section section-dark">
+    <h2>Future Plans</h2>
     <div class="roadmap-grid">
-        <div class="roadmap-item">
-            <h3>Q1 2024 - Platform Launch</h3>
-            <p>Release the initial version of the ONE|Local app with core features.</p>
+        <div class="card">
+            <h3>Q1 2024 Launch</h3>
+            <p>Release the app with core features.</p>
         </div>
-        <div class="roadmap-item">
-            <h3>Q3 2024 - Community Expansion</h3>
-            <p>Onboard new communities and foster collaboration among diverse groups.</p>
+        <div class="card">
+            <h3>Q3 2024 Expansion</h3>
+            <p>Onboard new communities globally.</p>
         </div>
-        <div class="roadmap-item">
-            <h3>Q1 2025 - Global Integration</h3>
-            <p>Connect regional communities globally to share resources and initiatives.</p>
+        <div class="card">
+            <h3>Q1 2025 Integration</h3>
+            <p>Connect communities worldwide.</p>
         </div>
-        <div class="roadmap-item">
-            <h3>Beyond - Scaling the Regenerative Revolution</h3>
-            <p>Continuously build and support a network of regenerative communities worldwide.</p>
+        <div class="card">
+            <h3>Scaling Revolution</h3>
+            <p>Support regenerative communities globally.</p>
         </div>
     </div>
 </section>
 
 <!-- Community Section -->
-<section id="community" class="section">
-    <h2>Our Vision is a Collective Vision</h2>
-    <p>Do you see it too?</p>
-    <p>We welcome your inspirations along the way. The best way to start playing is to play!</p>
+<section id="community" class="section section-transparent">
+    <h2>Collective Vision</h2>
+    <p>We welcome your inspirations. Let's start playing!</p>
     <div class="btn-group">
         <a href="#get-started" class="btn">Get Started</a>
     </div>
@@ -709,20 +581,20 @@
 </section>
 
 <!-- Get Started Section -->
-<section id="get-started" class="additional-section">
-    <h2>Get Started</h2>
-    <p>Join us in our next evolution by downloading the new ONE|Local app in the Apple iOS App Store or in the Google Play Store.</p>
-    <p>Important Note: If you still have the old ONE|Boulder app, you will need to update to the ONE|Local release. Returning players can use your ONE|Boulder username and password to log in. New users can create a new user account by signing up.</p>
-    <p>You can also visit the live web version at <a href="https://app.onelocal.one/" target="_blank">app.onelocal.one</a></p>
+<section id="get-started" class="additional-section section-dark">
+    <h2>Join Today</h2>
+    <p>Download the ONE|Local app from the Apple App Store or Google Play Store.</p>
+    <p><strong>Note:</strong> Update from ONE|Boulder app or sign up as a new user.</p>
+    <p>Visit the web version at <a href="https://app.onelocal.one/" target="_blank">app.onelocal.one</a></p>
     <div class="btn-group">
-        <a href="https://app.onelocal.one/" class="btn" target="_blank">Check Out the Web App</a>
+        <a href="https://app.onelocal.one/" class="btn" target="_blank">Check Web App</a>
     </div>
 </section>
 
 <!-- Contact Section -->
-<section id="contact" class="section">
-    <h2>Contact Us</h2>
-    <p>Have questions or want to get involved? We'd love to hear from you.</p>
+<section id="contact" class="section section-transparent">
+    <h2>Get In Touch</h2>
+    <p>Questions or want to get involved? We'd love to hear from you.</p>
     <form action="#" method="post" style="max-width:600px;margin:0 auto;text-align:left;">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" required style="width:100%;padding:10px;margin-bottom:15px;"><br>
@@ -736,12 +608,14 @@
 
 <!-- Footer -->
 <footer>
-    <a href="#mission">Mission</a>
-    <a href="#features">Features</a>
-    <a href="#how-it-works">How It Works</a>
-    <a href="#community">Community</a>
-    <a href="#contact">Contact</a>
-    <p>&copy; 2024 ONE|Local. All rights reserved.</p>
+    <nav>
+        <a href="#mission">Mission</a>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#community">Community</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <p>&copy; 2024 ONE|Local. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
 </footer>
 
 </body>
