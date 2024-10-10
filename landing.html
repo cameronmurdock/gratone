@@ -150,6 +150,9 @@
         /* Section Styling */
         .section {
             padding: 80px 50px;
+            max-width: 15
+            00px; /* Limit the width of the content */
+            margin: 0 auto;
             text-align: center;
             color: white;
             min-height: 600px;
@@ -381,6 +384,46 @@
             .card, .roadmap-item {
                 max-width: 100%;
             }
+            /* Technology Section */
+    .technology-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px;
+        flex-wrap: wrap;
+    }
+
+    .technology-text {
+        flex: 1;
+        min-width: 300px;
+        text-align: left;
+    }
+
+    .technology-image {
+        flex: 1;
+        min-width: 300px;
+        text-align: center;
+    }
+
+    .technology-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    /* Adjust for smaller screen sizes */
+    @media (max-width: 768px) {
+        .technology-wrapper {
+            flex-direction: column;
+            text-align: center;
+        }
+        .technology-text, .technology-image {
+            margin-bottom: 20px;
+        }
+    }
         }
     </style>
 </head>
@@ -421,9 +464,16 @@
 
 <!-- App Introduction Section -->
 <section class="additional-section section-transparent">
-    <h2>Connect Through Technology</h2>
-    <p>The ONE|Local app is for a beautifully thriving future.</p>
-    <p>Discover events, connect with others, share resources, and engage locally. Organize and promote events, showcase your offerings, and manage your group effectively.</p>
+    <div class="technology-wrapper">
+        <div class="technology-text">
+            <h2>Connect Through Technology</h2>
+            <p>The ONE|Local app is for a beautifully thriving future.</p>
+            <p>Discover events, connect with others, share resources, and engage locally. Organize and promote events, showcase your offerings, and manage your group effectively.</p>
+        </div>
+        <div class="technology-image">
+            <img src="https://i.imgur.com/A1Nddct.jpg" alt="Connecting through technology image">
+        </div>
+    </div>
 </section>
 
 <!-- Features Section -->
