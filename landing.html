@@ -230,11 +230,24 @@
         /* How It Works Grid */
         .how-it-works-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(4, 1fr); /* Set 4 cards per row */
             gap: 30px;
             margin-top: 40px;
             justify-content: center;
             align-items: center;
+        }
+
+        /* Responsive for smaller screens */
+        @media (max-width: 1024px) {
+            .how-it-works-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 cards per row on medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works-grid {
+                grid-template-columns: 1fr; /* 1 card per row on small screens */
+            }
         }
 
         /* Image Container for How It Works */
@@ -503,7 +516,7 @@
         <!-- Card 2 -->
         <div class="card">
             <div class="image-container">
-                <img src="images/marta_need.jpg" alt="Marta Feels the Need">
+                <img src="https://i.imgur.com/yZ8b5PA.png" alt="Marta Feels the Need">
                 <div class="caption">Marta Feels the Need</div>
             </div>
             <h3>2. Connecting</h3>
@@ -512,7 +525,7 @@
         <!-- Card 3 -->
         <div class="card">
             <div class="image-container">
-                <img src="images/marta_go.jpg" alt="Marta Takes the Step">
+                <img src="https://i.imgur.com/wBfHZkd.jpg" alt="Marta Takes the Step">
                 <div class="caption">Marta Takes the Step</div>
             </div>
             <h3>3. Engaging</h3>
@@ -530,7 +543,7 @@
         <!-- Card 5 -->
         <div class="card">
             <div class="image-container">
-                <img src="images/marta_find.jpg" alt="Marta Sees Results">
+                <img src="https://i.imgur.com/atmOhof.png" alt="Marta Sees Results">
                 <div class="caption">Marta Sees Results</div>
             </div>
             <h3>5. Achieving</h3>
@@ -557,20 +570,11 @@
         <!-- Card 8 -->
         <div class="card">
             <div class="image-container">
-                <img src="images/marta_change.jpg" alt="Marta Reflects">
+                <img src="https://i.imgur.com/ei4786o.png" alt="Marta Reflects">
                 <div class="caption">Marta Reflects</div>
             </div>
             <h3>8. Reflecting</h3>
             <p>Marta feels transformed by community connections. Inspired, she continues to engage and inspire others.</p>
-        </div>
-        <!-- Card 9 (Conclusion) -->
-        <div class="card">
-            <div class="image-container">
-                <img src="images/marta_future.jpg" alt="Marta Looks Ahead">
-                <div class="caption">Marta Looks Ahead</div>
-            </div>
-            <h3>9. Inspiring</h3>
-            <p>Inspired, Marta continues to engage and inspire others.</p>
         </div>
     </div>
 </section>
@@ -580,15 +584,15 @@
     <h2>Community Growth</h2>
     <div class="metrics-grid">
         <div class="card">
-            <h3 style="text-align: center;">300+</h3>
-            <p>Active Members</p>
+            <h3 style="text-align: center;">3800+</h3>
+            <p>Registered Users</p>
         </div>
         <div class="card">
-            <h3 style="text-align: center;">30+</h3>
+            <h3 style="text-align: center;">100+</h3>
             <p>Local Groups</p>
         </div>
         <div class="card">
-            <h3 style="text-align: center;">1,200+</</h3>
+            <h3 style="text-align: center;">1,200+</h3>
             <p>Resources Shared</p>
         </div>
         <div class="card">
