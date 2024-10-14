@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE|Local - Empowering Communities</title>
+    <meta name="description" content="ONE|Local is a platform dedicated to empowering communities by connecting local organizations, offers, and services, fostering a regenerative economy.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ONE|Local - Empowering Communities">
+    <meta property="og:description" content="Connecting local organizations, offers, and services to foster a regenerative economy.">
+    <meta property="og:url" content="https://www.onelocal.one/organizations/onelocal">
+    <meta property="og:image" content="https://www.onelocal.one/images/logo.png">
+    <meta property="og:site_name" content="ONE|Local">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ONE|Local - Empowering Communities">
+    <meta name="twitter:description" content="Connecting local organizations, offers, and services to foster a regenerative economy.">
+    <meta name="twitter:image" content="https://www.onelocal.one/images/logo.png">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.onelocal.one/organizations/onelocal">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.onelocal.one/favicon.ico" type="image/x-icon">
+    
+    <!-- CSS Styling -->
+    <style>
+        /* Define the gradient animation keyframes */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* General Reset and Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+            background: linear-gradient(45deg, #339999, #003333, #bcdecf, #339999);
+            background-size: 600% 2800%;
+            animation: gradientAnimation 20s ease infinite;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 51, 51, 0.8);
+            z-index: 100;
+            position: fixed;
+            top: 0;
+        }
+
+        nav .logo {
+            color: #ffffff;
+            font-size: 1.8em;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        nav .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav .nav-links li {
+            margin-left: 20px;
+        }
+
+        nav .nav-links a {
+            color: #ffffff;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: background 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            background: #fff;
+            color: #003333;
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px; /* To account for fixed nav */
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        /* Button Group */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #BF820A;
+            color: #003333;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover {
+            background: #fff;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 50px;
+            max-width: 1800px; /* Limit the width of the content */
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+            min-height: 600px;
+        }
+
+        .section h2 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .section p {
+            font-size: 1.5em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+
+        /* Organization Details */
+        .organization-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .org-info, .contact-info {
+            background: #ffffffbe;
+            padding: 20px;
+            border-radius: 10px;
+            color: #000;
+            max-width: 600px;
+            flex: 1 1 300px;
+            border: 2px solid #BF820A;
+        }
+
+        .org-info h3, .contact-info h3 {
+            font-size: 2em;
+            color: #BF820A;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .org-info ul, .contact-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .org-info li, .contact-info li {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .org-info strong, .contact-info strong {
+            color: #BF820A;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003333;
+            color: #ffffff;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        footer nav {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #BF820A;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .section, .additional-section {
+                padding: 40px 20px;
+            }
+
+            .organization-details {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .org-info, .contact-info {
+                max-width: 100%;
+            }
+        }
+    </style>
+    
+    <!-- Structured Data (JSON-LD) for SEO (Schema.org) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Organization",
+        "url": "https://www.onelocal.one/organizations/onelocal",
+        "name": "ONE|Local",
+        "alternateName": "ONE Local",
+        "description": "ONE|Local is a platform empowering communities by connecting local organizations, offers, and services, fostering a regenerative economy.",
+        "logo": "https://www.onelocal.one/images/logo.png",
+        "image": "https://www.onelocal.one/images/header.jpg",
+        "email": "mailto:support@onelocal.one",
+        "telephone": "tel:123-456-7890",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Community Drive",
+            "addressLocality": "Boulder",
+            "addressRegion": "CO",
+            "postalCode": "80302",
+            "addressCountry": "USA"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 40.01499,
+            "longitude": -105.27055
+        },
+        "sameAs": [
+            "https://www.facebook.com/ONELocal",
+            "https://www.twitter.com/ONELocal",
+            "https://www.linkedin.com/company/one-local"
+        ],
+        "foundingDate": "2021-01-01",
+        "keywords": "Marketplace, Community, Local Offers, Regenerative Economy"
+    }
+    </script>
+    
+    <!-- Structured Data (JSON-LD) for Murmurations Protocol -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Organization",
+      "name": "ONE|Local",
+      "nickname": "ONE Local",
+      "primary_url": "https://www.onelocal.one",
+      "tags": ["Marketplace", "Community", "Local Offers", "Regenerative Economy"],
+      "urls": [
+        "https://www.facebook.com/ONELocal",
+        "https://www.twitter.com/ONELocal",
+        "https://www.linkedin.com/company/one-local"
+      ],
+      "description": "ONE|Local is a platform empowering communities by connecting local organizations, offers, and services, fostering a regenerative economy.",
+      "mission": "To empower local communities by providing a marketplace for offers and services that support a regenerative economy.",
+      "status": "Active",
+      "full_address": "123 Community Drive, Boulder, CO 80302, USA",
+      "country_iso_3166": "US",
+      "geolocation": {
+        "latitude": 40.01499,
+        "longitude": -105.27055
+      },
+      "image": "https://www.onelocal.one/images/logo.png",
+      "header_image": "https://www.onelocal.one/images/header.jpg",
+      "images": [
+        "https://www.onelocal.one/images/feature1.jpg",
+        "https://www.onelocal.one/images/feature2.jpg"
+      ],
+      "rss": "https://www.onelocal.one/feed",
+      "relationships": [
+        {
+          "type": "partnership",
+          "target": "https://www.onelocal.one/organizations/partner-org"
+        }
+      ],
+      "starts_at": 1609459200,
+      "ends_at": null,
+      "contact_details": {
+        "email": "mailto:support@onelocal.one",
+        "telephone": "tel:123-456-7890"
+      },
+      "telephone": "tel:123-456-7890",
+      "geographic_scope": "Local",
+      "unique_id": "urn:uuid:ONELocal-1234567890"
+    }
+    </script>
+    
+    <!-- Robots Meta Tag -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Language Attribute -->
+    <meta http-equiv="Content-Language" content="en">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">ONE|Local</div>
+        <ul class="nav-links">
+            <li><a href="https://www.onelocal.one/">Home</a></li>
+            <li><a href="https://www.onelocal.one/offers/">Offers</a></li>
+            <li><a href="https://www.onelocal.one/about/">About</a></li>
+            <li><a href="https://www.onelocal.one/contact/">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>ONE|Local - Empowering Communities</h1>
+            <p>Connecting local organizations, offers, and services to foster a regenerative economy.</p>
+            <div class="btn-group">
+                <a href="https://www.onelocal.one/offers/" class="btn">Browse Offers</a>
+                <a href="https://www.onelocal.one/join/" class="btn">Join Us</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Organization Details Section -->
+    <section class="section section-dark" id="organization-details">
+        <h2>About ONE|Local</h2>
+        <div class="organization-details">
+            <!-- Organization Information -->
+            <div class="org-info">
+                <h3>Organization Information</h3>
+                <ul>
+                    <li><strong>Name:</strong> ONE|Local</li>
+                    <li><strong>Nickname:</strong> ONE Local</li>
+                    <li><strong>Mission:</strong> To empower local communities by providing a marketplace for offers and services that support a regenerative economy.</li>
+                    <li><strong>Status:</strong> Active</li>
+                    <li><strong>Founded:</strong> January 1, 2021</li>
+                    <li><strong>Tags:</strong> Marketplace, Community, Local Offers, Regenerative Economy</li>
+                </ul>
+            </div>
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:support@onelocal.one">support@onelocal.one</a></li>
+                    <li><strong>Phone:</strong> <a href="tel:123-456-7890">123-456-7890</a></li>
+                    <li><strong>Address:</strong> 123 Community Drive, Boulder, CO 80302, USA</li>
+                    <li><strong>Website:</strong> <a href="https://www.onelocal.one">www.onelocal.one</a></li>
+                    <li><strong>Social Media:</strong>
+                        <ul>
+                            <li><a href="https://www.facebook.com/ONELocal" target="_blank">Facebook</a></li>
+                            <li><a href="https://www.twitter.com/ONELocal" target="_blank">Twitter</a></li>
+                            <li><a href="https://www.linkedin.com/company/one-local" target="_blank">LinkedIn</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <p style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            ONE|Local is committed to building stronger, more resilient communities by connecting local organizations, individuals, and resources. We believe in the power of local economies and the impact they have on the global stage.
+        </p>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <nav>
+            <a href="https://www.onelocal.one/">Home</a> |
+            <a href="https://www.onelocal.one/offers/">Offers</a> |
+            <a href="https://www.onelocal.one/about/">About</a> |
+            <a href="https://www.onelocal.one/contact/">Contact</a>
+        </nav>
+        <p>&copy; 2024 ONE|Local. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
