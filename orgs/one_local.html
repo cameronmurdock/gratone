@@ -21,19 +21,38 @@
     <meta property="og:url" content="https://www.onelocal.one/organizations/onelocal">
     <meta property="og:image" content="https://www.onelocal.one/images/logo.png">
     <meta property="og:site_name" content="ONE Local">
-    
+    <meta property="og:image:alt" content="ONE Local Logo">
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ONE Local - Empowering Local Communities">
     <meta name="twitter:description" content="Join ONE Local to access community-driven resources, projects, and events that empower local economies.">
     <meta name="twitter:image" content="https://www.onelocal.one/images/logo.png">
-    
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.onelocal.one/organizations/onelocal">
+    <meta name="twitter:image:alt" content="ONE Local Logo">
+    <meta name="twitter:site" content="@ONELocal">
+    <meta name="twitter:creator" content="@ONELocal">
+
+    <!-- LinkedIn Meta Tags (similar to Open Graph) -->
+    <meta property="linkedin:title" content="ONE Local - Empowering Local Communities">
+    <meta property="linkedin:description" content="Join ONE Local to access community-driven resources, projects, and events that empower local economies.">
+    <meta property="linkedin:image" content="https://www.onelocal.one/images/logo.png">
+    <meta property="linkedin:url" content="https://www.onelocal.one/organizations/onelocal">
+
+    <!-- Telegram Meta Tags (using Open Graph) -->
+    <!-- Telegram uses Open Graph tags for link previews -->
     
     <!-- Favicon -->
     <link rel="icon" href="https://www.onelocal.one/favicon.ico" type="image/x-icon">
     
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.onelocal.one/organizations/onelocal">
+    
+    <!-- Robots Meta Tag -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Language Attribute -->
+    <meta http-equiv="Content-Language" content="en">
+
     <!-- CSS Styling -->
     <style>
         /* General Reset and Styling */
@@ -78,22 +97,21 @@
             justify-content: space-between;
             align-items: center;
             background-color: rgba(0, 51, 51, 0.8);
-            z-index: 100;
             position: fixed;
             top: 0;
+            z-index: 100;
         }
 
         nav .logo {
-            color: #ffffff;
             font-size: 1.8em;
             font-weight: 600;
             font-family: 'Playfair Display', serif;
+            color: #fff;
         }
 
         nav .nav-links {
-            list-style: none;
             display: flex;
-            align-items: center;
+            list-style: none;
         }
 
         nav .nav-links li {
@@ -101,7 +119,7 @@
         }
 
         nav .nav-links a {
-            color: #ffffff;
+            color: #fff;
             font-weight: 500;
             padding: 8px 12px;
             transition: background 0.3s;
@@ -120,10 +138,6 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: none;
-            color: white;
-            position: relative;
-            overflow: hidden;
             padding-top: 80px; /* To account for fixed nav */
         }
 
@@ -135,12 +149,12 @@
 
         .hero h1 {
             font-size: 3.2em;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-family: 'Playfair Display', serif;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        .hero p {
+        .hero-subheader {
             font-size: 1.5em;
             margin-bottom: 30px;
         }
@@ -176,7 +190,7 @@
             transform: translateY(2px);
         }
 
-        /* Section Styling */
+        /* Sections Styling */
         .section {
             padding: 80px 50px;
             max-width: 1800px;
@@ -200,7 +214,7 @@
             line-height: 1.6;
         }
 
-        /* Organization Details */
+        /* Organization Details Section */
         .organization-details {
             display: flex;
             flex-wrap: wrap;
@@ -241,10 +255,86 @@
             color: #BF820A;
         }
 
+        /* Stakeholders Section */
+        .stakeholders-section {
+            padding: 80px 50px;
+            background-color: rgba(0, 51, 51, 0.8);
+        }
+
+        .stakeholders-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .stakeholders-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .stakeholders-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stakeholder-card {
+            background: #ffffffbe;
+            padding: 20px;
+            border-radius: 10px;
+            color: #000;
+            max-width: 350px;
+            text-align: left;
+            border: 2px solid #BF820A;
+            transition: transform 0.3s;
+        }
+
+        .stakeholder-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stakeholder-card h3 {
+            font-size: 1.8em;
+            color: #BF820A;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stakeholder-card p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .stakeholder-metrics {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .stakeholder-stake {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 10px;
+            color: #003333;
+        }
+
         /* Board Section */
         .board-section {
             background-color: rgba(0, 51, 51, 0.8);
             padding: 80px 50px;
+        }
+
+        .board-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .board-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
         }
 
         .board-grid {
@@ -267,7 +357,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 50px;
+            min-height: 350px;
             max-width: 300px;
             border: 2px solid #BF820A;
         }
@@ -300,6 +390,17 @@
         /* Membership Groups Section */
         .groups-section {
             padding: 80px 50px;
+        }
+
+        .groups-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .groups-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
         }
 
         .groups-grid {
@@ -353,6 +454,17 @@
             padding: 80px 50px;
         }
 
+        .governance-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .governance-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
         .governance-content {
             max-width: 800px;
             margin: 0 auto;
@@ -383,10 +495,36 @@
             margin-bottom: 10px;
         }
 
+        .voting-membership-classes {
+            margin-top: 30px;
+        }
+
+        .voting-membership-classes h4 {
+            font-size: 1.5em;
+            color: #BF820A;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .voting-membership-classes ul {
+            list-style: disc inside;
+        }
+
         /* Comments Section */
         .comments-section {
             background-color: rgba(0, 51, 51, 0.8);
             padding: 80px 50px;
+        }
+
+        .comments-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .comments-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
         }
 
         .comments-container {
@@ -418,6 +556,17 @@
         /* Projects Section */
         .projects-section {
             padding: 80px 50px;
+        }
+
+        .projects-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .projects-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
         }
 
         .projects-grid {
@@ -482,6 +631,17 @@
         .events-section {
             background-color: rgba(0, 51, 51, 0.8);
             padding: 80px 50px;
+        }
+
+        .events-section h2 {
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+        }
+
+        .events-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
         }
 
         .events-grid {
@@ -577,11 +737,20 @@
                 padding: 10px 20px;
             }
 
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
             .hero h1 {
                 font-size: 2.2em;
             }
 
-            .hero p {
+            .hero-subheader {
                 font-size: 1.2em;
             }
 
@@ -589,31 +758,33 @@
                 padding: 40px 20px;
             }
 
-            .organization-details, .board-grid, .groups-grid, .projects-grid, .events-grid {
+            .organization-details, .stakeholders-grid, .board-grid, .groups-grid, .projects-grid, .events-grid {
                 flex-direction: column;
                 align-items: center;
             }
 
-            .org-info, .contact-info, .board-card, .group-card, .project-card, .event-card {
+            .org-info, .contact-info, .stakeholder-card, .board-card, .group-card, .project-card, .event-card {
                 max-width: 100%;
             }
 
             .board-card img, .project-card img, .event-card img {
                 height: 150px;
             }
+
+            .stakeholder-card img {
+                height: 150px;
+            }
         }
     </style>
     
-    <!-- Structured Data (JSON-LD) Conforming to Murmurations Schema -->
+    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
       "@type": "Organization",
       "name": "ONE Local",
-      "alternateName": "ONE Local",
       "url": "https://www.onelocal.one",
       "logo": "https://www.onelocal.one/images/logo.png",
-      "image": "https://www.onelocal.one/images/header.jpg",
       "description": "ONE Local is a cooperative platform empowering communities by connecting people, organizations, resources, projects, and events to build resilient local economies.",
       "email": "mailto:support@onelocal.one",
       "telephone": "tel:123-456-7890",
@@ -625,322 +796,18 @@
         "postalCode": "80302",
         "addressCountry": "USA"
       },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 40.01499,
-        "longitude": -105.27055
-      },
       "sameAs": [
         "https://www.facebook.com/ONELocal",
         "https://www.twitter.com/ONELocal",
-        "https://www.linkedin.com/company/one-local"
+        "https://www.linkedin.com/company/one-local",
+        "https://t.me/ONELocal",
+        "https://www.instagram.com/ONELocal"
       ],
       "foundingDate": "2021-01-01",
-      "keywords": "Marketplace, Community, Local Offers, Regenerative Economy, Sustainability, Artisan Support",
-      "member": [
-        {
-          "@type": "Person",
-          "name": "Jordan Smith",
-          "email": "mailto:jordan.smith@onelocal.one",
-          "url": "https://www.onelocal.one/members/jordan-smith",
-          "image": "https://www.onelocal.one/images/members/jordan-smith.jpg",
-          "jobTitle": "Chief Executive Officer"
-        },
-        {
-          "@type": "Person",
-          "name": "Taylor Lee",
-          "email": "mailto:taylor.lee@onelocal.one",
-          "url": "https://www.onelocal.one/members/taylor-lee",
-          "image": "https://www.onelocal.one/images/members/taylor-lee.jpg",
-          "jobTitle": "Chief Operating Officer"
-        },
-        {
-          "@type": "Person",
-          "name": "Morgan Brown",
-          "email": "mailto:morgan.brown@onelocal.one",
-          "url": "https://www.onelocal.one/members/morgan-brown",
-          "image": "https://www.onelocal.one/images/members/morgan-brown.jpg",
-          "jobTitle": "Chief Technology Officer"
-        },
-        {
-          "@type": "Person",
-          "name": "Alex Johnson",
-          "email": "mailto:alex.johnson@onelocal.one",
-          "url": "https://www.onelocal.one/members/alex-johnson",
-          "image": "https://www.onelocal.one/images/members/alex-johnson.jpg",
-          "jobTitle": "Community Builder"
-        },
-        {
-          "@type": "Person",
-          "name": "Sam Wilson",
-          "email": "mailto:sam.wilson@onelocal.one",
-          "url": "https://www.onelocal.one/members/sam-wilson",
-          "image": "https://www.onelocal.one/images/members/sam-wilson.jpg",
-          "jobTitle": "Community Builder"
-        },
-        {
-          "@type": "Person",
-          "name": "Emma Davis",
-          "email": "mailto:emma.davis@onelocal.one",
-          "url": "https://www.onelocal.one/members/emma-davis",
-          "image": "https://www.onelocal.one/images/members/emma-davis.jpg",
-          "jobTitle": "Community Builder"
-        },
-        {
-          "@type": "Person",
-          "name": "Liam Miller",
-          "email": "mailto:liam.miller@onelocal.one",
-          "url": "https://www.onelocal.one/members/liam-miller",
-          "image": "https://www.onelocal.one/images/members/liam-miller.jpg",
-          "jobTitle": "Sustainability Advocate"
-        },
-        {
-          "@type": "Person",
-          "name": "Olivia Thompson",
-          "email": "mailto:olivia.thompson@onelocal.one",
-          "url": "https://www.onelocal.one/members/olivia-thompson",
-          "image": "https://www.onelocal.one/images/members/olivia-thompson.jpg",
-          "jobTitle": "Sustainability Advocate"
-        },
-        {
-          "@type": "Person",
-          "name": "Noah Clark",
-          "email": "mailto:noah.clark@onelocal.one",
-          "url": "https://www.onelocal.one/members/noah-clark",
-          "image": "https://www.onelocal.one/images/members/noah-clark.jpg",
-          "jobTitle": "Sustainability Advocate"
-        },
-        {
-          "@type": "Person",
-          "name": "Ava Rodriguez",
-          "email": "mailto:ava.rodriguez@onelocal.one",
-          "url": "https://www.onelocal.one/members/ava-rodriguez",
-          "image": "https://www.onelocal.one/images/members/ava-rodriguez.jpg",
-          "jobTitle": "Local Artisan"
-        },
-        {
-          "@type": "Person",
-          "name": "Ethan Lewis",
-          "email": "mailto:ethan.lewis@onelocal.one",
-          "url": "https://www.onelocal.one/members/ethan-lewis",
-          "image": "https://www.onelocal.one/images/members/ethan-lewis.jpg",
-          "jobTitle": "Local Artisan"
-        },
-        {
-          "@type": "Person",
-          "name": "Charlotte Walker",
-          "email": "mailto:charlotte.walker@onelocal.one",
-          "url": "https://www.onelocal.one/members/charlotte-walker",
-          "image": "https://www.onelocal.one/images/members/charlotte-walker.jpg",
-          "jobTitle": "Local Artisan"
-        }
-      ],
-      "subOrganization": [
-        {
-          "@type": "Organization",
-          "name": "Community Builders Group",
-          "url": "https://www.onelocal.one/groups/community-builders",
-          "description": "Focusing on community development projects and local initiatives."
-        },
-        {
-          "@type": "Organization",
-          "name": "Sustainability Advocates",
-          "url": "https://www.onelocal.one/groups/sustainability-advocates",
-          "description": "Promoting sustainable practices and environmental stewardship."
-        },
-        {
-          "@type": "Organization",
-          "name": "Local Artisans Collective",
-          "url": "https://www.onelocal.one/groups/local-artisans",
-          "description": "Supporting local artisans and craftsmen in showcasing their work."
-        }
-      ],
-      "knowsAbout": ["Community Development", "Sustainability", "Local Economy", "Artisan Support"],
-      "makesOffer": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Community Networking",
-            "description": "Connecting individuals and organizations within local communities."
-          },
-          "price": "0.00",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock"
-        }
-      ],
-      "hasPolicy": [
-        {
-          "@type": "Policy",
-          "name": "Community Guidelines",
-          "url": "https://www.onelocal.one/policies/community-guidelines",
-          "description": "Guidelines for community engagement and participation."
-        },
-        {
-          "@type": "Policy",
-          "name": "Privacy Policy",
-          "url": "https://www.onelocal.one/policies/privacy-policy",
-          "description": "Our commitment to protecting user privacy and data."
-        },
-        {
-          "@type": "Policy",
-          "name": "Terms of Service",
-          "url": "https://www.onelocal.one/policies/terms-of-service",
-          "description": "Terms and conditions for using the ONE Local platform."
-        }
-      ],
-      "governanceBody": {
-        "@type": "GovernanceBody",
-        "name": "Board of Directors",
-        "url": "https://www.onelocal.one/governance/board-of-directors",
-        "description": "Oversees strategic direction and governance of ONE Local."
-      },
-      "event": [
-        {
-          "@type": "Event",
-          "name": "Community Clean-Up Day",
-          "startDate": "2024-05-15",
-          "endDate": "2024-05-15",
-          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-          "eventStatus": "https://schema.org/EventScheduled",
-          "location": {
-            "@type": "Place",
-            "name": "Central Park",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "789 Park Ave",
-              "addressLocality": "Boulder",
-              "addressRegion": "CO",
-              "postalCode": "80302",
-              "addressCountry": "USA"
-            }
-          },
-          "image": "https://www.onelocal.one/images/events/cleanup.jpg",
-          "description": "Join us for a day of community service to clean up our local park.",
-          "url": "https://www.onelocal.one/events/community-cleanup"
-        },
-        {
-          "@type": "Event",
-          "name": "Sustainability Workshop",
-          "startDate": "2024-06-20",
-          "endDate": "2024-06-20",
-          "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-          "eventStatus": "https://schema.org/EventScheduled",
-          "location": {
-            "@type": "Place",
-            "name": "ONE Local Headquarters",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "123 Community Drive",
-              "addressLocality": "Boulder",
-              "addressRegion": "CO",
-              "postalCode": "80302",
-              "addressCountry": "USA"
-            }
-          },
-          "image": "https://www.onelocal.one/images/events/workshop.jpg",
-          "description": "A workshop on sustainable living practices and eco-friendly solutions.",
-          "url": "https://www.onelocal.one/events/sustainability-workshop",
-          "offers": {
-            "@type": "Offer",
-            "price": "20.00",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock",
-            "url": "https://www.onelocal.one/events/sustainability-workshop"
-          }
-        },
-        {
-          "@type": "Event",
-          "name": "Artisan Fair",
-          "startDate": "2024-07-10",
-          "endDate": "2024-07-10",
-          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-          "eventStatus": "https://schema.org/EventScheduled",
-          "location": {
-            "@type": "Place",
-            "name": "Downtown Plaza",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "456 Market St",
-              "addressLocality": "Boulder",
-              "addressRegion": "CO",
-              "postalCode": "80302",
-              "addressCountry": "USA"
-            }
-          },
-          "image": "https://www.onelocal.one/images/events/artisan-fair.jpg",
-          "description": "Showcasing the work of local artisans and providing a marketplace for their products.",
-          "url": "https://www.onelocal.one/events/artisan-fair"
-        },
-        {
-          "@type": "Event",
-          "name": "Renewable Energy Seminar",
-          "startDate": "2024-08-05",
-          "endDate": "2024-08-05",
-          "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-          "eventStatus": "https://schema.org/EventScheduled",
-          "location": {
-            "@type": "Place",
-            "name": "Green Energy Center",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "321 Green Way",
-              "addressLocality": "Boulder",
-              "addressRegion": "CO",
-              "postalCode": "80302",
-              "addressCountry": "USA"
-            }
-          },
-          "image": "https://www.onelocal.one/images/events/renewable-energy-seminar.jpg",
-          "description": "An informative seminar on integrating renewable energy into local communities.",
-          "url": "https://www.onelocal.one/events/renewable-energy-seminar",
-          "offers": {
-            "@type": "Offer",
-            "price": "30.00",
-            "priceCurrency": "USD",
-            "availability": "https://schema.org/InStock",
-            "url": "https://www.onelocal.one/events/renewable-energy-seminar"
-          }
-        }
-      ],
-      "project": [
-        {
-          "@type": "Project",
-          "name": "Urban Garden Initiative",
-          "startDate": "2024-04-01",
-          "endDate": "2024-12-31",
-          "description": "Creating urban gardens to promote local food production and sustainability.",
-          "url": "https://www.onelocal.one/projects/urban-garden"
-        },
-        {
-          "@type": "Project",
-          "name": "Artisan Marketplace Platform",
-          "startDate": "2024-05-01",
-          "endDate": null,
-          "description": "Developing an online platform for local artisans to showcase and sell their products.",
-          "url": "https://www.onelocal.one/projects/artisan-marketplace"
-        },
-        {
-          "@type": "Project",
-          "name": "Renewable Energy Integration",
-          "startDate": "2024-06-01",
-          "endDate": null,
-          "description": "Integrating renewable energy sources into local infrastructure for sustainable growth.",
-          "url": "https://www.onelocal.one/projects/renewable-energy"
-        },
-        {
-          "@type": "Project",
-          "name": "Local Food Network",
-          "startDate": "2024-07-01",
-          "endDate": null,
-          "description": "Building a network to support local farmers and food producers, enhancing food security.",
-          "url": "https://www.onelocal.one/projects/local-food-network"
-        }
-      ],
-      "unique_id": "urn:uuid:ONELocal-1234567890"
+      "keywords": "Marketplace, Community, Local Offers, Regenerative Economy, Sustainability, Artisan Support"
     }
     </script>
-
+    
     <!-- JSON Data for UI Components -->
     <script>
         const oneLocalData = {
@@ -960,9 +827,63 @@
                 "socialMedia": {
                     "Facebook": "https://www.facebook.com/ONELocal",
                     "Twitter": "https://www.twitter.com/ONELocal",
-                    "LinkedIn": "https://www.linkedin.com/company/one-local"
+                    "LinkedIn": "https://www.linkedin.com/company/one-local",
+                    "Telegram": "https://t.me/ONELocal",
+                    "Instagram": "https://www.instagram.com/ONELocal"
                 }
             },
+            "stakeholders": [
+                {
+                    "name": "Jordan Smith",
+                    "role": "Chief Executive Officer",
+                    "impactMetrics": {
+                        "projectsLed": 8,
+                        "communityHours": 1200,
+                        "fundsRaised": "$500,000"
+                    },
+                    "stake": "25%"
+                },
+                {
+                    "name": "Taylor Lee",
+                    "role": "Chief Operating Officer",
+                    "impactMetrics": {
+                        "projectsLed": 6,
+                        "communityHours": 950,
+                        "fundsRaised": "$350,000"
+                    },
+                    "stake": "20%"
+                },
+                {
+                    "name": "Morgan Brown",
+                    "role": "Chief Technology Officer",
+                    "impactMetrics": {
+                        "projectsLed": 5,
+                        "communityHours": 800,
+                        "fundsRaised": "$300,000"
+                    },
+                    "stake": "15%"
+                },
+                {
+                    "name": "Alex Johnson",
+                    "role": "Community Builder",
+                    "impactMetrics": {
+                        "projectsLed": 4,
+                        "communityHours": 600,
+                        "fundsRaised": "$150,000"
+                    },
+                    "stake": "10%"
+                },
+                {
+                    "name": "Olivia Thompson",
+                    "role": "Sustainability Advocate",
+                    "impactMetrics": {
+                        "projectsLed": 3,
+                        "communityHours": 500,
+                        "fundsRaised": "$100,000"
+                    },
+                    "stake": "10%"
+                }
+            ],
             "boardMembers": [
                 {
                     "name": "Jordan Smith",
@@ -1014,6 +935,20 @@
             ],
             "governance": {
                 "structure": "ONE Local operates with a transparent and collaborative governance model, ensuring that all voices within our community are heard and valued.",
+                "votingMembershipClasses": [
+                    {
+                        "name": "Regular Member",
+                        "description": "Has voting rights in general meetings and can propose new initiatives."
+                    },
+                    {
+                        "name": "Associate Member",
+                        "description": "Can participate in discussions and has limited voting rights on specific projects."
+                    },
+                    {
+                        "name": "Honorary Member",
+                        "description": "Recognized for significant contributions and can attend all meetings without voting rights."
+                    }
+                ],
                 "policies": [
                     {
                         "name": "Community Guidelines",
@@ -1117,12 +1052,14 @@
         document.addEventListener("DOMContentLoaded", function() {
             populateOrganizationDetails();
             populateContactInformation();
+            populateStakeholders();
             populateBoardMembers();
             populateMembershipGroups();
             populateGovernance();
             populateComments();
             populateProjects();
             populateEvents();
+            setupDeepLinks();
         });
 
         function populateOrganizationDetails() {
@@ -1156,6 +1093,29 @@
                     </ul>
                 </li>
             `;
+        }
+
+        function populateStakeholders() {
+            const stakeholdersGrid = document.querySelector('.stakeholders-grid');
+            stakeholdersGrid.innerHTML = '';
+            oneLocalData.stakeholders.forEach(stakeholder => {
+                const card = document.createElement('div');
+                card.className = 'stakeholder-card';
+                card.innerHTML = `
+                    <h3>${stakeholder.name}</h3>
+                    <p><strong>Role:</strong> ${stakeholder.role}</p>
+                    <div class="stakeholder-metrics">
+                        <p><strong>Impact Metrics:</strong></p>
+                        <p><strong>Projects Led:</strong> ${stakeholder.impactMetrics.projectsLed}</p>
+                        <p><strong>Community Hours:</strong> ${stakeholder.impactMetrics.communityHours}</p>
+                        <p><strong>Funds Raised:</strong> ${stakeholder.impactMetrics.fundsRaised}</p>
+                    </div>
+                    <div class="stakeholder-stake">
+                        <p><strong>Stake Holdings:</strong> ${stakeholder.stake}</p>
+                    </div>
+                `;
+                stakeholdersGrid.appendChild(card);
+            });
         }
 
         function populateBoardMembers() {
@@ -1198,9 +1158,23 @@
             governanceContent.innerHTML = `
                 <h3>Our Governance Structure</h3>
                 <p>${governance.structure}</p>
-                <strong>Key Governance Policies:</strong>
+                
+                <h3>Voting Membership Classes</h3>
+                <div class="voting-membership-classes">
+                    <ul>
+                        ${governance.votingMembershipClasses.map(classItem => `
+                            <li>
+                                <strong>${classItem.name}:</strong> ${classItem.description}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <h3>Key Governance Policies</h3>
                 <ul>
-                    ${governance.policies.map(policy => `<li><a href="${policy.url}" target="_blank">${policy.name}</a></li>`).join('')}
+                    ${governance.policies.map(policy => `
+                        <li><a href="${policy.url}" target="_blank">${policy.name}</a></li>
+                    `).join('')}
                 </ul>
                 <p>Our Board of Directors oversees the strategic direction and ensures that ONE Local remains true to its mission of empowering local communities.</p>
             `;
@@ -1252,13 +1226,44 @@
                 eventsGrid.appendChild(card);
             });
         }
-    </script>
 
-    <!-- Robots Meta Tag -->
-    <meta name="robots" content="index, follow">
-    
-    <!-- Language Attribute -->
-    <meta http-equiv="Content-Language" content="en">
+        function setupDeepLinks() {
+            // Define deep link URLs
+            const deepLink = {
+                ios: 'onelocal://',
+                android: 'intent://#Intent;scheme=onelocal;package=com.onelocal.app;end'
+            };
+
+            // Define fallback URLs
+            const fallbackURL = 'https://www.onelocal.one';
+
+            // Attach to all internal links with class 'deeplink'
+            const deepLinkElements = document.querySelectorAll('a.deeplink');
+            deepLinkElements.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const urlPath = this.getAttribute('href').replace(/^https?:\/\/[^\/]+/, '');
+                    const fullURL = deepLink.ios + urlPath; // Adjust according to your app's URL scheme
+
+                    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    const isAndroid = /Android/i.test(navigator.userAgent);
+
+                    if (isIOS) {
+                        window.location.href = deepLink.ios + urlPath;
+                    } else if (isAndroid) {
+                        window.location.href = deepLink.android + ';S.browser_fallback_url=' + encodeURIComponent(window.location.href + urlPath) + ';end';
+                    } else {
+                        window.location.href = this.getAttribute('href');
+                    }
+
+                    // Fallback after delay
+                    setTimeout(function() {
+                        window.location.href = fallbackURL + urlPath;
+                    }, 2000);
+                });
+            });
+        }
+    </script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -1267,6 +1272,7 @@
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#organization-details">About</a></li>
+            <li><a href="#stakeholders">Stakeholders</a></li>
             <li><a href="#board">Board</a></li>
             <li><a href="#groups">Groups</a></li>
             <li><a href="#governance">Governance</a></li>
@@ -1281,17 +1287,17 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>ONE Local - Empowering Local Communities</h1>
-            <p>Connecting people, organizations, resources, projects, and events to build resilient local economies.</p>
+            <p class="hero-subheader">Connecting people, organizations, resources, projects, and events to build resilient local economies.</p>
             <div class="btn-group">
-                <a href="#projects" class="btn">Our Projects</a>
-                <a href="#events" class="btn">Upcoming Events</a>
-                <a href="#join" class="btn">Join Us</a>
+                <a href="/projects" class="btn deeplink">Our Projects</a>
+                <a href="/events" class="btn deeplink">Upcoming Events</a>
+                <a href="/join" class="btn deeplink">Join Us</a>
             </div>
         </div>
     </section>
     
     <!-- Organization Details Section -->
-    <section class="section section-dark" id="organization-details">
+    <section class="section" id="organization-details">
         <h2>About ONE Local</h2>
         <div class="organization-details">
             <!-- Organization Information will be populated by JS -->
@@ -1312,6 +1318,15 @@
         <p style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
             ONE Local is dedicated to fostering resilient and sustainable local economies by connecting individuals, organizations, and resources. Through our diverse projects and events, we aim to create a thriving community where everyone can contribute to and benefit from a regenerative economy.
         </p>
+    </section>
+    
+    <!-- Stakeholders Section -->
+    <section class="stakeholders-section" id="stakeholders">
+        <h2>Meet Our Stakeholders</h2>
+        <p>Learn more about the stakeholders, their roles, impact metrics, and stake holdings.</p>
+        <div class="stakeholders-grid">
+            <!-- Stakeholders will be populated by JS -->
+        </div>
     </section>
     
     <!-- Meet Our Board Section -->
@@ -1371,6 +1386,7 @@
         <nav>
             <a href="#home">Home</a> |
             <a href="#organization-details">About</a> |
+            <a href="#stakeholders">Stakeholders</a> |
             <a href="#board">Board</a> |
             <a href="#groups">Groups</a> |
             <a href="#governance">Governance</a> |
