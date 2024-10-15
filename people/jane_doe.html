@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE Local - User Dashboard</title>
+    <meta name="description" content="Manage your roles, action history, offers, and requests on ONE Local. Empower your community involvement with a comprehensive dashboard.">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ONE Local - User Dashboard">
+    <meta property="og:description" content="Manage your roles, action history, offers, and requests on ONE Local. Empower your community involvement with a comprehensive dashboard.">
+    <meta property="og:url" content="https://www.onelocal.one/user/dashboard">
+    <meta property="og:image" content="https://www.onelocal.one/images/logo.png">
+    <meta property="og:site_name" content="ONE Local">
+    <meta property="og:image:alt" content="ONE Local Logo">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ONE Local - User Dashboard">
+    <meta name="twitter:description" content="Manage your roles, action history, offers, and requests on ONE Local. Empower your community involvement with a comprehensive dashboard.">
+    <meta name="twitter:image" content="https://www.onelocal.one/images/logo.png">
+    <meta name="twitter:image:alt" content="ONE Local Logo">
+    <meta name="twitter:site" content="@ONELocal">
+    <meta name="twitter:creator" content="@ONELocal">
+
+    <!-- LinkedIn Meta Tags (similar to Open Graph) -->
+    <meta property="linkedin:title" content="ONE Local - User Dashboard">
+    <meta property="linkedin:description" content="Manage your roles, action history, offers, and requests on ONE Local. Empower your community involvement with a comprehensive dashboard.">
+    <meta property="linkedin:image" content="https://www.onelocal.one/images/logo.png">
+    <meta property="linkedin:url" content="https://www.onelocal.one/user/dashboard">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.onelocal.one/favicon.ico" type="image/x-icon">
+    
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.onelocal.one/user/dashboard">
+    
+    <!-- Robots Meta Tag -->
+    <meta name="robots" content="index, follow">
+    
+    <!-- Language Attribute -->
+    <meta http-equiv="Content-Language" content="en">
+
+    <!-- CSS Styling -->
+    <style>
+        /* General Reset and Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #003333;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-size: 1.8em;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+        }
+
+        nav .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        nav .nav-links li {
+            margin-left: 20px;
+        }
+
+        nav .nav-links a {
+            color: #fff;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: background 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            background: #fff;
+            color: #003333;
+            border-radius: 5px;
+        }
+
+        /* User Dashboard Header */
+        .dashboard-header {
+            padding: 100px 50px 20px; /* To account for fixed nav */
+            background-color: #003333;
+            color: #fff;
+            text-align: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .dashboard-header p {
+            font-size: 1.2em;
+        }
+
+        /* Sections Styling */
+        .section {
+            padding: 40px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            color: #003333;
+        }
+
+        .section p {
+            font-size: 1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* User Profile Section */
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .profile-section img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #003333;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-details h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            color: #003333;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .profile-details p {
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        /* Roles in Groups and Organizations Section */
+        .roles-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .roles-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .role-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1 1 calc(33.333% - 40px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .role-card h4 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #003333;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .role-card p {
+            font-size: 0.95em;
+            margin-bottom: 5px;
+        }
+
+        /* Action History Section */
+        .action-history-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .action-history-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-card {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .action-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            color: #003333;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .action-card p {
+            font-size: 0.95em;
+            margin-bottom: 3px;
+        }
+
+        /* Offers and Requests Section */
+        .offers-requests-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .offers-requests-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .offers-requests-tabs button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            font-size: 1em;
+            transition: border-bottom 0.3s, background-color 0.3s;
+        }
+
+        .offers-requests-tabs button.active {
+            border-bottom: 2px solid #003333;
+            background-color: #e9e9e9;
+        }
+
+        .offers-requests-content {
+            display: none;
+        }
+
+        .offers-requests-content.active {
+            display: block;
+        }
+
+        .offer-request-card {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .offer-request-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            color: #003333;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .offer-request-card p {
+            font-size: 0.95em;
+            margin-bottom: 3px;
+        }
+
+        /* Additional Features (e.g., Notifications, Messages) */
+        .additional-features-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .additional-features-section h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #003333;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .feature-card {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-card i {
+            font-size: 1.5em;
+            color: #BF820A;
+        }
+
+        .feature-card p {
+            font-size: 1em;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003333;
+            color: #ffffff;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        footer nav {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #BF820A;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .role-card {
+                flex: 1 1 calc(50% - 40px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .dashboard-header {
+                padding: 100px 20px 20px;
+            }
+
+            .role-card, .feature-card {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Person",
+      "name": "Jane Doe",
+      "url": "https://www.onelocal.one/user/dashboard",
+      "image": "https://www.onelocal.one/images/users/jane-doe.jpg",
+      "email": "mailto:jane.doe@onelocal.one",
+      "telephone": "tel:987-654-3210",
+      "sameAs": [
+        "https://www.facebook.com/jane.doe",
+        "https://www.twitter.com/janedoe",
+        "https://www.linkedin.com/in/janedoe",
+        "https://www.instagram.com/janedoe"
+      ],
+      "jobTitle": "Community Organizer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "ONE Local",
+        "url": "https://www.onelocal.one"
+      },
+      "knowsAbout": ["Community Development", "Sustainability", "Event Planning"]
+    }
+    </script>
+
+    <!-- JSON Data for UI Components -->
+    <script>
+        const userData = {
+            "profile": {
+                "name": "Jane Doe",
+                "role": "Community Organizer",
+                "email": "jane.doe@onelocal.one",
+                "phone": "987-654-3210",
+                "address": "456 Community Lane, Boulder, CO 80302, USA",
+                "avatar": "https://www.onelocal.one/images/users/jane-doe.jpg",
+                "bio": "Passionate about fostering community engagement and promoting sustainable practices within local neighborhoods."
+            },
+            "roles": [
+                {
+                    "group": "Community Builders Group",
+                    "organization": "ONE Local",
+                    "role": "Group Leader",
+                    "since": "March 2022"
+                },
+                {
+                    "group": "Sustainability Advocates",
+                    "organization": "EcoCity",
+                    "role": "Member",
+                    "since": "June 2021"
+                },
+                {
+                    "group": "Local Artisans Collective",
+                    "organization": "CraftHub",
+                    "role": "Coordinator",
+                    "since": "January 2023"
+                }
+            ],
+            "actionHistory": [
+                {
+                    "type": "Event Participation",
+                    "event": "Community Clean-Up Day",
+                    "role": "Volunteer Coordinator",
+                    "date": "May 15, 2024"
+                },
+                {
+                    "type": "Project Leadership",
+                    "project": "Urban Garden Initiative",
+                    "role": "Project Manager",
+                    "date": "April 10, 2023"
+                },
+                {
+                    "type": "Event Participation",
+                    "event": "Sustainability Workshop",
+                    "role": "Speaker",
+                    "date": "June 20, 2024"
+                },
+                {
+                    "type": "Project Contribution",
+                    "project": "Renewable Energy Integration",
+                    "role": "Technical Advisor",
+                    "date": "July 5, 2023"
+                }
+            ],
+            "offers": [
+                {
+                    "type": "Offer",
+                    "title": "Free Gardening Workshops",
+                    "description": "Offering free workshops on urban gardening techniques for community members.",
+                    "date": "August 1, 2024"
+                },
+                {
+                    "type": "Request",
+                    "title": "Seeking Volunteers for Event",
+                    "description": "Looking for volunteers to help organize the upcoming Artisan Fair.",
+                    "date": "July 20, 2024"
+                }
+            ],
+            "requests": [
+                {
+                    "type": "Request",
+                    "title": "Need Supplies for Community Garden",
+                    "description": "Requesting donations of soil, seeds, and gardening tools for the new community garden.",
+                    "date": "June 15, 2024"
+                },
+                {
+                    "type": "Offer",
+                    "title": "Offering Event Planning Services",
+                    "description": "Providing free event planning services for non-profit organizations.",
+                    "date": "May 25, 2024"
+                }
+            ],
+            "notifications": [
+                {
+                    "type": "Message",
+                    "from": "Taylor Lee",
+                    "subject": "Upcoming Meeting",
+                    "date": "August 10, 2024",
+                    "read": false
+                },
+                {
+                    "type": "Alert",
+                    "message": "Your profile was viewed 10 times today.",
+                    "date": "August 12, 2024",
+                    "read": true
+                }
+            ],
+            "messages": [
+                {
+                    "from": "Alex Johnson",
+                    "subject": "Collaboration Opportunity",
+                    "body": "Hi Jane, I would like to discuss a potential collaboration on the upcoming Urban Garden Initiative.",
+                    "date": "August 11, 2024",
+                    "read": false
+                },
+                {
+                    "from": "Olivia Thompson",
+                    "subject": "Sustainability Workshop Feedback",
+                    "body": "Great job at the workshop! The participants found your insights very valuable.",
+                    "date": "August 9, 2024",
+                    "read": true
+                }
+            ]
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            populateProfile();
+            populateRoles();
+            populateActionHistory();
+            setupOffersRequestsTabs();
+            populateOffers();
+            populateRequests();
+            populateNotifications();
+            populateMessages();
+            setupDeepLinks();
+        });
+
+        function populateProfile() {
+            const profileSection = document.querySelector('.profile-section');
+            const profile = userData.profile;
+            profileSection.innerHTML = `
+                <img src="${profile.avatar}" alt="${profile.name}">
+                <div class="profile-details">
+                    <h3>${profile.name}</h3>
+                    <p><strong>Role:</strong> ${profile.role}</p>
+                    <p><strong>Email:</strong> <a href="mailto:${profile.email}">${profile.email}</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:${profile.phone}">${profile.phone}</a></p>
+                    <p><strong>Address:</strong> ${profile.address}</p>
+                    <p>${profile.bio}</p>
+                </div>
+            `;
+        }
+
+        function populateRoles() {
+            const rolesGrid = document.querySelector('.roles-grid');
+            rolesGrid.innerHTML = '';
+            userData.roles.forEach(role => {
+                const card = document.createElement('div');
+                card.className = 'role-card';
+                card.innerHTML = `
+                    <h4>${role.role} at ${role.organization}</h4>
+                    <p><strong>Group:</strong> ${role.group}</p>
+                    <p><strong>Since:</strong> ${role.since}</p>
+                `;
+                rolesGrid.appendChild(card);
+            });
+        }
+
+        function populateActionHistory() {
+            const actionHistoryGrid = document.querySelector('.action-history-grid');
+            actionHistoryGrid.innerHTML = '';
+            userData.actionHistory.forEach(action => {
+                const card = document.createElement('div');
+                card.className = 'action-card';
+                card.innerHTML = `
+                    <h4>${action.type}: ${action.event || action.project}</h4>
+                    <p><strong>Role:</strong> ${action.role}</p>
+                    <p><strong>Date:</strong> ${action.date}</p>
+                `;
+                actionHistoryGrid.appendChild(card);
+            });
+        }
+
+        function setupOffersRequestsTabs() {
+            const tabs = document.querySelectorAll('.offers-requests-tabs button');
+            const contents = document.querySelectorAll('.offers-requests-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.target).classList.add('active');
+                });
+            });
+
+            // Activate the first tab by default
+            if(tabs.length > 0) {
+                tabs[0].classList.add('active');
+                contents[0].classList.add('active');
+            }
+        }
+
+        function populateOffers() {
+            const offersContainer = document.querySelector('#offers');
+            offersContainer.innerHTML = '';
+            userData.offers.forEach(offer => {
+                if(offer.type === "Offer") {
+                    const card = document.createElement('div');
+                    card.className = 'offer-request-card';
+                    card.innerHTML = `
+                        <h4>${offer.title}</h4>
+                        <p>${offer.description}</p>
+                        <p><strong>Date:</strong> ${offer.date}</p>
+                    `;
+                    offersContainer.appendChild(card);
+                }
+            });
+        }
+
+        function populateRequests() {
+            const requestsContainer = document.querySelector('#requests');
+            requestsContainer.innerHTML = '';
+            userData.requests.forEach(request => {
+                if(request.type === "Request") {
+                    const card = document.createElement('div');
+                    card.className = 'offer-request-card';
+                    card.innerHTML = `
+                        <h4>${request.title}</h4>
+                        <p>${request.description}</p>
+                        <p><strong>Date:</strong> ${request.date}</p>
+                    `;
+                    requestsContainer.appendChild(card);
+                }
+            });
+        }
+
+        function populateNotifications() {
+            const notificationsContainer = document.querySelector('.notifications-container');
+            notificationsContainer.innerHTML = '';
+            userData.notifications.forEach(notification => {
+                const card = document.createElement('div');
+                card.className = 'notification-card';
+                card.innerHTML = `
+                    <h4>${notification.type}: ${notification.subject || ''}</h4>
+                    <p>${notification.message || notification.body || ''}</p>
+                    <p><strong>Date:</strong> ${notification.date}</p>
+                `;
+                if(!notification.read) {
+                    card.style.backgroundColor = '#e1f5fe';
+                }
+                notificationsContainer.appendChild(card);
+            });
+        }
+
+        function populateMessages() {
+            const messagesContainer = document.querySelector('.messages-container');
+            messagesContainer.innerHTML = '';
+            userData.messages.forEach(message => {
+                const card = document.createElement('div');
+                card.className = 'message-card';
+                card.innerHTML = `
+                    <h4>${message.from} - ${message.subject}</h4>
+                    <p>${message.body}</p>
+                    <p><strong>Date:</strong> ${message.date}</p>
+                `;
+                if(!message.read) {
+                    card.style.backgroundColor = '#fff3e0';
+                }
+                messagesContainer.appendChild(card);
+            });
+        }
+
+        function setupDeepLinks() {
+            // Define deep link URLs
+            const deepLink = {
+                ios: 'onelocal://',
+                android: 'intent://#Intent;scheme=onelocal;package=com.onelocal.app;end'
+            };
+
+            // Define fallback URLs
+            const fallbackURL = 'https://www.onelocal.one';
+
+            // Attach to all internal links with class 'deeplink'
+            const deepLinkElements = document.querySelectorAll('a.deeplink');
+            deepLinkElements.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const urlPath = this.getAttribute('href').replace(/^https?:\/\/[^\/]+/, '');
+                    const fullURL = deepLink.ios + urlPath; // Adjust according to your app's URL scheme
+
+                    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    const isAndroid = /Android/i.test(navigator.userAgent);
+
+                    if (isIOS) {
+                        window.location.href = deepLink.ios + urlPath;
+                    } else if (isAndroid) {
+                        window.location.href = deepLink.android + ';S.browser_fallback_url=' + encodeURIComponent(window.location.href + urlPath) + ';end';
+                    } else {
+                        window.location.href = this.getAttribute('href');
+                    }
+
+                    // Fallback after delay
+                    setTimeout(function() {
+                        window.location.href = fallbackURL + urlPath;
+                    }, 2000);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">ONE Local</div>
+        <ul class="nav-links">
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#roles">Roles</a></li>
+            <li><a href="#action-history">Action History</a></li>
+            <li><a href="#offers-requests">Offers & Requests</a></li>
+            <li><a href="#notifications">Notifications</a></li>
+            <li><a href="#messages">Messages</a></li>
+            <li><a href="#logout">Logout</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Dashboard Header -->
+    <header class="dashboard-header" id="dashboard">
+        <h1>Welcome, Jane Doe!</h1>
+        <p>Manage your community involvement efficiently.</p>
+    </header>
+    
+    <!-- User Profile Section -->
+    <section class="section profile-section" id="profile">
+        <h2>Your Profile</h2>
+        <div class="profile-section">
+            <!-- Profile will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Roles in Groups and Organizations Section -->
+    <section class="section roles-section" id="roles">
+        <h2>Your Roles in Groups & Organizations</h2>
+        <div class="roles-grid">
+            <!-- Roles will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Action History Section -->
+    <section class="section action-history-section" id="action-history">
+        <h2>Your Action History</h2>
+        <div class="action-history-grid">
+            <!-- Action History will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Offers and Requests Section -->
+    <section class="section offers-requests-section" id="offers-requests">
+        <h2>Offers and Requests</h2>
+        <div class="offers-requests-tabs">
+            <button data-target="offers">Offers Made</button>
+            <button data-target="requests">Requests Received</button>
+        </div>
+        <div id="offers" class="offers-requests-content">
+            <!-- Offers will be populated by JS -->
+        </div>
+        <div id="requests" class="offers-requests-content">
+            <!-- Requests will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Notifications Section -->
+    <section class="section additional-features-section" id="notifications">
+        <h2>Notifications</h2>
+        <div class="notifications-container">
+            <!-- Notifications will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Messages Section -->
+    <section class="section additional-features-section" id="messages">
+        <h2>Messages</h2>
+        <div class="messages-container">
+            <!-- Messages will be populated by JS -->
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <nav>
+            <a href="#dashboard">Dashboard</a> |
+            <a href="#profile">Profile</a> |
+            <a href="#roles">Roles</a> |
+            <a href="#action-history">Action History</a> |
+            <a href="#offers-requests">Offers & Requests</a> |
+            <a href="#notifications">Notifications</a> |
+            <a href="#messages">Messages</a> |
+            <a href="#contact">Contact</a>
+        </nav>
+        <p>&copy; 2024 ONE Local. All rights reserved.</p>
+    </footer>
+</body>
+</html>
