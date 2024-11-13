@@ -12,12 +12,16 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- Slick Carousel CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
   <style>
     /* Scrollbar Styling */
     body {
       overflow-x: hidden;
       scrollbar-color: #1e1e1e #333;
       scrollbar-width: thin;
+      font-family: 'Montserrat', sans-serif;
     }
     body::-webkit-scrollbar {
       width: 8px;
@@ -42,7 +46,7 @@
       }
     }
     .animatedBackground {
-      background: linear-gradient(315deg, #339999, #003333);
+      background: linear-gradient(-45deg, #339999, #003333, #339999, #003333);
       background-size: 400% 400%;
       animation: gradientAnimation 30s ease infinite;
       min-height: 100vh;
@@ -55,15 +59,21 @@
       right: 40px;
       z-index: 1000;
     }
-    /* Responsive Grid for Older Browsers */
-    @supports not (display: grid) {
-      .MuiGrid-root {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .MuiGrid-item {
-        flex: 1 1 auto;
-      }
+    /* Modal Content */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1e1e1e;
+      box-shadow: 24;
+      padding: 24px;
+      border-radius: 16px;
+      max-width: 800px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      color: #ffffff;
     }
   </style>
 </head>
@@ -76,10 +86,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <script src="https://cdn.jsdelivr.net/npm/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-  <!-- For Carousel: react-slick and slick-carousel CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <!-- For Carousel: react-slick and slick-carousel JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YeXLhFgg10d3BxHHPmSTmAFuvkxJ3n0z3hHV/2GwE6VQnn1CD+NxVbR+0Cwv1VvxP3AkgfFYPXxkQ4y+0Mg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XO2wLqJqGdYbGwP7lIByEINWvFj0PWqCAutF93z5ChBqGAAINxTt0MgQzjPbK72UA3mE3Dg2jZX3T8Y6aqhXwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script type="text/babel">
     const {
@@ -120,22 +129,8 @@
       AccordionDetails,
       useScrollTrigger,
       Zoom,
-      Dialog,
-      DialogTitle,
-      DialogContent,
-      DialogContentText,
-      DialogActions,
-      Divider,
-      Link,
-      Drawer,
-      Menu,
-      MenuItem as MuiMenuItem,
-      List,
-      ListItem,
-      ListItemText,
     } = MaterialUI;
-
-    const { SearchRounded, RssFeedRounded, ExpandMore, Facebook, Twitter, Instagram, LinkedIn, ArrowUpward, EmailRounded, Send, Menu: MenuIcon } = MaterialUIIcons;
+    const { SearchRounded, RssFeedRounded, ExpandMore, Facebook, Twitter, Instagram, LinkedIn, ArrowUpward, EmailRounded, Send } = MaterialUIIcons;
 
     // Styled Components
     const StyledCard = MaterialUI.styled(Card)(({ theme }) => ({
@@ -145,12 +140,12 @@
       height: '100%',
       backgroundColor: theme.palette.background.paper,
       '&:hover': {
-        backgroundColor: 'rgba(51, 153, 153, 0.1)',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         cursor: 'pointer',
       },
       '&:focus-visible': {
         outline: '3px solid',
-        outlineColor: 'hsla(210, 98%, 48%, 0.5)',
+        outlineColor: theme.palette.primary.main,
         outlineOffset: '2px',
       },
     }));
@@ -158,7 +153,7 @@
     const StyledCardContent = MaterialUI.styled(CardContent)({
       display: 'flex',
       flexDirection: 'column',
-      gap: 4,
+      gap: 16,
       padding: 24,
       flexGrow: 1,
       '&:last-child': {
@@ -175,7 +170,7 @@
     });
 
     // Author Component
-    function Author({ authors }) {
+    function Author({ authors, date }) {
       return (
         <Box
           sx={{
@@ -184,7 +179,7 @@
             gap: 2,
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '16px',
+            padding: '0 24px 16px 24px',
           }}
         >
           <Box
@@ -204,7 +199,7 @@
               {authors.map((author) => author.name).join(', ')}
             </Typography>
           </Box>
-          <Typography variant="caption">July 14, 2021</Typography>
+          <Typography variant="caption">{date}</Typography>
         </Box>
       );
     }
@@ -216,9 +211,10 @@
           name: PropTypes.string.isRequired,
         }),
       ).isRequired,
+      date: PropTypes.string.isRequired,
     };
 
-    // Search Component with Autocomplete (Simplified)
+    // Search Component with Autocomplete
     function Search() {
       const searchSuggestions = [
         'Engineering',
@@ -287,11 +283,13 @@
     };
 
     // MainContent Component with Enhancements
-    function MainContent({ openBlogModal }) {
+    function MainContent({ cardData }) {
       const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
       const [openSnackbar, setOpenSnackbar] = React.useState(false);
       const [snackbarMessage, setSnackbarMessage] = React.useState('');
       const [snackbarSeverity, setSnackbarSeverity] = React.useState('success');
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
       const [page, setPage] = React.useState(1);
       const postsPerPage = 4;
       const [sortOption, setSortOption] = React.useState('date');
@@ -305,10 +303,16 @@
       };
 
       const handleClick = (post) => {
-        openBlogModal(post);
+        setSelectedPost(post);
+        setOpenModal(true);
       };
 
-      const handleCloseSnackbar = () => {
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedPost(null);
+      };
+
+      const handleSnackbarClose = () => {
         setOpenSnackbar(false);
       };
 
@@ -330,7 +334,7 @@
           sorted.sort((a, b) => a.tag.localeCompare(b.tag));
         }
         return sorted;
-      }, [sortOption]);
+      }, [sortOption, cardData]);
 
       // Pagination logic
       const paginatedData = React.useMemo(() => {
@@ -341,6 +345,21 @@
       // Featured Posts (First 3 posts)
       const featuredPosts = sortedData.slice(0, 3);
 
+      // Initialize Slick Carousel
+      React.useEffect(() => {
+        if (window.$ && window.$.fn && window.$.fn.slick) {
+          window.$('.featured-carousel').slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+          });
+        }
+      }, [featuredPosts]);
+
       return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {/* Featured Posts Carousel */}
@@ -348,22 +367,14 @@
             <Typography variant="h4" gutterBottom align="center">
               Featured Posts
             </Typography>
-            <Slider {...{
-              dots: true,
-              infinite: true,
-              speed: 500,
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              autoplay: true,
-              autoplaySpeed: 3000,
-            }}>
+            <div className="featured-carousel">
               {featuredPosts.map((post, index) => (
                 <Card key={index} onClick={() => handleClick(post)} sx={{ cursor: 'pointer' }}>
                   <CardMedia
                     component="img"
                     alt={post.title}
                     image={post.img}
-                    height="300"
+                    height="400"
                   />
                   <CardContent>
                     <Chip label={post.tag} color="primary" />
@@ -376,7 +387,7 @@
                   </CardContent>
                 </Card>
               ))}
-            </Slider>
+            </div>
           </Box>
 
           {/* Blog Header */}
@@ -457,7 +468,7 @@
                       {post.description}
                     </StyledTypography>
                   </StyledCardContent>
-                  <Author authors={post.authors} />
+                  <Author authors={post.authors} date="July 14, 2021" />
                 </StyledCard>
               </Grid>
             ))}
@@ -466,440 +477,226 @@
           {/* Pagination */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
             <Pagination
-              count={Math.ceil(cardData.length / postsPerPage)}
+              count={Math.ceil(sortedData.length / postsPerPage)}
               page={page}
               onChange={handlePageChange}
               color="primary"
             />
           </Box>
 
+          {/* Modal for Detailed Post */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{
+              backdrop: {
+                timeout: 500,
+              },
+            }}
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Typography variant="h4" gutterBottom>
+                      {selectedPost.title}
+                    </Typography>
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {selectedPost.tag} | July 14, 2021
+                    </Typography>
+                    <CardMedia
+                      component="img"
+                      alt={selectedPost.title}
+                      image={selectedPost.img}
+                      sx={{ height: 400, mb: 4 }}
+                    />
+                    <Typography variant="body1" gutterBottom>
+                      {selectedPost.description}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      {/* Detailed content can be placed here */}
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum...
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 4 }}>
+                      <AvatarGroup max={4}>
+                        {selectedPost.authors.map((author, idx) => (
+                          <Avatar key={idx} alt={author.name} src={author.avatar} />
+                        ))}
+                      </AvatarGroup>
+                      <Typography variant="body2">
+                        {selectedPost.authors.map(author => author.name).join(', ')}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+
           {/* Snackbar Notifications */}
           <Snackbar
             open={openSnackbar}
             autoHideDuration={6000}
-            onClose={handleCloseSnackbar}
+            onClose={handleSnackbarClose}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           >
-            <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+            <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
               {snackbarMessage}
             </Alert>
           </Snackbar>
-        </Box>
-      );
+        }
 
-      // Sample cardData (ensure images are accessible or replace with valid URLs)
-      const cardData = [
-        {
-          img: 'https://picsum.photos/800/450?random=1',
-          tag: 'Engineering',
-          title: 'Revolutionizing software development with cutting-edge tools',
-          description:
-            'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
-          authors: [
-            { name: 'Remy Sharp', avatar: 'https://i.pravatar.cc/100?img=1' },
-            { name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' },
-          ],
-          content: 'Full content of the blog post goes here. Detailed information, insights, and more...',
-        },
-        {
-          img: 'https://picsum.photos/800/450?random=2',
-          tag: 'Product',
-          title: 'Innovative product features that drive success',
-          description:
-            'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
-          authors: [{ name: 'Erica Johns', avatar: 'https://i.pravatar.cc/100?img=6' }],
-          content: 'Full content of the product blog post goes here. Detailed information, insights, and more...',
-        },
-        {
-          img: 'https://picsum.photos/800/450?random=3',
-          tag: 'Design',
-          title: 'Designing for the future: trends and insights',
-          description:
-            'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
-          authors: [{ name: 'Kate Morrison', avatar: 'https://i.pravatar.cc/100?img=7' }],
-          content: 'Full content of the design blog post goes here. Detailed information, insights, and more...',
-        },
-        {
-          img: 'https://picsum.photos/800/450?random=4',
-          tag: 'Company',
-          title: "Our company's journey: milestones and achievements",
-          description:
-            "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
-          authors: [{ name: 'Cindy Baker', avatar: 'https://i.pravatar.cc/100?img=3' }],
-          content: 'Full content of the company blog post goes here. Detailed information, insights, and more...',
-        },
-        {
-          img: 'https://picsum.photos/800/450?random=5',
-          tag: 'Engineering',
-          title: 'Pioneering sustainable engineering solutions',
-          description:
-            "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
-          authors: [
-            { name: 'Agnes Walker', avatar: 'https://i.pravatar.cc/100?img=4' },
-            { name: 'Trevor Henderson', avatar: 'https://i.pravatar.cc/100?img=5' },
-          ],
-          content: 'Full content of the sustainable engineering blog post goes here. Detailed information, insights, and more...',
-        },
-        {
-          img: 'https://picsum.photos/800/450?random=6',
-          tag: 'Product',
-          title: 'Maximizing efficiency with our latest product updates',
-          description:
-            'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
-          authors: [{ name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' }],
-          content: 'Full content of the product updates blog post goes here. Detailed information, insights, and more...',
-        },
-      ];
+        // NavigationBar Component with Dark Mode Toggle and Drawer
+        function NavigationBar({ darkMode, toggleDarkMode }) {
+          const [anchorEl, setAnchorEl] = React.useState(null);
+          const [menuId, setMenuId] = React.useState(null);
+          const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-      // Slider Component (using react-slick)
-      const Slider = ({ children, ...props }) => {
-        const sliderRef = React.useRef(null);
+          const handleMenuOpen = (event, id) => {
+            setAnchorEl(event.currentTarget);
+            setMenuId(id);
+          };
 
-        React.useEffect(() => {
-          if (window.jQuery && window.$ && window.jQuery.fn && window.jQuery.fn.slick) {
-            window.$(sliderRef.current).slick(props);
-          }
-        }, [props]);
+          const handleMenuClose = () => {
+            setAnchorEl(null);
+            setMenuId(null);
+          };
 
-        return (
-          <div ref={sliderRef}>
-            {children}
-          </div>
-        );
-      };
+          const toggleDrawer = (open) => () => {
+            setDrawerOpen(open);
+          };
 
-      // Enhanced App Component with Dark Mode Toggle and Modals
-      function App() {
-        const [darkMode, setDarkMode] = React.useState(false);
-        const [blogModalOpen, setBlogModalOpen] = React.useState(false);
-        const [currentBlog, setCurrentBlog] = React.useState(null);
-        const [docsModalOpen, setDocsModalOpen] = React.useState(false);
+          const menuItems = [
+            { label: 'Home', page: 'home' },
+            { label: 'About', page: 'about', submenu: ['Manifesto', 'Team', 'Whitepaper', 'Investors'] },
+            { label: 'Features', page: 'features', submenu: ['Overview', 'For Local Members', 'For Event Hosts', 'For Sellers', 'For Organizations'] },
+            { label: 'Community', page: 'community', submenu: ['Impact Stories', 'Blog'] },
+            { label: 'Download App', page: 'download-app' },
+            { label: 'Docs', external: true, url: 'https://docs.onelocal.com' },
+          ];
 
-        const theme = React.useMemo(() => createTheme({
-          palette: {
-            mode: darkMode ? 'dark' : 'light',
-            primary: {
-              main: '#339999', // Muted Teal
-            },
-            secondary: {
-              main: '#ff7043', // Warm Coral/Peach
-            },
-            success: {
-              main: '#00e676', // Vibrant Soft Green
-            },
-            background: {
-              default: darkMode ? '#121212' : '#f5f5f5',
-              paper: darkMode ? '#1e1e1e' : '#ffffff',
-            },
-            text: {
-              primary: darkMode ? '#f5f5f5' : '#1e1e1e',
-              secondary: darkMode ? '#b0bec5' : '#555555',
-            },
-          },
-          typography: {
-            fontFamily: 'Montserrat, sans-serif',
-            fontWeightBold: 700,
-            h1: {
-              fontSize: '3rem',
-              fontWeight: 700,
-            },
-            h4: {
-              fontSize: '2.5rem',
-              fontWeight: 700,
-            },
-            h5: {
-              fontSize: '1.75rem',
-              fontWeight: 700,
-            },
-            h6: {
-              fontSize: '1.5rem',
-              fontWeight: 700,
-            },
-            body1: {
-              fontSize: '1.25rem',
-            },
-            body2: {
-              fontSize: '1.1rem',
-            },
-          },
-          shape: {
-            borderRadius: 20,
-          },
-          components: {
-            MuiButton: {
-              styleOverrides: {
-                root: {
-                  borderRadius: '20px',
-                  textTransform: 'none',
-                  fontWeight: 'bold',
-                  transition: '0.3s',
-                  '&:hover': {
-                    boxShadow: '0 0 12px rgba(0, 230, 118, 0.6)',
-                  },
-                },
-              },
-            },
-            MuiAppBar: {
-              styleOverrides: {
-                root: {
-                  background: darkMode ? 'rgba(0, 51, 51, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-                  color: darkMode ? '#ffffff' : '#1e1e1e',
-                  backdropFilter: 'blur(10px)',
-                },
-              },
-            },
-            MuiCard: {
-              styleOverrides: {
-                root: {
-                  borderRadius: '20px',
-                  boxShadow: darkMode ? '0 4px 20px rgba(255, 255, 255, 0.1)' : '0 4px 20px rgba(0, 0, 0, 0.1)',
-                },
-              },
-            },
-            MuiSelect: {
-              styleOverrides: {
-                outlined: {
-                  backgroundColor: darkMode ? '#1e1e1e' : '#ffffff',
-                  color: darkMode ? '#f5f5f5' : '#1e1e1e',
-                },
-              },
-            },
-            MuiOutlinedInput: {
-              styleOverrides: {
-                notchedOutline: {
-                  borderColor: darkMode ? '#555555' : '#cccccc',
-                },
-              },
-            },
-          },
-        }), [darkMode]);
-
-        const toggleDarkMode = () => {
-          setDarkMode((prevMode) => !prevMode);
-        };
-
-        const openBlogModalHandler = (post) => {
-          setCurrentBlog(post);
-          setBlogModalOpen(true);
-        };
-
-        const closeBlogModalHandler = () => {
-          setBlogModalOpen(false);
-          setCurrentBlog(null);
-        };
-
-        const openDocsModalHandler = () => {
-          setDocsModalOpen(true);
-        };
-
-        const closeDocsModalHandler = () => {
-          setDocsModalOpen(false);
-        };
-
-        return (
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box className="animatedBackground">
-              <NavigationBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} openDocsModal={openDocsModalHandler} />
-              <Container maxWidth="lg" sx={{ mt: 12, mb: 6 }}>
-                <MainContent openBlogModal={openBlogModalHandler} />
-              </Container>
-              <Footer />
-              <ScrollTop>
-                <Tooltip title="Back to Top" placement="left">
-                  <IconButton color="primary" size="large">
-                    <ArrowUpward />
-                  </IconButton>
-                </Tooltip>
-              </ScrollTop>
-              {/* Blog Post Modal */}
-              <BlogModal
-                open={blogModalOpen}
-                handleClose={closeBlogModalHandler}
-                post={currentBlog}
-              />
-              {/* Documentation Modal */}
-              <DocsModal
-                open={docsModalOpen}
-                handleClose={closeDocsModalHandler}
-              />
-            </Box>
-          </ThemeProvider>
-        );
-      }
-
-      // NavigationBar Component with Dark Mode Toggle and Documentation Link
-      function NavigationBar({ darkMode, toggleDarkMode, openDocsModal }) {
-        const [anchorEl, setAnchorEl] = React.useState(null);
-        const [menuId, setMenuId] = React.useState(null);
-        const [drawerOpen, setDrawerOpen] = React.useState(false);
-
-        const handleMenuOpen = (event, id) => {
-          setAnchorEl(event.currentTarget);
-          setMenuId(id);
-        };
-
-        const handleMenuClose = () => {
-          setAnchorEl(null);
-          setMenuId(null);
-        };
-
-        const toggleDrawer = (open) => () => {
-          setDrawerOpen(open);
-        };
-
-        const menuItems = [
-          { label: 'Home', page: 'home' },
-          { label: 'About', page: 'about', submenu: ['Manifesto', 'Team', 'Whitepaper', 'Investors'] },
-          { label: 'Features', page: 'features', submenu: ['Overview', 'For Local Members', 'For Event Hosts', 'For Sellers', 'For Organizations'] },
-          { label: 'Community', page: 'community', submenu: ['Impact Stories', 'Blog'] },
-          { label: 'Download App', page: 'download-app' },
-          { label: 'Documentation', page: 'documentation' },
-        ];
-
-        return (
-          <>
-            <AppBar position="fixed">
-              <Toolbar>
-                <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                  ONE Local
-                </Typography>
-                <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center' }}>
-                  {menuItems.map((item, index) => (
-                    <Box key={index}>
-                      {item.submenu ? (
-                        <>
+          return (
+            <>
+              <AppBar position="fixed">
+                <Toolbar>
+                  <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                    ONE Local
+                  </Typography>
+                  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2 }}>
+                    {menuItems.map((item, index) => (
+                      <Box key={index}>
+                        {item.submenu ? (
+                          <>
+                            <Button
+                              color="inherit"
+                              onClick={(e) => handleMenuOpen(e, item.page)}
+                              endIcon={<ExpandMore />}
+                            >
+                              {item.label}
+                            </Button>
+                            <Menu
+                              anchorEl={anchorEl}
+                              open={menuId === item.page}
+                              onClose={handleMenuClose}
+                            >
+                              {item.submenu.map((sub, subIndex) => (
+                                <MenuItem key={subIndex} onClick={() => {
+                                  handleMenuClose();
+                                  alert(`Navigate to ${sub}`);
+                                }}>
+                                  {sub}
+                                </MenuItem>
+                              ))}
+                            </Menu>
+                          </>
+                        ) : item.external ? (
                           <Button
                             color="inherit"
-                            onClick={(e) => handleMenuOpen(e, item.page)}
-                            endIcon={<ExpandMore />}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
                             {item.label}
                           </Button>
-                          <Menu
-                            anchorEl={anchorEl}
-                            open={menuId === item.page}
-                            onClose={handleMenuClose}
-                          >
-                            {item.submenu.map((sub, subIndex) => (
-                              <MuiMenuItem key={subIndex} onClick={() => {
-                                handleMenuClose();
-                                if (sub === 'Team') {
-                                  alert(`Navigate to ${sub}`);
-                                  // Implement Team Modal or Navigation
-                                } else if (sub === 'Blog') {
-                                  alert(`Navigate to ${sub}`);
-                                  // Implement Blog Modal or Navigation
-                                } else {
-                                  alert(`Navigate to ${sub}`);
-                                }
-                              }}>
-                                {sub}
-                              </MuiMenuItem>
-                            ))}
-                          </Menu>
-                        </>
-                      ) : (
-                        <Button color="inherit" onClick={() => {
-                          if (item.page === 'documentation') {
-                            openDocsModal();
-                          } else {
-                            alert(`Navigate to ${item.label}`);
-                          }
-                        }}>
-                          {item.label}
-                        </Button>
-                      )}
-                    </Box>
-                  ))}
-                  <FormControlLabel
-                    control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
-                    label="Dark Mode"
-                  />
-                </Box>
-                {/* Mobile Menu Icon */}
-                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                  <IconButton color="inherit" onClick={toggleDrawer(true)}>
-                    <MenuIcon />
-                  </IconButton>
-                  <Drawer
-                    anchor="right"
-                    open={drawerOpen}
-                    onClose={toggleDrawer(false)}
-                  >
-                    <Box
-                      sx={{ width: 250, p: 2 }}
-                      role="presentation"
-                      onClick={toggleDrawer(false)}
-                      onKeyDown={toggleDrawer(false)}
+                        ) : (
+                          <Button color="inherit" onClick={() => alert(`Navigate to ${item.label}`)}>
+                            {item.label}
+                          </Button>
+                        )}
+                      </Box>
+                    ))}
+                    <FormControlLabel
+                      control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
+                      label="Dark Mode"
+                    />
+                  </Box>
+                  {/* Mobile Menu Icon */}
+                  <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                    <IconButton color="inherit" onClick={toggleDrawer(true)}>
+                      <MaterialUIIcons.Menu />
+                    </IconButton>
+                    <Drawer
+                      anchor="right"
+                      open={drawerOpen}
+                      onClose={toggleDrawer(false)}
                     >
-                      <Typography variant="h6" sx={{ mb: 2 }}>
-                        ONE Local
-                      </Typography>
-                      <List>
-                        {menuItems.map((item, index) => (
-                          <Box key={index}>
-                            <ListItem>
+                      <Box
+                        sx={{ width: 250, p: 2 }}
+                        role="presentation"
+                        onClick={toggleDrawer(false)}
+                        onKeyDown={toggleDrawer(false)}
+                      >
+                        <Typography variant="h6" sx={{ mb: 2 }}>
+                          ONE Local
+                        </Typography>
+                        <List>
+                          {menuItems.map((item, index) => (
+                            <Box key={index}>
                               {item.submenu ? (
                                 <>
-                                  <Button
-                                    color="inherit"
-                                    onClick={(e) => handleMenuOpen(e, item.page)}
-                                    endIcon={<ExpandMore />}
-                                    fullWidth
-                                  >
-                                    {item.label}
-                                  </Button>
-                                  <Menu
-                                    anchorEl={anchorEl}
-                                    open={menuId === item.page}
-                                    onClose={handleMenuClose}
-                                  >
-                                    {item.submenu.map((sub, subIndex) => (
-                                      <MuiMenuItem key={subIndex} onClick={() => {
-                                        handleMenuClose();
-                                        if (sub === 'Team') {
-                                          alert(`Navigate to ${sub}`);
-                                          // Implement Team Modal or Navigation
-                                        } else if (sub === 'Blog') {
-                                          alert(`Navigate to ${sub}`);
-                                          // Implement Blog Modal or Navigation
-                                        } else {
-                                          alert(`Navigate to ${sub}`);
-                                        }
-                                      }}>
-                                        {sub}
-                                      </MuiMenuItem>
-                                    ))}
-                                  </Menu>
+                                  <ListItem onClick={() => alert(`Navigate to ${item.label}`)}>
+                                    <ListItemText primary={item.label} />
+                                    <ExpandMore />
+                                  </ListItem>
+                                  {/* Submenu can be implemented here if needed */}
                                 </>
+                              ) : item.external ? (
+                                <ListItem>
+                                  <Link href={item.url} color="inherit" underline="hover" target="_blank" rel="noopener noreferrer">
+                                    {item.label}
+                                  </Link>
+                                </ListItem>
                               ) : (
-                                <Button color="inherit" onClick={() => {
-                                  if (item.page === 'documentation') {
-                                    openDocsModal();
-                                  } else {
-                                    alert(`Navigate to ${item.label}`);
-                                  }
-                                }} fullWidth>
-                                  {item.label}
-                                </Button>
+                                <ListItem onClick={() => alert(`Navigate to ${item.label}`)}>
+                                  <ListItemText primary={item.label} />
+                                </ListItem>
                               )}
-                            </ListItem>
-                          </Box>
-                        ))}
-                        <ListItem>
-                          <FormControlLabel
-                            control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
-                            label="Dark Mode"
-                          />
-                        </ListItem>
-                      </List>
-                    </Box>
-                  </Drawer>
-                </Box>
-              </Toolbar>
-            </AppBar>
-          </>
+                            </Box>
+                          ))}
+                          <ListItem>
+                            <FormControlLabel
+                              control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
+                              label="Dark Mode"
+                            />
+                          </ListItem>
+                        </List>
+                      </Box>
+                    </Drawer>
+                  </Box>
+                </Toolbar>
+              </AppBar>
+            </>
+          );
+
+          // List and ListItem components for Drawer
+          const List = ({ children }) => <Box>{children}</Box>;
+          const ListItem = ({ children, onClick }) => (
+            <Box onClick={onClick} sx={{ cursor: 'pointer', display: 'block', p: 1 }}>
+              {children}
+            </Box>
+          );
         }
 
         // Footer Component
@@ -992,14 +789,15 @@
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position="end">
-                              <IconButton type="submit" color="primary" onClick={(e) => {
-                                e.preventDefault();
-                                alert('Subscribed successfully!');
-                              }}>
+                              <IconButton type="submit" color="primary">
                                 <Send />
                               </IconButton>
                             </InputAdornment>
                           ),
+                        }}
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          alert('Subscribed successfully!');
                         }}
                       />
                     </Box>
@@ -1024,107 +822,194 @@
           );
         }
 
-        // BlogModal Component
-        function BlogModal({ open, handleClose, post }) {
+        // App Component with Dark Mode
+        function App() {
+          const [darkMode, setDarkMode] = React.useState(false);
+
+          const theme = React.useMemo(() => createTheme({
+            palette: {
+              mode: darkMode ? 'dark' : 'light',
+              primary: {
+                main: '#00e676',
+              },
+              secondary: {
+                main: '#ff3d00',
+              },
+              background: {
+                default: darkMode ? '#121212' : '#f5f5f5',
+                paper: darkMode ? '#1e1e1e' : '#ffffff',
+              },
+              text: {
+                primary: darkMode ? '#ffffff' : '#000000',
+                secondary: darkMode ? '#b0bec5' : '#555555',
+              },
+            },
+            typography: {
+              fontFamily: 'Montserrat, sans-serif',
+              fontWeightBold: 700,
+              h1: {
+                fontSize: '3rem',
+                fontWeight: 700,
+              },
+              h4: {
+                fontSize: '2.5rem',
+                fontWeight: 700,
+              },
+              h5: {
+                fontSize: '1.75rem',
+                fontWeight: 700,
+              },
+              h6: {
+                fontSize: '1.5rem',
+                fontWeight: 700,
+              },
+              body1: {
+                fontSize: '1.25rem',
+              },
+              body2: {
+                fontSize: '1.1rem',
+              },
+            },
+            shape: {
+              borderRadius: 20,
+            },
+            components: {
+              MuiButton: {
+                styleOverrides: {
+                  root: {
+                    borderRadius: '20px',
+                    textTransform: 'none',
+                    fontWeight: 'bold',
+                    transition: '0.3s',
+                    '&:hover': {
+                      boxShadow: '0 0 12px rgba(0, 230, 118, 0.6)',
+                    },
+                  },
+                },
+              },
+              MuiAppBar: {
+                styleOverrides: {
+                  root: {
+                    background: darkMode ? 'rgba(0, 51, 51, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                    color: darkMode ? '#ffffff' : '#000000',
+                    backdropFilter: 'blur(10px)',
+                  },
+                },
+              },
+              MuiCard: {
+                styleOverrides: {
+                  root: {
+                    borderRadius: '20px',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                  },
+                },
+              },
+              MuiSelect: {
+                styleOverrides: {
+                  outlined: {
+                    backgroundColor: darkMode ? '#1e1e1e' : '#ffffff',
+                    color: darkMode ? '#ffffff' : '#000000',
+                  },
+                },
+              },
+              MuiOutlinedInput: {
+                styleOverrides: {
+                  notchedOutline: {
+                    borderColor: darkMode ? '#555555' : '#cccccc',
+                  },
+                },
+              },
+            },
+          }), [darkMode]);
+
+          const toggleDarkMode = () => {
+            setDarkMode((prevMode) => !prevMode);
+          };
+
+          // Sample cardData (ensure images are accessible or replace with valid URLs)
+          const cardData = [
+            {
+              img: 'https://picsum.photos/800/450?random=1',
+              tag: 'Engineering',
+              title: 'Revolutionizing software development with cutting-edge tools',
+              description:
+                'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
+              authors: [
+                { name: 'Remy Sharp', avatar: 'https://i.pravatar.cc/100?img=1' },
+                { name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' },
+              ],
+              date: 'July 14, 2021',
+            },
+            {
+              img: 'https://picsum.photos/800/450?random=2',
+              tag: 'Product',
+              title: 'Innovative product features that drive success',
+              description:
+                'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
+              authors: [{ name: 'Erica Johns', avatar: 'https://i.pravatar.cc/100?img=6' }],
+              date: 'August 10, 2021',
+            },
+            {
+              img: 'https://picsum.photos/800/450?random=3',
+              tag: 'Design',
+              title: 'Designing for the future: trends and insights',
+              description:
+                'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
+              authors: [{ name: 'Kate Morrison', avatar: 'https://i.pravatar.cc/100?img=7' }],
+              date: 'September 5, 2021',
+            },
+            {
+              img: 'https://picsum.photos/800/450?random=4',
+              tag: 'Company',
+              title: "Our company's journey: milestones and achievements",
+              description:
+                "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
+              authors: [{ name: 'Cindy Baker', avatar: 'https://i.pravatar.cc/100?img=3' }],
+              date: 'October 12, 2021',
+            },
+            {
+              img: 'https://picsum.photos/800/450?random=5',
+              tag: 'Engineering',
+              title: 'Pioneering sustainable engineering solutions',
+              description:
+                "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
+              authors: [
+                { name: 'Agnes Walker', avatar: 'https://i.pravatar.cc/100?img=4' },
+                { name: 'Trevor Henderson', avatar: 'https://i.pravatar.cc/100?img=5' },
+              ],
+              date: 'November 20, 2021',
+            },
+            {
+              img: 'https://picsum.photos/800/450?random=6',
+              tag: 'Product',
+              title: 'Maximizing efficiency with our latest product updates',
+              description:
+                'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
+              authors: [{ name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' }],
+              date: 'December 8, 2021',
+            },
+          ];
+
           return (
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              scroll="paper"
-              aria-labelledby="blog-dialog-title"
-              aria-describedby="blog-dialog-description"
-              maxWidth="md"
-              fullWidth
-            >
-              {post && (
-                <>
-                  <DialogTitle id="blog-dialog-title">{post.title}</DialogTitle>
-                  <DialogContent dividers>
-                    <CardMedia
-                      component="img"
-                      alt={post.title}
-                      image={post.img}
-                      height="300"
-                      sx={{ mb: 4 }}
-                    />
-                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                      {post.tag} | July 14, 2021
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      {post.content}
-                    </Typography>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                      Close
-                    </Button>
-                  </DialogActions>
-                </>
-              )}
-            </Dialog>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Box className="animatedBackground">
+                <NavigationBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+                <Container maxWidth="lg" sx={{ mt: 12, mb: 6 }}>
+                  <MainContent cardData={cardData} />
+                </Container>
+                <Footer />
+                <ScrollTop>
+                  <Tooltip title="Back to Top" placement="left">
+                    <IconButton color="primary" size="large">
+                      <ArrowUpward />
+                    </IconButton>
+                  </Tooltip>
+                </ScrollTop>
+              </Box>
+            </ThemeProvider>
           );
         }
-
-        BlogModal.propTypes = {
-          open: PropTypes.bool.isRequired,
-          handleClose: PropTypes.func.isRequired,
-          post: PropTypes.object,
-        };
-
-        // DocsModal Component
-        function DocsModal({ open, handleClose }) {
-          return (
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              scroll="paper"
-              aria-labelledby="docs-dialog-title"
-              aria-describedby="docs-dialog-description"
-              maxWidth="md"
-              fullWidth
-            >
-              <DialogTitle id="docs-dialog-title">Documentation</DialogTitle>
-              <DialogContent dividers>
-                <Typography variant="h6" gutterBottom>
-                  Getting Started
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Welcome to ONE Local! This documentation will guide you through the features and functionalities of our platform.
-                </Typography>
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Features
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  - **Connect**: Find and connect with your local community members.<br/>
-                  - **Share**: Share resources, tools, and knowledge.<br/>
-                  - **Events**: Create, manage, and participate in local events.<br/>
-                  - **Sellers**: Showcase and sell your products within the community.<br/>
-                  - **Organizations**: Manage your group or nonprofit initiatives.
-                </Typography>
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Getting Help
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  If you need assistance, please contact our support team at <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>.
-                </Typography>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
-          );
-        }
-
-        DocsModal.propTypes = {
-          open: PropTypes.bool.isRequired,
-          handleClose: PropTypes.func.isRequired,
-        };
-
-        // Footer Component (Already Defined Above)
 
         // Rendering the App
         ReactDOM.render(<App />, document.getElementById('root'));
