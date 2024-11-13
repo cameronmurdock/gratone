@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>ONE Local - Empowering Communities</title>
+  <!-- Responsive meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ONE Local - Empower Your Community</title>
   <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body>
+<body style="background-color: #121212; color: #ffffff;">
   <div id="root"></div>
 
   <!-- React, ReactDOM, Babel, and Material UI -->
@@ -16,70 +19,411 @@
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/@mui/material@5.0.0-rc.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.0.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
-    const { AppBar, Toolbar, Typography, Button, Container, Box, Card, CardContent } = MaterialUI;
+    const {
+      AppBar,
+      Toolbar,
+      Typography,
+      Button,
+      IconButton,
+      Menu,
+      MenuItem,
+      Container,
+      Box,
+      Grid,
+      Card,
+      CardContent,
+      CardMedia,
+      TextField,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      List,
+      ListItem,
+      ListItemIcon,
+      ListItemText,
+      Chip,
+      CardActions,
+      Divider,
+    } = MaterialUI;
+
+    const {
+      ExpandMore,
+      Menu: MenuIcon,
+      Email,
+      Phone,
+      AutoAwesome,
+      CheckCircleRounded,
+    } = MaterialUIIcons;
+
+    const tiers = [
+      {
+        title: 'Free',
+        price: '0',
+        description: [
+          '10 users included',
+          '2 GB of storage',
+          'Help center access',
+          'Email support',
+        ],
+        buttonText: 'Sign up for free',
+        buttonVariant: 'outlined',
+        buttonColor: 'primary',
+      },
+      {
+        title: 'Professional',
+        subheader: 'Recommended',
+        price: '15',
+        description: [
+          '20 users included',
+          '10 GB of storage',
+          'Help center access',
+          'Priority email support',
+          'Dedicated team',
+          'Best deals',
+        ],
+        buttonText: 'Start now',
+        buttonVariant: 'contained',
+        buttonColor: 'secondary',
+      },
+      {
+        title: 'Enterprise',
+        price: '30',
+        description: [
+          '50 users included',
+          '30 GB of storage',
+          'Help center access',
+          'Phone & email support',
+        ],
+        buttonText: 'Contact us',
+        buttonVariant: 'outlined',
+        buttonColor: 'primary',
+      },
+    ];
+
+    function Pricing() {
+      return (
+        <Container id="pricing" sx={{ pt: 8, pb: 8 }}>
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Typography component="h2" variant="h4" gutterBottom sx={{ color: '#ffffff' }}>
+              Pricing
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#bbbbbb' }}>
+              Choose the plan that suits your needs.
+            </Typography>
+          </Box>
+          <Grid container spacing={4} justifyContent="center">
+            {tiers.map((tier) => (
+              <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
+                <Card
+                  sx={{
+                    backgroundColor: '#1e1e1e',
+                    color: '#ffffff',
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1, width: '100%' }}>
+                    <Box sx={{ mb: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography component="h3" variant="h6">
+                        {tier.title}
+                      </Typography>
+                      {tier.subheader && (
+                        <Chip icon={<AutoAwesome style={{ color: '#ffd700' }} />} label={tier.subheader} color="primary" />
+                      )}
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'baseline', mb: 2 }}>
+                      <Typography component="h2" variant="h3">
+                        ${tier.price}
+                      </Typography>
+                      <Typography variant="h6" sx={{ marginLeft: '4px' }}>
+                        /mo
+                      </Typography>
+                    </Box>
+                    <Divider sx={{ borderColor: '#444444', mb: 2 }} />
+                    {tier.description.map((line) => (
+                      <Box key={line} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                        <CheckCircleRounded sx={{ color: '#00e676', mr: 1 }} />
+                        <Typography variant="subtitle1">{line}</Typography>
+                      </Box>
+                    ))}
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant}
+                      color={tier.buttonColor}
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
 
     function LandingPage() {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+
+      const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+      };
+
       return (
         <div>
-          {/* AppBar for Navigation */}
-          <AppBar position="static" style={{ backgroundColor: '#339999' }}>
+          {/* AppBar */}
+          <AppBar position="static" style={{ backgroundColor: '#1f1f1f' }}>
             <Toolbar>
               <Typography variant="h6" style={{ flexGrow: 1 }}>
                 ONE Local
               </Typography>
-              <Button color="inherit">Join Us</Button>
+              <div className="desktopMenu">
+                <Button color="inherit">Home</Button>
+                <Button color="inherit">Features</Button>
+                <Button color="inherit">Pricing</Button>
+                <Button color="inherit">About Us</Button>
+                <Button color="inherit">Contact</Button>
+                <Button color="inherit">Join Us</Button>
+              </div>
+              <div className="mobileMenu">
+                <IconButton color="inherit" onClick={handleMenuOpen}>
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem onClick={handleMenuClose}>Home</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Features</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Pricing</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>About Us</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Contact</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Join Us</MenuItem>
+                </Menu>
+              </div>
             </Toolbar>
           </AppBar>
 
-          {/* Main Content */}
-          <Container maxWidth="md">
-            <Box textAlign="center" mt={5}>
-              <Typography variant="h2" component="h1" gutterBottom>
+          {/* Hero Section */}
+          <Container maxWidth="lg">
+            <Box textAlign="center" mt={8} mb={8}>
+              <Typography variant="h2" component="h1" gutterBottom sx={{ color: '#ffffff' }}>
                 Empower Your Community
               </Typography>
-              <Typography variant="h5" component="h2" color="textSecondary" gutterBottom>
-                Share your skills, resources, and opportunities to build a connected and thriving community.
+              <Typography variant="h5" component="h2" color="textSecondary" gutterBottom sx={{ color: '#bbbbbb' }}>
+                Connect, Share, and Grow Together
               </Typography>
               <Button variant="contained" color="primary" size="large">
                 Get Started
               </Button>
             </Box>
 
-            {/* Community Features Section */}
-            <Box mt={5} display="flex" justifyContent="space-around" flexWrap="wrap">
-              <Card style={{ maxWidth: 300, margin: '10px' }}>
-                <CardContent>
-                  <Typography variant="h6">Connect with Your Community</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Discover local groups, events, and shared resources that bring people together.
-                  </Typography>
-                </CardContent>
-              </Card>
+            {/* Features Section */}
+            <Box mt={8} mb={8}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
+                Our Features
+              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="https://via.placeholder.com/300/1e1e1e/ffffff?text=Community+Events"
+                      alt="Community Events"
+                    />
+                    <CardContent>
+                      <Typography variant="h6">Community Events</Typography>
+                      <Typography variant="body2" color="#bbbbbb">
+                        Join and create events that bring people together.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="https://via.placeholder.com/300/1e1e1e/ffffff?text=Resource+Sharing"
+                      alt="Resource Sharing"
+                    />
+                    <CardContent>
+                      <Typography variant="h6">Resource Sharing</Typography>
+                      <Typography variant="body2" color="#bbbbbb">
+                        Share tools, equipment, and resources with your neighbors.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="https://via.placeholder.com/300/1e1e1e/ffffff?text=Skill+Exchange"
+                      alt="Skill Exchange"
+                    />
+                    <CardContent>
+                      <Typography variant="h6">Skill Exchange</Typography>
+                      <Typography variant="body2" color="#bbbbbb">
+                        Learn new skills or teach others what you know.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Box>
 
-              <Card style={{ maxWidth: 300, margin: '10px' }}>
-                <CardContent>
-                  <Typography variant="h6">Share Skills & Resources</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Offer your skills or request help from others. It's all about sharing and collaboration.
-                  </Typography>
-                </CardContent>
-              </Card>
+            {/* Pricing Section */}
+            <Pricing />
 
-              <Card style={{ maxWidth: 300, margin: '10px' }}>
-                <CardContent>
-                  <Typography variant="h6">Grow Together</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Participate in local projects and initiatives. Build a better future with your neighbors.
+            {/* FAQ Section */}
+            <Box mt={8} mb={8}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
+                Frequently Asked Questions
+              </Typography>
+              <Accordion sx={{ backgroundColor: '#1e1e1e', color: '#ffffff', mb: 2 }}>
+                <AccordionSummary expandIcon={<ExpandMore sx={{ color: '#ffffff' }} />}>
+                  <Typography>How can I join ONE Local?</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Simply click on the "Join Us" button at the top, fill out the registration form, and start connecting with your community.
                   </Typography>
-                </CardContent>
-              </Card>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion sx={{ backgroundColor: '#1e1e1e', color: '#ffffff', mb: 2 }}>
+                <AccordionSummary expandIcon={<ExpandMore sx={{ color: '#ffffff' }} />}>
+                  <Typography>Is there a membership fee?</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    No, joining ONE Local is completely free. We believe in accessible community engagement for everyone.
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion sx={{ backgroundColor: '#1e1e1e', color: '#ffffff', mb: 2 }}>
+                <AccordionSummary expandIcon={<ExpandMore sx={{ color: '#ffffff' }} />}>
+                  <Typography>How do I create an event?</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    Once you're logged in, navigate to the "Events" section and click on "Create Event." Fill out the details, and you're all set!
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </Box>
+
+            {/* Testimonials Section */}
+            <Box mt={8} mb={8}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
+                What Our Members Say
+              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                    <CardContent>
+                      <Typography variant="body1" gutterBottom>
+                        "ONE Local has completely transformed how I interact with my neighbors. We've organized community clean-ups and even started a book club!"
+                      </Typography>
+                      <Typography variant="subtitle1" align="right">
+                        - Jane Doe
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                    <CardContent>
+                      <Typography variant="body1" gutterBottom>
+                        "I love the resource sharing feature. I've borrowed tools and shared my own, saving money and fostering connections."
+                      </Typography>
+                      <Typography variant="subtitle1" align="right">
+                        - John Smith
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Box>
+
+            {/* Contact Section */}
+            <Box mt={8} mb={8}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
+                Contact Us
+              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" sx={{ color: '#ffffff', mb: 2 }}>Get in Touch</Typography>
+                  <List>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Email sx={{ color: '#ffffff' }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Email" secondary="info@onelocal.com" sx={{ color: '#ffffff' }} />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Phone sx={{ color: '#ffffff' }} />
+                      </ListItemIcon>
+                      <ListItemText primary="Phone" secondary="+1 (555) 123-4567" sx={{ color: '#ffffff' }} />
+                    </ListItem>
+                  </List>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" sx={{ color: '#ffffff', mb: 2 }}>Send Us a Message</Typography>
+                  <form noValidate autoComplete="off">
+                    <TextField
+                      label="Name"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ style: { color: '#bbbbbb' } }}
+                      InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
+                    />
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ style: { color: '#bbbbbb' } }}
+                      InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
+                    />
+                    <TextField
+                      label="Message"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      multiline
+                      rows={4}
+                      InputLabelProps={{ style: { color: '#bbbbbb' } }}
+                      InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
+                    />
+                    <Button variant="contained" color="primary" size="large">
+                      Submit
+                    </Button>
+                  </form>
+                </Grid>
+              </Grid>
             </Box>
           </Container>
 
           {/* Footer */}
-          <Box textAlign="center" py={3} mt={5} style={{ backgroundColor: '#003333', color: '#ffffff' }}>
+          <Box textAlign="center" py={3} style={{ backgroundColor: '#1f1f1f', color: '#ffffff' }}>
             <Typography variant="body2">
               © 2024 ONE Local. All rights reserved.
             </Typography>
@@ -90,6 +434,34 @@
 
     ReactDOM.render(<LandingPage />, document.getElementById('root'));
   </script>
+
+  <style>
+    /* Responsive Menu Styling */
+    @media (max-width: 600px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 600px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      scrollbar-color: #333 #1e1e1e;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #1e1e1e;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 4px;
+    }
+  </style>
 </body>
 </html>
-
