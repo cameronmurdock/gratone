@@ -197,98 +197,6 @@
 
     // Data Objects
     const data = {
-      departments: [
-        {
-          name: 'Admin + Org Structure',
-          roles: ['Secretary', 'Treasurer'],
-          members: [
-            {
-              name: 'John Doe',
-              role: 'Secretary',
-              bio: 'John is responsible for maintaining records and facilitating communication within the organization.',
-              image: 'https://i.pravatar.cc/300?img=9',
-            },
-            {
-              name: 'Jane Smith',
-              role: 'Treasurer',
-              bio: 'Jane manages the financial aspects, ensuring transparency and accountability.',
-              image: 'https://i.pravatar.cc/300?img=10',
-            },
-          ],
-        },
-        {
-          name: 'Community Outreach (Product and Marketing)',
-          roles: ['Community Manager', 'Marketing Specialist'],
-          members: [
-            {
-              name: 'Emily Davis',
-              role: 'Community Manager',
-              bio: 'Emily engages with the community to foster growth and participation.',
-              image: 'https://i.pravatar.cc/300?img=11',
-            },
-            {
-              name: 'Michael Brown',
-              role: 'Marketing Specialist',
-              bio: 'Michael develops marketing strategies to promote ONE Local.',
-              image: 'https://i.pravatar.cc/300?img=12',
-            },
-          ],
-        },
-        {
-          name: 'Directors',
-          roles: ['Director of Operations', 'Director of Strategy'],
-          members: [
-            {
-              name: 'Sarah Wilson',
-              role: 'Director of Operations',
-              bio: 'Sarah oversees daily operations to ensure smooth functioning.',
-              image: 'https://i.pravatar.cc/300?img=13',
-            },
-            {
-              name: 'David Lee',
-              role: 'Director of Strategy',
-              bio: 'David plans and executes strategic initiatives for long-term growth.',
-              image: 'https://i.pravatar.cc/300?img=14',
-            },
-          ],
-        },
-        {
-          name: 'Funding and Finance',
-          roles: ['Finance Manager', 'Funding Coordinator'],
-          members: [
-            {
-              name: 'Anna Taylor',
-              role: 'Finance Manager',
-              bio: 'Anna manages the financial planning and reporting.',
-              image: 'https://i.pravatar.cc/300?img=15',
-            },
-            {
-              name: 'Robert Miller',
-              role: 'Funding Coordinator',
-              bio: 'Robert coordinates funding efforts and manages donor relations.',
-              image: 'https://i.pravatar.cc/300?img=16',
-            },
-          ],
-        },
-        {
-          name: 'Tech Development',
-          roles: ['Lead Developer', 'UI/UX Designer'],
-          members: [
-            {
-              name: 'Laura Martinez',
-              role: 'Lead Developer',
-              bio: 'Laura leads the development team in building and maintaining the platform.',
-              image: 'https://i.pravatar.cc/300?img=17',
-            },
-            {
-              name: 'James Anderson',
-              role: 'UI/UX Designer',
-              bio: 'James designs user-friendly interfaces to enhance user experience.',
-              image: 'https://i.pravatar.cc/300?img=18',
-            },
-          ],
-        },
-      ],
       features: [
         {
           title: 'Connect',
@@ -315,7 +223,7 @@
           details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
         },
       ],
-      memberships: [
+      membershipTypes: [
         {
           title: 'Local Members',
           description:
@@ -349,108 +257,196 @@
           details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
         },
       ],
-      teamMembers: [
+      teamDepartments: [
         {
-          name: 'John Doe',
-          role: 'Secretary',
-          bio: 'John is responsible for maintaining records and facilitating communication within the organization.',
-          image: 'https://i.pravatar.cc/300?img=9',
-          department: 'Admin + Org Structure',
+          name: 'Admin + Org Structure',
+          roles: [
+            {
+              name: 'CEO',
+              tags: '',
+              description: "Directs ONE Local's strategy and alignment.",
+              people: ['Cam'],
+              responsibilities: "Set strategic direction, align departments, lead executive team, oversee performance, manage stakeholders, ensure financial stability.",
+              keyTasks: "Strategic Planning, Performance Monitoring, Stakeholder Engagement, Financial Oversight, Leadership and Culture.",
+              keyGoal: "Achieve vision and mission, build a thriving community, create a sustainable platform, establish leadership in civic tech, support org structure, community outreach, secure funding, guide tech development.",
+              tasks: '',
+            },
+            {
+              name: 'COO',
+              tags: 'Biz-Ops Manager',
+              description: "Oversees daily operations, implements policies.",
+              people: ['Cam'],
+              responsibilities: "Oversees daily operations, policy implementation, and business process efficiency.",
+              keyTasks: "Finalize project management frameworks, conduct cooperative model research, establish governance policies.",
+              keyGoal: "Establish a scalable and efficient structure for growth, transparent governance, and strong foundation for user engagement and expansion.",
+              tasks: '',
+            },
+            {
+              name: 'Human Resources Manager',
+              tags: '',
+              description: "Manages recruitment, training, and development of staff.",
+              people: [],
+              responsibilities: "Manages recruitment, staff training, role definitions, and responsibilities.",
+              keyTasks: "Train staff on new structures, refine administrative processes.",
+              keyGoal: "",
+              tasks: '',
+            },
+          ],
         },
         {
-          name: 'Jane Smith',
-          role: 'Treasurer',
-          bio: 'Jane manages the financial aspects, ensuring transparency and accountability.',
-          image: 'https://i.pravatar.cc/300?img=10',
-          department: 'Admin + Org Structure',
+          name: 'Community Outreach',
+          roles: [
+            {
+              name: 'CMO',
+              tags: 'Community Engagement Director',
+              description: "Leads community engagement, membership growth, events.",
+              people: ['Kathena', 'Cam'],
+              responsibilities: "Increase membership, coordinate events, drive community engagement efforts.",
+              keyTasks: "Plan feedback sessions, membership drives, community festivals.",
+              keyGoal: "Cultivate an engaged community that participates actively, shaping ONE Local’s development through a feedback loop, building strong user relationships.",
+              tasks: '',
+            },
+            {
+              name: 'Marketing Manager',
+              tags: '',
+              description: "Develops and implements marketing strategies.",
+              people: ['Cam', 'Miranda'],
+              responsibilities: "Creates promotional materials, implements strategies, monitors engagement.",
+              keyTasks: "Distribute promotional materials, develop referral programs, monitor campaigns.",
+              keyGoal: "",
+              tasks: "1.1 launch and field update Email to Users",
+            },
+            {
+              name: 'Product Manager',
+              tags: '',
+              description: "Manages product lifecycle and user feedback.",
+              people: ['Cam'],
+              responsibilities: "Oversees feature development, user feedback, and iteration process.",
+              keyTasks: "Develop community voting features, integrate personalization, monitor user engagement.",
+              keyGoal: "",
+              tasks: '',
+            },
+          ],
         },
         {
-          name: 'Emily Davis',
-          role: 'Community Manager',
-          bio: 'Emily engages with the community to foster growth and participation.',
-          image: 'https://i.pravatar.cc/300?img=11',
-          department: 'Community Outreach (Product and Marketing)',
+          name: 'Funding and Finance',
+          roles: [
+            {
+              name: 'CFO',
+              tags: 'Funding and Finance',
+              description: "Manages financial health and fundraising.",
+              people: ['Cam'],
+              responsibilities: "Oversees fundraising, financial sustainability, and overall financial health.",
+              keyTasks: "Prepare fundraising materials, launch campaigns, secure funding.",
+              keyGoal: "Establish diverse, sustainable funding streams for financial stability and long-term growth, allowing investment in new initiatives and geographic expansion.",
+              tasks: '',
+            },
+            {
+              name: 'Fundraising Manager',
+              tags: '',
+              description: "Identifies investors, organizes pitch sessions.",
+              people: ['Cam'],
+              responsibilities: "Identify potential investors, maintain donor relationships, organize pitch sessions.",
+              keyTasks: "Approach investors, organize pitch sessions, monitor fundraising progress.",
+              keyGoal: "",
+              tasks: '',
+            },
+          ],
         },
         {
-          name: 'Michael Brown',
-          role: 'Marketing Specialist',
-          bio: 'Michael develops marketing strategies to promote ONE Local.',
-          image: 'https://i.pravatar.cc/300?img=12',
-          department: 'Community Outreach (Product and Marketing)',
+          name: 'Tech Development',
+          roles: [
+            {
+              name: 'CTO',
+              tags: 'Tech Lead',
+              description: "Oversees technology development and maintenance.",
+              people: ['Shawn'],
+              responsibilities: "Develop, implement, and maintain tech solutions.",
+              keyTasks: "Develop new features, ensure platform stability, conduct user testing.",
+              keyGoal: "Develop and maintain a cutting-edge platform ensuring user-friendly, secure, and scalable tech. Focus on user engagement, adaptability, and new feature implementation.",
+              tasks: '',
+            },
+          ],
+        },
+      ],
+      testimonials: [
+        {
+          avatar: 'https://i.pravatar.cc/100?img=1',
+          name: 'Emily R.',
+          role: 'Local Member',
+          quote: '“I found my neighbors, my friends, my sense of belonging.”',
         },
         {
-          name: 'Sarah Wilson',
-          role: 'Director of Operations',
-          bio: 'Sarah oversees daily operations to ensure smooth functioning.',
-          image: 'https://i.pravatar.cc/300?img=13',
-          department: 'Directors',
+          avatar: 'https://i.pravatar.cc/100?img=2',
+          name: 'Michael T.',
+          role: 'Event Host',
+          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
         },
         {
-          name: 'David Lee',
-          role: 'Director of Strategy',
-          bio: 'David plans and executes strategic initiatives for long-term growth.',
-          image: 'https://i.pravatar.cc/300?img=14',
-          department: 'Directors',
+          avatar: 'https://i.pravatar.cc/100?img=3',
+          name: 'Sarah L.',
+          role: 'Seller',
+          quote: '“This platform brought customers who appreciate the local touch.”',
         },
         {
-          name: 'Anna Taylor',
-          role: 'Finance Manager',
-          bio: 'Anna manages the financial planning and reporting.',
-          image: 'https://i.pravatar.cc/300?img=15',
-          department: 'Funding and Finance',
+          avatar: 'https://i.pravatar.cc/100?img=4',
+          name: 'David G.',
+          role: 'Organization Leader',
+          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+        },
+      ],
+      impactStories: [
+        {
+          title: 'Artisans Unite',
+          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
+          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
         },
         {
-          name: 'Robert Miller',
-          role: 'Funding Coordinator',
-          bio: 'Robert coordinates funding efforts and manages donor relations.',
-          image: 'https://i.pravatar.cc/300?img=16',
-          department: 'Funding and Finance',
+          title: 'Youth Leadership',
+          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
+          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
         },
         {
-          name: 'Laura Martinez',
-          role: 'Lead Developer',
-          bio: 'Laura leads the development team in building and maintaining the platform.',
-          image: 'https://i.pravatar.cc/300?img=17',
-          department: 'Tech Development',
+          title: 'Circular Economy',
+          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
+          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
         },
         {
-          name: 'James Anderson',
-          role: 'UI/UX Designer',
-          bio: 'James designs user-friendly interfaces to enhance user experience.',
-          image: 'https://i.pravatar.cc/300?img=18',
-          department: 'Tech Development',
+          title: 'Disaster Relief',
+          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
+          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
+        },
+      ],
+      blogPosts: [
+        {
+          title: 'Building Sustainable Communities',
+          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+          content: 'Detailed content about building sustainable communities through ONE Local...',
+        },
+        {
+          title: 'The Power of Local Events',
+          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+          content: 'Detailed content about the impact of local events on community strength...',
+        },
+        {
+          title: 'Supporting Local Businesses',
+          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+          content: 'Detailed content about the economic benefits of supporting local businesses...',
         },
       ],
       products: [
-        {
-          id: 1,
-          name: 'Community Connect',
-          description: 'A tool to connect with local members seamlessly.',
-          image: 'https://via.placeholder.com/600x400?text=Community+Connect',
-        },
-        {
-          id: 2,
-          name: 'Resource Share',
-          description: 'Share tools and resources within your community.',
-          image: 'https://via.placeholder.com/600x400?text=Resource+Share',
-        },
-        {
-          id: 3,
-          name: 'Event Manager',
-          description: 'Create and manage community events effortlessly.',
-          image: 'https://via.placeholder.com/600x400?text=Event+Manager',
-        },
-        {
-          id: 4,
-          name: 'Funding Hub',
-          description: 'Manage funding and financials with ease.',
-          image: 'https://via.placeholder.com/600x400?text=Funding+Hub',
-        },
+        // Define products if applicable
+      ],
+      groups: [
+        // Define groups if applicable
       ],
     };
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
-    const themeConfig = createTheme({
+    const themeOptions = createTheme({
       palette: {
         mode: 'light',
         primary: {
@@ -562,7 +558,7 @@
 
     function App() {
       const [currentPage, setCurrentPage] = React.useState('home');
-      const isMobile = useMediaQuery(themeConfig.breakpoints.down('md'));
+      const isMobile = useMediaQuery(themeOptions.breakpoints.down('md'));
 
       const renderPage = () => {
         switch (currentPage) {
@@ -571,7 +567,7 @@
           case 'manifesto':
             return <ManifestoPage />;
           case 'team':
-            return <TeamPage setCurrentPage={setCurrentPage} />;
+            return <TeamPage />;
           case 'whitepaper':
             return <WhitepaperPage />;
           case 'investors':
@@ -579,13 +575,13 @@
           case 'features-overview':
             return <FeaturesOverviewPage />;
           case 'local-members':
-            return <LocalMembersPage setCurrentPage={setCurrentPage} />;
+            return <LocalMembersPage />;
           case 'event-hosts':
-            return <EventHostsPage setCurrentPage={setCurrentPage} />;
+            return <EventHostsPage />;
           case 'sellers':
-            return <SellersPage setCurrentPage={setCurrentPage} />;
+            return <SellersPage />;
           case 'organizations':
-            return <OrganizationsPage setCurrentPage={setCurrentPage} />;
+            return <OrganizationsPage />;
           case 'impact-stories':
             return <ImpactStoriesPage />;
           case 'blog':
@@ -606,7 +602,7 @@
       };
 
       return (
-        <ThemeProvider theme={themeConfig}>
+        <ThemeProvider theme={themeOptions}>
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
@@ -713,9 +709,8 @@
               )}
             </Menu>
           </AppBar>
-        </Toolbar>
-        </AppBar>
-      );
+        );
+      
     }
 
     // Landing Page
@@ -726,7 +721,7 @@
           <LogoCollection />
           <FeaturesSection />
           <MembershipTypes setCurrentPage={setCurrentPage} />
-          <TeamSection />
+          <TeamSection setCurrentPage={setCurrentPage} />
           <CommunityImpact />
           <TestimonialsCarousel />
           <CallToAction setCurrentPage={setCurrentPage} />
@@ -757,13 +752,13 @@
       );
     }
 
-    function TeamPage({ setCurrentPage }) {
+    function TeamPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Meet the Team
           </Typography>
-          <TeamSection />
+          <TeamSection setCurrentPage={() => {}} />
         </Container>
       );
     }
@@ -823,7 +818,7 @@
       );
     }
 
-    function LocalMembersPage({ setCurrentPage }) {
+    function LocalMembersPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -839,7 +834,7 @@
       );
     }
 
-    function EventHostsPage({ setCurrentPage }) {
+    function EventHostsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -855,7 +850,7 @@
       );
     }
 
-    function SellersPage({ setCurrentPage }) {
+    function SellersPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -871,7 +866,7 @@
       );
     }
 
-    function OrganizationsPage({ setCurrentPage }) {
+    function OrganizationsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -888,28 +883,7 @@
     }
 
     function ImpactStoriesPage() {
-      const stories = [
-        {
-          title: 'Artisans Unite',
-          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
-          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
-        },
-        {
-          title: 'Youth Leadership',
-          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
-          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
-        },
-        {
-          title: 'Circular Economy',
-          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
-          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
-        },
-        {
-          title: 'Disaster Relief',
-          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
-          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
-        },
-      ];
+      const stories = data.impactStories;
 
       const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -961,26 +935,7 @@
     }
 
     function BlogPage() {
-      const blogPosts = [
-        {
-          title: 'Building Sustainable Communities',
-          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-          content: 'Detailed content about building sustainable communities.',
-        },
-        {
-          title: 'The Power of Local Events',
-          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
-          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-          content: 'Detailed content about the power of local events.',
-        },
-        {
-          title: 'Supporting Local Businesses',
-          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
-          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-          content: 'Detailed content about supporting local businesses.',
-        },
-      ];
+      const blogPosts = data.blogPosts;
 
       const [currentPost, setCurrentPost] = React.useState(0);
 
@@ -1269,7 +1224,7 @@
     }
 
     function LogoCollection() {
-      const logos = [
+      const logos = data.logoCollection || [
         'https://via.placeholder.com/150x100?text=Logo1',
         'https://via.placeholder.com/150x100?text=Logo2',
         'https://via.placeholder.com/150x100?text=Logo3',
@@ -1387,7 +1342,7 @@
     }
 
     function MembershipTypes({ setCurrentPage }) {
-      const memberships = data.memberships;
+      const memberships = data.membershipTypes;
 
       // Modal State
       const [openModal, setOpenModal] = React.useState(false);
@@ -1467,47 +1422,46 @@
       );
     }
 
-    function TeamSection() {
-      const departments = data.departments;
+    function TeamSection({ setCurrentPage }) {
+      const departments = data.teamDepartments;
 
-      // Modal State for Team Members
+      // Modal State
       const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMember, setSelectedMember] = React.useState(null);
+      const [selectedRole, setSelectedRole] = React.useState(null);
 
-      const handleOpenModal = (member) => {
-        setSelectedMember(member);
+      const handleOpenModal = (role) => {
+        setSelectedRole(role);
         setOpenModal(true);
       };
 
       const handleCloseModal = () => {
         setOpenModal(false);
-        setSelectedMember(null);
+        setSelectedRole(null);
       };
 
       return (
         <Box mt={12} mb={12}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Meet the Team
           </Typography>
-          {departments.map((dept, index) => (
-            <Box key={index} sx={{ mb: 8 }}>
+          {departments.map((dept, deptIndex) => (
+            <Box key={deptIndex} sx={{ mb: 8 }}>
               <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
                 {dept.name}
               </Typography>
               <Grid container spacing={6}>
-                {dept.members.map((member, idx) => (
-                  <Grid item xs={12} sm={6} md={3} key={idx}>
-                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                {dept.roles.map((role, roleIndex) => (
+                  <Grid item xs={12} sm={6} md={3} key={roleIndex}>
+                    <Card onClick={() => handleOpenModal(role)} sx={{ cursor: 'pointer' }} aria-labelledby={`role-${role.name}`}>
                       <CardContent>
-                        <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                          {member.name}
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+                          {role.name}
                         </Typography>
                         <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                          {member.role}
+                          {role.role || ''}
                         </Typography>
                         <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                          {member.bio}
+                          {role.description}
                         </Typography>
                       </CardContent>
                     </Card>
@@ -1517,7 +1471,7 @@
             </Box>
           ))}
 
-          {/* Team Member Details Modal */}
+          {/* Role Details Modal */}
           <Modal
             open={openModal}
             onClose={handleCloseModal}
@@ -1526,20 +1480,43 @@
             BackdropProps={{
               timeout: 500,
             }}
-            aria-labelledby="team-modal-title"
-            aria-describedby="team-modal-description"
+            aria-labelledby="role-modal-title"
+            aria-describedby="role-modal-description"
           >
             <Fade in={openModal}>
               <Box className="modalContent">
-                {selectedMember && (
+                {selectedRole && (
                   <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMember.name}
+                    <Typography id="role-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedRole.name}
                     </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
-                      {selectedMember.bio}
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
+                      {selectedRole.tags}
                     </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Description:</strong> {selectedRole.description}
+                    </Typography>
+                    {selectedRole.people && selectedRole.people.length > 0 && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>People:</strong> {selectedRole.people.join(', ')}
+                      </Typography>
+                    )}
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Responsibilities:</strong> {selectedRole.responsibilities}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Key Tasks:</strong> {selectedRole.keyTasks}
+                    </Typography>
+                    {selectedRole.keyGoal && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Key Goal:</strong> {selectedRole.keyGoal}
+                      </Typography>
+                    )}
+                    {selectedRole.tasks && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Tasks:</strong> {selectedRole.tasks}
+                      </Typography>
+                    )}
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
                     </Button>
@@ -1614,32 +1591,7 @@
     }
 
     function TestimonialsCarousel() {
-      const testimonials = [
-        {
-          avatar: 'https://i.pravatar.cc/100?img=1',
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=2',
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=3',
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=4',
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
+      const testimonials = data.testimonials;
 
       const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
 
