@@ -229,6 +229,7 @@
       Checkbox,
       FormControlLabel,
       Chip,
+      Paper,
     } = MaterialUI;
 
     // Define the object types and their properties
@@ -821,7 +822,7 @@
           </ThemeProvider>
         }
 
-        // ObjectForm Component
+        // ObjectForm Component (Defined Outside App)
         function ObjectForm({ schema, formData, setFormData, dummyData, setDummyData, formErrors }) {
           // Handle input changes
           const handleChange = (name, value) => {
@@ -956,7 +957,7 @@
           );
         }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+      </script>
 </body>
 </html>
