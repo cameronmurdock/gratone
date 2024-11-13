@@ -122,12 +122,14 @@
       left: 50%;
       transform: translate(-50%, -50%);
       width: 90%;
-      max-width: 600px;
+      max-width: 800px;
       background-color: #ffffff;
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      padding: 20px;
+      padding: 30px;
       outline: none;
+      max-height: 90vh;
+      overflow-y: auto;
     }
     .modalTitle {
       font-family: 'Playfair Display', serif;
@@ -135,10 +137,26 @@
       font-size: 2rem;
       margin-bottom: 10px;
     }
+    .modalSubtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #6d4c41;
+    }
     .modalBody {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: #555555;
+      margin-bottom: 20px;
+    }
+    .modalSection {
+      margin-bottom: 15px;
+    }
+    .modalSectionTitle {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #6d4c41;
     }
     /* Enhanced Card Hover Effect */
     .MuiCard-root:hover {
@@ -460,1285 +478,1491 @@
             </Menu>
           </Toolbar>
         </AppBar>
-      );
-    }
 
-    // Landing Page
-    function LandingPage({ setCurrentPage }) {
-      return (
-        <Container maxWidth="lg" sx={{ mt: 16 }}>
-          <HeroSection setCurrentPage={setCurrentPage} />
-          <LogoCollection />
-          <FeaturesSection />
-          <MembershipTypes setCurrentPage={setCurrentPage} />
-          <TeamSection />
-          <CommunityImpact />
-          <TestimonialsCarousel />
-          <CallToAction setCurrentPage={setCurrentPage} />
-        </Container>
-      );
-    }
+        // Landing Page
+        function LandingPage({ setCurrentPage }) {
+          return (
+            <Container maxWidth="lg" sx={{ mt: 16 }}>
+              <HeroSection setCurrentPage={setCurrentPage} />
+              <LogoCollection />
+              <FeaturesSection />
+              <MembershipTypes setCurrentPage={setCurrentPage} />
+              <TeamSection />
+              <CommunityImpact />
+              <TestimonialsCarousel />
+              <CallToAction setCurrentPage={setCurrentPage} />
+            </Container>
+          );
+        }
 
-    // Other Pages
-    function ManifestoPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Manifesto
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
-            Our pledge, our promise: A declaration of what we’re building together.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
-          </Typography>
-          <Typography variant="body1">
-            Join us in reshaping the future of local communities. Together, we are stronger.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function TeamPage() {
-      const teamMembers = [
-        {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
-        },
-        {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
-        },
-        {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
-        },
-        {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
-        },
-      ];
-
-      // Modal State for Team Members
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMember, setSelectedMember] = React.useState(null);
-
-      const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedMember(null);
-      };
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Meet the Team
-          </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Team Member Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="team-modal-title"
-            aria-describedby="team-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedMember && (
-                  <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMember.name}
-                    </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
-                      {selectedMember.bio}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Container>
-      );
-    }
-
-    function WhitepaperPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Whitepaper
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
-            Download Whitepaper
-          </Button>
-        </Container>
-      );
-    }
-
-    function InvestorsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Invest in a New Kind of Social Infrastructure
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 8 }}>
-            For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
-            Join the Movement — Invest Today
-          </Button>
-        </Container>
-      );
-    }
-
-    function FeaturesOverviewPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Discover What’s Possible with ONE Local
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
-          </Typography>
-          <FeaturesSection />
-        </Container>
-      );
-    }
-
-    function LocalMembersPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Local Members
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Join Now
-          </Button>
-        </Container>
-      );
-    }
-
-    function EventHostsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Event Hosts
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Start Hosting Events
-          </Button>
-        </Container>
-      );
-    }
-
-    function SellersPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Sellers
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Open Your Shop
-          </Button>
-        </Container>
-      );
-    }
-
-    function OrganizationsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Organizations
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Register Your Organization
-          </Button>
-        </Container>
-      );
-    }
-
-    function ImpactStoriesPage() {
-      const stories = [
-        {
-          title: 'Artisans Unite',
-          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
-          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
-        },
-        {
-          title: 'Youth Leadership',
-          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
-          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
-        },
-        {
-          title: 'Circular Economy',
-          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
-          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
-        },
-        {
-          title: 'Disaster Relief',
-          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
-          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
-        },
-      ];
-
-      const [currentSlide, setCurrentSlide] = React.useState(0);
-
-      const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % stories.length);
-      };
-
-      const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
-      };
-
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextSlide();
-        }, 7000); // Change slide every 7 seconds
-        return () => clearInterval(timer);
-      }, []);
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Impact Stories
-          </Typography>
-          <Grid container spacing={6} justifyContent="center">
-            <Grid item xs={12} md={8}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                    {stories[currentSlide].title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 4 }}>
-                    {stories[currentSlide].content}
-                  </Typography>
-                  <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
-                    <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
-                      <Icon>chevron_left</Icon>
-                    </button>
-                    <button className="carousel-button right" onClick={nextSlide} aria-label="Next Slide">
-                      <Icon>chevron_right</Icon>
-                    </button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
-      );
-    }
-
-    function BlogPage() {
-      const blogPosts = [
-        {
-          title: 'Building Sustainable Communities',
-          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-        },
-        {
-          title: 'The Power of Local Events',
-          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
-          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-        },
-        {
-          title: 'Supporting Local Businesses',
-          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
-          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-        },
-      ];
-
-      const [currentPost, setCurrentPost] = React.useState(0);
-
-      const nextPost = () => {
-        setCurrentPost((prev) => (prev + 1) % blogPosts.length);
-      };
-
-      const prevPost = () => {
-        setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
-      };
-
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextPost();
-        }, 8000); // Change post every 8 seconds
-        return () => clearInterval(timer);
-      }, []);
-
-      // Modal State for Blog Posts
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedPost, setSelectedPost] = React.useState(null);
-
-      const handleOpenModal = (post) => {
-        setSelectedPost(post);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedPost(null);
-      };
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Blog
-          </Typography>
-          <Grid container spacing={6} justifyContent="center">
-            <Grid item xs={12} md={8}>
-              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    {blogPosts[currentPost].title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 4 }}>
-                    {blogPosts[currentPost].excerpt}
-                  </Typography>
-                  <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
-                    <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
-                      <Icon>chevron_left</Icon>
-                    </button>
-                    <button className="carousel-button right" onClick={nextPost} aria-label="Next Post">
-                      <Icon>chevron_right</Icon>
-                    </button>
-                  </Box>
-                </CardContent>
-                <CardActions>
-                  <Button variant="text" color="primary">Read More</Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          </Grid>
-
-          {/* Blog Post Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="blog-modal-title"
-            aria-describedby="blog-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedPost && (
-                  <>
-                    <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedPost.title}
-                    </Typography>
-                    <Typography id="blog-modal-description" sx={{ mb: 4 }}>
-                      {/* Detailed blog content goes here */}
-                      {selectedPost.content}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Container>
-      );
-    }
-
-    function DownloadAppPage() {
-      const [openModal, setOpenModal] = React.useState(false);
-
-      const handleOpen = () => setOpenModal(true);
-      const handleClose = () => setOpenModal(false);
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Download the App
-          </Typography>
-          <Typography variant="h5" sx={{ mb: 8 }}>
-            Step in, the door is open.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
-            Get the App Now
-          </Button>
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="download-app-modal-title"
-            aria-describedby="download-app-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                  Thank You for Your Interest!
-                </Typography>
-                <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
-                  The app is coming soon. Stay tuned!
-                </Typography>
-                <Button variant="contained" color="primary" onClick={handleClose}>
-                  Close
-                </Button>
-              </Box>
-            </Fade>
-          </Modal>
-        </Container>
-      );
-    }
-
-    function TermsOfServicePage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Terms of Service
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Please read these terms of service carefully before using the ONE Local platform.
-          </Typography>
-          {/* Add actual legal text here */}
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            [Legal text outlining user rights, privacy protections, and data usage.]
-          </Typography>
-        </Container>
-      );
-    }
-
-    function PrivacyPolicyPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Privacy Policy
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Your privacy is important to us. This policy explains how we handle your personal data.
-          </Typography>
-          {/* Add actual privacy policy text here */}
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            [Detailed information about data collection, usage, and user rights.]
-          </Typography>
-        </Container>
-      );
-    }
-
-    function FAQPage() {
-      const faqs = [
-        {
-          question: 'What is ONE Local?',
-          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
-        },
-        {
-          question: 'How do I join as a member?',
-          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
-        },
-        {
-          question: 'How do I create an event?',
-          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
-        },
-        {
-          question: 'What payment options are available?',
-          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
-        },
-        {
-          question: 'Is my data secure?',
-          answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
-        },
-      ];
-
-      return (
-        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Frequently Asked Questions
-          </Typography>
-          <Box mt={4}>
-            {faqs.map((faq, index) => (
-              <Accordion key={index}>
-                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {faq.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                    {faq.answer}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
-          </Box>
-        </Container>
-      );
-    }
-
-    function ContactUsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Contact Us
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
-          </Typography>
-          <Grid container spacing={6}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 4 }}>
-                Contact Information
+        // Other Pages (Manifesto, Whitepaper, Investors, etc.)
+        function ManifestoPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Manifesto
               </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
-                Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
+              <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
+                Our pledge, our promise: A declaration of what we’re building together.
               </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
-                Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
               </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
-                Address: 123 Community Lane, Townsville, USA
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
               </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 4 }}>
-                Send Us a Message
+              <Typography variant="body1">
+                Join us in reshaping the future of local communities. Together, we are stronger.
               </Typography>
-              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
-              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
-              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
-              <Button variant="contained" color="primary">
-                Submit
+            </Container>
+          );
+        }
+
+        function WhitepaperPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Whitepaper
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" href="#" target="_blank">
+                Download Whitepaper
               </Button>
-            </Grid>
-          </Grid>
-        </Container>
-      );
-    }
+            </Container>
+          );
+        }
 
-    // Reusable Components
-    function HeroSection({ setCurrentPage }) {
-      return (
-        <Box sx={{ textAlign: 'center', py: 12 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Empower Your Community, Enrich Your Life.
-          </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
-            Together, we build the future — one connection, one offering, one moment at a time.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Download the App
-          </Button>
-        </Box>
-      );
-    }
+        function InvestorsPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Invest in a New Kind of Social Infrastructure
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 8 }}>
+                For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
+              </Typography>
+              <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
+                Join the Movement — Invest Today
+              </Button>
+            </Container>
+          );
+        }
 
-    function LogoCollection() {
-      const logos = [
-        'https://via.placeholder.com/150x100?text=Logo1',
-        'https://via.placeholder.com/150x100?text=Logo2',
-        'https://via.placeholder.com/150x100?text=Logo3',
-        'https://via.placeholder.com/150x100?text=Logo4',
-        'https://via.placeholder.com/150x100?text=Logo5',
-        'https://via.placeholder.com/150x100?text=Logo6',
-      ];
+        function FeaturesOverviewPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Discover What’s Possible with ONE Local
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
+              </Typography>
+              <FeaturesSection />
+            </Container>
+          );
+        }
 
-      const logoStyle = {
-        width: '150px',
-        height: '100px',
-        margin: '0 20px',
-        opacity: 0.8,
-      };
+        function LocalMembersPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                For Local Members
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                Join Now
+              </Button>
+            </Container>
+          );
+        }
 
-      return (
-        <Box id="logoCollection" sx={{ py: 8 }}>
-          <Typography
-            component="p"
-            variant="h6"
-            align="center"
-            sx={{ color: 'text.secondary', mb: 6 }}
-          >
-            Trusted by communities worldwide
-          </Typography>
-          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
-            {logos.map((logo, index) => (
-              <Grid item key={index}>
-                <img
-                  src={logo}
-                  alt={`Partner logo ${index + 1}`}
-                  style={logoStyle}
-                />
+        function EventHostsPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                For Event Hosts
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                Start Hosting Events
+              </Button>
+            </Container>
+          );
+        }
+
+        function SellersPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                For Sellers
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                Open Your Shop
+              </Button>
+            </Container>
+          );
+        }
+
+        function OrganizationsPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                For Organizations
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                Register Your Organization
+              </Button>
+            </Container>
+          );
+        }
+
+        function ImpactStoriesPage() {
+          const stories = [
+            {
+              title: 'Artisans Unite',
+              content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
+              image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
+            },
+            {
+              title: 'Youth Leadership',
+              content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
+              image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
+            },
+            {
+              title: 'Circular Economy',
+              content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
+              image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
+            },
+            {
+              title: 'Disaster Relief',
+              content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
+              image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
+            },
+          ];
+
+          const [currentSlide, setCurrentSlide] = React.useState(0);
+
+          const nextSlide = () => {
+            setCurrentSlide((prev) => (prev + 1) % stories.length);
+          };
+
+          const prevSlide = () => {
+            setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
+          };
+
+          React.useEffect(() => {
+            const timer = setInterval(() => {
+              nextSlide();
+            }, 7000); // Change slide every 7 seconds
+            return () => clearInterval(timer);
+          }, []);
+
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Impact Stories
+              </Typography>
+              <Grid container spacing={6} justifyContent="center">
+                <Grid item xs={12} md={8}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                        {stories[currentSlide].title}
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 4 }}>
+                        {stories[currentSlide].content}
+                      </Typography>
+                      <Box className="carousel" sx={{ position: 'relative' }}>
+                        <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
+                        <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
+                          <Icon>chevron_left</Icon>
+                        </button>
+                        <button className="carousel-button right" onClick={nextSlide} aria-label="Next Slide">
+                          <Icon>chevron_right</Icon>
+                        </button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+            </Container>
+          );
+        }
 
-    function FeaturesSection() {
-      const features = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-          iconName: 'connect_without_contact',
-          details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
-        },
-        {
-          title: 'Share',
-          description: 'Tools, time, talents — give what you can, receive what you need.',
-          iconName: 'share',
-          details: 'Share resources, offer your skills, and collaborate on projects. Whether you need assistance or can offer help, ONE Local makes sharing easy and impactful.',
-        },
-        {
-          title: 'Skill Development',
-          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
-          iconName: 'school',
-          details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
-        },
-        {
-          title: 'Governance',
-          description: 'Democracy in action. Voice your vision, shape your surroundings.',
-          iconName: 'gavel',
-          details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
-        },
-      ];
+        function BlogPage() {
+          const blogPosts = [
+            {
+              title: 'Building Sustainable Communities',
+              excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+              image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+              content: 'Detailed content about Building Sustainable Communities...',
+            },
+            {
+              title: 'The Power of Local Events',
+              excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+              image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+              content: 'Detailed content about The Power of Local Events...',
+            },
+            {
+              title: 'Supporting Local Businesses',
+              excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+              image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+              content: 'Detailed content about Supporting Local Businesses...',
+            },
+          ];
 
-      // Modal State
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedFeature, setSelectedFeature] = React.useState(null);
+          const [currentPost, setCurrentPost] = React.useState(0);
 
-      const handleOpenModal = (feature) => {
-        setSelectedFeature(feature);
-        setOpenModal(true);
-      };
+          const nextPost = () => {
+            setCurrentPost((prev) => (prev + 1) % blogPosts.length);
+          };
 
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedFeature(null);
-      };
+          const prevPost = () => {
+            setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
+          };
 
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Explore What We Offer
-          </Typography>
-          <Grid container spacing={6}>
-            {features.map((feature) => (
-              <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
-                  <CardContent>
-                    <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
-                      <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
-                    </Box>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
+          React.useEffect(() => {
+            const timer = setInterval(() => {
+              nextPost();
+            }, 8000); // Change post every 8 seconds
+            return () => clearInterval(timer);
+          }, []);
+
+          // Modal State for Blog Posts
+          const [openModal, setOpenModal] = React.useState(false);
+          const [selectedPost, setSelectedPost] = React.useState(null);
+
+          const handleOpenModal = (post) => {
+            setSelectedPost(post);
+            setOpenModal(true);
+          };
+
+          const handleCloseModal = () => {
+            setOpenModal(false);
+            setSelectedPost(null);
+          };
+
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Blog
+              </Typography>
+              <Grid container spacing={6} justifyContent="center">
+                <Grid item xs={12} md={8}>
+                  <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
+                    <CardContent>
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {blogPosts[currentPost].title}
+                      </Typography>
+                      <Typography variant="body1" sx={{ mb: 4 }}>
+                        {blogPosts[currentPost].excerpt}
+                      </Typography>
+                      <Box className="carousel" sx={{ position: 'relative' }}>
+                        <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
+                        <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
+                          <Icon>chevron_left</Icon>
+                        </button>
+                        <button className="carousel-button right" onClick={nextPost} aria-label="Next Post">
+                          <Icon>chevron_right</Icon>
+                        </button>
+                      </Box>
+                    </CardContent>
+                    <CardActions>
+                      <Button variant="text" color="primary">Read More</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
               </Grid>
-            ))}
-          </Grid>
 
-          {/* Feature Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="feature-modal-title"
-            aria-describedby="feature-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedFeature && (
-                  <>
-                    <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedFeature.title}
+              {/* Blog Post Details Modal */}
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="blog-modal-title"
+                aria-describedby="blog-modal-description"
+              >
+                <Fade in={openModal}>
+                  <Box className="modalContent">
+                    {selectedPost && (
+                      <>
+                        <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedPost.title}
+                        </Typography>
+                        <Typography id="blog-modal-description" sx={{ mb: 4 }}>
+                          {selectedPost.content}
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Fade>
+              </Modal>
+            </Container>
+          );
+        }
+
+        function DownloadAppPage() {
+          const [openModal, setOpenModal] = React.useState(false);
+
+          const handleOpen = () => setOpenModal(true);
+          const handleClose = () => setOpenModal(false);
+
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Download the App
+              </Typography>
+              <Typography variant="h5" sx={{ mb: 8 }}>
+                Step in, the door is open.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
+                Get the App Now
+              </Button>
+              <Modal
+                open={openModal}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="download-app-modal-title"
+                aria-describedby="download-app-modal-description"
+              >
+                <Fade in={openModal}>
+                  <Box className="modalContent">
+                    <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      Thank You for Your Interest!
                     </Typography>
-                    <Typography id="feature-modal-description" sx={{ mb: 4 }}>
-                      {selectedFeature.details}
+                    <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
+                      The app is coming soon. Stay tuned!
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                    <Button variant="contained" color="primary" onClick={handleClose}>
                       Close
                     </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Box>
-      );
-    }
+                  </Box>
+                </Fade>
+              </Modal>
+            </Container>
+          );
+        }
 
-    function MembershipTypes({ setCurrentPage }) {
-      const memberships = [
-        {
-          title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
-          cta: 'Join Now',
-          page: 'local-members',
-          details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
-        },
-        {
-          title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
-          cta: 'Start Hosting',
-          page: 'event-hosts',
-          details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
-        },
-        {
-          title: 'Sellers',
-          description:
-            'Your storefront in the village square. Share what you create with those who’ll love it most.',
-          cta: 'Open Shop',
-          page: 'sellers',
-          details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
-        },
-        {
-          title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
-          cta: 'Register Now',
-          page: 'organizations',
-          details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
-        },
-      ];
-
-      // Modal State
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMembership, setSelectedMembership] = React.useState(null);
-
-      const handleOpenModal = (membership) => {
-        setSelectedMembership(membership);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedMembership(null);
-      };
-
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            How Will You Show Up?
-          </Typography>
-          <Grid container spacing={6}>
-            {memberships.map((membership) => (
-              <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
-                      {membership.title}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, textAlign: 'center' }}>
-                      {membership.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button variant="contained" color="primary" fullWidth size="large">
-                      {membership.cta}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Membership Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="membership-modal-title"
-            aria-describedby="membership-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedMembership && (
-                  <>
-                    <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMembership.title}
-                    </Typography>
-                    <Typography id="membership-modal-description" sx={{ mb: 4 }}>
-                      {selectedMembership.details}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
-                      Learn More
-                    </Button>
-                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Box>
-      );
-    }
-
-    function TeamSection() {
-      const teamMembers = [
-        {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
-        },
-        {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
-        },
-        {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
-        },
-        {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
-        },
-      ];
-
-      // Modal State for Team Members
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMember, setSelectedMember] = React.useState(null);
-
-      const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedMember(null);
-      };
-
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
-            Meet the Team
-          </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Team Member Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="team-modal-title"
-            aria-describedby="team-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedMember && (
-                  <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMember.name}
-                    </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
-                      {selectedMember.bio}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Box>
-      );
-    }
-
-    function CommunityImpact() {
-      const metrics = [
-        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
-        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
-        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
-      ];
-
-      const [count, setCount] = React.useState({
-        'Active Members': 0,
-        'Local Groups': 0,
-        'Resources Shared': 0,
-        'Events Hosted': 0,
-      });
-
-      React.useEffect(() => {
-        metrics.forEach(metric => {
-          const target = parseInt(metric.value.replace(/,/g, ''));
-          let current = 0;
-          const increment = target / 200; // Adjust for animation speed
-
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              current = target;
-              clearInterval(timer);
-            }
-            setCount(prevCount => ({
-              ...prevCount,
-              [metric.label]: Math.floor(current),
-            }));
-          }, 30);
-        });
-      }, []);
-
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Our Community in Numbers
-          </Typography>
-          <Grid container spacing={6}>
-            {metrics.map((metric) => (
-              <Grid item xs={12} sm={6} md={3} key={metric.label}>
-                <Box textAlign="center">
-                  <Typography variant="h3" color="primary" sx={{ fontWeight: 'bold' }}>
-                    {count[metric.label].toLocaleString()}
-                  </Typography>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>
-                    {metric.label}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
-                    {metric.description}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function TestimonialsCarousel() {
-      const testimonials = [
-        {
-          avatar: 'https://i.pravatar.cc/100?img=1',
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=2',
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=3',
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=4',
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
-
-      const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
-
-      const nextTestimonial = () => {
-        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-      };
-
-      const prevTestimonial = () => {
-        setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-      };
-
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextTestimonial();
-        }, 7000); // Change testimonial every 7 seconds
-        return () => clearInterval(timer);
-      }, []);
-
-      return (
-        <Container sx={{ py: 12 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            What Our Members Say
-          </Typography>
-          <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
-            <Box className="testimonial">
-              <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                {testimonials[currentTestimonial].name}
+        function TermsOfServicePage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Terms of Service
               </Typography>
-              <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
-                {testimonials[currentTestimonial].role}
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Please read these terms of service carefully before using the ONE Local platform.
               </Typography>
-              <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
-                {testimonials[currentTestimonial].quote}
-              </Typography>
-            </Box>
-            {/* Navigation Buttons */}
-            <IconButton
-              className="carousel-button left"
-              onClick={prevTestimonial}
-              aria-label="Previous Testimonial"
-              sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
-            >
-              <Icon>chevron_left</Icon>
-            </IconButton>
-            <IconButton
-              className="carousel-button right"
-              onClick={nextTestimonial}
-              aria-label="Next Testimonial"
-              sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
-            >
-              <Icon>chevron_right</Icon>
-            </IconButton>
-          </Box>
-        </Container>
-      );
-    }
-
-    function CallToAction({ setCurrentPage }) {
-      return (
-        <Box mt={12} mb={12} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
-            Help Us Grow
-          </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
-            “Every dollar sown grows a forest of connection.”
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
-            Donate Now
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
-            Take the Survey
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
-            Become an Investor
-          </Button>
-        </Box>
-      );
-    }
-
-    function Footer({ setCurrentPage }) {
-      return (
-        <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={6}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6" sx={{ mb: 4 }}>
-                  ONE Local
-                </Typography>
-                <List>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
-                      <ListItemText primary="Home" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
-                      <ListItemText primary="About" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
-                      <ListItemText primary="Features" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
-                      <ListItemText primary="Community" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
-                      <ListItemText primary="Investors" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
-                      <ListItemText primary="Contact Us" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
-                      <ListItemText primary="FAQ" />
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6" sx={{ mb: 4 }}>
-                  Follow Us
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                  Join the conversation.
-                </Typography>
-                <Box display="flex" justifyContent="flex-start">
-                  <IconButton href="#" color="primary" aria-label="Facebook">
-                    <Icon>facebook</Icon>
-                  </IconButton>
-                  <IconButton href="#" color="primary" aria-label="Twitter">
-                    <Icon>twitter</Icon>
-                  </IconButton>
-                  <IconButton href="#" color="primary" aria-label="Instagram">
-                    <Icon>instagram</Icon>
-                  </IconButton>
-                  <IconButton href="#" color="primary" aria-label="LinkedIn">
-                    <Icon>linkedin</Icon>
-                  </IconButton>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6" sx={{ mb: 4 }}>
-                  Newsletter Signup
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                  Get the Latest Stories and Updates — Sign Up Here.
-                </Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ style: { color: '#6d4c41' } }}
-                  InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
-                />
-                <Button variant="contained" color="primary" fullWidth>
-                  Subscribe
-                </Button>
-              </Grid>
-            </Grid>
-            <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
-            <Box textAlign="center">
+              {/* Add actual legal text here */}
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                © 2024 ONE Local. All rights reserved. |{' '}
-                <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')} className="footer-link">
-                  Terms of Service
-                </Link>{' '}
-                |{' '}
-                <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')} className="footer-link">
-                  Privacy Policy
-                </Link>
+                [Legal text outlining user rights, privacy protections, and data usage.]
               </Typography>
-            </Box>
-          </Container>
-        </Box>
-      );
-    }
+            </Container>
+          );
+        }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
+        function PrivacyPolicyPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Privacy Policy
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Your privacy is important to us. This policy explains how we handle your personal data.
+              </Typography>
+              {/* Add actual privacy policy text here */}
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                [Detailed information about data collection, usage, and user rights.]
+              </Typography>
+            </Container>
+          );
+        }
+
+        function FAQPage() {
+          const faqs = [
+            {
+              question: 'What is ONE Local?',
+              answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
+            },
+            {
+              question: 'How do I join as a member?',
+              answer: 'Simply download our app, create a free account, and start connecting with your local community.',
+            },
+            {
+              question: 'How do I create an event?',
+              answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
+            },
+            {
+              question: 'What payment options are available?',
+              answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
+            },
+            {
+              question: 'Is my data secure?',
+              answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
+            },
+          ];
+
+          return (
+            <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Frequently Asked Questions
+              </Typography>
+              <Box mt={4}>
+                {faqs.map((faq, index) => (
+                  <Accordion key={index}>
+                    <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        {faq.question}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                        {faq.answer}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Box>
+            </Container>
+          );
+        }
+
+        function ContactUsPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Contact Us
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
+              </Typography>
+              <Grid container spacing={6}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" sx={{ mb: 4 }}>
+                    Contact Information
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
+                    Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
+                    Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
+                    Address: 123 Community Lane, Townsville, USA
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" sx={{ mb: 4 }}>
+                    Send Us a Message
+                  </Typography>
+                  <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
+                  <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
+                  <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
+                  <Button variant="contained" color="primary">
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Container>
+          );
+        }
+
+        // Reusable Components
+        function HeroSection({ setCurrentPage }) {
+          return (
+            <Box sx={{ textAlign: 'center', py: 12 }}>
+              <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
+                Empower Your Community, Enrich Your Life.
+              </Typography>
+              <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
+                Together, we build the future — one connection, one offering, one moment at a time.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                Download the App
+              </Button>
+            </Box>
+          );
+        }
+
+        function LogoCollection() {
+          const logos = [
+            'https://via.placeholder.com/150x100?text=Logo1',
+            'https://via.placeholder.com/150x100?text=Logo2',
+            'https://via.placeholder.com/150x100?text=Logo3',
+            'https://via.placeholder.com/150x100?text=Logo4',
+            'https://via.placeholder.com/150x100?text=Logo5',
+            'https://via.placeholder.com/150x100?text=Logo6',
+          ];
+
+          const logoStyle = {
+            width: '150px',
+            height: '100px',
+            margin: '0 20px',
+            opacity: 0.8,
+          };
+
+          return (
+            <Box id="logoCollection" sx={{ py: 8 }}>
+              <Typography
+                component="p"
+                variant="h6"
+                align="center"
+                sx={{ color: 'text.secondary', mb: 6 }}
+              >
+                Trusted by communities worldwide
+              </Typography>
+              <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
+                {logos.map((logo, index) => (
+                  <Grid item key={index}>
+                    <img
+                      src={logo}
+                      alt={`Partner logo ${index + 1}`}
+                      style={logoStyle}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          );
+        }
+
+        function FeaturesSection() {
+          const features = [
+            {
+              title: 'Connect',
+              description: 'A message away from neighbors you haven’t met yet.',
+              iconName: 'connect_without_contact',
+              details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
+            },
+            {
+              title: 'Share',
+              description: 'Tools, time, talents — give what you can, receive what you need.',
+              iconName: 'share',
+              details: 'Share resources, offer your skills, and collaborate on projects. Whether you need assistance or can offer help, ONE Local makes sharing easy and impactful.',
+            },
+            {
+              title: 'Skill Development',
+              description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
+              iconName: 'school',
+              details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
+            },
+            {
+              title: 'Governance',
+              description: 'Democracy in action. Voice your vision, shape your surroundings.',
+              iconName: 'gavel',
+              details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
+            },
+          ];
+
+          // Modal State
+          const [openModal, setOpenModal] = React.useState(false);
+          const [selectedFeature, setSelectedFeature] = React.useState(null);
+
+          const handleOpenModal = (feature) => {
+            setSelectedFeature(feature);
+            setOpenModal(true);
+          };
+
+          const handleCloseModal = () => {
+            setOpenModal(false);
+            setSelectedFeature(null);
+          };
+
+          return (
+            <Box mt={12} mb={12}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Explore What We Offer
+              </Typography>
+              <Grid container spacing={6}>
+                {features.map((feature) => (
+                  <Grid item xs={12} sm={6} md={3} key={feature.title}>
+                    <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
+                      <CardContent>
+                        <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
+                          <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
+                        </Box>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
+                          {feature.title}
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
+                          {feature.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+
+              {/* Feature Details Modal */}
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="feature-modal-title"
+                aria-describedby="feature-modal-description"
+              >
+                <Fade in={openModal}>
+                  <Box className="modalContent">
+                    {selectedFeature && (
+                      <>
+                        <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedFeature.title}
+                        </Typography>
+                        <Typography id="feature-modal-description" sx={{ mb: 4 }}>
+                          {selectedFeature.details}
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Fade>
+              </Modal>
+            </Box>
+          );
+        }
+
+        function MembershipTypes({ setCurrentPage }) {
+          const memberships = [
+            {
+              title: 'Local Members',
+              description:
+                'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
+              cta: 'Join Now',
+              page: 'local-members',
+              details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
+            },
+            {
+              title: 'Event Hosts',
+              description:
+                'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
+              cta: 'Start Hosting',
+              page: 'event-hosts',
+              details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
+            },
+            {
+              title: 'Sellers',
+              description:
+                'Your storefront in the village square. Share what you create with those who’ll love it most.',
+              cta: 'Open Shop',
+              page: 'sellers',
+              details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
+            },
+            {
+              title: 'Organizations',
+              description:
+                'Your mission, our platform. Unite your team, manage your projects, rally your community.',
+              cta: 'Register Now',
+              page: 'organizations',
+              details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
+            },
+          ];
+
+          // Modal State
+          const [openModal, setOpenModal] = React.useState(false);
+          const [selectedMembership, setSelectedMembership] = React.useState(null);
+
+          const handleOpenModal = (membership) => {
+            setSelectedMembership(membership);
+            setOpenModal(true);
+          };
+
+          const handleCloseModal = () => {
+            setOpenModal(false);
+            setSelectedMembership(null);
+          };
+
+          return (
+            <Box mt={12} mb={12}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                How Will You Show Up?
+              </Typography>
+              <Grid container spacing={6}>
+                {memberships.map((membership) => (
+                  <Grid item xs={12} sm={6} md={3} key={membership.title}>
+                    <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
+                      <CardContent>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
+                          {membership.title}
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, textAlign: 'center' }}>
+                          {membership.description}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button variant="contained" color="primary" fullWidth size="large">
+                          {membership.cta}
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+
+              {/* Membership Details Modal */}
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="membership-modal-title"
+                aria-describedby="membership-modal-description"
+              >
+                <Fade in={openModal}>
+                  <Box className="modalContent">
+                    {selectedMembership && (
+                      <>
+                        <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedMembership.title}
+                        </Typography>
+                        <Typography id="membership-modal-description" sx={{ mb: 4 }}>
+                          {selectedMembership.details}
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
+                          Learn More
+                        </Button>
+                        <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                          Close
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Fade>
+              </Modal>
+            </Box>
+          );
+        }
+
+        function TeamSection() {
+          const teamMembers = [
+            {
+              name: 'CEO',
+              tags: '',
+              description: '',
+              departments: {
+                name: 'Directors',
+                link: 'https://www.notion.so/Directors-0d0b580ee86249fc824d07ab9e76e5f8?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Set the overall strategic direction for ONE Local.',
+                'Ensure alignment between departments and the organization\'s mission and vision.',
+                'Lead the executive team and foster collaboration.',
+                'Oversee performance and drive continuous improvement.',
+                'Manage stakeholder relationships, including investors and partners.',
+                'Ensure financial stability and compliance.',
+              ],
+              keyTasks: [
+                'Strategic Planning: Develop and communicate strategic priorities, aligning departments with overarching goals.',
+                'Performance Monitoring: Track progress, conduct reviews, and adjust strategies based on performance metrics.',
+                'Stakeholder Engagement: Build relationships with key stakeholders, represent ONE Local in public forums, and secure partnerships.',
+                'Financial Oversight: Approve budgets, monitor financial performance, and manage risks.',
+                'Leadership and Culture: Foster a positive organizational culture, motivate the team, and ensure adherence to ethical practices.',
+              ],
+              keyGoal: 'Drive the organization towards achieving its vision and mission.\n\n• Build a thriving and engaged community: A strong user base is the foundation of ONE Local\'s success.\n• Create a sustainable and impactful platform: This involves ensuring financial stability, delivering a high-quality product, and expanding to new areas.\n• Promote ONE Local as a leader in the civic tech space: Establish ONE Local as a model for community empowerment and local engagement.',
+              tasks: [
+                'Admin & Org Structure: Support the COO in establishing a scalable and efficient organizational structure with transparent governance.',
+                'Community Outreach: Collaborate with the Director to foster a vibrant and engaged community that actively contributes to ONE Local.',
+                'Funding and Finance: Work with the CFO to secure diverse and sustainable funding streams to ensure long-term growth.',
+                'Tech: Guide the CTO in developing and maintaining a cutting-edge platform that delivers exceptional user experience.',
+              ],
+              image: '', // Placeholder or actual image URL
+            },
+            {
+              name: 'COO',
+              tags: 'Biz-Ops Manager',
+              description: 'Oversees the day-to-day operations, implements organizational policies, and ensures the efficiency of business processes.',
+              departments: {
+                name: 'Admin + Org Structure',
+                link: 'https://www.notion.so/Admin-Org-Structure-d7aceeca26504d1592fa5198df45960c?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Oversees the day-to-day operations.',
+                'Implements organizational policies.',
+                'Ensures the efficiency of business processes.',
+              ],
+              keyTasks: [
+                'Finalize and implement project management frameworks.',
+                'Conduct cooperative model research.',
+                'Establish governance policies.',
+              ],
+              keyGoal: 'Establish a scalable and efficient organizational structure that supports rapid growth and ensures transparent governance. This goal focuses on building a strong foundation for the organization to handle increased user engagement, geographic expansion, and new initiatives.',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=9', // Placeholder or actual image URL
+            },
+            {
+              name: 'Human Resources Manager',
+              tags: '',
+              description: 'Manages recruitment, training, and development of staff, and ensures clear role definitions and responsibilities.',
+              departments: {
+                name: 'Admin + Org Structure',
+                link: 'https://www.notion.so/Admin-Org-Structure-d7aceeca26504d1592fa5198df45960c?pvs=21',
+              },
+              people: [],
+              responsibilities: [
+                'Manages recruitment, training, and development of staff.',
+                'Ensures clear role definitions and responsibilities.',
+              ],
+              keyTasks: [
+                'Train team on new structures and roles.',
+                'Review and refine administrative processes.',
+              ],
+              keyGoal: '',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=10', // Placeholder or actual image URL
+            },
+            {
+              name: 'CTO',
+              tags: 'Tech Lead',
+              description: 'Oversees the development, implementation, and maintenance of technology solutions to support the platform.',
+              departments: {
+                name: 'Tech Development',
+                link: 'https://www.notion.so/Tech-Development-524721f3857e466aaac48c5d97a5e441?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Shawn',
+                  link: 'https://www.notion.so/Shawn-5fc66af17c4349069d44e88bb1cf1531?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Oversees the development, implementation, and maintenance of technology solutions.',
+              ],
+              keyTasks: [
+                'Develop and deploy new features.',
+                'Ensure platform stability.',
+                'Conduct user testing.',
+              ],
+              keyGoal: 'Develop and maintain a cutting-edge platform that delivers exceptional user experience, promotes user engagement, and adapts to evolving technological advancements. This goal focuses on ensuring the ONE Local platform remains user-friendly, secure, and capable of handling increasing user demand and new features.',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=11', // Placeholder or actual image URL
+            },
+            {
+              name: 'Product Manager',
+              tags: '',
+              description: 'Manages the product lifecycle, from feature development to user feedback and iteration.',
+              departments: {
+                name: 'Tech Development',
+                link: 'https://www.notion.so/Tech-Development-524721f3857e466aaac48c5d97a5e441?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Manages the product lifecycle.',
+                'Handles feature development.',
+                'Collects and iterates based on user feedback.',
+              ],
+              keyTasks: [
+                'Develop new community voting features.',
+                'Integrate personalization features.',
+                'Monitor user engagement.',
+              ],
+              keyGoal: '',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=12', // Placeholder or actual image URL
+            },
+            {
+              name: 'CFO',
+              tags: 'Funding and Finance',
+              description: 'Manages the financial health of the organization, oversees fundraising efforts, and ensures financial sustainability.',
+              departments: {
+                name: 'Funding and Finance',
+                link: 'https://www.notion.so/Funding-and-Finance-ff1cf9cf1d8e47508e819c805d10d417?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Manages the financial health of the organization.',
+                'Oversees fundraising efforts.',
+                'Ensures financial sustainability.',
+              ],
+              keyTasks: [
+                'Prepare fundraising materials.',
+                'Launch fundraising campaigns.',
+                'Secure additional funding.',
+              ],
+              keyGoal: 'Secure diverse and sustainable funding streams to ensure ONE Local’s financial stability and support long-term growth. This goal focuses on establishing a robust financial foundation that allows the organization to invest in new initiatives, expand its reach, and achieve its ambitious goals.',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=13', // Placeholder or actual image URL
+            },
+            {
+              name: 'Fundraising Manager',
+              tags: '',
+              description: 'Identifies potential investors, organizes pitch sessions, and maintains relationships with donors.',
+              departments: {
+                name: 'Funding and Finance',
+                link: 'https://www.notion.so/Funding-and-Finance-ff1cf9cf1d8e47508e819c805d10d417?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Identifies potential investors.',
+                'Organizes pitch sessions.',
+                'Maintains relationships with donors.',
+              ],
+              keyTasks: [
+                'Identify and approach potential investors and donors.',
+                'Organize pitch sessions.',
+                'Monitor fundraising progress.',
+              ],
+              keyGoal: '',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=14', // Placeholder or actual image URL
+            },
+            {
+              name: 'CMO',
+              tags: 'Community Engagement Director',
+              description: 'Leads efforts to engage the community, increase membership, and coordinate events and campaigns.',
+              departments: {
+                name: 'Community Outreach (Product and Marketing)',
+                link: 'https://www.notion.so/Community-Outreach-Product-and-Marketing-5cf25f0fbef643cf87aa33dcf09c11ba?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Kathena',
+                  link: 'https://www.notion.so/Kathena-8c29f8ce782d4c7c99c77a624daf8a55?pvs=21',
+                },
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Leads efforts to engage the community.',
+                'Increases membership.',
+                'Coordinates events and campaigns.',
+              ],
+              keyTasks: [
+                'Plan and execute community feedback sessions.',
+                'Conduct membership drive campaigns.',
+                'Organize community festivals.',
+              ],
+              keyGoal: 'Cultivate a vibrant and engaged community that actively participates in shaping the future of ONE Local. This goal focuses on building strong relationships with users, fostering a sense of belonging, and creating a feedback loop that drives continuous improvement.',
+              tasks: [
+                'Admin & Org Structure: Support the COO in establishing a scalable and efficient organizational structure with transparent governance.',
+                'Community Outreach: Collaborate with the Director to foster a vibrant and engaged community that actively contributes to ONE Local.',
+                'Funding and Finance: Work with the CFO to secure diverse and sustainable funding streams to ensure long-term growth.',
+                'Tech: Guide the CTO in developing and maintaining a cutting-edge platform that delivers exceptional user experience.',
+              ],
+              image: 'https://i.pravatar.cc/300?img=15', // Placeholder or actual image URL
+            },
+            {
+              name: 'Marketing Manager',
+              tags: '',
+              description: 'Develops and implements marketing strategies to promote community events and drive user engagement.',
+              departments: {
+                name: 'Community Outreach (Product and Marketing)',
+                link: 'https://www.notion.so/Community-Outreach-Product-and-Marketing-5cf25f0fbef643cf87aa33dcf09c11ba?pvs=21',
+              },
+              people: [
+                {
+                  name: 'Cam',
+                  link: 'https://www.notion.so/Cam-d920f97bfae8446684d52c0a0957d32c?pvs=21',
+                },
+                {
+                  name: 'Miranda',
+                  link: 'https://www.notion.so/Miranda-d78d3c1fed3e438db34bbd46a3d6fea5?pvs=21',
+                },
+              ],
+              responsibilities: [
+                'Develops and implements marketing strategies.',
+                'Promotes community events.',
+                'Drives user engagement.',
+              ],
+              keyTasks: [
+                'Create and distribute promotional materials.',
+                'Develop referral program materials.',
+                'Monitor campaign progress.',
+                'Launch and field update Email to Users (https://www.notion.so/1-1-launch-and-field-update-Email-to-Users-b3b1fb99bc6a4b96a1546b030b42acef?pvs=21)',
+              ],
+              keyGoal: '',
+              tasks: '',
+              image: 'https://i.pravatar.cc/300?img=16', // Placeholder or actual image URL
+            },
+          ];
+
+          // Modal State for Team Members
+          const [openModal, setOpenModal] = React.useState(false);
+          const [selectedMember, setSelectedMember] = React.useState(null);
+
+          const handleOpenModal = (member) => {
+            setSelectedMember(member);
+            setOpenModal(true);
+          };
+
+          const handleCloseModal = () => {
+            setOpenModal(false);
+            setSelectedMember(null);
+          };
+
+          return (
+            <Box mt={12} mb={12}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+                Meet the Team
+              </Typography>
+              <Grid container spacing={6}>
+                {teamMembers.map((member, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                      <CardContent>
+                        <Avatar src={member.image || 'https://via.placeholder.com/150'} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                          {member.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {member.role}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {member.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+
+              {/* Team Member Details Modal */}
+              <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="team-modal-title"
+                aria-describedby="team-modal-description"
+              >
+                <Fade in={openModal}>
+                  <Box className="modalContent">
+                    {selectedMember && (
+                      <>
+                        <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedMember.name}
+                        </Typography>
+                        {selectedMember.tags && (
+                          <Typography variant="subtitle1" className="modalSubtitle">
+                            {selectedMember.tags}
+                          </Typography>
+                        )}
+                        {selectedMember.description && (
+                          <Typography variant="body1" className="modalBody">
+                            {selectedMember.description}
+                          </Typography>
+                        )}
+                        {selectedMember.departments && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">Departments:</Typography>
+                            <Typography variant="body2">
+                              <Link href={selectedMember.departments.link} target="_blank" rel="noopener">
+                                {selectedMember.departments.name}
+                              </Link>
+                            </Typography>
+                          </Box>
+                        )}
+                        {selectedMember.people && selectedMember.people.length > 0 && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">People:</Typography>
+                            {selectedMember.people.map((person, idx) => (
+                              <Typography variant="body2" key={idx}>
+                                <Link href={person.link} target="_blank" rel="noopener">
+                                  {person.name}
+                                </Link>
+                              </Typography>
+                            ))}
+                          </Box>
+                        )}
+                        {selectedMember.responsibilities && selectedMember.responsibilities.length > 0 && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">Responsibilities:</Typography>
+                            <ul>
+                              {selectedMember.responsibilities.map((resp, idx) => (
+                                <li key={idx}>{resp}</li>
+                              ))}
+                            </ul>
+                          </Box>
+                        )}
+                        {selectedMember.keyTasks && selectedMember.keyTasks.length > 0 && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">Key Tasks:</Typography>
+                            <ul>
+                              {selectedMember.keyTasks.map((task, idx) => (
+                                <li key={idx}>{task}</li>
+                              ))}
+                            </ul>
+                          </Box>
+                        )}
+                        {selectedMember.keyGoal && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">Key Goal:</Typography>
+                            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                              {selectedMember.keyGoal}
+                            </Typography>
+                          </Box>
+                        )}
+                        {selectedMember.tasks && selectedMember.tasks.length > 0 && (
+                          <Box className="modalSection">
+                            <Typography className="modalSectionTitle">Tasks:</Typography>
+                            <ul>
+                              {selectedMember.tasks.map((task, idx) => (
+                                <li key={idx}>{task}</li>
+                              ))}
+                            </ul>
+                          </Box>
+                        )}
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Fade>
+              </Modal>
+            </Box>
+          );
+        }
+
+        function CommunityImpact() {
+          const metrics = [
+            { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
+            { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
+            { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
+            { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
+          ];
+
+          const [count, setCount] = React.useState({
+            'Active Members': 0,
+            'Local Groups': 0,
+            'Resources Shared': 0,
+            'Events Hosted': 0,
+          });
+
+          React.useEffect(() => {
+            metrics.forEach(metric => {
+              const target = parseInt(metric.value.replace(/,/g, ''));
+              let current = 0;
+              const increment = target / 200; // Adjust for animation speed
+
+              const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                  current = target;
+                  clearInterval(timer);
+                }
+                setCount(prevCount => ({
+                  ...prevCount,
+                  [metric.label]: Math.floor(current),
+                }));
+              }, 30);
+            });
+          }, []);
+
+          return (
+            <Box mt={12} mb={12}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Our Community in Numbers
+              </Typography>
+              <Grid container spacing={6}>
+                {metrics.map((metric) => (
+                  <Grid item xs={12} sm={6} md={3} key={metric.label}>
+                    <Box textAlign="center">
+                      <Typography variant="h3" color="primary" sx={{ fontWeight: 'bold' }}>
+                        {count[metric.label].toLocaleString()}
+                      </Typography>
+                      <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>
+                        {metric.label}
+                      </Typography>
+                      <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
+                        {metric.description}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          );
+        }
+
+        function TestimonialsCarousel() {
+          const testimonials = [
+            {
+              avatar: 'https://i.pravatar.cc/100?img=1',
+              name: 'Emily R.',
+              role: 'Local Member',
+              quote: '“I found my neighbors, my friends, my sense of belonging.”',
+            },
+            {
+              avatar: 'https://i.pravatar.cc/100?img=2',
+              name: 'Michael T.',
+              role: 'Event Host',
+              quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+            },
+            {
+              avatar: 'https://i.pravatar.cc/100?img=3',
+              name: 'Sarah L.',
+              role: 'Seller',
+              quote: '“This platform brought customers who appreciate the local touch.”',
+            },
+            {
+              avatar: 'https://i.pravatar.cc/100?img=4',
+              name: 'David G.',
+              role: 'Organization Leader',
+              quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+            },
+          ];
+
+          const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
+
+          const nextTestimonial = () => {
+            setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+          };
+
+          const prevTestimonial = () => {
+            setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+          };
+
+          React.useEffect(() => {
+            const timer = setInterval(() => {
+              nextTestimonial();
+            }, 7000); // Change testimonial every 7 seconds
+            return () => clearInterval(timer);
+          }, []);
+
+          return (
+            <Container sx={{ py: 12 }}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                What Our Members Say
+              </Typography>
+              <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
+                <Box className="testimonial">
+                  <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    {testimonials[currentTestimonial].name}
+                  </Typography>
+                  <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
+                    {testimonials[currentTestimonial].role}
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
+                    {testimonials[currentTestimonial].quote}
+                  </Typography>
+                </Box>
+                {/* Navigation Buttons */}
+                <IconButton
+                  className="carousel-button left"
+                  onClick={prevTestimonial}
+                  aria-label="Previous Testimonial"
+                  sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
+                >
+                  <Icon>chevron_left</Icon>
+                </IconButton>
+                <IconButton
+                  className="carousel-button right"
+                  onClick={nextTestimonial}
+                  aria-label="Next Testimonial"
+                  sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
+                >
+                  <Icon>chevron_right</Icon>
+                </IconButton>
+              </Box>
+            </Container>
+          );
+        }
+
+        function CallToAction({ setCurrentPage }) {
+          return (
+            <Box mt={12} mb={12} textAlign="center">
+              <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
+                Help Us Grow
+              </Typography>
+              <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
+                “Every dollar sown grows a forest of connection.”
+              </Typography>
+              <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
+                Donate Now
+              </Button>
+              <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
+                Take the Survey
+              </Button>
+              <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
+                Become an Investor
+              </Button>
+            </Box>
+          );
+        }
+
+        function Footer({ setCurrentPage }) {
+          return (
+            <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
+              <Container maxWidth="lg">
+                <Grid container spacing={6}>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 4 }}>
+                      ONE Local
+                    </Typography>
+                    <List>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
+                          <ListItemText primary="Home" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
+                          <ListItemText primary="About" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
+                          <ListItemText primary="Features" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
+                          <ListItemText primary="Community" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
+                          <ListItemText primary="Investors" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
+                          <ListItemText primary="Contact Us" />
+                        </Link>
+                      </ListItem>
+                      <ListItem disableGutters>
+                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
+                          <ListItemText primary="FAQ" />
+                        </Link>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 4 }}>
+                      Follow Us
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                      Join the conversation.
+                    </Typography>
+                    <Box display="flex" justifyContent="flex-start">
+                      <IconButton href="#" color="primary" aria-label="Facebook">
+                        <Icon>facebook</Icon>
+                      </IconButton>
+                      <IconButton href="#" color="primary" aria-label="Twitter">
+                        <Icon>twitter</Icon>
+                      </IconButton>
+                      <IconButton href="#" color="primary" aria-label="Instagram">
+                        <Icon>instagram</Icon>
+                      </IconButton>
+                      <IconButton href="#" color="primary" aria-label="LinkedIn">
+                        <Icon>linkedin</Icon>
+                      </IconButton>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 4 }}>
+                      Newsletter Signup
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                      Get the Latest Stories and Updates — Sign Up Here.
+                    </Typography>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ style: { color: '#6d4c41' } }}
+                      InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
+                    />
+                    <Button variant="contained" color="primary" fullWidth>
+                      Subscribe
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
+                <Box textAlign="center">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    © 2024 ONE Local. All rights reserved. |{' '}
+                    <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')} className="footer-link">
+                      Terms of Service
+                    </Link>{' '}
+                    |{' '}
+                    <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')} className="footer-link">
+                      Privacy Policy
+                    </Link>
+                  </Typography>
+                </Box>
+              </Container>
+            </Box>
+          );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+      </script>
 </body>
 </html>
