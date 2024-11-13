@@ -90,18 +90,24 @@
 
     // Define the object types and their properties
     const objectTypes = [
-      // ... [Your existing objectTypes array remains unchanged]
-      // Ensure you include the entire objectTypes array as provided in your initial code.
-      // For brevity, only a sample is included here. Replace this with your full array.
       {
         name: 'Person',
         properties: [
           { label: 'ID', name: '@id', type: 'text', required: true },
           { label: 'Type', name: '@type', type: 'text', default: 'schema:Person', disabled: true },
           { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Alternate Name', name: 'alternateName', type: 'text' },
+          { label: 'Identifier', name: 'identifier', type: 'text' },
           { label: 'Email', name: 'email', type: 'email' },
           { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Image URL', name: 'image', type: 'url' },
           { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: [
+            { label: 'Twitter', value: 'https://twitter.com/janedoe' },
+            { label: 'LinkedIn', value: 'https://linkedin.com/in/janedoe' }
+          ] },
+          { label: 'Birth Date', name: 'birthDate', type: 'date' },
+          { label: 'Gender', name: 'gender', type: 'select', options: ['Male', 'Female', 'Non-binary', 'Other'] },
           { label: 'Address', name: 'address', type: 'object', fields: [
               { label: 'Street Address', name: 'streetAddress', type: 'text' },
               { label: 'City', name: 'addressLocality', type: 'text' },
@@ -110,10 +116,315 @@
               { label: 'Country', name: 'addressCountry', type: 'text' },
             ]
           },
-          // Add other properties as needed
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Language', name: 'language', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Cultural Context', name: 'culturalContext', type: 'text' },
+          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' },
+            { label: 'ONE Local', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'CEO', value: 'CEO' },
+            { label: 'COO', value: 'COO' },
+            { label: 'CMO', value: 'CMO' }
+          ] },
+          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: [
+            { label: 'Strategic Planning', value: 'Strategic Planning' },
+            { label: 'Leadership', value: 'Leadership' },
+            { label: 'Gardening', value: 'Gardening' },
+            { label: 'Carpentry', value: 'Carpentry' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: '3D Printer', value: 'urn:uuid:resource103' },
+            { label: 'Lawn Mower', value: 'urn:uuid:resource104' }
+          ] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: [
+            { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+            { label: 'Tool Sharing', value: 'urn:uuid:offer105' }
+          ] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: [
+            { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+            { label: 'Event Volunteers', value: 'urn:uuid:demand106' }
+          ] },
+          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: [
+            { label: 'Community Leader', value: 'urn:uuid:badge106' },
+            { label: 'Volunteer', value: 'urn:uuid:badge107' }
+          ] },
+          { label: 'Has Reputation Score', name: 'hasReputationScore', type: 'number' },
+          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: [
+            { label: 'John Smith', value: 'urn:uuid:user456' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Privacy Setting', name: 'privacySetting', type: 'text' },
+          { label: 'User Preferences', name: 'userPreferences', type: 'textarea' },
+          { label: 'Blockchain Identity', name: 'blockchainIdentity', type: 'text' },
+          { label: 'Security Scheme', name: 'securityScheme', type: 'text' },
+          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: [
+            { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' }
+          ] },
+          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: [
+            { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' }
+          ] },
+          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: [
+            { label: 'Task Assignment', value: 'urn:uuid:notification110' }
+          ] },
+          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: [
+            { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' }
+          ] },
+          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: [
+            { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' }
+          ] },
+          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: [
+            { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' }
+          ] },
         ],
       },
-      // Add other object types (Organization, Group, Event, etc.)
+      {
+        name: 'Organization',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Email', name: 'email', type: 'email' },
+          { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Address', name: 'address', type: 'object', fields: [
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Member', name: 'member', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'John Smith', value: 'urn:uuid:user456' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Sub Organization', name: 'subOrganization', type: 'multiselect', options: [
+            { label: 'Urban Farm Initiative', value: 'urn:uuid:suborg001' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'Resource Manager', value: 'Resource Manager' },
+            { label: 'Event Coordinator', value: 'Event Coordinator' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: 'Community Garden Plots', value: 'urn:uuid:resource204' },
+            { label: 'Shared Tools', value: 'urn:uuid:resource205' }
+          ] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: [
+            { label: 'Selling Fresh Produce', value: 'urn:uuid:offer205' }
+          ] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: [
+            { label: 'Volunteer Gardeners', value: 'urn:uuid:demand206' }
+          ] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: [
+            { label: 'Farmers Market', value: 'urn:uuid:event207' }
+          ] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: [
+            { label: 'Urban Farm Initiative', value: 'urn:uuid:project208' }
+          ] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: [
+            { label: 'ONE Local Community Garden', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+          { label: 'Has Credential', name: 'hasCredential', type: 'multiselect', options: [
+            { label: 'Organic Farming Certification', value: 'urn:uuid:credential209' }
+          ] },
+        ],
+      },
+      {
+        name: 'Group',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Member', name: 'member', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'Group Moderator', value: 'Group Moderator' },
+            { label: 'Event Coordinator', value: 'Event Coordinator' }
+          ] },
+          { label: 'Member Of', name: 'memberOf', type: 'select', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: [
+            { label: 'Gardening Workshop', value: 'urn:uuid:event310' }
+          ] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: [
+            { label: 'Rainwater Harvesting System', value: 'urn:uuid:project310' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: 'Shared Gardening Tools', value: 'urn:uuid:resource310' }
+          ] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+        ],
+      },
+      {
+        name: 'Event',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Event', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Date & Time', name: 'startDate', type: 'datetime-local' },
+          { label: 'End Date & Time', name: 'endDate', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Event Status', name: 'eventStatus', type: 'select', options: ['EventScheduled', 'EventCancelled', 'EventPostponed'] },
+          { label: 'Event Attendance Mode', name: 'eventAttendanceMode', type: 'select', options: ['Offline', 'Online'] },
+          { label: 'Organizer', name: 'organizer', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'ONE Local', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Attendee', name: 'attendee', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Performer', name: 'performer', type: 'multiselect', options: [
+            { label: 'DJ Rhythm', value: 'urn:uuid:user456' }
+          ] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: [
+            { label: 'Free Entry', value: 'urn:uuid:offer206' }
+          ] },
+          { label: 'In Language', name: 'inLanguage', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Keywords', name: 'keywords', type: 'multiselect', options: ['Music', 'Community', 'Workshop'] },
+        ],
+      },
+      {
+        name: 'Task',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Action', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Time', name: 'startTime', type: 'datetime-local' },
+          { label: 'End Time', name: 'endTime', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Assigned To', name: 'assignedTo', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Assigned By', name: 'assignedBy', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' }
+          ] },
+          { label: 'Depends On', name: 'dependsOn', type: 'select', options: [
+            { label: 'Task 103', value: 'urn:uuid:task103' }
+          ] },
+          { label: 'Action Status', name: 'actionStatus', type: 'select', options: ['Active', 'Completed', 'Pending'] },
+          { label: 'Instrument', name: 'instrument', type: 'text' },
+          { label: 'Target', name: 'target', type: 'text' },
+        ],
+      },
+      {
+        name: 'Resource',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'select', options: ['Product', 'Service'], required: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Owner', name: 'owner', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Category', name: 'category', type: 'text' },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: [
+            { label: 'Material: Stainless Steel', value: 'Material: Stainless Steel' },
+            { label: 'Color: Black', value: 'Color: Black' }
+          ] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: [
+            { label: 'Free Tutoring', value: 'urn:uuid:offer104' }
+          ] },
+          { label: 'Has Permission', name: 'hasPermission', type: 'multiselect', options: [
+            { label: 'Use Permission', value: 'Use Permission' },
+            { label: 'Read Permission', value: 'Read Permission' }
+          ] },
+          { label: 'Governed By', name: 'governedBy', type: 'text' },
+        ],
+      },
+      {
+        name: 'Offer',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Offer', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Offered', name: 'itemOffered', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Seller', name: 'seller', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Accepted Payment Method', name: 'acceptedPaymentMethod', type: 'multiselect', options: [
+            { label: 'Credit Card', value: 'CreditCard' },
+            { label: 'PayPal', value: 'PayPal' },
+            { label: 'Cash', value: 'Cash' }
+          ] },
+        ],
+      },
+      {
+        name: 'Demand',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Demand', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Requested', name: 'itemRequested', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Buyer', name: 'buyer', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: [
+            { label: 'Property1', value: 'Property1' },
+            { label: 'Property2', value: 'Property2' }
+          ] },
+        ],
+      },
     ];
 
     // Dummy Data for Dropdowns (initial options)
@@ -141,7 +452,63 @@
         { label: 'Gardening', value: 'Gardening' },
         { label: 'Carpentry', value: 'Carpentry' },
       ],
-      // Add other dummy data as needed
+      offers: [
+        { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+        { label: 'Tool Sharing', value: 'urn:uuid:offer105' },
+        { label: 'Selling Fresh Produce', value: 'urn:uuid:offer205' },
+      ],
+      demands: [
+        { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+        { label: 'Event Volunteers', value: 'urn:uuid:demand106' },
+        { label: 'Volunteer Gardeners', value: 'urn:uuid:demand206' },
+      ],
+      badges: [
+        { label: 'Community Leader', value: 'urn:uuid:badge106' },
+        { label: 'Volunteer', value: 'urn:uuid:badge107' },
+      ],
+      permissions: [
+        { label: 'Use Permission', value: 'Use Permission' },
+        { label: 'Read Permission', value: 'Read Permission' },
+      ],
+      proposals: [
+        { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' },
+      ],
+      votes: [
+        { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' },
+      ],
+      notifications: [
+        { label: 'Task Assignment', value: 'urn:uuid:notification110' },
+      ],
+      alerts: [
+        { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' },
+      ],
+      recommendations: [
+        { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' },
+      ],
+      sessions: [
+        { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' },
+      ],
+      subOrganizations: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:suborg001' },
+      ],
+      resources: [
+        { label: '3D Printer', value: 'urn:uuid:resource103' },
+        { label: 'Lawn Mower', value: 'urn:uuid:resource104' },
+        { label: 'Community Garden Plots', value: 'urn:uuid:resource204' },
+        { label: 'Shared Tools', value: 'urn:uuid:resource205' },
+        { label: 'Shared Gardening Tools', value: 'urn:uuid:resource310' },
+      ],
+      credentials: [
+        { label: 'Organic Farming Certification', value: 'urn:uuid:credential209' },
+      ],
+      events: [
+        { label: 'Farmers Market', value: 'urn:uuid:event207' },
+        { label: 'Gardening Workshop', value: 'urn:uuid:event310' },
+      ],
+      projects: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:project208' },
+        { label: 'Rainwater Harvesting System', value: 'urn:uuid:project310' },
+      ],
     };
 
     // Helper Functions
@@ -362,7 +729,7 @@
                   <CardContent>
                     <Grid container spacing={1}>
                       {Object.entries(selectedObject).map(([key, value], index) => {
-                        if (key === '@type') return null; // Skip type or any other fields you don't want to display
+                        if (key === 'type') return null; // Skip type or any other fields you don't want to display
                         if (key === 'image') return null; // Already displayed as image
                         if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
                           return (
