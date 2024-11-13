@@ -195,8 +195,9 @@
       Backdrop,
     } = MaterialUI;
 
-    // JSON Data Objects
+    // Comprehensive JSON Data Objects
     const data = {
+      // Products / Features
       products: [
         {
           id: 1,
@@ -204,9 +205,35 @@
           description: 'Share tools, time, and talents with your community effortlessly.',
           icon: 'share',
           details: 'Resource Sharing allows members to offer and request various resources such as tools, skills, and time. It fosters a collaborative environment where everyone can contribute and benefit.',
+          image: 'https://via.placeholder.com/150x100?text=Resource+Sharing',
         },
-        // Add more products as needed
+        {
+          id: 2,
+          name: 'Community Events',
+          description: 'Organize and participate in local events.',
+          icon: 'event',
+          details: 'Community Events feature enables members to create, promote, and attend events within their local area, strengthening community bonds.',
+          image: 'https://via.placeholder.com/150x100?text=Community+Events',
+        },
+        {
+          id: 3,
+          name: 'Skill Development',
+          description: 'Workshops, mentorships, and hands-on learning opportunities.',
+          icon: 'school',
+          details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
+          image: 'https://via.placeholder.com/150x100?text=Skill+Development',
+        },
+        {
+          id: 4,
+          name: 'Governance',
+          description: 'Participate in community decision-making processes.',
+          icon: 'gavel',
+          details: 'Engage in community governance by voting on initiatives, proposing new projects, and ensuring that the platform evolves according to the community’s needs.',
+          image: 'https://via.placeholder.com/150x100?text=Governance',
+        },
       ],
+      
+      // Team Groups and Members
       groups: [
         {
           id: 1,
@@ -311,28 +338,75 @@
               bio: 'Jack specializes in frontend development, creating seamless user experiences.',
               image: 'https://i.pravatar.cc/300?img=14',
             },
-            // Add more members as needed
+            {
+              id: 11,
+              name: 'Karen Young',
+              role: 'Backend Developer',
+              bio: 'Karen ensures the backend systems are efficient, secure, and scalable.',
+              image: 'https://i.pravatar.cc/300?img=15',
+            },
           ],
         },
       ],
-      communityOutreach: [
+      
+      // Reviews / Testimonials
+      reviews: [
         {
           id: 1,
-          name: 'Resource Sharing',
-          description: 'Share tools, time, and talents with your community effortlessly.',
-          icon: 'share',
-          details: 'Resource Sharing allows members to offer and request various resources such as tools, skills, and time. It fosters a collaborative environment where everyone can contribute and benefit.',
+          avatar: 'https://i.pravatar.cc/100?img=1',
+          name: 'Emily R.',
+          role: 'Local Member',
+          quote: '“I found my neighbors, my friends, my sense of belonging.”',
         },
         {
           id: 2,
-          name: 'Community Events',
-          description: 'Organize and participate in local events.',
-          icon: 'event',
-          details: 'Community Events feature enables members to create, promote, and attend events within their local area, strengthening community bonds.',
+          avatar: 'https://i.pravatar.cc/100?img=2',
+          name: 'Michael T.',
+          role: 'Event Host',
+          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
         },
-        // Add more community outreach features as needed
+        {
+          id: 3,
+          avatar: 'https://i.pravatar.cc/100?img=3',
+          name: 'Sarah L.',
+          role: 'Seller',
+          quote: '“This platform brought customers who appreciate the local touch.”',
+        },
+        {
+          id: 4,
+          avatar: 'https://i.pravatar.cc/100?img=4',
+          name: 'David G.',
+          role: 'Organization Leader',
+          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+        },
       ],
-      // Add more data objects like users, products, etc., as needed
+      
+      // Blog Posts
+      blogPosts: [
+        {
+          id: 1,
+          title: 'Building Sustainable Communities',
+          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+          content: 'Detailed content about Building Sustainable Communities...',
+        },
+        {
+          id: 2,
+          title: 'The Power of Local Events',
+          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+          content: 'Detailed content about The Power of Local Events...',
+        },
+        {
+          id: 3,
+          title: 'Supporting Local Businesses',
+          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+          content: 'Detailed content about Supporting Local Businesses...',
+        },
+      ],
+      
+      // Additional Data Objects can be added here as needed
     };
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
@@ -653,91 +727,6 @@
       );
     }
 
-    function TeamSection() {
-      const groups = data.groups;
-
-      // Modal State
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMember, setSelectedMember] = React.useState(null);
-
-      const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedMember(null);
-      };
-
-      return (
-        <Box mt={12} mb={12}>
-          {groups.map((group) => (
-            <Box key={group.id} sx={{ mb: 8 }}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                {group.name}
-              </Typography>
-              <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                {group.description}
-              </Typography>
-              <Grid container spacing={6}>
-                {group.members.map((member) => (
-                  <Grid item xs={12} sm={6} md={3} key={member.id}>
-                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                      <CardContent>
-                        <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                          {member.name}
-                        </Typography>
-                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                          {member.role}
-                        </Typography>
-                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                          {member.bio}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          ))}
-
-          {/* Team Member Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="team-modal-title"
-            aria-describedby="team-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedMember && (
-                  <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMember.name}
-                    </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
-                      {selectedMember.bio}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        </Box>
-      );
-    }
-
     function WhitepaperPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -858,28 +847,7 @@
     }
 
     function ImpactStoriesPage() {
-      const stories = [
-        {
-          title: 'Artisans Unite',
-          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
-          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
-        },
-        {
-          title: 'Youth Leadership',
-          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
-          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
-        },
-        {
-          title: 'Circular Economy',
-          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
-          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
-        },
-        {
-          title: 'Disaster Relief',
-          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
-          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
-        },
-      ];
+      const stories = data.reviews; // Using reviews as impact stories for demonstration
 
       const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -896,7 +864,7 @@
           nextSlide();
         }, 7000); // Change slide every 7 seconds
         return () => clearInterval(timer);
-      }, []);
+      }, [stories.length]);
 
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -908,13 +876,13 @@
               <Card>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                    {stories[currentSlide].title}
+                    {stories[currentSlide].name}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 4 }}>
-                    {stories[currentSlide].content}
+                    {stories[currentSlide].quote}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
+                    <img src={stories[currentSlide].avatar} alt={stories[currentSlide].name} />
                     <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -931,29 +899,7 @@
     }
 
     function BlogPage() {
-      const blogPosts = [
-        {
-          id: 1,
-          title: 'Building Sustainable Communities',
-          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-          content: 'Detailed content about Building Sustainable Communities...',
-        },
-        {
-          id: 2,
-          title: 'The Power of Local Events',
-          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
-          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-          content: 'Detailed content about The Power of Local Events...',
-        },
-        {
-          id: 3,
-          title: 'Supporting Local Businesses',
-          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
-          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-          content: 'Detailed content about Supporting Local Businesses...',
-        },
-      ];
+      const blogPosts = data.blogPosts;
 
       const [currentPost, setCurrentPost] = React.useState(0);
 
@@ -970,7 +916,7 @@
           nextPost();
         }, 8000); // Change post every 8 seconds
         return () => clearInterval(timer);
-      }, []);
+      }, [blogPosts.length]);
 
       // Modal State for Blog Posts
       const [openModal, setOpenModal] = React.useState(false);
@@ -1058,7 +1004,6 @@
       const handleOpen = () => setOpenModal(true);
       const handleClose = () => setOpenModal(false);
 
-      // Modal State for Download App
       return (
         <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -1243,7 +1188,7 @@
     }
 
     function LogoCollection() {
-      const logos = data.products.map((product) => product.image || 'https://via.placeholder.com/150x100?text=Logo');
+      const logos = data.products.map((product) => product.image);
 
       const logoStyle = {
         width: '150px',
@@ -1278,7 +1223,7 @@
     }
 
     function FeaturesSection() {
-      const features = data.communityOutreach;
+      const features = data.products;
 
       // Modal State
       const [openModal, setOpenModal] = React.useState(false);
@@ -1581,32 +1526,7 @@
     }
 
     function TestimonialsCarousel() {
-      const testimonials = [
-        {
-          avatar: 'https://i.pravatar.cc/100?img=1',
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=2',
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=3',
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=4',
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
+      const testimonials = data.reviews;
 
       const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
 
@@ -1623,7 +1543,7 @@
           nextTestimonial();
         }, 7000); // Change testimonial every 7 seconds
         return () => clearInterval(timer);
-      }, []);
+      }, [testimonials.length]);
 
       return (
         <Container sx={{ py: 12 }}>
