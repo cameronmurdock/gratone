@@ -195,116 +195,242 @@
       Backdrop,
     } = MaterialUI;
 
-    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
-    const theme = createTheme({
-      palette: {
-        mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        error: {
-          main: '#e57373', // Soft Red
-        },
-        background: {
-          default: '#f5f5f5', // Light Gray
-          paper: '#ffffff', // White
-        },
-        text: {
-          primary: '#333333', // Dark Gray
-          secondary: '#555555', // Medium Gray
-        },
+    // ======================= Data Objects =======================
+
+    // Features Data
+    const featuresData = [
+      {
+        title: 'Connect',
+        description: 'A message away from neighbors you haven’t met yet.',
+        iconName: 'connect_without_contact',
+        details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
       },
-      typography: {
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeightBold: 700,
-        h2: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '3rem',
-        },
-        h4: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '2.5rem',
-        },
-        h5: {
-          fontSize: '2rem',
-        },
-        body1: {
-          fontSize: '1.2rem',
-        },
-        body2: {
-          fontSize: '1rem',
-        },
+      {
+        title: 'Share',
+        description: 'Tools, time, talents — give what you can, receive what you need.',
+        iconName: 'share',
+        details: 'Share resources, offer your skills, and collaborate on projects. Whether you need assistance or can offer help, ONE Local makes sharing easy and impactful.',
       },
-      shape: {
-        borderRadius: 10,
+      {
+        title: 'Skill Development',
+        description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
+        iconName: 'school',
+        details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
       },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-            },
-            containedPrimary: {
-              backgroundColor: '#6d4c41',
-              '&:hover': {
-                backgroundColor: '#5a4033',
-              },
-            },
-            containedSecondary: {
-              backgroundColor: '#8d6e63',
-              '&:hover': {
-                backgroundColor: '#7a5e55',
-              },
-            },
-            outlinedPrimary: {
-              borderColor: '#6d4c41',
-              color: '#6d4c41',
-              '&:hover': {
-                backgroundColor: 'rgba(109, 76, 65, 0.1)',
-              },
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-              },
-            },
-          },
-        },
-        MuiAccordion: {
-          styleOverrides: {
-            root: {
-              boxShadow: 'none',
-              '&::before': {
-                display: 'none',
-              },
-            },
-          },
-        },
+      {
+        title: 'Governance',
+        description: 'Democracy in action. Voice your vision, shape your surroundings.',
+        iconName: 'gavel',
+        details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
       },
-    });
+    ];
+
+    // Membership Types Data
+    const membershipsData = [
+      {
+        title: 'Local Members',
+        description:
+          'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
+        cta: 'Join Now',
+        page: 'local-members',
+        details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
+      },
+      {
+        title: 'Event Hosts',
+        description:
+          'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
+        cta: 'Start Hosting',
+        page: 'event-hosts',
+        details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
+      },
+      {
+        title: 'Sellers',
+        description:
+          'Your storefront in the village square. Share what you create with those who’ll love it most.',
+        cta: 'Open Shop',
+        page: 'sellers',
+        details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
+      },
+      {
+        title: 'Organizations',
+        description:
+          'Your mission, our platform. Unite your team, manage your projects, rally your community.',
+        cta: 'Register Now',
+        page: 'organizations',
+        details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
+      },
+    ];
+
+    // Team Groups and Members Data
+    const teamGroupsData = [
+      {
+        groupName: 'Admin + Org Structure',
+        members: [
+          {
+            name: 'Alice Johnson',
+            role: 'Founder & CEO',
+            bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+            image: 'https://i.pravatar.cc/300?img=5',
+          },
+          {
+            name: 'Bob Smith',
+            role: 'COO',
+            bio: 'Bob ensures that our operations run smoothly, managing daily tasks and long-term strategies.',
+            image: 'https://i.pravatar.cc/300?img=6',
+          },
+        ],
+      },
+      {
+        groupName: 'Community Outreach (Product and Marketing)',
+        members: [
+          {
+            name: 'Carol Williams',
+            role: 'Head of Community Outreach',
+            bio: 'Carol works closely with local groups to foster engagement and growth.',
+            image: 'https://i.pravatar.cc/300?img=7',
+          },
+          {
+            name: 'David Lee',
+            role: 'Marketing Director',
+            bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+            image: 'https://i.pravatar.cc/300?img=8',
+          },
+        ],
+      },
+      {
+        groupName: 'Directors',
+        members: [
+          {
+            name: 'Evelyn Turner',
+            role: 'Director of Operations',
+            bio: 'Evelyn oversees operational processes and ensures efficiency across all departments.',
+            image: 'https://i.pravatar.cc/300?img=9',
+          },
+          {
+            name: 'Frank Harris',
+            role: 'Director of Community Engagement',
+            bio: 'Frank leads initiatives to boost community participation and collaboration.',
+            image: 'https://i.pravatar.cc/300?img=10',
+          },
+        ],
+      },
+      {
+        groupName: 'Funding and Finance',
+        members: [
+          {
+            name: 'Grace Kim',
+            role: 'Chief Financial Officer',
+            bio: 'Grace manages our finances, ensuring sustainable growth and resource allocation.',
+            image: 'https://i.pravatar.cc/300?img=11',
+          },
+          {
+            name: 'Henry Adams',
+            role: 'Finance Manager',
+            bio: 'Henry oversees budgeting, financial planning, and reporting.',
+            image: 'https://i.pravatar.cc/300?img=12',
+          },
+        ],
+      },
+      {
+        groupName: 'Tech Development',
+        members: [
+          {
+            name: 'Isabella Martinez',
+            role: 'Lead Developer',
+            bio: 'Isabella leads our tech team, developing and maintaining the platform.',
+            image: 'https://i.pravatar.cc/300?img=13',
+          },
+          {
+            name: 'Jack Brown',
+            role: 'Software Engineer',
+            bio: 'Jack specializes in frontend development, ensuring a seamless user experience.',
+            image: 'https://i.pravatar.cc/300?img=14',
+          },
+          {
+            name: 'Karen Davis',
+            role: 'Backend Developer',
+            bio: 'Karen manages server-side logic and database management.',
+            image: 'https://i.pravatar.cc/300?img=15',
+          },
+        ],
+      },
+    ];
+
+    // Impact Stories Data
+    const impactStoriesData = [
+      {
+        title: 'Artisans Unite',
+        content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
+        image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
+      },
+      {
+        title: 'Youth Leadership',
+        content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
+        image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
+      },
+      {
+        title: 'Circular Economy',
+        content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
+        image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
+      },
+      {
+        title: 'Disaster Relief',
+        content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
+        image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
+      },
+    ];
+
+    // Blog Posts Data
+    const blogPostsData = [
+      {
+        title: 'Building Sustainable Communities',
+        excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+        content: 'Full content for Building Sustainable Communities.',
+      },
+      {
+        title: 'The Power of Local Events',
+        excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+        image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+        content: 'Full content for The Power of Local Events.',
+      },
+      {
+        title: 'Supporting Local Businesses',
+        excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+        image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+        content: 'Full content for Supporting Local Businesses.',
+      },
+    ];
+
+    // Testimonials Data
+    const testimonialsData = [
+      {
+        avatar: 'https://i.pravatar.cc/100?img=1',
+        name: 'Emily R.',
+        role: 'Local Member',
+        quote: '“I found my neighbors, my friends, my sense of belonging.”',
+      },
+      {
+        avatar: 'https://i.pravatar.cc/100?img=2',
+        name: 'Michael T.',
+        role: 'Event Host',
+        quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+      },
+      {
+        avatar: 'https://i.pravatar.cc/100?img=3',
+        name: 'Sarah L.',
+        role: 'Seller',
+        quote: '“This platform brought customers who appreciate the local touch.”',
+      },
+      {
+        avatar: 'https://i.pravatar.cc/100?img=4',
+        name: 'David G.',
+        role: 'Organization Leader',
+        quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+      },
+    ];
+
+    // ======================= Components =======================
 
     function App() {
       const [currentPage, setCurrentPage] = React.useState('home');
@@ -458,7 +584,7 @@
                 </>
               )}
             </Menu>
-          </Toolbar>
+          </AppBar>
         </AppBar>
       );
     }
@@ -498,109 +624,6 @@
           <Typography variant="body1">
             Join us in reshaping the future of local communities. Together, we are stronger.
           </Typography>
-        </Container>
-      );
-    }
-
-    function TeamPage() {
-      const teamMembers = [
-        {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
-        },
-        {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
-        },
-        {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
-        },
-        {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
-        },
-      ];
-
-      // Modal State for Team Members
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedMember, setSelectedMember] = React.useState(null);
-
-      const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedMember(null);
-      };
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Meet the Team
-          </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Team Member Details Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-            aria-labelledby="team-modal-title"
-            aria-describedby="team-modal-description"
-          >
-            <Fade in={openModal}>
-              <Box className="modalContent">
-                {selectedMember && (
-                  <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedMember.name}
-                    </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
-                      {selectedMember.bio}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
         </Container>
       );
     }
@@ -725,37 +748,14 @@
     }
 
     function ImpactStoriesPage() {
-      const stories = [
-        {
-          title: 'Artisans Unite',
-          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
-          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
-        },
-        {
-          title: 'Youth Leadership',
-          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
-          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
-        },
-        {
-          title: 'Circular Economy',
-          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
-          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
-        },
-        {
-          title: 'Disaster Relief',
-          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
-          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
-        },
-      ];
-
       const [currentSlide, setCurrentSlide] = React.useState(0);
 
       const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % stories.length);
+        setCurrentSlide((prev) => (prev + 1) % impactStoriesData.length);
       };
 
       const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
+        setCurrentSlide((prev) => (prev - 1 + impactStoriesData.length) % impactStoriesData.length);
       };
 
       React.useEffect(() => {
@@ -775,13 +775,13 @@
               <Card>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                    {stories[currentSlide].title}
+                    {impactStoriesData[currentSlide].title}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 4 }}>
-                    {stories[currentSlide].content}
+                    {impactStoriesData[currentSlide].content}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
+                    <img src={impactStoriesData[currentSlide].image} alt={impactStoriesData[currentSlide].title} />
                     <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -798,44 +798,17 @@
     }
 
     function BlogPage() {
-      const blogPosts = [
-        {
-          title: 'Building Sustainable Communities',
-          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-        },
-        {
-          title: 'The Power of Local Events',
-          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
-          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-        },
-        {
-          title: 'Supporting Local Businesses',
-          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
-          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-        },
-      ];
-
       const [currentPost, setCurrentPost] = React.useState(0);
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
 
       const nextPost = () => {
-        setCurrentPost((prev) => (prev + 1) % blogPosts.length);
+        setCurrentPost((prev) => (prev + 1) % blogPostsData.length);
       };
 
       const prevPost = () => {
-        setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
+        setCurrentPost((prev) => (prev - 1 + blogPostsData.length) % blogPostsData.length);
       };
-
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextPost();
-        }, 8000); // Change post every 8 seconds
-        return () => clearInterval(timer);
-      }, []);
-
-      // Modal State for Blog Posts
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedPost, setSelectedPost] = React.useState(null);
 
       const handleOpenModal = (post) => {
         setSelectedPost(post);
@@ -847,6 +820,13 @@
         setSelectedPost(null);
       };
 
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextPost();
+        }, 8000); // Change post every 8 seconds
+        return () => clearInterval(timer);
+      }, []);
+
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -854,16 +834,16 @@
           </Typography>
           <Grid container spacing={6} justifyContent="center">
             <Grid item xs={12} md={8}>
-              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
+              <Card onClick={() => handleOpenModal(blogPostsData[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPostsData[currentPost].title}`}>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    {blogPosts[currentPost].title}
+                    {blogPostsData[currentPost].title}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 4 }}>
-                    {blogPosts[currentPost].excerpt}
+                    {blogPostsData[currentPost].excerpt}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
+                    <img src={blogPostsData[currentPost].image} alt={blogPostsData[currentPost].title} />
                     <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -899,7 +879,6 @@
                       {selectedPost.title}
                     </Typography>
                     <Typography id="blog-modal-description" sx={{ mb: 4 }}>
-                      {/* Detailed blog content goes here */}
                       {selectedPost.content}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
@@ -1104,22 +1083,6 @@
     }
 
     function LogoCollection() {
-      const logos = [
-        'https://via.placeholder.com/150x100?text=Logo1',
-        'https://via.placeholder.com/150x100?text=Logo2',
-        'https://via.placeholder.com/150x100?text=Logo3',
-        'https://via.placeholder.com/150x100?text=Logo4',
-        'https://via.placeholder.com/150x100?text=Logo5',
-        'https://via.placeholder.com/150x100?text=Logo6',
-      ];
-
-      const logoStyle = {
-        width: '150px',
-        height: '100px',
-        margin: '0 20px',
-        opacity: 0.8,
-      };
-
       return (
         <Box id="logoCollection" sx={{ py: 8 }}>
           <Typography
@@ -1131,12 +1094,24 @@
             Trusted by communities worldwide
           </Typography>
           <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
-            {logos.map((logo, index) => (
+            {[
+              'https://via.placeholder.com/150x100?text=Logo1',
+              'https://via.placeholder.com/150x100?text=Logo2',
+              'https://via.placeholder.com/150x100?text=Logo3',
+              'https://via.placeholder.com/150x100?text=Logo4',
+              'https://via.placeholder.com/150x100?text=Logo5',
+              'https://via.placeholder.com/150x100?text=Logo6',
+            ].map((logo, index) => (
               <Grid item key={index}>
                 <img
                   src={logo}
                   alt={`Partner logo ${index + 1}`}
-                  style={logoStyle}
+                  style={{
+                    width: '150px',
+                    height: '100px',
+                    margin: '0 20px',
+                    opacity: 0.8,
+                  }}
                 />
               </Grid>
             ))}
@@ -1146,34 +1121,6 @@
     }
 
     function FeaturesSection() {
-      const features = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-          iconName: 'connect_without_contact',
-          details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
-        },
-        {
-          title: 'Share',
-          description: 'Tools, time, talents — give what you can, receive what you need.',
-          iconName: 'share',
-          details: 'Share resources, offer your skills, and collaborate on projects. Whether you need assistance or can offer help, ONE Local makes sharing easy and impactful.',
-        },
-        {
-          title: 'Skill Development',
-          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
-          iconName: 'school',
-          details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
-        },
-        {
-          title: 'Governance',
-          description: 'Democracy in action. Voice your vision, shape your surroundings.',
-          iconName: 'gavel',
-          details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
-        },
-      ];
-
-      // Modal State
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedFeature, setSelectedFeature] = React.useState(null);
 
@@ -1193,7 +1140,7 @@
             Explore What We Offer
           </Typography>
           <Grid container spacing={6}>
-            {features.map((feature) => (
+            {featuresData.map((feature) => (
               <Grid item xs={12} sm={6} md={3} key={feature.title}>
                 <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
                   <CardContent>
@@ -1247,42 +1194,6 @@
     }
 
     function MembershipTypes({ setCurrentPage }) {
-      const memberships = [
-        {
-          title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
-          cta: 'Join Now',
-          page: 'local-members',
-          details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
-        },
-        {
-          title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
-          cta: 'Start Hosting',
-          page: 'event-hosts',
-          details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
-        },
-        {
-          title: 'Sellers',
-          description:
-            'Your storefront in the village square. Share what you create with those who’ll love it most.',
-          cta: 'Open Shop',
-          page: 'sellers',
-          details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
-        },
-        {
-          title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
-          cta: 'Register Now',
-          page: 'organizations',
-          details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
-        },
-      ];
-
-      // Modal State
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMembership, setSelectedMembership] = React.useState(null);
 
@@ -1302,7 +1213,7 @@
             How Will You Show Up?
           </Typography>
           <Grid container spacing={6}>
-            {memberships.map((membership) => (
+            {membershipsData.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
                 <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
                   <CardContent>
@@ -1361,34 +1272,6 @@
     }
 
     function TeamSection() {
-      const teamMembers = [
-        {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
-        },
-        {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
-        },
-        {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
-        },
-        {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
-        },
-      ];
-
-      // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
 
@@ -1407,26 +1290,33 @@
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
             Meet the Team
           </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
+          {teamGroupsData.map((group, index) => (
+            <Box key={index} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {group.groupName}
+              </Typography>
+              <Grid container spacing={6}>
+                {group.members.map((member, idx) => (
+                  <Grid item xs={12} sm={6} md={3} key={idx}>
+                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                      <CardContent>
+                        <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                          {member.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {member.role}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {member.bio}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
+            </Box>
+          ))}
 
           {/* Team Member Details Modal */}
           <Modal
@@ -1525,41 +1415,14 @@
     }
 
     function TestimonialsCarousel() {
-      const testimonials = [
-        {
-          avatar: 'https://i.pravatar.cc/100?img=1',
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=2',
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=3',
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: 'https://i.pravatar.cc/100?img=4',
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
-
       const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
 
       const nextTestimonial = () => {
-        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+        setCurrentTestimonial((prev) => (prev + 1) % testimonialsData.length);
       };
 
       const prevTestimonial = () => {
-        setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        setCurrentTestimonial((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
       };
 
       React.useEffect(() => {
@@ -1576,15 +1439,15 @@
           </Typography>
           <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
             <Box className="testimonial">
-              <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
+              <Avatar src={testimonialsData[currentTestimonial].avatar} alt={testimonialsData[currentTestimonial].name} className="testimonial-avatar" />
               <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                {testimonials[currentTestimonial].name}
+                {testimonialsData[currentTestimonial].name}
               </Typography>
               <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
-                {testimonials[currentTestimonial].role}
+                {testimonialsData[currentTestimonial].role}
               </Typography>
               <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
-                {testimonials[currentTestimonial].quote}
+                {testimonialsData[currentTestimonial].quote}
               </Typography>
             </Box>
             {/* Navigation Buttons */}
@@ -1738,6 +1601,7 @@
       );
     }
 
+    // ======================= Render App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
