@@ -73,6 +73,11 @@
       CardContent,
       CardMedia,
       CardActions,
+      Dialog,
+      DialogTitle,
+      DialogContent,
+      DialogContentText,
+      DialogActions,
     } = MaterialUI;
     const { Close } = MaterialUIIcons;
 
@@ -205,7 +210,7 @@
           },
           { label: 'Event Status', name: 'eventStatus', type: 'select', options: ['EventScheduled', 'EventCancelled', 'EventPostponed'] },
           { label: 'Event Attendance Mode', name: 'eventAttendanceMode', type: 'select', options: ['Offline', 'Online'] },
-          { label: 'Organizer', name: 'organizer', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:org456'], allowCreate: false },
+          { label: 'Organizer', name: 'organizer', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
           { label: 'Attendee', name: 'attendee', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
           { label: 'Performer', name: 'performer', type: 'multiselect', options: ['urn:uuid:user456'] },
           { label: 'Offers', name: 'offers', type: 'multiselect', options: ['Offer1', 'Offer2'] },
@@ -359,10 +364,6 @@
       sessions: [
         { label: 'Session1', value: 'Session1' },
         { label: 'Session2', value: 'Session2' },
-      ],
-      tasks: [
-        { label: 'Task103', value: 'urn:uuid:task103' },
-        { label: 'Task104', value: 'urn:uuid:task104' },
       ],
     };
 
@@ -553,190 +554,6 @@
       };
 
       // Recursive function to handle nested objects and arrays
-      const renderFields = (properties, parentName = '') => {
-        return properties.map((prop, index) => {
-          const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
-          const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
-
-          switch (prop.type) {
-            case 'text':
-            case 'email':
-            case 'tel':
-            case 'url':
-            case 'number':
-            case 'date':
-            case 'datetime-local':
-            case 'password':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <TextField
-                    label={prop.label}
-                    type={prop.type === 'textarea' ? 'text' : prop.type}
-                    multiline={prop.type === 'textarea'}
-                    rows={prop.type === 'textarea' ? 4 : 1}
-                    fullWidth
-                    required={prop.required}
-                    disabled={prop.disabled}
-                    value={value}
-                    onChange={(e) => handleChange(fullName, e.target.value)}
-                  />
-                </Box>
-              );
-            case 'select':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <FormControl fullWidth>
-                    <InputLabel>{prop.label}</InputLabel>
-                    <Select
-                      value={value}
-                      label={prop.label}
-                      onChange={(e) => handleChange(fullName, e.target.value)}
-                    >
-                      {prop.options.map((option, idx) => (
-                        <MenuItem key={idx} value={option}>{option}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-              );
-            case 'autocomplete':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <Autocomplete
-                    freeSolo={prop.allowCreate}
-                    options={dummyData[mapOptionKey(prop.name)] || []}
-                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-                    value={value}
-                    onChange={(event, newValue) => {
-                      if (typeof newValue === 'string') {
-                        handleChange(fullName, newValue);
-                      } else if (newValue && newValue.inputValue) {
-                        // Create a new option
-                        handleChange(fullName, newValue.inputValue);
-                      } else {
-                        handleChange(fullName, newValue ? newValue.value : '');
-                      }
-                    }}
-                    onInputChange={(event, newInputValue) => {
-                      handleChange(fullName, newInputValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
-                    )}
-                  />
-                </Box>
-              );
-            case 'multiselect':
-              // Determine options based on property name
-              let options = [];
-              if (prop.options) {
-                options = prop.options;
-              } else {
-                // Dynamically assign options from dummyData based on name
-                const key = prop.name.replace(/([A-Z])/g, '_$1').toLowerCase();
-                options = dummyData[key] || [];
-              }
-
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <Autocomplete
-                    multiple
-                    freeSolo={false}
-                    options={options}
-                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-                    value={value.map(val => options.find(opt => opt.value === val) || val)}
-                    onChange={(event, newValue) => {
-                      const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
-                      handleChange(fullName, selectedValues);
-                    }}
-                    renderTags={(tagValue, getTagProps) =>
-                      tagValue.map((option, idx) => (
-                        <Chip label={option.label || option} {...getTagProps({ index: idx })} key={idx} />
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
-                    )}
-                  />
-                </Box>
-              );
-            case 'checkbox':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={value}
-                        onChange={(e) => handleChange(fullName, e.target.checked)}
-                      />
-                    }
-                    label={prop.label}
-                  />
-                </Box>
-              );
-            case 'object':
-              return (
-                <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
-                  <Typography variant="h6" gutterBottom>
-                    {prop.label}
-                  </Typography>
-                  {renderFields(prop.fields, fullName)}
-                </Box>
-              );
-            default:
-              return null;
-          }
-        });
-      };
-
-      // Helper functions to manage nested state
-      const setNestedValue = (obj, path, value) => {
-        const keys = path.split('.');
-        const lastKey = keys.pop();
-        const nested = keys.reduce((acc, key) => {
-          if (!acc[key]) acc[key] = {};
-          return acc[key];
-        }, obj);
-        nested[lastKey] = value;
-        return { ...obj };
-      };
-
-      const getNestedValue = (obj, path) => {
-        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-      };
-
-      const mapOptionKey = (name) => {
-        // Map property names to dummyData keys
-        const mapping = {
-          'assignedTo': 'users',
-          'assignedBy': 'users',
-          'dependsOn': 'tasks',
-          'seller': 'users',
-          'buyer': 'users',
-        };
-        return mapping[name] || name.toLowerCase();
-      };
-
-      return (
-        <Box>
-          {renderFields(schema.properties)}
-        </Box>
-      );
-    }
-
-    // Helper function to format labels
-    function formatLabel(label) {
-      return label.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-    }
-
-    // ObjectForm Component
-    function ObjectForm({ schema, formData, setFormData, dummyData }) {
-      // Handle input changes
-      const handleChange = (name, value) => {
-        setFormData(prev => setNestedValue(prev, name, value));
-      };
-
-      // Recursive function to handle nested objects
       const renderFields = (properties, parentName = '') => {
         return properties.map((prop, index) => {
           const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
