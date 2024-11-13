@@ -41,17 +41,17 @@
       MenuItem,
       Link,
       Divider,
+      Avatar,
       List,
       ListItem,
       ListItemText,
-      Avatar,
-      TextField,
       Accordion,
       AccordionSummary,
       AccordionDetails,
+      TextField,
     } = MaterialUI;
 
-    // Custom ONE Local Theme
+    // Custom OL Theme
     const theme = createTheme({
       palette: {
         mode: 'dark',
@@ -104,21 +104,6 @@
             root: {
               borderRadius: '20px',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-              transition: '0.3s',
-              '&:hover': {
-                boxShadow: '0 8px 40px rgba(0, 230, 118, 0.3)',
-              },
-            },
-          },
-        },
-        MuiAccordion: {
-          styleOverrides: {
-            root: {
-              backgroundColor: '#1e1e1e',
-              color: '#ffffff',
-              '&:before': {
-                display: 'none',
-              },
             },
           },
         },
@@ -178,52 +163,53 @@
               <Button color="inherit">Download App</Button>
             </div>
             <div className="mobileMenu">
-              <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobile')}>
+              <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')}>
                 <Icon>menu</Icon>
               </IconButton>
-            </div>
-          </Toolbar>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            PaperProps={{ style: { zIndex: 1400 } }}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          >
-            {menuId === 'about' && (
-              <>
-                <MenuItem onClick={handleMenuClose}>Manifesto</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Team</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Whitepaper</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Investors</MenuItem>
-              </>
-            )}
-            {menuId === 'features' && (
-              <>
-                <MenuItem onClick={handleMenuClose}>Overview</MenuItem>
-                <MenuItem onClick={handleMenuClose}>For Local Members</MenuItem>
-                <MenuItem onClick={handleMenuClose}>For Event Hosts</MenuItem>
-                <MenuItem onClick={handleMenuClose}>For Sellers</MenuItem>
-                <MenuItem onClick={handleMenuClose}>For Organizations</MenuItem>
-              </>
-            )}
-            {menuId === 'community' && (
-              <>
-                <MenuItem onClick={handleMenuClose}>Impact Stories</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
-              </>
-            )}
-            {menuId === 'mobile' && (
-              <>
+              <Menu
+                anchorEl={anchorEl}
+                open={menuId === 'mobileMenu'}
+                onClose={handleMenuClose}
+                PaperProps={{ style: { zIndex: 1400 } }}
+              >
                 <MenuItem onClick={handleMenuClose}>Home</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'about')}>About</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'features')}>Features</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'community')}>Community</MenuItem>
+                <MenuItem onClick={handleMenuClose}>About</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Features</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Community</MenuItem>
                 <MenuItem onClick={handleMenuClose}>Download App</MenuItem>
-              </>
-            )}
-          </Menu>
+              </Menu>
+            </div>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
+              onClose={handleMenuClose}
+              PaperProps={{ style: { zIndex: 1400 } }}
+            >
+              {menuId === 'about' && (
+                <>
+                  <MenuItem onClick={handleMenuClose}>Manifesto</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Team</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Whitepaper</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Investors</MenuItem>
+                </>
+              )}
+              {menuId === 'features' && (
+                <>
+                  <MenuItem onClick={handleMenuClose}>Overview</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>For Local Members</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>For Event Hosts</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>For Sellers</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>For Organizations</MenuItem>
+                </>
+              )}
+              {menuId === 'community' && (
+                <>
+                  <MenuItem onClick={handleMenuClose}>Impact Stories</MenuItem>
+                  <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
+                </>
+              )}
+            </Menu>
+          </Toolbar>
         </AppBar>
       );
     }
@@ -231,10 +217,10 @@
     function HeroSection() {
       return (
         <Box sx={{ textAlign: 'center', mt: 12, py: 8 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
             Empower Your Community, Enrich Your Life.
           </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 4 }}>
+          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
             Together, we build the future — one connection, one offering, one moment at a time.
           </Typography>
           <Button variant="contained" color="primary" size="large">
@@ -246,37 +232,37 @@
 
     function LogoCollection() {
       const logos = [
-        'https://via.placeholder.com/150x80?text=Logo+1',
-        'https://via.placeholder.com/150x80?text=Logo+2',
-        'https://via.placeholder.com/150x80?text=Logo+3',
-        'https://via.placeholder.com/150x80?text=Logo+4',
-        'https://via.placeholder.com/150x80?text=Logo+5',
-        'https://via.placeholder.com/150x80?text=Logo+6',
+        'https://via.placeholder.com/100x80?text=Logo1',
+        'https://via.placeholder.com/100x80?text=Logo2',
+        'https://via.placeholder.com/100x80?text=Logo3',
+        'https://via.placeholder.com/100x80?text=Logo4',
+        'https://via.placeholder.com/100x80?text=Logo5',
+        'https://via.placeholder.com/100x80?text=Logo6',
       ];
 
       const logoStyle = {
         width: '100px',
-        height: 'auto',
+        height: '80px',
         margin: '0 32px',
         opacity: 0.7,
       };
 
       return (
-        <Box sx={{ py: 4 }}>
+        <Box id="logoCollection" sx={{ py: 4 }}>
           <Typography
             component="p"
             variant="subtitle2"
             align="center"
-            sx={{ color: 'text.secondary', mb: 2 }}
+            sx={{ color: 'text.secondary' }}
           >
-            Trusted by the best companies
+            Trusted by communities worldwide
           </Typography>
-          <Grid container sx={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.6 }}>
             {logos.map((logo, index) => (
               <Grid item key={index}>
                 <img
                   src={logo}
-                  alt={`Company logo ${index + 1}`}
+                  alt={`Partner logo ${index + 1}`}
                   style={logoStyle}
                 />
               </Grid>
@@ -311,20 +297,18 @@
       ];
 
       return (
-        <Box sx={{ py: 8 }}>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Explore What We Offer
+        <Box mt={8} mb={8}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            Features
           </Typography>
           <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+            {features.map((feature) => (
+              <Grid item xs={12} sm={6} md={3} key={feature.title}>
                 <Card>
                   <CardContent>
                     <Box display="flex" alignItems="center" gap={2}>
                       <Icon color="primary" sx={{ fontSize: 40 }}>{feature.iconName}</Icon>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                        {feature.title}
-                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature.title}</Typography>
                     </Box>
                     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
                       {feature.description}
@@ -338,41 +322,107 @@
       );
     }
 
-    function PricingSection() {
+    function MembershipTypes() {
+      const memberships = [
+        {
+          title: 'Local Members',
+          description:
+            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
+          cta: 'Join as a Local Member',
+        },
+        {
+          title: 'Event Hosts',
+          description:
+            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
+          cta: 'Start Hosting Events',
+        },
+        {
+          title: 'Sellers',
+          description:
+            'Your storefront in the village square. Share what you create with those who’ll love it most.',
+          cta: 'Open Your ONE Local Shop',
+        },
+        {
+          title: 'Organizations',
+          description:
+            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
+          cta: 'Register Your Organization',
+        },
+      ];
+
+      return (
+        <Box mt={8} mb={8}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            How Will You Show Up?
+          </Typography>
+          <Grid container spacing={4}>
+            {memberships.map((membership) => (
+              <Grid item xs={12} sm={6} md={3} key={membership.title}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{membership.title}</Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
+                      {membership.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="outlined" color="primary" fullWidth>
+                      {membership.cta}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function Pricing() {
       const tiers = [
         {
-          title: 'Free',
-          price: '0',
+          title: 'Local Members',
+          price: 'Free',
           description: [
-            'Access to basic features',
-            'Community support',
-            'Limited resources',
+            'Access to community events',
+            'Connect with neighbors',
+            'Share and request resources',
           ],
-          buttonText: 'Sign Up for Free',
-          buttonVariant: 'outlined',
+          buttonText: 'Join Now',
+          buttonVariant: 'contained',
           buttonColor: 'primary',
         },
         {
-          title: 'Professional',
-          subheader: 'Recommended',
-          price: '15',
+          title: 'Event Hosts',
+          price: '$9.99/mo',
           description: [
-            'Access to all features',
-            'Priority support',
-            'Unlimited resources',
-            'Exclusive events',
+            'Create and manage events',
+            'Sell tickets directly',
+            'Promote to local audiences',
           ],
-          buttonText: 'Get Started',
+          buttonText: 'Start Hosting',
           buttonVariant: 'contained',
-          buttonColor: 'secondary',
+          buttonColor: 'primary',
         },
         {
-          title: 'Enterprise',
-          price: '30',
+          title: 'Sellers',
+          price: '$19.99/mo',
           description: [
-            'Dedicated account manager',
-            'Custom solutions',
-            '24/7 support',
+            'Set up your online shop',
+            'Secure payment processing',
+            'Feature products in marketplace',
+          ],
+          buttonText: 'Open Shop',
+          buttonVariant: 'contained',
+          buttonColor: 'primary',
+        },
+        {
+          title: 'Organizations',
+          price: 'Custom Pricing',
+          description: [
+            'Team collaboration tools',
+            'Event and task management',
+            'Dedicated support',
           ],
           buttonText: 'Contact Us',
           buttonVariant: 'outlined',
@@ -381,13 +431,16 @@
       ];
 
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Pricing
+        <Container id="pricing" sx={{ py: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            Membership Types
+          </Typography>
+          <Typography variant="body1" align="center" sx={{ color: 'text.secondary', mb: 4 }}>
+            Choose a membership that fits your needs.
           </Typography>
           <Grid container spacing={4} justifyContent="center">
-            {tiers.map((tier, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
+            {tiers.map((tier) => (
+              <Grid item xs={12} sm={6} md={3} key={tier.title}>
                 <Card
                   sx={[
                     {
@@ -396,31 +449,25 @@
                       flexDirection: 'column',
                       gap: 2,
                     },
-                    tier.title === 'Professional' && {
+                    tier.title === 'Local Members' && {
                       border: '2px solid',
                       borderColor: 'primary.main',
-                      background:
-                        'radial-gradient(circle at 50% 0%, hsl(220, 20%, 35%), hsl(220, 30%, 6%))',
                     },
                   ]}
                 >
-                  <CardContent>
+                  <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                       {tier.title}
                     </Typography>
-                    {tier.subheader && (
-                      <Typography variant="subtitle1" color="primary">
-                        {tier.subheader}
-                      </Typography>
-                    )}
                     <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 2 }}>
-                      <Typography variant="h3">${tier.price}</Typography>
-                      <Typography variant="h6">&nbsp;/ mo</Typography>
+                      <Typography variant="h3">
+                        {tier.price}
+                      </Typography>
                     </Box>
                     <Divider sx={{ my: 2 }} />
                     <ul>
-                      {tier.description.map((line, idx) => (
-                        <Typography component="li" variant="subtitle1" key={idx} sx={{ mb: 1 }}>
+                      {tier.description.map((line, index) => (
+                        <Typography component="li" variant="subtitle1" key={index} sx={{ mb: 1 }}>
                           {line}
                         </Typography>
                       ))}
@@ -452,20 +499,18 @@
       ];
 
       return (
-        <Box sx={{ py: 8 }}>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Our Community in Bloom
+        <Box mt={8} mb={8}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            Our Community in Numbers
           </Typography>
           <Grid container spacing={4}>
-            {metrics.map((metric, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+            {metrics.map((metric) => (
+              <Grid item xs={12} sm={6} md={3} key={metric.label}>
                 <Box textAlign="center">
                   <Typography variant="h3" color="primary">
                     {metric.value}
                   </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {metric.label}
-                  </Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{metric.label}</Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {metric.description}
                   </Typography>
@@ -481,38 +526,38 @@
       const testimonials = [
         {
           avatar: <Avatar alt="Member 1" src="https://via.placeholder.com/150" />,
-          name: 'Remy Sharp',
+          name: 'Emily R.',
           role: 'Local Member',
           quote: '“I found my neighbors, my friends, my sense of belonging.”',
         },
         {
           avatar: <Avatar alt="Member 2" src="https://via.placeholder.com/150" />,
-          name: 'Travis Howard',
+          name: 'Michael T.',
           role: 'Event Host',
           quote: '“Hosting through ONE Local made our festival a homegrown success.”',
         },
         {
           avatar: <Avatar alt="Member 3" src="https://via.placeholder.com/150" />,
-          name: 'Cindy Baker',
+          name: 'Sarah L.',
           role: 'Seller',
           quote: '“This platform brought customers who appreciate the local touch.”',
         },
         {
           avatar: <Avatar alt="Member 4" src="https://via.placeholder.com/150" />,
-          name: 'Agnes Walker',
+          name: 'David G.',
           role: 'Organization Leader',
           quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
         },
       ];
 
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+        <Container id="testimonials" sx={{ py: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
             What Our Community Says
           </Typography>
           <Grid container spacing={4}>
             {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+              <Grid item xs={12} md={6} key={index}>
                 <Card>
                   <CardContent>
                     <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
@@ -542,54 +587,58 @@
       const faqs = [
         {
           question: 'What is ONE Local?',
-          answer: 'ONE Local is a platform that connects you with your local community, allowing you to share resources, attend events, and collaborate with others.',
+          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
         },
         {
           question: 'How do I join as a member?',
-          answer: 'Simply download our app, create an account, and start connecting with your community today!',
+          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
         },
         {
           question: 'How do I create an event?',
-          answer: 'Once you have an account, navigate to the "Create Event" section in the app, and fill out the necessary details to host your own event.',
+          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
         },
         {
           question: 'What payment options are available?',
-          answer: 'We accept all major credit cards, PayPal, and other secure payment methods through our app.',
+          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
         },
       ];
 
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+        <Container id="faq" sx={{ py: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
             Frequently Asked Questions
           </Typography>
-          {faqs.map((faq, index) => (
-            <Accordion key={index}>
-              <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                <Typography variant="h6">{faq.question}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  {faq.answer}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+          <Box mt={4}>
+            {faqs.map((faq, index) => (
+              <Accordion key={index}>
+                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
         </Container>
       );
     }
 
-    function CallToActionSection() {
+    function CallToAction() {
       return (
-        <Box sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+        <Box mt={8} mb={8} textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
             Help Us Grow
           </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+          <Typography variant="h6" sx={{ color: 'text.secondary' }}>
             “Every dollar sown grows a forest of connection.”
           </Typography>
           <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }}>
-            Donate Now — Direct support, direct impact.
+            Donate Now
           </Button>
           <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
             Take the Survey
@@ -603,7 +652,7 @@
 
     function Footer() {
       return (
-        <Box sx={{ py: 4, backgroundColor: '#1e1e1e' }}>
+        <Box py={4} sx={{ backgroundColor: '#1f1f1f' }}>
           <Container maxWidth="lg">
             <Grid container spacing={4}>
               <Grid item xs={12} md={4}>
@@ -643,25 +692,14 @@
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   Join the conversation.
                 </Typography>
-                <Box>
-                  {/* Replace '#' with actual social media links */}
-                  <IconButton color="inherit" href="#">
-                    <Icon>facebook</Icon>
-                  </IconButton>
-                  <IconButton color="inherit" href="#">
-                    <Icon>instagram</Icon>
-                  </IconButton>
-                  <IconButton color="inherit" href="#">
-                    <Icon>linkedin</Icon>
-                  </IconButton>
-                </Box>
+                {/* Social media icons can be added here */}
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   “Get the Latest Stories and Updates — Sign Up Here.”
                 </Typography>
                 <TextField
@@ -669,7 +707,7 @@
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  InputLabelProps={{ style: { color: '#b0bec5' } }}
+                  InputLabelProps={{ style: { color: '#bbbbbb' } }}
                   InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
                 />
                 <Button variant="contained" color="primary" fullWidth>
@@ -693,15 +731,16 @@
           <CssBaseline />
           <Box style={backgroundStyle}>
             <NavigationBar />
-            <Container maxWidth="lg" sx={{ pt: 12 }}>
+            <Container maxWidth="lg">
               <HeroSection />
               <LogoCollection />
               <FeaturesSection />
+              <MembershipTypes />
+              <Pricing />
               <CommunityImpact />
-              <PricingSection />
               <TestimonialsSection />
               <FAQSection />
-              <CallToActionSection />
+              <CallToAction />
             </Container>
             <Footer />
           </Box>
@@ -718,16 +757,10 @@
       .desktopMenu {
         display: none;
       }
-      .mobileMenu {
-        display: block;
-      }
     }
     @media (min-width: 960px) {
       .mobileMenu {
         display: none;
-      }
-      .desktopMenu {
-        display: flex;
       }
     }
     /* Scrollbar Styling */
