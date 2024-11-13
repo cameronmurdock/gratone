@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Empowering Communities</title>
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body style="margin: 0;">
@@ -38,9 +41,17 @@
       MenuItem,
       Link,
       Divider,
+      List,
+      ListItem,
+      ListItemText,
+      Avatar,
+      TextField,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
     } = MaterialUI;
 
-    // Custom OL Theme
+    // Custom ONE Local Theme
     const theme = createTheme({
       palette: {
         mode: 'dark',
@@ -93,6 +104,21 @@
             root: {
               borderRadius: '20px',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+              transition: '0.3s',
+              '&:hover': {
+                boxShadow: '0 8px 40px rgba(0, 230, 118, 0.3)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              backgroundColor: '#1e1e1e',
+              color: '#ffffff',
+              '&:before': {
+                display: 'none',
+              },
             },
           },
         },
@@ -126,58 +152,78 @@
             <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
               ONE Local
             </Typography>
-            <Button color="inherit">Home</Button>
-            <Button
-              color="inherit"
-              onClick={(e) => handleMenuOpen(e, 'about')}
-            >
-              About
-            </Button>
-            <Button
-              color="inherit"
-              onClick={(e) => handleMenuOpen(e, 'features')}
-            >
-              Features
-            </Button>
-            <Button
-              color="inherit"
-              onClick={(e) => handleMenuOpen(e, 'community')}
-            >
-              Community
-            </Button>
-            <Button color="inherit">Download App</Button>
-
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-              PaperProps={{ style: { zIndex: 1400 } }}
-            >
-              {menuId === 'about' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Manifesto</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Team</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Whitepaper</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'features' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Overview</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Local Members</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Sellers</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'community' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Impact Stories</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
-                </>
-              )}
-            </Menu>
+            <div className="desktopMenu">
+              <Button color="inherit">Home</Button>
+              <Button
+                color="inherit"
+                onClick={(e) => handleMenuOpen(e, 'about')}
+                endIcon={<Icon>expand_more</Icon>}
+              >
+                About
+              </Button>
+              <Button
+                color="inherit"
+                onClick={(e) => handleMenuOpen(e, 'features')}
+                endIcon={<Icon>expand_more</Icon>}
+              >
+                Features
+              </Button>
+              <Button
+                color="inherit"
+                onClick={(e) => handleMenuOpen(e, 'community')}
+                endIcon={<Icon>expand_more</Icon>}
+              >
+                Community
+              </Button>
+              <Button color="inherit">Download App</Button>
+            </div>
+            <div className="mobileMenu">
+              <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobile')}>
+                <Icon>menu</Icon>
+              </IconButton>
+            </div>
           </Toolbar>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            PaperProps={{ style: { zIndex: 1400 } }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          >
+            {menuId === 'about' && (
+              <>
+                <MenuItem onClick={handleMenuClose}>Manifesto</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Team</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Whitepaper</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Investors</MenuItem>
+              </>
+            )}
+            {menuId === 'features' && (
+              <>
+                <MenuItem onClick={handleMenuClose}>Overview</MenuItem>
+                <MenuItem onClick={handleMenuClose}>For Local Members</MenuItem>
+                <MenuItem onClick={handleMenuClose}>For Event Hosts</MenuItem>
+                <MenuItem onClick={handleMenuClose}>For Sellers</MenuItem>
+                <MenuItem onClick={handleMenuClose}>For Organizations</MenuItem>
+              </>
+            )}
+            {menuId === 'community' && (
+              <>
+                <MenuItem onClick={handleMenuClose}>Impact Stories</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
+              </>
+            )}
+            {menuId === 'mobile' && (
+              <>
+                <MenuItem onClick={handleMenuClose}>Home</MenuItem>
+                <MenuItem onClick={(e) => handleMenuOpen(e, 'about')}>About</MenuItem>
+                <MenuItem onClick={(e) => handleMenuOpen(e, 'features')}>Features</MenuItem>
+                <MenuItem onClick={(e) => handleMenuOpen(e, 'community')}>Community</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Download App</MenuItem>
+              </>
+            )}
+          </Menu>
         </AppBar>
       );
     }
@@ -185,15 +231,458 @@
     function HeroSection() {
       return (
         <Box sx={{ textAlign: 'center', mt: 12, py: 8 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
             Empower Your Community, Enrich Your Life.
           </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 4 }}>
             Together, we build the future — one connection, one offering, one moment at a time.
           </Typography>
           <Button variant="contained" color="primary" size="large">
             Download the App
           </Button>
+        </Box>
+      );
+    }
+
+    function LogoCollection() {
+      const logos = [
+        'https://via.placeholder.com/150x80?text=Logo+1',
+        'https://via.placeholder.com/150x80?text=Logo+2',
+        'https://via.placeholder.com/150x80?text=Logo+3',
+        'https://via.placeholder.com/150x80?text=Logo+4',
+        'https://via.placeholder.com/150x80?text=Logo+5',
+        'https://via.placeholder.com/150x80?text=Logo+6',
+      ];
+
+      const logoStyle = {
+        width: '100px',
+        height: 'auto',
+        margin: '0 32px',
+        opacity: 0.7,
+      };
+
+      return (
+        <Box sx={{ py: 4 }}>
+          <Typography
+            component="p"
+            variant="subtitle2"
+            align="center"
+            sx={{ color: 'text.secondary', mb: 2 }}
+          >
+            Trusted by the best companies
+          </Typography>
+          <Grid container sx={{ justifyContent: 'center', alignItems: 'center' }}>
+            {logos.map((logo, index) => (
+              <Grid item key={index}>
+                <img
+                  src={logo}
+                  alt={`Company logo ${index + 1}`}
+                  style={logoStyle}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function FeaturesSection() {
+      const features = [
+        {
+          title: 'Connect',
+          description: 'A message away from neighbors you haven’t met yet.',
+          iconName: 'connect_without_contact',
+        },
+        {
+          title: 'Share',
+          description: 'Tools, time, talents — give what you can, receive what you need.',
+          iconName: 'share',
+        },
+        {
+          title: 'Skill Development',
+          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
+          iconName: 'school',
+        },
+        {
+          title: 'Governance',
+          description: 'Democracy in action. Voice your vision, shape your surroundings.',
+          iconName: 'gavel',
+        },
+      ];
+
+      return (
+        <Box sx={{ py: 8 }}>
+          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Explore What We Offer
+          </Typography>
+          <Grid container spacing={4}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <Icon color="primary" sx={{ fontSize: 40 }}>{feature.iconName}</Icon>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        {feature.title}
+                      </Typography>
+                    </Box>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
+                      {feature.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function PricingSection() {
+      const tiers = [
+        {
+          title: 'Free',
+          price: '0',
+          description: [
+            'Access to basic features',
+            'Community support',
+            'Limited resources',
+          ],
+          buttonText: 'Sign Up for Free',
+          buttonVariant: 'outlined',
+          buttonColor: 'primary',
+        },
+        {
+          title: 'Professional',
+          subheader: 'Recommended',
+          price: '15',
+          description: [
+            'Access to all features',
+            'Priority support',
+            'Unlimited resources',
+            'Exclusive events',
+          ],
+          buttonText: 'Get Started',
+          buttonVariant: 'contained',
+          buttonColor: 'secondary',
+        },
+        {
+          title: 'Enterprise',
+          price: '30',
+          description: [
+            'Dedicated account manager',
+            'Custom solutions',
+            '24/7 support',
+          ],
+          buttonText: 'Contact Us',
+          buttonVariant: 'outlined',
+          buttonColor: 'primary',
+        },
+      ];
+
+      return (
+        <Container sx={{ py: 8 }}>
+          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Pricing
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            {tiers.map((tier, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card
+                  sx={[
+                    {
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 2,
+                    },
+                    tier.title === 'Professional' && {
+                      border: '2px solid',
+                      borderColor: 'primary.main',
+                      background:
+                        'radial-gradient(circle at 50% 0%, hsl(220, 20%, 35%), hsl(220, 30%, 6%))',
+                    },
+                  ]}
+                >
+                  <CardContent>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {tier.title}
+                    </Typography>
+                    {tier.subheader && (
+                      <Typography variant="subtitle1" color="primary">
+                        {tier.subheader}
+                      </Typography>
+                    )}
+                    <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 2 }}>
+                      <Typography variant="h3">${tier.price}</Typography>
+                      <Typography variant="h6">&nbsp;/ mo</Typography>
+                    </Box>
+                    <Divider sx={{ my: 2 }} />
+                    <ul>
+                      {tier.description.map((line, idx) => (
+                        <Typography component="li" variant="subtitle1" key={idx} sx={{ mb: 1 }}>
+                          {line}
+                        </Typography>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant}
+                      color={tier.buttonColor}
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
+
+    function CommunityImpact() {
+      const metrics = [
+        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
+        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
+        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
+        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
+      ];
+
+      return (
+        <Box sx={{ py: 8 }}>
+          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Our Community in Bloom
+          </Typography>
+          <Grid container spacing={4}>
+            {metrics.map((metric, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Box textAlign="center">
+                  <Typography variant="h3" color="primary">
+                    {metric.value}
+                  </Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {metric.label}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {metric.description}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function TestimonialsSection() {
+      const testimonials = [
+        {
+          avatar: <Avatar alt="Member 1" src="https://via.placeholder.com/150" />,
+          name: 'Remy Sharp',
+          role: 'Local Member',
+          quote: '“I found my neighbors, my friends, my sense of belonging.”',
+        },
+        {
+          avatar: <Avatar alt="Member 2" src="https://via.placeholder.com/150" />,
+          name: 'Travis Howard',
+          role: 'Event Host',
+          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+        },
+        {
+          avatar: <Avatar alt="Member 3" src="https://via.placeholder.com/150" />,
+          name: 'Cindy Baker',
+          role: 'Seller',
+          quote: '“This platform brought customers who appreciate the local touch.”',
+        },
+        {
+          avatar: <Avatar alt="Member 4" src="https://via.placeholder.com/150" />,
+          name: 'Agnes Walker',
+          role: 'Organization Leader',
+          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+        },
+      ];
+
+      return (
+        <Container sx={{ py: 8 }}>
+          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+            What Our Community Says
+          </Typography>
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+                      {testimonial.quote}
+                    </Typography>
+                    <Box display="flex" alignItems="center">
+                      {testimonial.avatar}
+                      <Box ml={2}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {testimonial.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {testimonial.role}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
+
+    function FAQSection() {
+      const faqs = [
+        {
+          question: 'What is ONE Local?',
+          answer: 'ONE Local is a platform that connects you with your local community, allowing you to share resources, attend events, and collaborate with others.',
+        },
+        {
+          question: 'How do I join as a member?',
+          answer: 'Simply download our app, create an account, and start connecting with your community today!',
+        },
+        {
+          question: 'How do I create an event?',
+          answer: 'Once you have an account, navigate to the "Create Event" section in the app, and fill out the necessary details to host your own event.',
+        },
+        {
+          question: 'What payment options are available?',
+          answer: 'We accept all major credit cards, PayPal, and other secure payment methods through our app.',
+        },
+      ];
+
+      return (
+        <Container sx={{ py: 8 }}>
+          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Frequently Asked Questions
+          </Typography>
+          {faqs.map((faq, index) => (
+            <Accordion key={index}>
+              <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                <Typography variant="h6">{faq.question}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  {faq.answer}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Container>
+      );
+    }
+
+    function CallToActionSection() {
+      return (
+        <Box sx={{ py: 8, textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Help Us Grow
+          </Typography>
+          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+            “Every dollar sown grows a forest of connection.”
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }}>
+            Donate Now — Direct support, direct impact.
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+            Take the Survey
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+            Become an Investor
+          </Button>
+        </Box>
+      );
+    }
+
+    function Footer() {
+      return (
+        <Box sx={{ py: 4, backgroundColor: '#1e1e1e' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">ONE Local</Typography>
+                <List>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="Home" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="About" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="Features" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="Community" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="Investors" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none">
+                      <ListItemText primary="Contact Us" />
+                    </Link>
+                  </ListItem>
+                </List>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">Follow Us</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                  Join the conversation.
+                </Typography>
+                <Box>
+                  {/* Replace '#' with actual social media links */}
+                  <IconButton color="inherit" href="#">
+                    <Icon>facebook</Icon>
+                  </IconButton>
+                  <IconButton color="inherit" href="#">
+                    <Icon>instagram</Icon>
+                  </IconButton>
+                  <IconButton color="inherit" href="#">
+                    <Icon>linkedin</Icon>
+                  </IconButton>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">Newsletter Signup</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                  “Get the Latest Stories and Updates — Sign Up Here.”
+                </Typography>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#b0bec5' } }}
+                  InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
+              </Grid>
+            </Grid>
+            <Box textAlign="center" mt={4}>
+              <Typography variant="body2">
+                © 2024 ONE Local. All rights reserved.
+              </Typography>
+            </Box>
+          </Container>
         </Box>
       );
     }
@@ -204,11 +693,17 @@
           <CssBaseline />
           <Box style={backgroundStyle}>
             <NavigationBar />
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" sx={{ pt: 12 }}>
               <HeroSection />
-              <Divider sx={{ my: 4 }} />
-              {/* Additional components (Features, Pricing, Testimonials) can be added here */}
+              <LogoCollection />
+              <FeaturesSection />
+              <CommunityImpact />
+              <PricingSection />
+              <TestimonialsSection />
+              <FAQSection />
+              <CallToActionSection />
             </Container>
+            <Footer />
           </Box>
         </ThemeProvider>
       );
@@ -218,20 +713,35 @@
   </script>
 
   <style>
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+      .mobileMenu {
+        display: block;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+      .desktopMenu {
+        display: flex;
+      }
+    }
+    /* Scrollbar Styling */
     body {
       overflow-x: hidden;
       scrollbar-color: #1e1e1e #333;
       scrollbar-width: thin;
     }
-
     body::-webkit-scrollbar {
       width: 8px;
     }
-
     body::-webkit-scrollbar-track {
       background: #1e1e1e;
     }
-
     body::-webkit-scrollbar-thumb {
       background-color: #333;
       border-radius: 4px;
