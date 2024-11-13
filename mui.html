@@ -2,64 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Website Landing Page</title>
-  <!-- Include Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- Include React and ReactDOM -->
+  <!-- React, ReactDOM, Babel, and Material UI -->
   <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-
-  <!-- Include Babel for JSX support -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Include Material UI UMD Bundle -->
   <script src="https://unpkg.com/@mui/material@5.0.0-rc.0/umd/material-ui.development.js" crossorigin></script>
 
-  <!-- Your React code -->
   <script type="text/babel">
-    const {
-      AppBar,
-      Toolbar,
-      Typography,
-      Button,
-      Container,
-      Box,
-    } = MaterialUI;
+    const { AppBar, Toolbar, Typography, Button, Container, Box, Card, CardContent } = MaterialUI;
 
-    function App() {
+    function LandingPage() {
       return (
         <div>
-          <AppBar position="static">
+          {/* AppBar for Navigation */}
+          <AppBar position="static" style={{ backgroundColor: '#339999' }}>
             <Toolbar>
               <Typography variant="h6" style={{ flexGrow: 1 }}>
-                My Website
+                ONE Local
               </Typography>
-              <Button color="inherit">Login</Button>
+              <Button color="inherit">Join Us</Button>
             </Toolbar>
           </AppBar>
+
+          {/* Main Content */}
           <Container maxWidth="md">
             <Box textAlign="center" mt={5}>
               <Typography variant="h2" component="h1" gutterBottom>
-                Welcome to My Website
+                Empower Your Community
               </Typography>
-              <Typography variant="h5" component="h2" gutterBottom>
-                {'Experience the best services with us.'}
+              <Typography variant="h5" component="h2" color="textSecondary" gutterBottom>
+                Share your skills, resources, and opportunities to build a connected and thriving community.
               </Typography>
               <Button variant="contained" color="primary" size="large">
                 Get Started
               </Button>
             </Box>
+
+            {/* Community Features Section */}
+            <Box mt={5} display="flex" justifyContent="space-around" flexWrap="wrap">
+              <Card style={{ maxWidth: 300, margin: '10px' }}>
+                <CardContent>
+                  <Typography variant="h6">Connect with Your Community</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Discover local groups, events, and shared resources that bring people together.
+                  </Typography>
+                </CardContent>
+              </Card>
+
+              <Card style={{ maxWidth: 300, margin: '10px' }}>
+                <CardContent>
+                  <Typography variant="h6">Share Skills & Resources</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Offer your skills or request help from others. It's all about sharing and collaboration.
+                  </Typography>
+                </CardContent>
+              </Card>
+
+              <Card style={{ maxWidth: 300, margin: '10px' }}>
+                <CardContent>
+                  <Typography variant="h6">Grow Together</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Participate in local projects and initiatives. Build a better future with your neighbors.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
           </Container>
+
+          {/* Footer */}
+          <Box textAlign="center" py={3} mt={5} style={{ backgroundColor: '#003333', color: '#ffffff' }}>
+            <Typography variant="body2">
+              © 2024 ONE Local. All rights reserved.
+            </Typography>
+          </Box>
         </div>
       );
     }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<LandingPage />, document.getElementById('root'));
   </script>
 </body>
 </html>
+
