@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Object Builder</title>
+    <!-- Include Material-UI CSS via CDN -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <!-- Responsive Meta Tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Roboto, sans-serif;
+            background-color: #f5f5f5;
+        }
+        #root {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">Loading...</div>
+
+    <!-- React and ReactDOM via CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+    <!-- Material-UI Components via CDN -->
+    <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+    <!-- Moment.js for Date Handling (optional) -->
+    <script src="https://unpkg.com/moment@2.29.4/min/moment.min.js"></script>
+
+    <!-- React Application Script -->
+    <script type="text/babel">
+        const {
+            Button,
+            TextField,
+            Select,
+            MenuItem,
+            InputLabel,
+            FormControl,
+            Grid,
+            Box,
+            Typography,
+            Autocomplete,
+            Dialog,
+            DialogTitle,
+            DialogContent,
+            DialogContentText,
+            DialogActions,
+            IconButton,
+            Paper,
+        } = MaterialUI;
+
+        const { Close } = MaterialUIIcons;
+
+        // Dummy Data for Autocomplete Fields
+        const dummyUsers = [
+            { id: 1, name: 'Alice Johnson' },
+            { id: 2, name: 'Bob Smith' },
+            { id: 3, name: 'Charlie Davis' },
+            { id: 4, name: 'Diana Prince' },
+            { id: 5, name: 'Ethan Hunt' },
+            { id: 6, name: 'Fiona Gallagher' },
+            { id: 7, name: 'George Michael' },
+            { id: 8, name: 'Hannah Montana' },
+            { id: 9, name: 'Ian Somerhalder' },
+            { id: 10, name: 'Jane Doe' },
+        ];
+
+        // Schema Definition for Object Types
+        const schema = {
+            Person: {
+                name: { type: 'text', label: 'Name', required: true },
+                email: { type: 'email', label: 'Email', required: true },
+                birthDate: { type: 'date', label: 'Birth Date', required: false },
+                gender: { type: 'select', label: 'Gender', required: false, options: ['Male', 'Female', 'Other'] },
+                roles: { type: 'autocomplete', label: 'Roles', required: false, multiple: true, options: dummyUsers },
+            },
+            Organization: {
+                name: { type: 'text', label: 'Organization Name', required: true },
+                description: { type: 'multiline', label: 'Description', required: false },
+                url: { type: 'url', label: 'Website URL', required: false },
+                members: { type: 'autocomplete', label: 'Members', required: false, multiple: true, options: dummyUsers },
+            },
+            // Add more object types as needed
+        };
+
+        // DynamicForm Component
+        const DynamicForm = () => {
+            const [objectType, setObjectType] = React.useState('');
+            const [formData, setFormData] = React.useState({});
+            const [openDialog, setOpenDialog] = React.useState(false);
+            const [jsonOutput, setJsonOutput] = React.useState('');
+
+            // Handle Object Type Change
+            const handleTypeChange = (event) => {
+                const selectedType = event.target.value;
+                setObjectType(selectedType);
+                setFormData({});
+            };
+
+            // Handle Input Change for Text, Email, Date, URL
+            const handleInputChange = (field, value) => {
+                setFormData((prev) => ({
+                    ...prev,
+                    [field]: value,
+                }));
+            };
+
+            // Handle Autocomplete Change
+            const handleAutocompleteChange = (field, value) => {
+                setFormData((prev) => ({
+                    ...prev,
+                    [field]: value,
+                }));
+            };
+
+            // Handle Form Submission
+            const handleSubmit = (event) => {
+                event.preventDefault();
+                // Generate JSON Output
+                setJsonOutput(JSON.stringify(formData, null, 2));
+                setOpenDialog(true);
+            };
+
+            // Render Form Fields Based on Schema
+            const renderFields = () => {
+                if (!objectType) return null;
+
+                const fields = schema[objectType];
+                return Object.entries(fields).map(([field, config]) => {
+                    switch (config.type) {
+                        case 'text':
+                        case 'email':
+                        case 'url':
+                        case 'date':
+                            return (
+                                <Grid item xs={12} sm={6} key={field}>
+                                    <TextField
+                                        type={config.type}
+                                        label={config.label}
+                                        required={config.required}
+                                        fullWidth
+                                        value={formData[field] || ''}
+                                        onChange={(e) => handleInputChange(field, e.target.value)}
+                                    />
+                                </Grid>
+                            );
+                        case 'multiline':
+                            return (
+                                <Grid item xs={12} key={field}>
+                                    <TextField
+                                        label={config.label}
+                                        required={config.required}
+                                        fullWidth
+                                        multiline
+                                        rows={4}
+                                        value={formData[field] || ''}
+                                        onChange={(e) => handleInputChange(field, e.target.value)}
+                                    />
+                                </Grid>
+                            );
+                        case 'select':
+                            return (
+                                <Grid item xs={12} sm={6} key={field}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>{config.label}</InputLabel>
+                                        <Select
+                                            value={formData[field] || ''}
+                                            label={config.label}
+                                            onChange={(e) => handleInputChange(field, e.target.value)}
+                                        >
+                                            {config.options.map((option, index) => (
+                                                <MenuItem value={option} key={index}>{option}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            );
+                        case 'autocomplete':
+                            return (
+                                <Grid item xs={12} key={field}>
+                                    <Autocomplete
+                                        multiple={config.multiple}
+                                        options={config.options}
+                                        getOptionLabel={(option) => option.name}
+                                        value={formData[field] || []}
+                                        onChange={(event, newValue) => handleAutocompleteChange(field, newValue)}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label={config.label}
+                                                placeholder={`Select ${config.label}`}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                            );
+                        default:
+                            return null;
+                    }
+                });
+            };
+
+            return (
+                <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 800, margin: '0 auto', p: 3, backgroundColor: '#fff', borderRadius: 2, boxShadow: 3 }}>
+                    <Typography variant="h4" gutterBottom>
+                        Dynamic Object Builder
+                    </Typography>
+                    <Grid container spacing={3}>
+                        {/* Object Type Selection */}
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel>Object Type</InputLabel>
+                                <Select
+                                    value={objectType}
+                                    label="Object Type"
+                                    onChange={handleTypeChange}
+                                    required
+                                >
+                                    {Object.keys(schema).map((type, index) => (
+                                        <MenuItem value={type} key={index}>{type}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        {/* ID Field */}
+                        {objectType && (
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Object ID"
+                                    required
+                                    fullWidth
+                                    value={formData.id || ''}
+                                    onChange={(e) => handleInputChange('id', e.target.value)}
+                                />
+                            </Grid>
+                        )}
+                        {/* Dynamic Fields */}
+                        {renderFields()}
+                        {/* Submit Button */}
+                        {objectType && (
+                            <Grid item xs={12}>
+                                <Button variant="contained" color="primary" type="submit">
+                                    Generate JSON
+                                </Button>
+                            </Grid>
+                        )}
+                    </Grid>
+
+                    {/* JSON Output Dialog */}
+                    <Dialog
+                        open={openDialog}
+                        onClose={() => setOpenDialog(false)}
+                        fullWidth
+                        maxWidth="md"
+                    >
+                        <DialogTitle>
+                            JSON Output
+                            <IconButton
+                                aria-label="close"
+                                onClick={() => setOpenDialog(false)}
+                                sx={{
+                                    position: 'absolute',
+                                    right: 8,
+                                    top: 8,
+                                    color: (theme) => theme.palette.grey[500],
+                                }}
+                            >
+                                <Close />
+                            </IconButton>
+                        </DialogTitle>
+                        <DialogContent dividers>
+                            <DialogContentText>
+                                Below is the JSON representation of your input data:
+                            </DialogContentText>
+                            <Paper variant="outlined" sx={{ p: 2, mt: 2, bgcolor: '#f0f0f0' }}>
+                                <pre style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+                                    {jsonOutput}
+                                </pre>
+                            </Paper>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={() => setOpenDialog(false)} color="primary">
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </Box>
+            );
+        };
+
+        // Render the App
+        ReactDOM.createRoot(document.getElementById('root')).render(<DynamicForm />);
+    </script>
+</body>
+</html>
