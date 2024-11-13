@@ -53,7 +53,7 @@
       }
     }
     .animatedBackground {
-      background: linear-gradient(-45deg, #f5deb3, #add8e6, #90ee90, #ffb6c1);
+      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
       background-size: 400% 400%;
       animation: gradientAnimation 60s ease infinite;
       min-height: 100vh;
@@ -82,6 +82,7 @@
       padding: 10px;
       cursor: pointer;
       border-radius: 50%;
+      z-index: 1;
     }
     .carousel-button.left {
       left: 10px;
@@ -91,10 +92,13 @@
     }
     /* Button Hover Effect */
     .MuiButton-containedPrimary:hover {
-      background-color: #66bb6a;
+      background-color: #5a9e5a;
     }
     .MuiButton-containedSecondary:hover {
-      background-color: #ff8a80;
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(129, 199, 132, 0.1);
     }
     /* Testimonials Styling */
     .testimonial {
@@ -110,6 +114,32 @@
     }
     .footer-link {
       cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      bgcolor: 'background.paper';
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 24;
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #666666;
     }
   </style>
 </head>
@@ -161,26 +191,26 @@
       Backdrop,
     } = MaterialUI;
 
-    // Custom Theme with Earthtone Rainbow Pastel Palette
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
       palette: {
         mode: 'light',
         primary: {
-          main: '#81c784', // Pastel Green
+          main: '#6d4c41', // Muted Brown
         },
         secondary: {
-          main: '#ffb6c1', // Light Pink
+          main: '#8d6e63', // Muted Coral
         },
         error: {
-          main: '#e57373', // Light Red
+          main: '#e57373', // Soft Red
         },
         background: {
-          default: '#f0f8ff', // Alice Blue
+          default: '#f5f5f5', // Light Gray
           paper: '#ffffff', // White
         },
         text: {
           primary: '#333333', // Dark Gray
-          secondary: '#666666', // Gray
+          secondary: '#555555', // Medium Gray
         },
       },
       typography: {
@@ -189,7 +219,7 @@
         h2: {
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
-          fontSize: '3.5rem',
+          fontSize: '3rem',
         },
         h4: {
           fontFamily: 'Playfair Display, serif',
@@ -207,7 +237,7 @@
         },
       },
       shape: {
-        borderRadius: 20,
+        borderRadius: 10,
       },
       components: {
         MuiButton: {
@@ -219,13 +249,22 @@
               transition: '0.3s',
             },
             containedPrimary: {
+              backgroundColor: '#6d4c41',
               '&:hover': {
-                backgroundColor: '#66bb6a',
+                backgroundColor: '#5a4033',
               },
             },
             containedSecondary: {
+              backgroundColor: '#8d6e63',
               '&:hover': {
-                backgroundColor: '#ff8a80',
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
               },
             },
           },
@@ -233,7 +272,7 @@
         MuiAppBar: {
           styleOverrides: {
             root: {
-              background: 'rgba(255, 255, 255, 0.9)',
+              background: 'rgba(255, 255, 255, 0.95)',
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             },
           },
@@ -241,8 +280,22 @@
         MuiCard: {
           styleOverrides: {
             root: {
-              borderRadius: '20px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
             },
           },
         },
@@ -654,6 +707,13 @@
         setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
       };
 
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextSlide();
+        }, 7000); // Change slide every 7 seconds
+        return () => clearInterval(timer);
+      }, []);
+
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -715,6 +775,13 @@
         setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
       };
 
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextPost();
+        }, 8000); // Change post every 8 seconds
+        return () => clearInterval(timer);
+      }, []);
+
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -775,23 +842,15 @@
             BackdropProps={{
               timeout: 500,
             }}
+            aria-labelledby="download-app-modal-title"
+            aria-describedby="download-app-modal-description"
           >
             <Fade in={openModal}>
-              <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                borderRadius: 4,
-                boxShadow: 24,
-                p: 4,
-              }}>
-                <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+              <Box className="modalContent">
+                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
                   Thank You for Your Interest!
                 </Typography>
-                <Typography sx={{ mb: 4 }}>
+                <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
                   The app is coming soon. Stay tuned!
                 </Typography>
                 <Button variant="contained" color="primary" onClick={handleClose}>
@@ -960,7 +1019,7 @@
       const logoStyle = {
         width: '150px',
         height: '100px',
-        margin: '0 40px',
+        margin: '0 20px',
         opacity: 0.8,
       };
 
@@ -995,23 +1054,41 @@
           title: 'Connect',
           description: 'A message away from neighbors you haven’t met yet.',
           iconName: 'connect_without_contact',
+          details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
         },
         {
           title: 'Share',
           description: 'Tools, time, talents — give what you can, receive what you need.',
           iconName: 'share',
+          details: 'Share resources, offer your skills, and collaborate on projects. Whether you need assistance or can offer help, ONE Local makes sharing easy and impactful.',
         },
         {
           title: 'Skill Development',
           description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
           iconName: 'school',
+          details: 'Enhance your skills through community-driven workshops and mentorship programs. Learn from experts and share your knowledge to foster collective growth.',
         },
         {
           title: 'Governance',
           description: 'Democracy in action. Voice your vision, shape your surroundings.',
           iconName: 'gavel',
+          details: 'Participate in community governance. Vote on initiatives, propose new projects, and ensure that the platform evolves according to the community’s needs.',
         },
       ];
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedFeature, setSelectedFeature] = React.useState(null);
+
+      const handleOpenModal = (feature) => {
+        setSelectedFeature(feature);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedFeature(null);
+      };
 
       return (
         <Box mt={12} mb={12}>
@@ -1021,10 +1098,10 @@
           <Grid container spacing={6}>
             {features.map((feature) => (
               <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card>
+                <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
                   <CardContent>
                     <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
-                      <Icon color="primary" sx={{ fontSize: 80 }}>{feature.iconName}</Icon>
+                      <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
                     </Box>
                     <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
                       {feature.title}
@@ -1037,6 +1114,37 @@
               </Grid>
             ))}
           </Grid>
+
+          {/* Feature Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="feature-modal-title"
+            aria-describedby="feature-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedFeature && (
+                  <>
+                    <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedFeature.title}
+                    </Typography>
+                    <Typography id="feature-modal-description" sx={{ mb: 4 }}>
+                      {selectedFeature.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Box>
       );
     }
@@ -1049,6 +1157,7 @@
             'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
           cta: 'Join Now',
           page: 'local-members',
+          details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
         },
         {
           title: 'Event Hosts',
@@ -1056,6 +1165,7 @@
             'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
           cta: 'Start Hosting',
           page: 'event-hosts',
+          details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
         },
         {
           title: 'Sellers',
@@ -1063,6 +1173,7 @@
             'Your storefront in the village square. Share what you create with those who’ll love it most.',
           cta: 'Open Shop',
           page: 'sellers',
+          details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
         },
         {
           title: 'Organizations',
@@ -1070,8 +1181,23 @@
             'Your mission, our platform. Unite your team, manage your projects, rally your community.',
           cta: 'Register Now',
           page: 'organizations',
+          details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
         },
       ];
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMembership, setSelectedMembership] = React.useState(null);
+
+      const handleOpenModal = (membership) => {
+        setSelectedMembership(membership);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMembership(null);
+      };
 
       return (
         <Box mt={12} mb={12}>
@@ -1081,7 +1207,7 @@
           <Grid container spacing={6}>
             {memberships.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card>
+                <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
                       {membership.title}
@@ -1091,7 +1217,7 @@
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button variant="contained" color="primary" fullWidth size="large" onClick={() => setCurrentPage(membership.page)}>
+                    <Button variant="contained" color="primary" fullWidth size="large">
                       {membership.cta}
                     </Button>
                   </CardActions>
@@ -1099,6 +1225,40 @@
               </Grid>
             ))}
           </Grid>
+
+          {/* Membership Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="membership-modal-title"
+            aria-describedby="membership-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMembership && (
+                  <>
+                    <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMembership.title}
+                    </Typography>
+                    <Typography id="membership-modal-description" sx={{ mb: 4 }}>
+                      {selectedMembership.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
+                      Learn More
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Box>
       );
     }
@@ -1205,7 +1365,7 @@
       React.useEffect(() => {
         const timer = setInterval(() => {
           nextTestimonial();
-        }, 5000); // Change testimonial every 5 seconds
+        }, 7000); // Change testimonial every 7 seconds
         return () => clearInterval(timer);
       }, []);
 
@@ -1232,7 +1392,7 @@
               className="carousel-button left"
               onClick={prevTestimonial}
               aria-label="Previous Testimonial"
-              sx={{ position: 'absolute', top: '50%', left: '-20px', transform: 'translateY(-50%)' }}
+              sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
             >
               <Icon>chevron_left</Icon>
             </IconButton>
@@ -1240,7 +1400,7 @@
               className="carousel-button right"
               onClick={nextTestimonial}
               aria-label="Next Testimonial"
-              sx={{ position: 'absolute', top: '50%', right: '-20px', transform: 'translateY(-50%)' }}
+              sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
             >
               <Icon>chevron_right</Icon>
             </IconButton>
@@ -1352,7 +1512,7 @@
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  InputLabelProps={{ style: { color: '#81c784' } }}
+                  InputLabelProps={{ style: { color: '#6d4c41' } }}
                   InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
                 />
                 <Button variant="contained" color="primary" fullWidth>
