@@ -438,38 +438,10 @@
         },
       ],
       products: [
-        {
-          id: 'prod1',
-          name: 'ONE Connect',
-          description: 'A seamless messaging platform to connect with your local community.',
-          image: 'https://via.placeholder.com/400x300?text=ONE+Connect',
-          features: ['Real-time messaging', 'Group chats', 'Event scheduling'],
-        },
-        {
-          id: 'prod2',
-          name: 'ONE Share',
-          description: 'Share resources and skills effortlessly within your community.',
-          image: 'https://via.placeholder.com/400x300?text=ONE+Share',
-          features: ['Resource listing', 'Skill exchange', 'Request system'],
-        },
-        // Add more products as needed
+        // Define products if applicable
       ],
       groups: [
-        {
-          id: 'group1',
-          name: 'Tech Enthusiasts',
-          description: 'A group for individuals passionate about technology and innovation.',
-          members: ['Cam', 'Shawn'],
-          events: ['Tech Meetup', 'Hackathon'],
-        },
-        {
-          id: 'group2',
-          name: 'Local Artisans',
-          description: 'Connect with local artisans to share and showcase your crafts.',
-          members: ['Emily R.', 'Sarah L.'],
-          events: ['Art Fair', 'Craft Workshop'],
-        },
-        // Add more groups as needed
+        // Define groups if applicable
       ],
     };
 
@@ -737,1077 +709,1077 @@
               )}
             </Menu>
           </AppBar>
-        }
+        );
+      
+    }
 
-        // Landing Page
-        function LandingPage({ setCurrentPage }) {
-          return (
-            <Container maxWidth="lg" sx={{ mt: 16 }}>
-              <HeroSection setCurrentPage={setCurrentPage} />
-              <LogoCollection />
-              <FeaturesSection />
-              <MembershipTypes setCurrentPage={setCurrentPage} />
-              <TeamSection setCurrentPage={setCurrentPage} />
-              <CommunityImpact />
-              <TestimonialsCarousel />
-              <CallToAction setCurrentPage={setCurrentPage} />
-            </Container>
-          );
-        }
+    // Landing Page
+    function LandingPage({ setCurrentPage }) {
+      return (
+        <Container maxWidth="lg" sx={{ mt: 16 }}>
+          <HeroSection setCurrentPage={setCurrentPage} />
+          <LogoCollection />
+          <FeaturesSection />
+          <MembershipTypes setCurrentPage={setCurrentPage} />
+          <TeamSection setCurrentPage={setCurrentPage} />
+          <CommunityImpact />
+          <TestimonialsCarousel />
+          <CallToAction setCurrentPage={setCurrentPage} />
+        </Container>
+      );
+    }
 
-        // Other Pages
-        function ManifestoPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Manifesto
-              </Typography>
-              <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
-                Our pledge, our promise: A declaration of what we’re building together.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 4 }}>
-                At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 4 }}>
-                Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
-              </Typography>
-              <Typography variant="body1">
-                Join us in reshaping the future of local communities. Together, we are stronger.
-              </Typography>
-            </Container>
-          );
-        }
+    // Other Pages
+    function ManifestoPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Manifesto
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
+            Our pledge, our promise: A declaration of what we’re building together.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
+          </Typography>
+          <Typography variant="body1">
+            Join us in reshaping the future of local communities. Together, we are stronger.
+          </Typography>
+        </Container>
+      );
+    }
 
-        function TeamPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Meet the Team
-              </Typography>
-              <TeamSection setCurrentPage={() => {}} />
-            </Container>
-          );
-        }
+    function TeamPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          <TeamSection setCurrentPage={() => {}} />
+        </Container>
+      );
+    }
 
-        function WhitepaperPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Whitepaper
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" href="#" target="_blank">
-                Download Whitepaper
-              </Button>
-            </Container>
-          );
-        }
+    function WhitepaperPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Whitepaper
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
+            Download Whitepaper
+          </Button>
+        </Container>
+      );
+    }
 
-        function InvestorsPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Invest in a New Kind of Social Infrastructure
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 8 }}>
-                For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
-              </Typography>
-              <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
-                Join the Movement — Invest Today
-              </Button>
-            </Container>
-          );
-        }
+    function InvestorsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Invest in a New Kind of Social Infrastructure
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 8 }}>
+            For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
+            Join the Movement — Invest Today
+          </Button>
+        </Container>
+      );
+    }
 
-        function FeaturesOverviewPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Discover What’s Possible with ONE Local
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
-              </Typography>
-              <FeaturesSection />
-            </Container>
-          );
-        }
+    function FeaturesOverviewPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Discover What’s Possible with ONE Local
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
+          </Typography>
+          <FeaturesSection />
+        </Container>
+      );
+    }
 
-        function LocalMembersPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                For Local Members
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-                Join Now
-              </Button>
-            </Container>
-          );
-        }
+    function LocalMembersPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Local Members
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Join Now
+          </Button>
+        </Container>
+      );
+    }
 
-        function EventHostsPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                For Event Hosts
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-                Start Hosting Events
-              </Button>
-            </Container>
-          );
-        }
+    function EventHostsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Event Hosts
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Start Hosting Events
+          </Button>
+        </Container>
+      );
+    }
 
-        function SellersPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                For Sellers
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-                Open Your Shop
-              </Button>
-            </Container>
-          );
-        }
+    function SellersPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Sellers
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Open Your Shop
+          </Button>
+        </Container>
+      );
+    }
 
-        function OrganizationsPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                For Organizations
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-                Register Your Organization
-              </Button>
-            </Container>
-          );
-        }
+    function OrganizationsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Organizations
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Register Your Organization
+          </Button>
+        </Container>
+      );
+    }
 
-        function ImpactStoriesPage() {
-          const stories = data.impactStories;
+    function ImpactStoriesPage() {
+      const stories = data.impactStories;
 
-          const [currentSlide, setCurrentSlide] = React.useState(0);
+      const [currentSlide, setCurrentSlide] = React.useState(0);
 
-          const nextSlide = () => {
-            setCurrentSlide((prev) => (prev + 1) % stories.length);
-          };
+      const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % stories.length);
+      };
 
-          const prevSlide = () => {
-            setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
-          };
+      const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
+      };
 
-          React.useEffect(() => {
-            const timer = setInterval(() => {
-              nextSlide();
-            }, 7000); // Change slide every 7 seconds
-            return () => clearInterval(timer);
-          }, [stories.length]);
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextSlide();
+        }, 7000); // Change slide every 7 seconds
+        return () => clearInterval(timer);
+      }, []);
 
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Impact Stories
-              </Typography>
-              <Grid container spacing={6} justifyContent="center">
-                <Grid item xs={12} md={8}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                        {stories[currentSlide].title}
-                      </Typography>
-                      <Typography variant="body1" sx={{ mb: 4 }}>
-                        {stories[currentSlide].content}
-                      </Typography>
-                      <Box className="carousel" sx={{ position: 'relative' }}>
-                        <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
-                        <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
-                          <Icon>chevron_left</Icon>
-                        </button>
-                        <button className="carousel-button right" onClick={nextSlide} aria-label="Next Slide">
-                          <Icon>chevron_right</Icon>
-                        </button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </Container>
-          );
-        }
-
-        function BlogPage() {
-          const blogPosts = data.blogPosts;
-
-          const [currentPost, setCurrentPost] = React.useState(0);
-
-          const nextPost = () => {
-            setCurrentPost((prev) => (prev + 1) % blogPosts.length);
-          };
-
-          const prevPost = () => {
-            setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
-          };
-
-          React.useEffect(() => {
-            const timer = setInterval(() => {
-              nextPost();
-            }, 8000); // Change post every 8 seconds
-            return () => clearInterval(timer);
-          }, [blogPosts.length]);
-
-          // Modal State for Blog Posts
-          const [openModal, setOpenModal] = React.useState(false);
-          const [selectedPost, setSelectedPost] = React.useState(null);
-
-          const handleOpenModal = (post) => {
-            setSelectedPost(post);
-            setOpenModal(true);
-          };
-
-          const handleCloseModal = () => {
-            setOpenModal(false);
-            setSelectedPost(null);
-          };
-
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Blog
-              </Typography>
-              <Grid container spacing={6} justifyContent="center">
-                <Grid item xs={12} md={8}>
-                  <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
-                    <CardContent>
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                        {blogPosts[currentPost].title}
-                      </Typography>
-                      <Typography variant="body1" sx={{ mb: 4 }}>
-                        {blogPosts[currentPost].excerpt}
-                      </Typography>
-                      <Box className="carousel" sx={{ position: 'relative' }}>
-                        <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
-                        <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
-                          <Icon>chevron_left</Icon>
-                        </button>
-                        <button className="carousel-button right" onClick={nextPost} aria-label="Next Post">
-                          <Icon>chevron_right</Icon>
-                        </button>
-                      </Box>
-                    </CardContent>
-                    <CardActions>
-                      <Button variant="text" color="primary">Read More</Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              </Grid>
-
-              {/* Blog Post Details Modal */}
-              <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="blog-modal-title"
-                aria-describedby="blog-modal-description"
-              >
-                <Fade in={openModal}>
-                  <Box className="modalContent">
-                    {selectedPost && (
-                      <>
-                        <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                          {selectedPost.title}
-                        </Typography>
-                        <Typography id="blog-modal-description" sx={{ mb: 4 }}>
-                          {selectedPost.content}
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                          Close
-                        </Button>
-                      </>
-                    )}
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Impact Stories
+          </Typography>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                    {stories[currentSlide].title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 4 }}>
+                    {stories[currentSlide].content}
+                  </Typography>
+                  <Box className="carousel" sx={{ position: 'relative' }}>
+                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
+                    <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
+                      <Icon>chevron_left</Icon>
+                    </button>
+                    <button className="carousel-button right" onClick={nextSlide} aria-label="Next Slide">
+                      <Icon>chevron_right</Icon>
+                    </button>
                   </Box>
-                </Fade>
-              </Modal>
-            </Container>
-          );
-        }
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
+      );
+    }
 
-        function DownloadAppPage() {
-          const [openModal, setOpenModal] = React.useState(false);
+    function BlogPage() {
+      const blogPosts = data.blogPosts;
 
-          const handleOpen = () => setOpenModal(true);
-          const handleClose = () => setOpenModal(false);
+      const [currentPost, setCurrentPost] = React.useState(0);
 
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Download the App
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 8 }}>
-                Step in, the door is open.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
-                Get the App Now
-              </Button>
-              <Modal
-                open={openModal}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="download-app-modal-title"
-                aria-describedby="download-app-modal-description"
-              >
-                <Fade in={openModal}>
-                  <Box className="modalContent">
-                    <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      Thank You for Your Interest!
+      const nextPost = () => {
+        setCurrentPost((prev) => (prev + 1) % blogPosts.length);
+      };
+
+      const prevPost = () => {
+        setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
+      };
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextPost();
+        }, 8000); // Change post every 8 seconds
+        return () => clearInterval(timer);
+      }, []);
+
+      // Modal State for Blog Posts
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
+
+      const handleOpenModal = (post) => {
+        setSelectedPost(post);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedPost(null);
+      };
+
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Blog
+          </Typography>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    {blogPosts[currentPost].title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 4 }}>
+                    {blogPosts[currentPost].excerpt}
+                  </Typography>
+                  <Box className="carousel" sx={{ position: 'relative' }}>
+                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
+                    <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
+                      <Icon>chevron_left</Icon>
+                    </button>
+                    <button className="carousel-button right" onClick={nextPost} aria-label="Next Post">
+                      <Icon>chevron_right</Icon>
+                    </button>
+                  </Box>
+                </CardContent>
+                <CardActions>
+                  <Button variant="text" color="primary">Read More</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* Blog Post Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="blog-modal-title"
+            aria-describedby="blog-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedPost.title}
                     </Typography>
-                    <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
-                      The app is coming soon. Stay tuned!
+                    <Typography id="blog-modal-description" sx={{ mb: 4 }}>
+                      {selectedPost.content}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={handleClose}>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
                     </Button>
-                  </Box>
-                </Fade>
-              </Modal>
-            </Container>
-          );
-        }
-
-        function TermsOfServicePage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Terms of Service
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Please read these terms of service carefully before using the ONE Local platform.
-              </Typography>
-              {/* Add actual legal text here */}
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                [Legal text outlining user rights, privacy protections, and data usage.]
-              </Typography>
-            </Container>
-          );
-        }
-
-        function PrivacyPolicyPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Privacy Policy
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                Your privacy is important to us. This policy explains how we handle your personal data.
-              </Typography>
-              {/* Add actual privacy policy text here */}
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                [Detailed information about data collection, usage, and user rights.]
-              </Typography>
-            </Container>
-          );
-        }
-
-        function FAQPage() {
-          const faqs = [
-            {
-              question: 'What is ONE Local?',
-              answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
-            },
-            {
-              question: 'How do I join as a member?',
-              answer: 'Simply download our app, create a free account, and start connecting with your local community.',
-            },
-            {
-              question: 'How do I create an event?',
-              answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
-            },
-            {
-              question: 'What payment options are available?',
-              answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
-            },
-            {
-              question: 'Is my data secure?',
-              answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
-            },
-          ];
-
-          return (
-            <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Frequently Asked Questions
-              </Typography>
-              <Box mt={4}>
-                {faqs.map((faq, index) => (
-                  <Accordion key={index}>
-                    <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                        {faq.question}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                        {faq.answer}
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+                  </>
+                )}
               </Box>
-            </Container>
-          );
-        }
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
 
-        function ContactUsPage() {
-          return (
-            <Container sx={{ py: 12, minHeight: '100vh' }}>
-              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Contact Us
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 6 }}>
-                We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
-              </Typography>
-              <Grid container spacing={6}>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" sx={{ mb: 4 }}>
-                    Contact Information
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
-                    Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
-                    Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
-                    Address: 123 Community Lane, Townsville, USA
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" sx={{ mb: 4 }}>
-                    Send Us a Message
-                  </Typography>
-                  <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
-                  <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
-                  <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
-                  <Button variant="contained" color="primary">
-                    Submit
-                  </Button>
-                </Grid>
-              </Grid>
-            </Container>
-          );
-        }
+    function DownloadAppPage() {
+      const [openModal, setOpenModal] = React.useState(false);
 
-        // Reusable Components
-        function HeroSection({ setCurrentPage }) {
-          return (
-            <Box sx={{ textAlign: 'center', py: 12 }}>
-              <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
-                Empower Your Community, Enrich Your Life.
-              </Typography>
-              <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
-                Together, we build the future — one connection, one offering, one moment at a time.
-              </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-                Download the App
-              </Button>
-            </Box>
-          );
-        }
+      const handleOpen = () => setOpenModal(true);
+      const handleClose = () => setOpenModal(false);
 
-        function LogoCollection() {
-          const logos = [
-            'https://via.placeholder.com/150x100?text=Logo1',
-            'https://via.placeholder.com/150x100?text=Logo2',
-            'https://via.placeholder.com/150x100?text=Logo3',
-            'https://via.placeholder.com/150x100?text=Logo4',
-            'https://via.placeholder.com/150x100?text=Logo5',
-            'https://via.placeholder.com/150x100?text=Logo6',
-          ];
-
-          const logoStyle = {
-            width: '150px',
-            height: '100px',
-            margin: '0 20px',
-            opacity: 0.8,
-          };
-
-          return (
-            <Box id="logoCollection" sx={{ py: 8 }}>
-              <Typography
-                component="p"
-                variant="h6"
-                align="center"
-                sx={{ color: 'text.secondary', mb: 6 }}
-              >
-                Trusted by communities worldwide
-              </Typography>
-              <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
-                {logos.map((logo, index) => (
-                  <Grid item key={index}>
-                    <img
-                      src={logo}
-                      alt={`Partner logo ${index + 1}`}
-                      style={logoStyle}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          );
-        }
-
-        function FeaturesSection() {
-          const features = data.features;
-
-          // Modal State
-          const [openModal, setOpenModal] = React.useState(false);
-          const [selectedFeature, setSelectedFeature] = React.useState(null);
-
-          const handleOpenModal = (feature) => {
-            setSelectedFeature(feature);
-            setOpenModal(true);
-          };
-
-          const handleCloseModal = () => {
-            setOpenModal(false);
-            setSelectedFeature(null);
-          };
-
-          return (
-            <Box mt={12} mb={12}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Explore What We Offer
-              </Typography>
-              <Grid container spacing={6}>
-                {features.map((feature) => (
-                  <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                    <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
-                      <CardContent>
-                        <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
-                          <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
-                        </Box>
-                        <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
-                          {feature.title}
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
-                          {feature.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-
-              {/* Feature Details Modal */}
-              <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="feature-modal-title"
-                aria-describedby="feature-modal-description"
-              >
-                <Fade in={openModal}>
-                  <Box className="modalContent">
-                    {selectedFeature && (
-                      <>
-                        <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                          {selectedFeature.title}
-                        </Typography>
-                        <Typography id="feature-modal-description" sx={{ mb: 4 }}>
-                          {selectedFeature.details}
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                          Close
-                        </Button>
-                      </>
-                    )}
-                  </Box>
-                </Fade>
-              </Modal>
-            </Box>
-          );
-        }
-
-        function MembershipTypes({ setCurrentPage }) {
-          const memberships = data.membershipTypes;
-
-          // Modal State
-          const [openModal, setOpenModal] = React.useState(false);
-          const [selectedMembership, setSelectedMembership] = React.useState(null);
-
-          const handleOpenModal = (membership) => {
-            setSelectedMembership(membership);
-            setOpenModal(true);
-          };
-
-          const handleCloseModal = () => {
-            setOpenModal(false);
-            setSelectedMembership(null);
-          };
-
-          return (
-            <Box mt={12} mb={12}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                How Will You Show Up?
-              </Typography>
-              <Grid container spacing={6}>
-                {memberships.map((membership) => (
-                  <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                    <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
-                      <CardContent>
-                        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
-                          {membership.title}
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, textAlign: 'center' }}>
-                          {membership.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button variant="contained" color="primary" fullWidth size="large">
-                          {membership.cta}
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-
-              {/* Membership Details Modal */}
-              <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="membership-modal-title"
-                aria-describedby="membership-modal-description"
-              >
-                <Fade in={openModal}>
-                  <Box className="modalContent">
-                    {selectedMembership && (
-                      <>
-                        <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                          {selectedMembership.title}
-                        </Typography>
-                        <Typography id="membership-modal-description" sx={{ mb: 4 }}>
-                          {selectedMembership.details}
-                        </Typography>
-                        <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
-                          Learn More
-                        </Button>
-                        <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
-                          Close
-                        </Button>
-                      </>
-                    )}
-                  </Box>
-                </Fade>
-              </Modal>
-            </Box>
-          );
-        }
-
-        function TeamSection({ setCurrentPage }) {
-          const departments = data.teamDepartments;
-
-          // Modal State
-          const [openModal, setOpenModal] = React.useState(false);
-          const [selectedRole, setSelectedRole] = React.useState(null);
-
-          const handleOpenModal = (role) => {
-            setSelectedRole(role);
-            setOpenModal(true);
-          };
-
-          const handleCloseModal = () => {
-            setOpenModal(false);
-            setSelectedRole(null);
-          };
-
-          return (
-            <Box mt={12} mb={12}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Meet the Team
-              </Typography>
-              {departments.map((dept, deptIndex) => (
-                <Box key={deptIndex} sx={{ mb: 8 }}>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                    {dept.name}
-                  </Typography>
-                  <Grid container spacing={6}>
-                    {dept.roles.map((role, roleIndex) => (
-                      <Grid item xs={12} sm={6} md={3} key={roleIndex}>
-                        <Card onClick={() => handleOpenModal(role)} sx={{ cursor: 'pointer' }} aria-labelledby={`role-${role.name}`}>
-                          <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
-                              {role.name}
-                            </Typography>
-                            <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                              {role.tags}
-                            </Typography>
-                            <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                              {role.description}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
-              ))}
-
-              {/* Role Details Modal */}
-              <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="role-modal-title"
-                aria-describedby="role-modal-description"
-              >
-                <Fade in={openModal}>
-                  <Box className="modalContent">
-                    {selectedRole && (
-                      <>
-                        <Typography id="role-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                          {selectedRole.name}
-                        </Typography>
-                        {selectedRole.tags && (
-                          <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
-                            {selectedRole.tags}
-                          </Typography>
-                        )}
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          <strong>Description:</strong> {selectedRole.description}
-                        </Typography>
-                        {selectedRole.people && selectedRole.people.length > 0 && (
-                          <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>People:</strong> {selectedRole.people.join(', ')}
-                          </Typography>
-                        )}
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          <strong>Responsibilities:</strong> {selectedRole.responsibilities}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          <strong>Key Tasks:</strong> {selectedRole.keyTasks}
-                        </Typography>
-                        {selectedRole.keyGoal && (
-                          <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>Key Goal:</strong> {selectedRole.keyGoal}
-                          </Typography>
-                        )}
-                        {selectedRole.tasks && selectedRole.tasks !== '' && (
-                          <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>Tasks:</strong> {selectedRole.tasks}
-                          </Typography>
-                        )}
-                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                          Close
-                        </Button>
-                      </>
-                    )}
-                  </Box>
-                </Fade>
-              </Modal>
-            </Box>
-          );
-        }
-
-        function CommunityImpact() {
-          const metrics = [
-            { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-            { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
-            { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
-            { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
-          ];
-
-          const [count, setCount] = React.useState({
-            'Active Members': 0,
-            'Local Groups': 0,
-            'Resources Shared': 0,
-            'Events Hosted': 0,
-          });
-
-          React.useEffect(() => {
-            metrics.forEach(metric => {
-              const target = parseInt(metric.value.replace(/,/g, ''));
-              let current = 0;
-              const increment = target / 200; // Adjust for animation speed
-
-              const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                  current = target;
-                  clearInterval(timer);
-                }
-                setCount(prevCount => ({
-                  ...prevCount,
-                  [metric.label]: Math.floor(current),
-                }));
-              }, 30);
-            });
-          }, [metrics]);
-
-          return (
-            <Box mt={12} mb={12}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                Our Community in Numbers
-              </Typography>
-              <Grid container spacing={6}>
-                {metrics.map((metric) => (
-                  <Grid item xs={12} sm={6} md={3} key={metric.label}>
-                    <Box textAlign="center">
-                      <Typography variant="h3" color="primary" sx={{ fontWeight: 'bold' }}>
-                        {count[metric.label].toLocaleString()}
-                      </Typography>
-                      <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>
-                        {metric.label}
-                      </Typography>
-                      <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
-                        {metric.description}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          );
-        }
-
-        function TestimonialsCarousel() {
-          const testimonials = data.testimonials;
-
-          const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
-
-          const nextTestimonial = () => {
-            setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-          };
-
-          const prevTestimonial = () => {
-            setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-          };
-
-          React.useEffect(() => {
-            const timer = setInterval(() => {
-              nextTestimonial();
-            }, 7000); // Change testimonial every 7 seconds
-            return () => clearInterval(timer);
-          }, [testimonials.length]);
-
-          return (
-            <Container sx={{ py: 12 }}>
-              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-                What Our Members Say
-              </Typography>
-              <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
-                <Box className="testimonial">
-                  <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    {testimonials[currentTestimonial].name}
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
-                    {testimonials[currentTestimonial].role}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
-                    {testimonials[currentTestimonial].quote}
-                  </Typography>
-                </Box>
-                {/* Navigation Buttons */}
-                <IconButton
-                  className="carousel-button left"
-                  onClick={prevTestimonial}
-                  aria-label="Previous Testimonial"
-                  sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
-                >
-                  <Icon>chevron_left</Icon>
-                </IconButton>
-                <IconButton
-                  className="carousel-button right"
-                  onClick={nextTestimonial}
-                  aria-label="Next Testimonial"
-                  sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
-                >
-                  <Icon>chevron_right</Icon>
-                </IconButton>
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Download the App
+          </Typography>
+          <Typography variant="h5" sx={{ mb: 8 }}>
+            Step in, the door is open.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
+            Get the App Now
+          </Button>
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="download-app-modal-title"
+            aria-describedby="download-app-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                  Thank You for Your Interest!
+                </Typography>
+                <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
+                  The app is coming soon. Stay tuned!
+                </Typography>
+                <Button variant="contained" color="primary" onClick={handleClose}>
+                  Close
+                </Button>
               </Box>
-            </Container>
-          );
-        }
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
 
-        function CallToAction({ setCurrentPage }) {
-          return (
-            <Box mt={12} mb={12} textAlign="center">
-              <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
-                Help Us Grow
-              </Typography>
-              <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
-                “Every dollar sown grows a forest of connection.”
-              </Typography>
-              <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
-                Donate Now
-              </Button>
-              <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
-                Take the Survey
-              </Button>
-              <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
-                Become an Investor
-              </Button>
-            </Box>
-          );
-        }
+    function TermsOfServicePage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Terms of Service
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Please read these terms of service carefully before using the ONE Local platform.
+          </Typography>
+          {/* Add actual legal text here */}
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            [Legal text outlining user rights, privacy protections, and data usage.]
+          </Typography>
+        </Container>
+      );
+    }
 
-        function Footer({ setCurrentPage }) {
-          return (
-            <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
-              <Container maxWidth="lg">
-                <Grid container spacing={6}>
-                  <Grid item xs={12} md={4}>
-                    <Typography variant="h6" sx={{ mb: 4 }}>
-                      ONE Local
-                    </Typography>
-                    <List>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
-                          <ListItemText primary="Home" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
-                          <ListItemText primary="About" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
-                          <ListItemText primary="Features" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
-                          <ListItemText primary="Community" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
-                          <ListItemText primary="Investors" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
-                          <ListItemText primary="Contact Us" />
-                        </Link>
-                      </ListItem>
-                      <ListItem disableGutters>
-                        <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
-                          <ListItemText primary="FAQ" />
-                        </Link>
-                      </ListItem>
-                    </List>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Typography variant="h6" sx={{ mb: 4 }}>
-                      Follow Us
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                      Join the conversation.
-                    </Typography>
-                    <Box display="flex" justifyContent="flex-start">
-                      <IconButton href="#" color="primary" aria-label="Facebook">
-                        <Icon>facebook</Icon>
-                      </IconButton>
-                      <IconButton href="#" color="primary" aria-label="Twitter">
-                        <Icon>twitter</Icon>
-                      </IconButton>
-                      <IconButton href="#" color="primary" aria-label="Instagram">
-                        <Icon>instagram</Icon>
-                      </IconButton>
-                      <IconButton href="#" color="primary" aria-label="LinkedIn">
-                        <Icon>linkedin</Icon>
-                      </IconButton>
+    function PrivacyPolicyPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Privacy Policy
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Your privacy is important to us. This policy explains how we handle your personal data.
+          </Typography>
+          {/* Add actual privacy policy text here */}
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            [Detailed information about data collection, usage, and user rights.]
+          </Typography>
+        </Container>
+      );
+    }
+
+    function FAQPage() {
+      const faqs = [
+        {
+          question: 'What is ONE Local?',
+          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
+        },
+        {
+          question: 'How do I join as a member?',
+          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
+        },
+        {
+          question: 'How do I create an event?',
+          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
+        },
+        {
+          question: 'What payment options are available?',
+          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
+        },
+        {
+          question: 'Is my data secure?',
+          answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
+        },
+      ];
+
+      return (
+        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Frequently Asked Questions
+          </Typography>
+          <Box mt={4}>
+            {faqs.map((faq, index) => (
+              <Accordion key={index}>
+                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Box>
+        </Container>
+      );
+    }
+
+    function ContactUsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Contact Us
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
+          </Typography>
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
+                Contact Information
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
+                Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
+                Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
+                Address: 123 Community Lane, Townsville, USA
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
+                Send Us a Message
+              </Typography>
+              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
+              <Button variant="contained" color="primary">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Container>
+      );
+    }
+
+    // Reusable Components
+    function HeroSection({ setCurrentPage }) {
+      return (
+        <Box sx={{ textAlign: 'center', py: 12 }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Empower Your Community, Enrich Your Life.
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
+            Together, we build the future — one connection, one offering, one moment at a time.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Download the App
+          </Button>
+        </Box>
+      );
+    }
+
+    function LogoCollection() {
+      const logos = data.logoCollection || [
+        'https://via.placeholder.com/150x100?text=Logo1',
+        'https://via.placeholder.com/150x100?text=Logo2',
+        'https://via.placeholder.com/150x100?text=Logo3',
+        'https://via.placeholder.com/150x100?text=Logo4',
+        'https://via.placeholder.com/150x100?text=Logo5',
+        'https://via.placeholder.com/150x100?text=Logo6',
+      ];
+
+      const logoStyle = {
+        width: '150px',
+        height: '100px',
+        margin: '0 20px',
+        opacity: 0.8,
+      };
+
+      return (
+        <Box id="logoCollection" sx={{ py: 8 }}>
+          <Typography
+            component="p"
+            variant="h6"
+            align="center"
+            sx={{ color: 'text.secondary', mb: 6 }}
+          >
+            Trusted by communities worldwide
+          </Typography>
+          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
+            {logos.map((logo, index) => (
+              <Grid item key={index}>
+                <img
+                  src={logo}
+                  alt={`Partner logo ${index + 1}`}
+                  style={logoStyle}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function FeaturesSection() {
+      const features = data.features;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedFeature, setSelectedFeature] = React.useState(null);
+
+      const handleOpenModal = (feature) => {
+        setSelectedFeature(feature);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedFeature(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Explore What We Offer
+          </Typography>
+          <Grid container spacing={6}>
+            {features.map((feature) => (
+              <Grid item xs={12} sm={6} md={3} key={feature.title}>
+                <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
+                      <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
                     </Box>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Typography variant="h6" sx={{ mb: 4 }}>
-                      Newsletter Signup
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
+                      {feature.title}
                     </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                      Get the Latest Stories and Updates — Sign Up Here.
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
+                      {feature.description}
                     </Typography>
-                    <TextField
-                      label="Email"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      InputLabelProps={{ style: { color: '#6d4c41' } }}
-                      InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
-                    />
-                    <Button variant="contained" color="primary" fullWidth>
-                      Subscribe
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Feature Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="feature-modal-title"
+            aria-describedby="feature-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedFeature && (
+                  <>
+                    <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedFeature.title}
+                    </Typography>
+                    <Typography id="feature-modal-description" sx={{ mb: 4 }}>
+                      {selectedFeature.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
                     </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function MembershipTypes({ setCurrentPage }) {
+      const memberships = data.membershipTypes;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMembership, setSelectedMembership] = React.useState(null);
+
+      const handleOpenModal = (membership) => {
+        setSelectedMembership(membership);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMembership(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            How Will You Show Up?
+          </Typography>
+          <Grid container spacing={6}>
+            {memberships.map((membership) => (
+              <Grid item xs={12} sm={6} md={3} key={membership.title}>
+                <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
+                  <CardContent>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
+                      {membership.title}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, textAlign: 'center' }}>
+                      {membership.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary" fullWidth size="large">
+                      {membership.cta}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Membership Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="membership-modal-title"
+            aria-describedby="membership-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMembership && (
+                  <>
+                    <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMembership.title}
+                    </Typography>
+                    <Typography id="membership-modal-description" sx={{ mb: 4 }}>
+                      {selectedMembership.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
+                      Learn More
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function TeamSection({ setCurrentPage }) {
+      const departments = data.teamDepartments;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedRole, setSelectedRole] = React.useState(null);
+
+      const handleOpenModal = (role) => {
+        setSelectedRole(role);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedRole(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          {departments.map((dept, deptIndex) => (
+            <Box key={deptIndex} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {dept.name}
+              </Typography>
+              <Grid container spacing={6}>
+                {dept.roles.map((role, roleIndex) => (
+                  <Grid item xs={12} sm={6} md={3} key={roleIndex}>
+                    <Card onClick={() => handleOpenModal(role)} sx={{ cursor: 'pointer' }} aria-labelledby={`role-${role.name}`}>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+                          {role.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {role.role || ''}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {role.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
                   </Grid>
-                </Grid>
-                <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
+                ))}
+              </Grid>
+            </Box>
+          ))}
+
+          {/* Role Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="role-modal-title"
+            aria-describedby="role-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedRole && (
+                  <>
+                    <Typography id="role-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedRole.name}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
+                      {selectedRole.tags}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Description:</strong> {selectedRole.description}
+                    </Typography>
+                    {selectedRole.people && selectedRole.people.length > 0 && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>People:</strong> {selectedRole.people.join(', ')}
+                      </Typography>
+                    )}
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Responsibilities:</strong> {selectedRole.responsibilities}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Key Tasks:</strong> {selectedRole.keyTasks}
+                    </Typography>
+                    {selectedRole.keyGoal && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Key Goal:</strong> {selectedRole.keyGoal}
+                      </Typography>
+                    )}
+                    {selectedRole.tasks && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Tasks:</strong> {selectedRole.tasks}
+                      </Typography>
+                    )}
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function CommunityImpact() {
+      const metrics = [
+        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
+        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
+        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
+        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
+      ];
+
+      const [count, setCount] = React.useState({
+        'Active Members': 0,
+        'Local Groups': 0,
+        'Resources Shared': 0,
+        'Events Hosted': 0,
+      });
+
+      React.useEffect(() => {
+        metrics.forEach(metric => {
+          const target = parseInt(metric.value.replace(/,/g, ''));
+          let current = 0;
+          const increment = target / 200; // Adjust for animation speed
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            setCount(prevCount => ({
+              ...prevCount,
+              [metric.label]: Math.floor(current),
+            }));
+          }, 30);
+        });
+      }, []);
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Our Community in Numbers
+          </Typography>
+          <Grid container spacing={6}>
+            {metrics.map((metric) => (
+              <Grid item xs={12} sm={6} md={3} key={metric.label}>
                 <Box textAlign="center">
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    © 2024 ONE Local. All rights reserved. |{' '}
-                    <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')} className="footer-link">
-                      Terms of Service
-                    </Link>{' '}
-                    |{' '}
-                    <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')} className="footer-link">
-                      Privacy Policy
-                    </Link>
+                  <Typography variant="h3" color="primary" sx={{ fontWeight: 'bold' }}>
+                    {count[metric.label].toLocaleString()}
+                  </Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>
+                    {metric.label}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
+                    {metric.description}
                   </Typography>
                 </Box>
-              </Container>
-            </Box>
-          );
-        }
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-      </script>
+    function TestimonialsCarousel() {
+      const testimonials = data.testimonials;
+
+      const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
+
+      const nextTestimonial = () => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      };
+
+      const prevTestimonial = () => {
+        setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      };
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextTestimonial();
+        }, 7000); // Change testimonial every 7 seconds
+        return () => clearInterval(timer);
+      }, []);
+
+      return (
+        <Container sx={{ py: 12 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            What Our Members Say
+          </Typography>
+          <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
+            <Box className="testimonial">
+              <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                {testimonials[currentTestimonial].name}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
+                {testimonials[currentTestimonial].role}
+              </Typography>
+              <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
+                {testimonials[currentTestimonial].quote}
+              </Typography>
+            </Box>
+            {/* Navigation Buttons */}
+            <IconButton
+              className="carousel-button left"
+              onClick={prevTestimonial}
+              aria-label="Previous Testimonial"
+              sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
+            >
+              <Icon>chevron_left</Icon>
+            </IconButton>
+            <IconButton
+              className="carousel-button right"
+              onClick={nextTestimonial}
+              aria-label="Next Testimonial"
+              sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
+            >
+              <Icon>chevron_right</Icon>
+            </IconButton>
+          </Box>
+        </Container>
+      );
+    }
+
+    function CallToAction({ setCurrentPage }) {
+      return (
+        <Box mt={12} mb={12} textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
+            Help Us Grow
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
+            “Every dollar sown grows a forest of connection.”
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
+            Donate Now
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
+            Take the Survey
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
+            Become an Investor
+          </Button>
+        </Box>
+      );
+    }
+
+    function Footer({ setCurrentPage }) {
+      return (
+        <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={6}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  ONE Local
+                </Typography>
+                <List>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
+                      <ListItemText primary="Home" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
+                      <ListItemText primary="About" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
+                      <ListItemText primary="Features" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
+                      <ListItemText primary="Community" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
+                      <ListItemText primary="Investors" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
+                      <ListItemText primary="Contact Us" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
+                      <ListItemText primary="FAQ" />
+                    </Link>
+                  </ListItem>
+                </List>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Follow Us
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Join the conversation.
+                </Typography>
+                <Box display="flex" justifyContent="flex-start">
+                  <IconButton href="#" color="primary" aria-label="Facebook">
+                    <Icon>facebook</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Twitter">
+                    <Icon>twitter</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Instagram">
+                    <Icon>instagram</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="LinkedIn">
+                    <Icon>linkedin</Icon>
+                  </IconButton>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Newsletter Signup
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Get the Latest Stories and Updates — Sign Up Here.
+                </Typography>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#6d4c41' } }}
+                  InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
+              </Grid>
+            </Grid>
+            <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
+            <Box textAlign="center">
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                © 2024 ONE Local. All rights reserved. |{' '}
+                <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')} className="footer-link">
+                  Terms of Service
+                </Link>{' '}
+                |{' '}
+                <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')} className="footer-link">
+                  Privacy Policy
+                </Link>
+              </Typography>
+            </Box>
+          </Container>
+        </Box>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
