@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Empowering Communities</title>
-  <!-- Responsive meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ONE Local - Empowering Communities</title>
   <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -14,490 +13,106 @@
 <body style="background-color: #121212; color: #ffffff;">
   <div id="root"></div>
 
-  <!-- React, ReactDOM, Babel, and Material UI -->
+  <!-- React and ReactDOM -->
   <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX support -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/@mui/material@5.0.0-rc.0/umd/material-ui.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@mui/icons-material@5.0.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- Material UI UMD bundle -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
+    // Extract Material UI components
     const {
       AppBar,
       Toolbar,
       Typography,
-      Button,
-      IconButton,
-      Menu,
-      MenuItem,
       Container,
       Box,
+      Button,
       Grid,
       Card,
       CardContent,
-      CardMedia,
-      TextField,
-      Accordion,
-      AccordionSummary,
-      AccordionDetails,
-      List,
-      ListItem,
-      ListItemIcon,
-      ListItemText,
-      Chip,
-      CardActions,
-      Divider,
-      Collapse,
-      MenuList,
-      Paper,
+      IconButton,
     } = MaterialUI;
 
-    const {
-      ExpandMore,
-      Menu: MenuIcon,
-      Email,
-      Phone,
-      AutoAwesome,
-      CheckCircleRounded,
-      KeyboardArrowDown,
-    } = MaterialUIIcons;
+    const { Menu: MenuIcon } = MaterialUIIcons;
 
-    function NavigationBar() {
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const [openSubMenu, setOpenSubMenu] = React.useState(null);
-
-      const handleMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-      };
-
-      const handleSubMenuOpen = (event, menu) => {
-        setOpenSubMenu(menu);
-        setAnchorEl(event.currentTarget);
-      };
-
-      const handleSubMenuClose = () => {
-        setOpenSubMenu(null);
-        setAnchorEl(null);
-      };
-
+    function App() {
       return (
-        <AppBar position="static" style={{ backgroundColor: '#1f1f1f' }}>
-          <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
-              ONE Local
-            </Typography>
-            <div className="desktopMenu">
-              <Button color="inherit">Home</Button>
-              <Button
-                color="inherit"
-                endIcon={<KeyboardArrowDown />}
-                onClick={(e) => handleSubMenuOpen(e, 'about')}
-              >
-                About
-              </Button>
-              <Button
-                color="inherit"
-                endIcon={<KeyboardArrowDown />}
-                onClick={(e) => handleSubMenuOpen(e, 'features')}
-              >
-                Features
-              </Button>
-              <Button
-                color="inherit"
-                endIcon={<KeyboardArrowDown />}
-                onClick={(e) => handleSubMenuOpen(e, 'community')}
-              >
-                Community
-              </Button>
-              <Button color="inherit">Download App</Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl && openSubMenu)}
-                onClose={handleSubMenuClose}
-                getContentAnchorEl={null}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-              >
-                {openSubMenu === 'about' && (
-                  <MenuList>
-                    <MenuItem onClick={handleSubMenuClose}>Manifesto</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>Team</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>Whitepaper</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>Investors</MenuItem>
-                  </MenuList>
-                )}
-                {openSubMenu === 'features' && (
-                  <MenuList>
-                    <MenuItem onClick={handleSubMenuClose}>Overview</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>For Local Members</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>For Event Hosts</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>For Sellers</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>For Organizations</MenuItem>
-                  </MenuList>
-                )}
-                {openSubMenu === 'community' && (
-                  <MenuList>
-                    <MenuItem onClick={handleSubMenuClose}>Impact Stories</MenuItem>
-                    <MenuItem onClick={handleSubMenuClose}>Blog</MenuItem>
-                  </MenuList>
-                )}
-              </Menu>
-            </div>
-            <div className="mobileMenu">
-              <IconButton color="inherit" onClick={handleMenuOpen}>
+        <Box sx={{ backgroundColor: '#121212', color: '#ffffff', minHeight: '100vh' }}>
+          {/* Navigation Bar */}
+          <AppBar position="static" style={{ backgroundColor: '#1f1f1f' }}>
+            <Toolbar>
+              <Typography variant="h6" style={{ flexGrow: 1 }}>
+                ONE Local
+              </Typography>
+              <IconButton color="inherit">
                 <MenuIcon />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>Home</MenuItem>
-                <MenuItem onClick={(e) => handleSubMenuOpen(e, 'about')}>
-                  About
-                </MenuItem>
-                <MenuItem onClick={(e) => handleSubMenuOpen(e, 'features')}>
-                  Features
-                </MenuItem>
-                <MenuItem onClick={(e) => handleSubMenuOpen(e, 'community')}>
-                  Community
-                </MenuItem>
-                <MenuItem onClick={handleMenuClose}>Download App</MenuItem>
-              </Menu>
-            </div>
-          </Toolbar>
-        </AppBar>
-      );
-    }
+            </Toolbar>
+          </AppBar>
 
-    function HeroSection() {
-      return (
-        <Box textAlign="center" mt={8} mb={8}>
-          <Typography variant="h2" component="h1" gutterBottom sx={{ color: '#ffffff' }}>
-            Empower Your Community, Enrich Your Life.
-          </Typography>
-          <Typography variant="h5" component="h2" color="textSecondary" gutterBottom sx={{ color: '#bbbbbb' }}>
-            Together, we build the future — one connection, one offering, one moment at a time.
-          </Typography>
-          <Button variant="contained" color="primary" size="large">
-            Download the App
-          </Button>
-        </Box>
-      );
-    }
-
-    function MembershipTypes() {
-      const memberships = [
-        {
-          title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people. Here, you’re not just a face in the crowd — you’re the spark.',
-          cta: 'Join as a Local Member',
-        },
-        {
-          title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold. From cozy gatherings to city-wide celebrations, you hold the key.',
-          cta: 'Start Hosting Events',
-        },
-        {
-          title: 'Sellers',
-          description:
-            'Your storefront in the village square. Whether it’s handmade goods or fresh produce, share what you create with the people who’ll love it most.',
-          cta: 'Open Your ONE Local Shop',
-        },
-        {
-          title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community. All in one place, all for the common good.',
-          cta: 'Register Your Organization',
-        },
-      ];
-
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
-            "How Will You Show Up?"
-          </Typography>
-          <Grid container spacing={4}>
-            {memberships.map((membership) => (
-              <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff', height: '100%' }}>
-                  <CardContent>
-                    <Typography variant="h6">{membership.title}</Typography>
-                    <Typography variant="body2" color="#bbbbbb" sx={{ mt: 2 }}>
-                      {membership.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button variant="outlined" color="primary" fullWidth>
-                      {membership.cta}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function FeaturesPreview() {
-      const features = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-        },
-        {
-          title: 'Share',
-          description: 'Tools, time, talents — give what you can, receive what you need.',
-        },
-        {
-          title: 'Skill Development',
-          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
-        },
-        {
-          title: 'Governance',
-          description: 'Democracy in action. Voice your vision, shape your surroundings.',
-        },
-      ];
-
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
-            "Explore What We Offer"
-          </Typography>
-          <Grid container spacing={4}>
-            {features.map((feature) => (
-              <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff', height: '100%' }}>
-                  <CardContent>
-                    <Typography variant="h6">{feature.title}</Typography>
-                    <Typography variant="body2" color="#bbbbbb" sx={{ mt: 2 }}>
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function CommunityImpact() {
-      const metrics = [
-        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
-        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
-        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
-      ];
-
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
-            "Our Community in Bloom"
-          </Typography>
-          <Grid container spacing={4}>
-            {metrics.map((metric) => (
-              <Grid item xs={12} sm={6} md={3} key={metric.label}>
-                <Box textAlign="center">
-                  <Typography variant="h3" sx={{ color: '#00e676' }}>
-                    {metric.value}
-                  </Typography>
-                  <Typography variant="h6">{metric.label}</Typography>
-                  <Typography variant="body2" color="#bbbbbb">
-                    {metric.description}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function CallToAction() {
-      return (
-        <Box mt={8} mb={8} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ color: '#ffffff' }}>
-            Help Us Grow
-          </Typography>
-          <Typography variant="h6" gutterBottom sx={{ color: '#bbbbbb' }}>
-            “Every dollar sown grows a forest of connection.”
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }}>
-            Donate Now
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
-            Tell Us What Matters to You
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
-            Learn How to Become a Seed Investor
-          </Button>
-        </Box>
-      );
-    }
-
-    function Testimonials() {
-      const testimonials = [
-        {
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
-
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ color: '#ffffff' }}>
-            What Our Community Says
-          </Typography>
-          <Grid container spacing={4}>
-            {testimonials.map((testimonial) => (
-              <Grid item xs={12} md={6} key={testimonial.role}>
-                <Card sx={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
-                  <CardContent>
-                    <Typography variant="body1" gutterBottom>
-                      {testimonial.quote}
-                    </Typography>
-                    <Typography variant="subtitle1" align="right">
-                      - {testimonial.role}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function Footer() {
-      return (
-        <Box py={4} sx={{ backgroundColor: '#1f1f1f', color: '#ffffff' }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">ONE Local</Typography>
-                <List>
-                  <ListItem disableGutters>
-                    <ListItemText primary="Home" />
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemText primary="About" />
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemText primary="Features" />
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemText primary="Community" />
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemText primary="Investors" />
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemText primary="Contact Us" />
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body2" color="#bbbbbb">
-                  Join the conversation.
-                </Typography>
-                {/* Social media icons can be added here */}
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body2" color="#bbbbbb">
-                  “Get the Latest Stories and Updates — Sign Up Here.”
-                </Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ style: { color: '#bbbbbb' } }}
-                  InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
-                />
-                <Button variant="contained" color="primary" fullWidth>
-                  Subscribe
-                </Button>
-              </Grid>
-            </Grid>
-            <Box textAlign="center" mt={4}>
-              <Typography variant="body2">
-                © 2024 ONE Local. All rights reserved.
+          {/* Hero Section */}
+          <Container maxWidth="md" style={{ padding: '40px 0' }}>
+            <Box textAlign="center">
+              <Typography variant="h2" gutterBottom>
+                Empower Your Community, Enrich Your Life.
               </Typography>
+              <Typography variant="h5" color="textSecondary" gutterBottom>
+                Together, we build the future — one connection, one offering, one moment at a time.
+              </Typography>
+              <Button variant="contained" color="primary" size="large">
+                Download the App
+              </Button>
             </Box>
           </Container>
+
+          {/* Features Section */}
+          <Container maxWidth="lg" style={{ padding: '40px 0' }}>
+            <Typography variant="h4" gutterBottom align="center">
+              Explore What We Offer
+            </Typography>
+            <Grid container spacing={4}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                  <CardContent>
+                    <Typography variant="h6">Connect</Typography>
+                    <Typography variant="body2" color="#bbbbbb">
+                      A message away from neighbors you haven’t met yet.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                  <CardContent>
+                    <Typography variant="h6">Share</Typography>
+                    <Typography variant="body2" color="#bbbbbb">
+                      Tools, time, talents — give what you can, receive what you need.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+                  <CardContent>
+                    <Typography variant="h6">Skill Development</Typography>
+                    <Typography variant="body2" color="#bbbbbb">
+                      Workshops, mentorships, hands-on learning — grow your gifts.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
         </Box>
       );
     }
 
-    function LandingPage() {
-      return (
-        <div>
-          <NavigationBar />
-          <Container maxWidth="lg">
-            <HeroSection />
-            <MembershipTypes />
-            <FeaturesPreview />
-            <CommunityImpact />
-            <CallToAction />
-            <Testimonials />
-          </Container>
-          <Footer />
-        </div>
-      );
-    }
-
-    ReactDOM.render(<LandingPage />, document.getElementById('root'));
+    // Render the App component
+    ReactDOM.render(<App />, document.getElementById('root'));
   </script>
-
-  <style>
-    /* Responsive Menu Styling */
-    @media (max-width: 960px) {
-      .desktopMenu {
-        display: none;
-      }
-    }
-    @media (min-width: 960px) {
-      .mobileMenu {
-        display: none;
-      }
-    }
-    /* Scrollbar Styling */
-    body {
-      scrollbar-color: #333 #1e1e1e;
-      scrollbar-width: thin;
-    }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-track {
-      background: #1e1e1e;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #333;
-      border-radius: 4px;
-    }
-  </style>
 </body>
 </html>
