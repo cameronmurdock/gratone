@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Object Builder</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Material-UI CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+    }
+    #root {
+      padding: 20px;
+    }
+    .json-output {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+      padding: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      overflow: auto;
+    }
+    .nested-form {
+      border-left: 2px solid #ccc;
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .card-item {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX Transformation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      Button,
+      TextField,
+      Select,
+      MenuItem,
+      FormControl,
+      InputLabel,
+      Tabs,
+      Tab,
+      Box,
+      Typography,
+      Autocomplete,
+      Grid,
+      Paper,
+      Checkbox,
+      FormControlLabel,
+      Chip,
+      IconButton,
+      Dialog,
+      DialogTitle,
+      DialogContent,
+      DialogContentText,
+      DialogActions,
+      Card,
+      CardContent,
+      CardActions,
+      Divider,
+      List,
+      ListItem,
+      ListItemText,
+    } = MaterialUI;
+
+    // [ ... (Your existing objectTypes and initialDummyData definitions) ... ]
+
+    // Recursive Component to Display Object Details
+    function ObjectDetails({ data, parentKey = '' }) {
+      return (
+        <Box>
+          {Object.entries(data).map(([key, value], index) => (
+            <Box key={index} sx={{ mb: 2 }}>
+              <Typography variant="subtitle2" color="textSecondary">
+                {formatLabel(key)}
+              </Typography>
+              {typeof value === 'object' && value !== null && !Array.isArray(value) ? (
+                <Box sx={{ pl: 2, borderLeft: '2px solid #eee', mt: 1 }}>
+                  <ObjectDetails data={value} parentKey={key} />
+                </Box>
+              ) : Array.isArray(value) ? (
+                <Box sx={{ pl: 2, mt: 1 }}>
+                  {value.length > 0 ? (
+                    value.map((item, idx) => (
+                      <Chip key={idx} label={item} sx={{ mr: 1, mb: 1 }} />
+                    ))
+                  ) : (
+                    <Typography variant="body2" color="textSecondary">
+                      None
+                    </Typography>
+                  )}
+                </Box>
+              ) : (
+                <Typography variant="body1">{value || 'N/A'}</Typography>
+              )}
+              {index < Object.entries(data).length - 1 && <Divider sx={{ mt: 2 }} />}
+            </Box>
+          ))}
+        </Box>
+      );
+    }
+
+    // Helper Function to Format Labels (e.g., '@id' to 'ID')
+    function formatLabel(label) {
+      // Remove '@' if present and capitalize words
+      return label
+        .replace(/^@/, '')
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, str => str.toUpperCase());
+    }
+
+    // Main App Component
+    function App() {
+      const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
+      const [formData, setFormData] = React.useState({});
+      const [jsonOutput, setJsonOutput] = React.useState('');
+      const [createdObjects, setCreatedObjects] = React.useState({
+        Person: [],
+        Organization: [],
+        Group: [],
+        Event: [],
+        Task: [],
+        Resource: [],
+        Offer: [],
+        Demand: [],
+      });
+      const [dummyData, setDummyData] = React.useState(initialDummyData);
+      const [modalOpen, setModalOpen] = React.useState(false);
+      const [selectedObject, setSelectedObject] = React.useState(null);
+
+      // Handle Tab Change
+      const handleChange = (event, newValue) => {
+        setSelectedType(newValue);
+        setFormData({});
+        setJsonOutput('');
+      };
+
+      // Update JSON Output whenever formData changes
+      React.useEffect(() => {
+        setJsonOutput(JSON.stringify(formData, null, 2));
+      }, [formData]);
+
+      // Get the schema for the selected object type
+      const currentSchema = objectTypes.find(obj => obj.name === selectedType);
+
+      // Handle Form Submission
+      const handleSubmit = () => {
+        if (currentSchema) {
+          setCreatedObjects(prev => ({
+            ...prev,
+            [selectedType]: [...prev[selectedType], formData],
+          }));
+
+          // Update dummyData for multiselects with new entries
+          currentSchema.properties.forEach(prop => {
+            if (prop.type === 'multiselect' && formData[prop.name]) {
+              const newOptions = formData[prop.name]
+                .filter(item => !dummyData[prop.name]?.some(option => option.value === item))
+                .map(item => ({ label: item, value: item }));
+              if (newOptions.length > 0) {
+                setDummyData(prev => ({
+                  ...prev,
+                  [prop.name]: [...(prev[prop.name] || []), ...newOptions],
+                }));
+              }
+            }
+          });
+
+          // Reset form
+          setFormData({});
+        }
+      };
+
+      // Handle Modal Open
+      const handleModalOpen = (object, type) => {
+        setSelectedObject({ ...object, type });
+        setModalOpen(true);
+      };
+
+      // Handle Modal Close
+      const handleModalClose = () => {
+        setModalOpen(false);
+        setSelectedObject(null);
+      };
+
+      return (
+        <Box sx={{ width: '100%' }}>
+          <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
+            ONE Local Object Builder
+          </Typography>
+          <Tabs
+            value={selectedType}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            centered
+          >
+            {objectTypes.map((obj) => (
+              <Tab key={obj.name} label={obj.name} value={obj.name} />
+            ))}
+          </Tabs>
+          <Box sx={{ p: 3 }}>
+            <ObjectForm
+              schema={currentSchema}
+              formData={formData}
+              setFormData={setFormData}
+              dummyData={dummyData}
+              setDummyData={setDummyData}
+            />
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Create {selectedType}
+            </Button>
+            <Typography variant="h6" sx={{ mt: 4 }}>
+              JSON Output:
+            </Typography>
+            <Paper variant="outlined" className="json-output">
+              <pre>{jsonOutput}</pre>
+            </Paper>
+            <Typography variant="h5" sx={{ mt: 6, mb: 2 }}>
+              Created {selectedType}s
+            </Typography>
+            <Box className="card-grid">
+              {createdObjects[selectedType].map((obj, idx) => (
+                <Card key={idx} className="card-item">
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {obj.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {obj.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleModalOpen(obj, selectedType)}>View Details</Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </Box>
+          </Box>
+          {/* Detail Modal */}
+          {selectedObject && (
+            <Dialog open={modalOpen} onClose={handleModalClose} maxWidth="md" fullWidth>
+              <DialogTitle>{selectedObject.name} Details</DialogTitle>
+              <DialogContent dividers>
+                <ObjectDetails data={selectedObject} />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleModalClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          )}
+        </Box>
+      );
+    }
+
+    // ObjectForm Component
+    function ObjectForm({ schema, formData, setFormData, dummyData, setDummyData }) {
+      // Handle input changes
+      const handleChange = (name, value) => {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
+
+      // Recursive function to handle nested objects and arrays
+      const renderFields = (properties, parentName = '') => {
+        return properties.map((prop, index) => {
+          const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
+          const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
+
+          switch (prop.type) {
+            case 'text':
+            case 'email':
+            case 'tel':
+            case 'url':
+            case 'number':
+            case 'date':
+            case 'datetime-local':
+            case 'password':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <TextField
+                    label={prop.label}
+                    type={prop.type === 'textarea' ? 'text' : prop.type}
+                    multiline={prop.type === 'textarea'}
+                    rows={prop.type === 'textarea' ? 4 : 1}
+                    fullWidth
+                    disabled={prop.disabled}
+                    required={prop.required}
+                    value={value}
+                    onChange={(e) => handleChange(fullName, e.target.value)}
+                  />
+                </Box>
+              );
+            case 'select':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    freeSolo
+                    options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      handleChange(fullName, newValue);
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      handleChange(fullName, newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={prop.label}
+                        placeholder={`Select or create ${prop.label}`}
+                      />
+                    )}
+                  />
+                </Box>
+              );
+            case 'multiselect':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    multiple
+                    freeSolo
+                    options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      // Add new options to dummyData
+                      const newEntries = newValue.filter(item => !dummyData[prop.name]?.some(option => option.value === item));
+                      if (newEntries.length > 0) {
+                        setDummyData(prev => ({
+                          ...prev,
+                          [prop.name]: [...(prev[prop.name] || []), ...newEntries.map(item => ({ label: item, value: item }))]
+                        }));
+                      }
+                      handleChange(fullName, newValue);
+                    }}
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, index) => (
+                        <Chip label={option} {...getTagProps({ index })} key={index} />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={prop.label}
+                        placeholder={`Select or create ${prop.label}`}
+                      />
+                    )}
+                  />
+                </Box>
+              );
+            case 'checkbox':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={value}
+                        onChange={(e) => handleChange(fullName, e.target.checked)}
+                      />
+                    }
+                    label={prop.label}
+                  />
+                </Box>
+              );
+            case 'object':
+              return (
+                <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
+                  <Typography variant="h6" gutterBottom>
+                    {prop.label}
+                  </Typography>
+                  {renderFields(prop.fields, fullName)}
+                </Box>
+              );
+            default:
+              return null;
+          }
+        });
+      };
+
+      // Helper to get nested value
+      const getNestedValue = (obj, path) => {
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+      };
+
+      return (
+        <Box>
+          {renderFields(schema.properties)}
+        </Box>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
