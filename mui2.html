@@ -195,182 +195,8 @@
       Backdrop,
     } = MaterialUI;
 
-    // Sample Data Objects
-    const data = {
-      groups: [
-        {
-          name: 'Admin + Org Structure',
-          description: 'Overseeing the overall organization and strategic direction.',
-          members: [
-            {
-              id: 1,
-              name: 'Alice Johnson',
-              role: 'Founder & CEO',
-              bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-              image: 'https://i.pravatar.cc/300?img=5',
-            },
-            {
-              id: 2,
-              name: 'Bob Smith',
-              role: 'CTO',
-              bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-              image: 'https://i.pravatar.cc/300?img=6',
-            },
-          ],
-        },
-        {
-          name: 'Community Outreach (Product and Marketing)',
-          description: 'Connecting with the community and promoting our mission.',
-          members: [
-            {
-              id: 3,
-              name: 'Carol Williams',
-              role: 'Head of Community',
-              bio: 'Carol works closely with local groups to foster engagement and growth.',
-              image: 'https://i.pravatar.cc/300?img=7',
-            },
-            {
-              id: 4,
-              name: 'David Lee',
-              role: 'Marketing Director',
-              bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-              image: 'https://i.pravatar.cc/300?img=8',
-            },
-          ],
-        },
-        {
-          name: 'Directors',
-          description: 'Leading specific departments to drive our initiatives.',
-          members: [
-            {
-              id: 5,
-              name: 'Evelyn Martinez',
-              role: 'Director of Operations',
-              bio: 'Evelyn ensures that our operations run smoothly and efficiently.',
-              image: 'https://i.pravatar.cc/300?img=9',
-            },
-            {
-              id: 6,
-              name: 'Franklin Nguyen',
-              role: 'Director of Community Engagement',
-              bio: 'Franklin spearheads our efforts to engage with and support the community.',
-              image: 'https://i.pravatar.cc/300?img=10',
-            },
-          ],
-        },
-        {
-          name: 'Funding and Finance',
-          description: 'Managing our financial resources and fundraising efforts.',
-          members: [
-            {
-              id: 7,
-              name: 'Grace Kim',
-              role: 'Finance Manager',
-              bio: 'Grace oversees our financial planning and budgeting.',
-              image: 'https://i.pravatar.cc/300?img=11',
-            },
-            {
-              id: 8,
-              name: 'Henry Thompson',
-              role: 'Fundraising Coordinator',
-              bio: 'Henry coordinates our fundraising campaigns and donor relations.',
-              image: 'https://i.pravatar.cc/300?img=12',
-            },
-          ],
-        },
-        {
-          name: 'Tech Development',
-          description: 'Building and maintaining our platform and technological infrastructure.',
-          members: [
-            {
-              id: 9,
-              name: 'Isabella Garcia',
-              role: 'Lead Developer',
-              bio: 'Isabella leads the development team in creating a seamless user experience.',
-              image: 'https://i.pravatar.cc/300?img=13',
-            },
-            {
-              id: 10,
-              name: 'Jacob Brown',
-              role: 'Software Engineer',
-              bio: 'Jacob develops and implements new features to enhance our platform.',
-              image: 'https://i.pravatar.cc/300?img=14',
-            },
-          ],
-        },
-      ],
-      products: [
-        {
-          id: 1,
-          name: 'Community Connect',
-          description: 'A feature that allows members to connect and communicate effortlessly.',
-          image: 'https://via.placeholder.com/600x400?text=Community+Connect',
-          reviews: [
-            {
-              user: 'Emily R.',
-              rating: 5,
-              comment: '“Community Connect has transformed how we interact with each other.”',
-            },
-            {
-              user: 'Michael T.',
-              rating: 4,
-              comment: '“A great tool for fostering connections.”',
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Event Manager',
-          description: 'Easily create, manage, and promote events within your community.',
-          image: 'https://via.placeholder.com/600x400?text=Event+Manager',
-          reviews: [
-            {
-              user: 'Sarah L.',
-              rating: 5,
-              comment: '“Organizing events has never been easier.”',
-            },
-            {
-              user: 'David G.',
-              rating: 4,
-              comment: '“Highly efficient and user-friendly.”',
-            },
-          ],
-        },
-      ],
-      reviews: [
-        {
-          id: 1,
-          user: 'Emily R.',
-          productId: 1,
-          rating: 5,
-          comment: '“Community Connect has transformed how we interact with each other.”',
-        },
-        {
-          id: 2,
-          user: 'Michael T.',
-          productId: 1,
-          rating: 4,
-          comment: '“A great tool for fostering connections.”',
-        },
-        {
-          id: 3,
-          user: 'Sarah L.',
-          productId: 2,
-          rating: 5,
-          comment: '“Organizing events has never been easier.”',
-        },
-        {
-          id: 4,
-          user: 'David G.',
-          productId: 2,
-          rating: 4,
-          comment: '“Highly efficient and user-friendly.”',
-        },
-      ],
-    };
-
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
-    const themeConfig = createTheme({
+    const theme = createTheme({
       palette: {
         mode: 'light',
         primary: {
@@ -482,7 +308,7 @@
 
     function App() {
       const [currentPage, setCurrentPage] = React.useState('home');
-      const isMobile = useMediaQuery(themeConfig.breakpoints.down('md'));
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
       const renderPage = () => {
         switch (currentPage) {
@@ -491,7 +317,7 @@
           case 'manifesto':
             return <ManifestoPage />;
           case 'team':
-            return <TeamPage setCurrentPage={setCurrentPage} />;
+            return <TeamPage />;
           case 'whitepaper':
             return <WhitepaperPage />;
           case 'investors':
@@ -526,7 +352,7 @@
       };
 
       return (
-        <ThemeProvider theme={themeConfig}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
@@ -632,8 +458,8 @@
                 </>
               )}
             </Menu>
-          </AppBar>
-        </Toolbar>
+          </Toolbar>
+        </AppBar>
       );
     }
 
@@ -676,19 +502,33 @@
       );
     }
 
-    function TeamPage({ setCurrentPage }) {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
-            Meet the Team
-          </Typography>
-          <TeamSection />
-        </Container>
-      );
-    }
-
-    function TeamSection() {
-      const groups = data.groups;
+    function TeamPage() {
+      const teamMembers = [
+        {
+          name: 'Alice Johnson',
+          role: 'Founder & CEO',
+          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+          image: 'https://i.pravatar.cc/300?img=5',
+        },
+        {
+          name: 'Bob Smith',
+          role: 'CTO',
+          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
+          image: 'https://i.pravatar.cc/300?img=6',
+        },
+        {
+          name: 'Carol Williams',
+          role: 'Head of Community',
+          bio: 'Carol works closely with local groups to foster engagement and growth.',
+          image: 'https://i.pravatar.cc/300?img=7',
+        },
+        {
+          name: 'David Lee',
+          role: 'Marketing Director',
+          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+          image: 'https://i.pravatar.cc/300?img=8',
+        },
+      ];
 
       // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
@@ -705,36 +545,27 @@
       };
 
       return (
-        <Box mt={12} mb={12}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
           <Grid container spacing={6}>
-            {groups.map((group, index) => (
-              <Grid item xs={12} key={index}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                  {group.name}
-                </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6 }}>
-                  {group.description}
-                </Typography>
-                <Grid container spacing={4}>
-                  {group.members.map((member) => (
-                    <Grid item xs={12} sm={6} md={3} key={member.id}>
-                      <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                        <CardContent>
-                          <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                          <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                            {member.name}
-                          </Typography>
-                          <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                            {member.role}
-                          </Typography>
-                          <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                            {member.bio}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
+            {teamMembers.map((member, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                  <CardContent>
+                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                      {member.name}
+                    </Typography>
+                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                      {member.role}
+                    </Typography>
+                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                      {member.bio}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Grid>
             ))}
           </Grid>
@@ -770,7 +601,7 @@
               </Box>
             </Fade>
           </Modal>
-        </Box>
+        </Container>
       );
     }
 
@@ -894,7 +725,28 @@
     }
 
     function ImpactStoriesPage() {
-      const stories = data.groups.flatMap(group => group.members).filter(member => member.bio.toLowerCase().includes('community'));
+      const stories = [
+        {
+          title: 'Artisans Unite',
+          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
+          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
+        },
+        {
+          title: 'Youth Leadership',
+          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
+          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
+        },
+        {
+          title: 'Circular Economy',
+          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
+          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
+        },
+        {
+          title: 'Disaster Relief',
+          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
+          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
+        },
+      ];
 
       const [currentSlide, setCurrentSlide] = React.useState(0);
 
@@ -923,13 +775,13 @@
               <Card>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                    {stories[currentSlide].name}
+                    {stories[currentSlide].title}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 4 }}>
-                    {stories[currentSlide].bio}
+                    {stories[currentSlide].content}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={stories[currentSlide].image} alt={stories[currentSlide].name} />
+                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
                     <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -946,7 +798,23 @@
     }
 
     function BlogPage() {
-      const blogPosts = data.products;
+      const blogPosts = [
+        {
+          title: 'Building Sustainable Communities',
+          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+        },
+        {
+          title: 'The Power of Local Events',
+          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+        },
+        {
+          title: 'Supporting Local Businesses',
+          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+        },
+      ];
 
       const [currentPost, setCurrentPost] = React.useState(0);
 
@@ -986,16 +854,16 @@
           </Typography>
           <Grid container spacing={6} justifyContent="center">
             <Grid item xs={12} md={8}>
-              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].name}`}>
+              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    {blogPosts[currentPost].name}
+                    {blogPosts[currentPost].title}
                   </Typography>
                   <Typography variant="body1" sx={{ mb: 4 }}>
-                    {blogPosts[currentPost].description}
+                    {blogPosts[currentPost].excerpt}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].name} />
+                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
                     <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -1028,11 +896,11 @@
                 {selectedPost && (
                   <>
                     <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedPost.name}
+                      {selectedPost.title}
                     </Typography>
                     <Typography id="blog-modal-description" sx={{ mb: 4 }}>
                       {/* Detailed blog content goes here */}
-                      {selectedPost.description}
+                      {selectedPost.content}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
@@ -1236,7 +1104,14 @@
     }
 
     function LogoCollection() {
-      const logos = data.groups.flatMap(group => group.members).slice(0, 6); // Example logos
+      const logos = [
+        'https://via.placeholder.com/150x100?text=Logo1',
+        'https://via.placeholder.com/150x100?text=Logo2',
+        'https://via.placeholder.com/150x100?text=Logo3',
+        'https://via.placeholder.com/150x100?text=Logo4',
+        'https://via.placeholder.com/150x100?text=Logo5',
+        'https://via.placeholder.com/150x100?text=Logo6',
+      ];
 
       const logoStyle = {
         width: '150px',
@@ -1259,8 +1134,8 @@
             {logos.map((logo, index) => (
               <Grid item key={index}>
                 <img
-                  src={logo.image}
-                  alt={`${logo.name} logo`}
+                  src={logo}
+                  alt={`Partner logo ${index + 1}`}
                   style={logoStyle}
                 />
               </Grid>
@@ -1271,10 +1146,7 @@
     }
 
     function FeaturesSection() {
-      const features = data.groups.flatMap(group => group.members).filter(member => member.role.toLowerCase().includes('director') || member.role.toLowerCase().includes('manager'));
-
-      // Assuming features are related to products
-      const featureData = [
+      const features = [
         {
           title: 'Connect',
           description: 'A message away from neighbors you haven’t met yet.',
@@ -1321,8 +1193,8 @@
             Explore What We Offer
           </Typography>
           <Grid container spacing={6}>
-            {featureData.map((feature, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+            {features.map((feature) => (
+              <Grid item xs={12} sm={6} md={3} key={feature.title}>
                 <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
                   <CardContent>
                     <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
@@ -1430,8 +1302,8 @@
             How Will You Show Up?
           </Typography>
           <Grid container spacing={6}>
-            {memberships.map((membership, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
+            {memberships.map((membership) => (
+              <Grid item xs={12} sm={6} md={3} key={membership.title}>
                 <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
@@ -1477,6 +1349,109 @@
                       Learn More
                     </Button>
                     <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function TeamSection() {
+      const teamMembers = [
+        {
+          name: 'Alice Johnson',
+          role: 'Founder & CEO',
+          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+          image: 'https://i.pravatar.cc/300?img=5',
+        },
+        {
+          name: 'Bob Smith',
+          role: 'CTO',
+          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
+          image: 'https://i.pravatar.cc/300?img=6',
+        },
+        {
+          name: 'Carol Williams',
+          role: 'Head of Community',
+          bio: 'Carol works closely with local groups to foster engagement and growth.',
+          image: 'https://i.pravatar.cc/300?img=7',
+        },
+        {
+          name: 'David Lee',
+          role: 'Marketing Director',
+          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+          image: 'https://i.pravatar.cc/300?img=8',
+        },
+      ];
+
+      // Modal State for Team Members
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMember, setSelectedMember] = React.useState(null);
+
+      const handleOpenModal = (member) => {
+        setSelectedMember(member);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMember(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+            Meet the Team
+          </Typography>
+          <Grid container spacing={6}>
+            {teamMembers.map((member, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                  <CardContent>
+                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                      {member.name}
+                    </Typography>
+                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                      {member.role}
+                    </Typography>
+                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                      {member.bio}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Team Member Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="team-modal-title"
+            aria-describedby="team-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMember && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMember.name}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}<br /><br />
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
                     </Button>
                   </>
