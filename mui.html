@@ -53,7 +53,7 @@
       }
     }
     .animatedBackground {
-      background: linear-gradient(-45deg, #e0f7fa, #f1f8e9, #fff3e0, #fce4ec);
+      background: linear-gradient(-45deg, #f5deb3, #add8e6, #90ee90, #ffb6c1);
       background-size: 400% 400%;
       animation: gradientAnimation 60s ease infinite;
       min-height: 100vh;
@@ -64,7 +64,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
     .carousel img {
@@ -76,16 +76,12 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.5);
       border: none;
       color: white;
       padding: 10px;
       cursor: pointer;
       border-radius: 50%;
-      transition: background-color 0.3s;
-    }
-    .carousel-button:hover {
-      background-color: rgba(0, 0, 0, 0.5);
     }
     .carousel-button.left {
       left: 10px;
@@ -95,10 +91,10 @@
     }
     /* Button Hover Effect */
     .MuiButton-containedPrimary:hover {
-      background-color: #4caf50;
+      background-color: #66bb6a;
     }
     .MuiButton-containedSecondary:hover {
-      background-color: #f48fb1;
+      background-color: #ff8a80;
     }
     /* Testimonials Styling */
     .testimonial {
@@ -111,7 +107,6 @@
       margin: 0 auto 20px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .footer-link {
       cursor: pointer;
@@ -166,26 +161,26 @@
       Backdrop,
     } = MaterialUI;
 
-    // Custom Theme with Muted Pastel Palette
+    // Custom Theme with Earthtone Rainbow Pastel Palette
     const theme = createTheme({
       palette: {
         mode: 'light',
         primary: {
-          main: '#81c784', // Soft Pastel Green
+          main: '#81c784', // Pastel Green
         },
         secondary: {
-          main: '#f48fb1', // Soft Pastel Pink
+          main: '#ffb6c1', // Light Pink
         },
         error: {
-          main: '#e57373', // Soft Pastel Red
+          main: '#e57373', // Light Red
         },
         background: {
-          default: '#fafafa', // Light Gray
+          default: '#f0f8ff', // Alice Blue
           paper: '#ffffff', // White
         },
         text: {
           primary: '#333333', // Dark Gray
-          secondary: '#555555', // Medium Gray
+          secondary: '#666666', // Gray
         },
       },
       typography: {
@@ -221,7 +216,7 @@
               borderRadius: '20px',
               textTransform: 'none',
               fontWeight: 'bold',
-              transition: 'background-color 0.3s, color 0.3s',
+              transition: '0.3s',
             },
             containedPrimary: {
               '&:hover': {
@@ -230,7 +225,7 @@
             },
             containedSecondary: {
               '&:hover': {
-                backgroundColor: '#f06292',
+                backgroundColor: '#ff8a80',
               },
             },
           },
@@ -238,8 +233,8 @@
         MuiAppBar: {
           styleOverrides: {
             root: {
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+              background: 'rgba(255, 255, 255, 0.9)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
             },
           },
         },
@@ -247,7 +242,7 @@
           styleOverrides: {
             root: {
               borderRadius: '20px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
             },
           },
         },
@@ -406,7 +401,7 @@
                 </>
               )}
             </Menu>
-          </AppBar>
+          </Toolbar>
         </AppBar>
       );
     }
@@ -659,13 +654,6 @@
         setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
       };
 
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextSlide();
-        }, 7000); // Change slide every 7 seconds
-        return () => clearInterval(timer);
-      }, []);
-
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -681,7 +669,7 @@
                   <Typography variant="body1" sx={{ mb: 4 }}>
                     {stories[currentSlide].content}
                   </Typography>
-                  <Box className="carousel">
+                  <Box className="carousel" sx={{ position: 'relative' }}>
                     <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
                     <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
                       <Icon>chevron_left</Icon>
@@ -727,13 +715,6 @@
         setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
       };
 
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextPost();
-        }, 8000); // Change post every 8 seconds
-        return () => clearInterval(timer);
-      }, []);
-
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -749,7 +730,7 @@
                   <Typography variant="body1" sx={{ mb: 4 }}>
                     {blogPosts[currentPost].excerpt}
                   </Typography>
-                  <Box className="carousel">
+                  <Box className="carousel" sx={{ position: 'relative' }}>
                     <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
                     <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
                       <Icon>chevron_left</Icon>
