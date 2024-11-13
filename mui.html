@@ -49,9 +49,10 @@
       AccordionSummary,
       AccordionDetails,
       TextField,
+      useMediaQuery,
     } = MaterialUI;
 
-    // Custom OL Theme
+    // Custom ONE Local Theme
     const theme = createTheme({
       palette: {
         mode: 'dark',
@@ -117,185 +118,430 @@
       color: '#ffffff',
     };
 
-    function NavigationBar({ setValue }) {
-      const [anchorEls, setAnchorEls] = React.useState({});
-      const [menuIds, setMenuIds] = React.useState({});
+    function App() {
+      const [page, setPage] = React.useState('home');
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+      const isMobile = useMediaQuery('(max-width:960px)');
 
       const handleMenuOpen = (event, id) => {
-        setAnchorEls((prev) => ({ ...prev, [id]: event.currentTarget }));
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
       };
 
-      const handleMenuClose = (id) => {
-        setAnchorEls((prev) => ({ ...prev, [id]: null }));
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
       };
 
-      const handleMenuItemClick = (value) => {
-        setValue(value);
-        // Close all menus
-        setAnchorEls({});
+      const navigateTo = (page) => {
+        setPage(page);
+        handleMenuClose();
       };
-
-      return (
-        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setValue('home')}>
-              ONE Local
-            </Typography>
-            <div className="desktopMenu">
-              <Button color="inherit" onClick={() => setValue('home')}>Home</Button>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'aboutMenu')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                About
-              </Button>
-              <Menu
-                anchorEl={anchorEls['aboutMenu']}
-                open={Boolean(anchorEls['aboutMenu'])}
-                onClose={() => handleMenuClose('aboutMenu')}
-              >
-                <MenuItem onClick={() => handleMenuItemClick('manifesto')}>Manifesto</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('team')}>Team</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('whitepaper')}>Whitepaper</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('investors')}>Investors</MenuItem>
-              </Menu>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'featuresMenu')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                Features
-              </Button>
-              <Menu
-                anchorEl={anchorEls['featuresMenu']}
-                open={Boolean(anchorEls['featuresMenu'])}
-                onClose={() => handleMenuClose('featuresMenu')}
-              >
-                <MenuItem onClick={() => handleMenuItemClick('overview')}>Overview</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('local-members')}>For Local Members</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('event-hosts')}>For Event Hosts</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('sellers')}>For Sellers</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('organizations')}>For Organizations</MenuItem>
-              </Menu>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'communityMenu')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                Community
-              </Button>
-              <Menu
-                anchorEl={anchorEls['communityMenu']}
-                open={Boolean(anchorEls['communityMenu'])}
-                onClose={() => handleMenuClose('communityMenu')}
-              >
-                <MenuItem onClick={() => handleMenuItemClick('impact-stories')}>Impact Stories</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('blog')}>Blog</MenuItem>
-              </Menu>
-              <Button color="inherit" onClick={() => setValue('download-app')}>Download App</Button>
-            </div>
-            <div className="mobileMenu">
-              <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')}>
-                <Icon>menu</Icon>
-              </IconButton>
-              <Menu
-                anchorEl={anchorEls['mobileMenu']}
-                open={Boolean(anchorEls['mobileMenu'])}
-                onClose={() => handleMenuClose('mobileMenu')}
-                PaperProps={{ style: { zIndex: 1400 } }}
-              >
-                <MenuItem onClick={() => { handleMenuItemClick('home'); handleMenuClose('mobileMenu'); }}>Home</MenuItem>
-                <MenuItem onClick={(e) => { handleMenuOpen(e, 'aboutMobileMenu'); }}>About</MenuItem>
-                <MenuItem onClick={(e) => { handleMenuOpen(e, 'featuresMobileMenu'); }}>Features</MenuItem>
-                <MenuItem onClick={(e) => { handleMenuOpen(e, 'communityMobileMenu'); }}>Community</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('download-app'); handleMenuClose('mobileMenu'); }}>Download App</MenuItem>
-              </Menu>
-              {/* Mobile Submenus */}
-              <Menu
-                anchorEl={anchorEls['aboutMobileMenu']}
-                open={Boolean(anchorEls['aboutMobileMenu'])}
-                onClose={() => handleMenuClose('aboutMobileMenu')}
-                PaperProps={{ style: { zIndex: 1400 } }}
-              >
-                <MenuItem onClick={() => { handleMenuItemClick('manifesto'); handleMenuClose('aboutMobileMenu'); }}>Manifesto</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('team'); handleMenuClose('aboutMobileMenu'); }}>Team</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('whitepaper'); handleMenuClose('aboutMobileMenu'); }}>Whitepaper</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('investors'); handleMenuClose('aboutMobileMenu'); }}>Investors</MenuItem>
-              </Menu>
-              <Menu
-                anchorEl={anchorEls['featuresMobileMenu']}
-                open={Boolean(anchorEls['featuresMobileMenu'])}
-                onClose={() => handleMenuClose('featuresMobileMenu')}
-                PaperProps={{ style: { zIndex: 1400 } }}
-              >
-                <MenuItem onClick={() => { handleMenuItemClick('overview'); handleMenuClose('featuresMobileMenu'); }}>Overview</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('local-members'); handleMenuClose('featuresMobileMenu'); }}>For Local Members</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('event-hosts'); handleMenuClose('featuresMobileMenu'); }}>For Event Hosts</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('sellers'); handleMenuClose('featuresMobileMenu'); }}>For Sellers</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('organizations'); handleMenuClose('featuresMobileMenu'); }}>For Organizations</MenuItem>
-              </Menu>
-              <Menu
-                anchorEl={anchorEls['communityMobileMenu']}
-                open={Boolean(anchorEls['communityMobileMenu'])}
-                onClose={() => handleMenuClose('communityMobileMenu')}
-                PaperProps={{ style: { zIndex: 1400 } }}
-              >
-                <MenuItem onClick={() => { handleMenuItemClick('impact-stories'); handleMenuClose('communityMobileMenu'); }}>Impact Stories</MenuItem>
-                <MenuItem onClick={() => { handleMenuItemClick('blog'); handleMenuClose('communityMobileMenu'); }}>Blog</MenuItem>
-              </Menu>
-            </div>
-          </Toolbar>
-        </AppBar>
-      );
-    }
-
-    // Rest of the components remain the same, but we ensure that 'setValue' is passed where needed.
-
-    function LandingPage() {
-      const [value, setValue] = React.useState('home');
 
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box style={backgroundStyle}>
-            <NavigationBar setValue={setValue} />
-            {value === 'home' && (
-              <Container maxWidth="lg">
-                <HeroSection />
-                <LogoCollection />
-                <FeaturesSection />
-                <MembershipTypes />
-                <Pricing />
-                <CommunityImpact />
-                <TestimonialsSection />
-                <FAQSection />
-                <CallToAction />
-              </Container>
-            )}
-            {value === 'manifesto' && <ManifestoPage />}
-            {value === 'team' && <TeamPage />}
-            {value === 'whitepaper' && <WhitepaperPage />}
-            {value === 'investors' && <InvestorsPage />}
-            {value === 'overview' && <OverviewPage />}
-            {value === 'local-members' && <LocalMembersPage />}
-            {value === 'event-hosts' && <EventHostsPage />}
-            {value === 'sellers' && <SellersPage />}
-            {value === 'organizations' && <OrganizationsPage />}
-            {value === 'impact-stories' && <ImpactStoriesPage />}
-            {value === 'blog' && <BlogPage />}
-            {value === 'download-app' && <DownloadAppPage />}
-            <Footer setValue={setValue} />
+            <NavigationBar
+              handleMenuOpen={handleMenuOpen}
+              handleMenuClose={handleMenuClose}
+              anchorEl={anchorEl}
+              menuId={menuId}
+              navigateTo={navigateTo}
+              isMobile={isMobile}
+            />
+            <Container maxWidth="lg">
+              {page === 'home' && <HomePage navigateTo={navigateTo} />}
+              {page === 'manifesto' && <ManifestoPage />}
+              {page === 'team' && <TeamPage />}
+              {page === 'whitepaper' && <WhitepaperPage />}
+              {page === 'investors' && <InvestorsPage />}
+              {page === 'features-overview' && <FeaturesOverviewPage />}
+              {page === 'local-members' && <LocalMembersPage />}
+              {page === 'event-hosts' && <EventHostsPage />}
+              {page === 'sellers' && <SellersPage />}
+              {page === 'organizations' && <OrganizationsPage />}
+              {page === 'impact-stories' && <ImpactStoriesPage />}
+              {page === 'blog' && <BlogPage />}
+              {page === 'download-app' && <DownloadAppPage />}
+            </Container>
+            <Footer navigateTo={navigateTo} />
           </Box>
         </ThemeProvider>
       );
     }
 
-    // Page Components (e.g., ManifestoPage, TeamPage, etc.) remain the same as before.
+    function NavigationBar(props) {
+      const { handleMenuOpen, handleMenuClose, anchorEl, menuId, navigateTo, isMobile } = props;
 
-    // Footer component remains the same, ensuring 'setValue' is passed for navigation.
+      const menuItems = [
+        { label: 'Home', page: 'home' },
+        {
+          label: 'About',
+          submenu: [
+            { label: 'Manifesto', page: 'manifesto' },
+            { label: 'Team', page: 'team' },
+            { label: 'Whitepaper', page: 'whitepaper' },
+            { label: 'Investors', page: 'investors' },
+          ],
+        },
+        {
+          label: 'Features',
+          submenu: [
+            { label: 'Overview', page: 'features-overview' },
+            { label: 'For Local Members', page: 'local-members' },
+            { label: 'For Event Hosts', page: 'event-hosts' },
+            { label: 'For Sellers', page: 'sellers' },
+            { label: 'For Organizations', page: 'organizations' },
+          ],
+        },
+        {
+          label: 'Community',
+          submenu: [
+            { label: 'Impact Stories', page: 'impact-stories' },
+            { label: 'Blog', page: 'blog' },
+          ],
+        },
+        { label: 'Download App', page: 'download-app' },
+      ];
 
-    ReactDOM.render(<LandingPage />, document.getElementById('root'));
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => navigateTo('home')}>
+              ONE Local
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')}>
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  {menuItems.map((item, index) =>
+                    item.submenu ? (
+                      <div key={index}>
+                        <MenuItem disabled>{item.label}</MenuItem>
+                        {item.submenu.map((subitem, subindex) => (
+                          <MenuItem key={`${index}-${subindex}`} onClick={() => navigateTo(subitem.page)}>
+                            {subitem.label}
+                          </MenuItem>
+                        ))}
+                      </div>
+                    ) : (
+                      <MenuItem key={index} onClick={() => navigateTo(item.page)}>
+                        {item.label}
+                      </MenuItem>
+                    )
+                  )}
+                </Menu>
+              </>
+            ) : (
+              <div>
+                {menuItems.map((item, index) =>
+                  item.submenu ? (
+                    <React.Fragment key={index}>
+                      <Button
+                        color="inherit"
+                        onClick={(e) => handleMenuOpen(e, item.label)}
+                        endIcon={<Icon>expand_more</Icon>}
+                      >
+                        {item.label}
+                      </Button>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={menuId === item.label}
+                        onClose={handleMenuClose}
+                        PaperProps={{ style: { zIndex: 1400 } }}
+                      >
+                        {item.submenu.map((subitem, subindex) => (
+                          <MenuItem key={subindex} onClick={() => navigateTo(subitem.page)}>
+                            {subitem.label}
+                          </MenuItem>
+                        ))}
+                      </Menu>
+                    </React.Fragment>
+                  ) : (
+                    <Button key={index} color="inherit" onClick={() => navigateTo(item.page)}>
+                      {item.label}
+                    </Button>
+                  )
+                )}
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    // HomePage and other page components go here
+    function HomePage({ navigateTo }) {
+      return (
+        <>
+          <Box sx={{ textAlign: 'center', mt: 12, py: 8 }}>
+            <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+              Empower Your Community, Enrich Your Life.
+            </Typography>
+            <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+              Together, we build the future — one connection, one offering, one moment at a time.
+            </Typography>
+            <Button variant="contained" color="primary" size="large" onClick={() => navigateTo('download-app')}>
+              Download the App
+            </Button>
+          </Box>
+          <FeaturesSection />
+          <MembershipTypes navigateTo={navigateTo} />
+          <CommunityImpact />
+          <TestimonialsSection />
+          <CallToAction navigateTo={navigateTo} />
+        </>
+      );
+    }
+
+    // Implement other page components similarly, ensuring they contain content and are not blank.
+
+    function ManifestoPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Manifesto
+          </Typography>
+          <Typography variant="body1">
+            Our pledge, our promise: A declaration of what we’re building together. Dive deep into our purpose.
+          </Typography>
+        </Box>
+      );
+    }
+
+    function TeamPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Meet the Team
+          </Typography>
+          {/* Team members would be listed here */}
+          <Typography variant="body1">
+            Details about our dedicated team will be displayed here.
+          </Typography>
+        </Box>
+      );
+    }
+
+    function WhitepaperPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Whitepaper
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
+          </Typography>
+          <Button variant="contained" color="primary" href="#" target="_blank">
+            Download Whitepaper
+          </Button>
+        </Box>
+      );
+    }
+
+    function InvestorsPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Invest in a New Kind of Social Infrastructure
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Equity options, growth potential, and the chance to support a platform rooted in local, regenerative economics.
+          </Typography>
+          <Button variant="contained" color="secondary" onClick={() => alert('Invest Now')}>
+            Join the Movement — Invest Today
+          </Button>
+        </Box>
+      );
+    }
+
+    function FeaturesOverviewPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Discover What’s Possible with ONE Local
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
+          </Typography>
+          <FeaturesSection />
+        </Box>
+      );
+    }
+
+    function LocalMembersPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            For Local Members
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => alert('Join as a Local Member')}>
+            Join as a Local Member
+          </Button>
+        </Box>
+      );
+    }
+
+    function EventHostsPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            For Event Hosts
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => alert('Start Hosting Events')}>
+            Start Hosting Events
+          </Button>
+        </Box>
+      );
+    }
+
+    function SellersPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            For Sellers
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => alert('Open Your Shop')}>
+            Open Your Shop
+          </Button>
+        </Box>
+      );
+    }
+
+    function OrganizationsPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            For Organizations
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => alert('Register Your Organization')}>
+            Register Your Organization
+          </Button>
+        </Box>
+      );
+    }
+
+    function ImpactStoriesPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Impact Stories
+          </Typography>
+          {/* Impact stories would be displayed here */}
+          <Typography variant="body1">
+            Stories of connection and transformation will be showcased here.
+          </Typography>
+        </Box>
+      );
+    }
+
+    function BlogPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Blog
+          </Typography>
+          {/* Blog posts would be displayed here */}
+          <Typography variant="body1">
+            Latest insights and updates will be available here.
+          </Typography>
+        </Box>
+      );
+    }
+
+    function DownloadAppPage() {
+      return (
+        <Box sx={{ mt: 12, py: 8, textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Download the App
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Step in, the door is open.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
+            Get the App Now
+          </Button>
+        </Box>
+      );
+    }
+
+    function Footer({ navigateTo }) {
+      return (
+        <Box py={4} sx={{ backgroundColor: '#1f1f1f', color: '#ffffff' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">ONE Local</Typography>
+                <List>
+                  {['Home', 'About', 'Features', 'Community', 'Investors', 'Contact Us'].map((text, index) => (
+                    <ListItem disableGutters key={index}>
+                      <Link href="#" color="inherit" underline="none" onClick={() => navigateTo(text.toLowerCase().replace(/ /g, '-'))}>
+                        <ListItemText primary={text} />
+                      </Link>
+                    </ListItem>
+                  ))}
+                </List>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">Follow Us</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  Join the conversation.
+                </Typography>
+                {/* Social media icons can be added here */}
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6">Newsletter Signup</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  Get the Latest Stories and Updates — Sign Up Here.
+                </Typography>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#bbbbbb' } }}
+                  InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
+              </Grid>
+            </Grid>
+            <Box textAlign="center" mt={4}>
+              <Typography variant="body2">
+                © 2024 ONE Local. All rights reserved.
+              </Typography>
+            </Box>
+          </Container>
+        </Box>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
   </script>
 
   <style>
