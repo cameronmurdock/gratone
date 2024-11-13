@@ -12,7 +12,7 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body style="background-color: #121212; color: #ffffff;">
+<body style="margin: 0;">
   <div id="root"></div>
 
   <!-- React, ReactDOM, Babel, and Material UI from JSDelivr CDN -->
@@ -23,31 +23,93 @@
 
   <script type="text/babel">
     const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
       AppBar,
       Toolbar,
       Typography,
       Button,
       IconButton,
-      Menu,
-      MenuItem,
       Container,
       Box,
       Grid,
       Card,
       CardContent,
-      TextField,
+      CardActions,
+      Icon,
+      Divider,
+      Link,
       List,
       ListItem,
-      ListItemIcon,
       ListItemText,
-      Icon,
-      CardActions,
-      Divider,
-      Accordion,
-      AccordionSummary,
-      AccordionDetails,
-      Link,
+      Avatar,
+      TextField,
+      Menu,
+      MenuItem,
     } = MaterialUI;
+
+    // Custom Theme
+    const theme = createTheme({
+      palette: {
+        mode: 'dark',
+        primary: {
+          main: '#00e676',
+        },
+        secondary: {
+          main: '#ff3d00',
+        },
+        background: {
+          default: '#121212',
+          paper: '#1e1e1e',
+        },
+        text: {
+          primary: '#ffffff',
+          secondary: '#bbbbbb',
+        },
+      },
+      typography: {
+        fontFamily: 'Roboto, sans-serif',
+        fontWeightBold: 700,
+      },
+      shape: {
+        borderRadius: 16,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '16px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+              '&:hover': {
+                boxShadow: '0 0 8px rgba(0, 230, 118, 0.6)',
+              },
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '16px',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+              transition: '0.3s',
+              '&:hover': {
+                boxShadow: '0 8px 40px rgba(0, 230, 118, 0.3)',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Background Gradient
+    const backgroundStyle = {
+      background: 'linear-gradient(315deg, #339999, #003333)',
+      minHeight: '100vh',
+      color: '#ffffff',
+    };
 
     function NavigationBar() {
       const [anchorEl, setAnchorEl] = React.useState(null);
@@ -68,13 +130,13 @@
       };
 
       return (
-        <AppBar position="static" style={{ backgroundColor: '#1f1f1f' }}>
+        <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
               ONE Local
             </Typography>
             <div className="desktopMenu">
-              <Button color="inherit" onClick={handleMenuClose}>Home</Button>
+              <Button color="inherit">Home</Button>
               <Button
                 color="inherit"
                 onClick={(e) => handleSubMenuOpen(e, 'about')}
@@ -153,13 +215,13 @@
     function HeroSection() {
       return (
         <Box textAlign="center" mt={8} mb={8}>
-          <Typography variant="h2" component="h1" gutterBottom style={{ color: '#ffffff' }}>
+          <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
             Empower Your Community, Enrich Your Life.
           </Typography>
-          <Typography variant="h5" component="h2" style={{ color: '#bbbbbb' }}>
+          <Typography variant="h5" component="h2" sx={{ color: 'text.secondary', mb: 4 }}>
             Together, we build the future — one connection, one offering, one moment at a time.
           </Typography>
-          <Button variant="contained" color="primary" size="large" style={{ marginTop: 16 }}>
+          <Button variant="contained" color="primary" size="large">
             Download the App — Start your journey today.
           </Button>
         </Box>
@@ -196,16 +258,16 @@
 
       return (
         <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" style={{ color: '#ffffff' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
             "How Will You Show Up?"
           </Typography>
           <Grid container spacing={4}>
             {memberships.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff', height: '100%' }}>
+                <Card>
                   <CardContent>
-                    <Typography variant="h6">{membership.title}</Typography>
-                    <Typography variant="body2" style={{ color: '#bbbbbb', marginTop: 16 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{membership.title}</Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
                       {membership.description}
                     </Typography>
                   </CardContent>
@@ -248,19 +310,19 @@
 
       return (
         <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" style={{ color: '#ffffff' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
             "Explore What We Offer"
           </Typography>
           <Grid container spacing={4}>
             {features.map((feature) => (
               <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff', height: '100%' }}>
+                <Card>
                   <CardContent>
                     <Box display="flex" alignItems="center" gap={2}>
-                      <Icon style={{ color: '#00e676', fontSize: 40 }}>{feature.iconName}</Icon>
-                      <Typography variant="h6">{feature.title}</Typography>
+                      <Icon color="primary" sx={{ fontSize: 40 }}>{feature.iconName}</Icon>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature.title}</Typography>
                     </Box>
-                    <Typography variant="body2" style={{ color: '#bbbbbb', marginTop: 16 }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
                       {feature.description}
                     </Typography>
                   </CardContent>
@@ -275,25 +337,25 @@
     function CommunityImpact() {
       const metrics = [
         { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-        { value: '200', label: 'Local Groups', description: 'From urban gardens to music collectives, find your tribe.' },
-        { value: '3,500', label: 'Resources Shared', description: 'Bikes, tools, books — because sharing is the oldest economy.' },
+        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
+        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
         { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
       ];
 
       return (
         <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" style={{ color: '#ffffff' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
             "Our Community in Bloom"
           </Typography>
           <Grid container spacing={4}>
             {metrics.map((metric) => (
               <Grid item xs={12} sm={6} md={3} key={metric.label}>
                 <Box textAlign="center">
-                  <Typography variant="h3" style={{ color: '#00e676' }}>
+                  <Typography variant="h3" color="primary">
                     {metric.value}
                   </Typography>
-                  <Typography variant="h6">{metric.label}</Typography>
-                  <Typography variant="body2" style={{ color: '#bbbbbb' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{metric.label}</Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {metric.description}
                   </Typography>
                 </Box>
@@ -304,66 +366,42 @@
       );
     }
 
-    function CallToAction() {
-      return (
-        <Box mt={8} mb={8} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom style={{ color: '#ffffff' }}>
-            Help Us Grow
-          </Typography>
-          <Typography variant="h6" style={{ color: '#bbbbbb' }}>
-            “Every dollar sown grows a forest of connection.”
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" style={{ margin: 8 }}>
-            Donate Now — Direct support, direct impact.
-          </Button>
-          <Button variant="outlined" color="primary" size="large" style={{ margin: 8 }}>
-            Tell Us What Matters to You
-          </Button>
-          <Button variant="outlined" color="primary" size="large" style={{ margin: 8 }}>
-            Learn How to Become a Seed Investor
-          </Button>
-        </Box>
-      );
-    }
-
-    function Testimonials() {
-      const testimonials = [
-        {
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
+    // Integration of the LogoCollection component
+    function LogoCollection() {
+      const whiteLogos = [
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/6560628e8573c43893fe0ace_Sydney-white.svg',
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/655f4d520d0517ae8e8ddf13_Bern-white.svg',
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/655f46794c159024c1af6d44_Montreal-white.svg',
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e891fa22f89efd7477a_TerraLight.svg',
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/6560a09d1f6337b1dfed14ab_colorado-white.svg',
+        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/655f5caa77bf7d69fb78792e_Ankara-white.svg',
       ];
 
+      const logoStyle = {
+        width: '100px',
+        height: '80px',
+        margin: '0 32px',
+        opacity: 0.7,
+      };
+
       return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" style={{ color: '#ffffff' }}>
-            What Our Community Says
+        <Box id="logoCollection" sx={{ py: 4 }}>
+          <Typography
+            component="p"
+            variant="subtitle2"
+            align="center"
+            sx={{ color: 'text.secondary' }}
+          >
+            Trusted by the best companies
           </Typography>
-          <Grid container spacing={4}>
-            {testimonials.map((testimonial) => (
-              <Grid item xs={12} md={6} key={testimonial.role}>
-                <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
-                  <CardContent>
-                    <Typography variant="body1" gutterBottom>
-                      {testimonial.quote}
-                    </Typography>
-                    <Typography variant="subtitle1" align="right">
-                      - {testimonial.role}
-                    </Typography>
-                  </CardContent>
-                </Card>
+          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.6 }}>
+            {whiteLogos.map((logo, index) => (
+              <Grid item key={index}>
+                <img
+                  src={logo}
+                  alt={`Company logo ${index + 1}`}
+                  style={logoStyle}
+                />
               </Grid>
             ))}
           </Grid>
@@ -371,9 +409,194 @@
       );
     }
 
+    // Integration of the Pricing component
+    function Pricing() {
+      const tiers = [
+        {
+          title: 'Free',
+          price: '0',
+          description: [
+            'Access to basic features',
+            'Community support',
+            'Limited resources',
+          ],
+          buttonText: 'Sign up for free',
+          buttonVariant: 'outlined',
+          buttonColor: 'primary',
+        },
+        {
+          title: 'Professional',
+          subheader: 'Recommended',
+          price: '15',
+          description: [
+            'Access to all features',
+            'Priority support',
+            'Unlimited resources',
+            'Exclusive events',
+          ],
+          buttonText: 'Get Started',
+          buttonVariant: 'contained',
+          buttonColor: 'secondary',
+        },
+        {
+          title: 'Enterprise',
+          price: '30',
+          description: [
+            'Dedicated account manager',
+            'Custom solutions',
+            '24/7 support',
+          ],
+          buttonText: 'Contact Us',
+          buttonVariant: 'outlined',
+          buttonColor: 'primary',
+        },
+      ];
+
+      return (
+        <Container id="pricing" sx={{ py: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            Pricing
+          </Typography>
+          <Typography variant="body1" align="center" sx={{ color: 'text.secondary', mb: 4 }}>
+            Choose a plan that fits your needs.
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            {tiers.map((tier) => (
+              <Grid item xs={12} sm={6} md={4} key={tier.title}>
+                <Card
+                  sx={[
+                    {
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 2,
+                    },
+                    tier.title === 'Professional' && {
+                      border: '2px solid',
+                      borderColor: 'primary.main',
+                    },
+                  ]}
+                >
+                  <CardContent>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {tier.title}
+                    </Typography>
+                    {tier.subheader && (
+                      <Typography variant="subtitle1" color="primary">
+                        {tier.subheader}
+                      </Typography>
+                    )}
+                    <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 2 }}>
+                      <Typography variant="h3">${tier.price}</Typography>
+                      <Typography variant="h6">&nbsp;/ mo</Typography>
+                    </Box>
+                    <Divider sx={{ my: 2 }} />
+                    <ul>
+                      {tier.description.map((line, index) => (
+                        <Typography component="li" variant="subtitle1" key={index} sx={{ mb: 1 }}>
+                          {line}
+                        </Typography>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      fullWidth
+                      variant={tier.buttonVariant}
+                      color={tier.buttonColor}
+                    >
+                      {tier.buttonText}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
+
+    // Integration of the Testimonials component
+    function TestimonialsSection() {
+      const testimonials = [
+        {
+          avatar: <Avatar alt="Member 1" src="https://via.placeholder.com/150" />,
+          name: 'Remy Sharp',
+          role: 'Local Member',
+          quote: '“I found my neighbors, my friends, my sense of belonging.”',
+        },
+        {
+          avatar: <Avatar alt="Member 2" src="https://via.placeholder.com/150" />,
+          name: 'Travis Howard',
+          role: 'Event Host',
+          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+        },
+        {
+          avatar: <Avatar alt="Member 3" src="https://via.placeholder.com/150" />,
+          name: 'Cindy Baker',
+          role: 'Seller',
+          quote: '“This platform brought customers who appreciate the local touch.”',
+        },
+      ];
+
+      return (
+        <Container id="testimonials" sx={{ py: 8 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+            What Our Community Says
+          </Typography>
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+                      {testimonial.quote}
+                    </Typography>
+                    <Box display="flex" alignItems="center">
+                      {testimonial.avatar}
+                      <Box ml={2}>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {testimonial.name}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {testimonial.role}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
+
+    function CallToAction() {
+      return (
+        <Box mt={8} mb={8} textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Help Us Grow
+          </Typography>
+          <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+            “Every dollar sown grows a forest of connection.”
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }}>
+            Donate Now — Direct support, direct impact.
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+            Tell Us What Matters to You
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
+            Learn How to Become a Seed Investor
+          </Button>
+        </Box>
+      );
+    }
+
     function Footer() {
       return (
-        <Box py={4} style={{ backgroundColor: '#1f1f1f', color: '#ffffff' }}>
+        <Box py={4} sx={{ backgroundColor: '#1f1f1f' }}>
           <Container maxWidth="lg">
             <Grid container spacing={4}>
               <Grid item xs={12} md={4}>
@@ -413,14 +636,14 @@
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body2" style={{ color: '#bbbbbb' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   Join the conversation.
                 </Typography>
                 {/* Social media icons can be added here */}
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body2" style={{ color: '#bbbbbb' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   “Get the Latest Stories and Updates — Sign Up Here.”
                 </Typography>
                 <TextField
@@ -448,18 +671,23 @@
 
     function LandingPage() {
       return (
-        <div>
-          <NavigationBar />
-          <Container maxWidth="lg">
-            <HeroSection />
-            <MembershipTypes />
-            <FeaturesPreview />
-            <CommunityImpact />
-            <CallToAction />
-            <Testimonials />
-          </Container>
-          <Footer />
-        </div>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div style={backgroundStyle}>
+            <NavigationBar />
+            <Container maxWidth="lg">
+              <HeroSection />
+              <LogoCollection />
+              <MembershipTypes />
+              <FeaturesPreview />
+              <CommunityImpact />
+              <Pricing />
+              <CallToAction />
+              <TestimonialsSection />
+            </Container>
+            <Footer />
+          </div>
+        </ThemeProvider>
       );
     }
 
