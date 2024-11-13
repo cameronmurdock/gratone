@@ -299,304 +299,307 @@
             </Toolbar>
           </AppBar>
           <Box sx={{ mt: { xs: 8, md: 10 } }}>
-            {value === 'home' && <HomePage />}
+            {value === 'home' && <HomePage setValue={setValue} />}
             {value === 'manifesto' && <ManifestoPage />}
             {value === 'team' && <TeamPage />}
             {value === 'whitepaper' && <WhitepaperPage />}
-            {value === 'investors' && <InvestorsPage />}
+            {value === 'investors' && <InvestorsPage setValue={setValue} />}
             {value === 'features-overview' && <FeaturesOverviewPage />}
-            {value === 'local-members' && <LocalMembersPage />}
-            {value === 'event-hosts' && <EventHostsPage />}
-            {value === 'sellers' && <SellersPage />}
-            {value === 'organizations' && <OrganizationsPage />}
+            {value === 'local-members' && <LocalMembersPage setValue={setValue} />}
+            {value === 'event-hosts' && <EventHostsPage setValue={setValue} />}
+            {value === 'sellers' && <SellersPage setValue={setValue} />}
+            {value === 'organizations' && <OrganizationsPage setValue={setValue} />}
             {value === 'impact-stories' && <ImpactStoriesPage />}
             {value === 'blog' && <BlogPage />}
             {value === 'download-app' && <DownloadAppPage />}
           </Box>
-          <Footer />
+          <Footer setValue={setValue} />
         </ThemeProvider>
       );
     }
 
-    // Implement the page components with actual content
-
-    function HomePage() {
-      // ... (same as before)
+    // Updated HomePage Component with full-screen sections
+    function HomePage({ setValue }) {
       return (
         <>
-          <HeroSection />
-          <MembershipTypesOverview />
+          <HeroSection setValue={setValue} />
+          <MembershipTypesOverview setValue={setValue} />
           <FeaturesPreviewSection />
           <CommunityImpactSection />
-          <CallToActionSection />
+          <CallToActionSection setValue={setValue} />
           <TestimonialsSection />
         </>
       );
     }
 
-    function ManifestoPage() {
+    function HeroSection({ setValue }) {
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Manifesto
-          </Typography>
-          <Typography variant="body1">
-            Our pledge, our promise: A declaration of what we’re building together. Dive deep into our purpose.
-          </Typography>
-          {/* Additional content can be added here */}
-        </Container>
+        <Box
+          sx={{
+            minHeight: '100vh',
+            backgroundImage: 'url("https://i.imgur.com/A1Nddct.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            position: 'relative',
+            color: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            }}
+          ></Box>
+          <Container
+            sx={{
+              position: 'relative',
+              zIndex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
+              Empower Your Community, Enrich Your Life.
+            </Typography>
+            <Typography variant="h5" sx={{ mt: 2, maxWidth: '600px' }}>
+              Together, we build the future — one connection, one offering, one moment at a time.
+            </Typography>
+            <Box sx={{ mt: 4 }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                sx={{ mr: 2 }}
+                onClick={() => setValue('download-app')}
+              >
+                Download the App
+              </Button>
+            </Box>
+          </Container>
+        </Box>
       );
     }
 
-    function TeamPage() {
+    function MembershipTypesOverview({ setValue }) {
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Meet the Team
-          </Typography>
-          <Grid container spacing={4}>
-            {/* Replace with actual team members */}
-            {[1, 2, 3, 4].map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={`https://i.pravatar.cc/300?img=${index + 5}`}
-                    alt="Team Member"
-                  />
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      Team Member {index + 1}
+        <Box sx={{ minHeight: '100vh', py: 8, display: 'flex', alignItems: 'center' }}>
+          <Container maxWidth="lg">
+            <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
+              How Will You Show Up?
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                {
+                  title: 'Local Members',
+                  description:
+                    'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people. Here, you’re not just a face in the crowd — you’re the spark.',
+                  cta: 'Join as a Local Member',
+                  image: 'https://i.imgur.com/f3wmUcX.png',
+                  link: () => setValue('local-members'),
+                },
+                {
+                  title: 'Event Hosts',
+                  description:
+                    'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold. From cozy gatherings to city-wide celebrations, you hold the key.',
+                  cta: 'Start Hosting Events',
+                  image: 'https://i.imgur.com/8gfoxFj.png',
+                  link: () => setValue('event-hosts'),
+                },
+                {
+                  title: 'Sellers',
+                  description:
+                    'Your storefront in the village square. Whether it’s handmade goods or fresh produce, share what you create with the people who’ll love it most.',
+                  cta: 'Open Your ONE Local Shop',
+                  image: 'https://i.imgur.com/JOk1K5l.png',
+                  link: () => setValue('sellers'),
+                },
+                {
+                  title: 'Organizations',
+                  description:
+                    'Your mission, our platform. Unite your team, manage your projects, rally your community. All in one place, all for the common good.',
+                  cta: 'Register Your Organization',
+                  image: 'https://i.imgur.com/BKPWNKX.png',
+                  link: () => setValue('organizations'),
+                },
+              ].map((item, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                    <CardMedia component="img" height="140" image={item.image} alt={item.title} />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography variant="body2" sx={{ mb: 2 }}>
+                        {item.description}
+                      </Typography>
+                    </CardContent>
+                    <Box sx={{ p: 2 }}>
+                      <Button variant="contained" color="primary" fullWidth onClick={item.link}>
+                        {item.cta}
+                      </Button>
+                    </Box>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
+      );
+    }
+
+    function FeaturesPreviewSection() {
+      return (
+        <Box sx={{ minHeight: '100vh', py: 8, backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center' }}>
+          <Container maxWidth="md">
+            <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
+              Explore What We Offer
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                { title: 'Connect', description: 'A message away from neighbors you haven’t met yet.', icon: 'connect_without_contact' },
+                { title: 'Share', description: 'Tools, time, talents — give what you can, receive what you need.', icon: 'share' },
+                { title: 'Skill Development', description: 'Workshops, mentorships, hands-on learning — grow your gifts.', icon: 'school' },
+                { title: 'Governance', description: 'Democracy in action. Voice your vision, shape your surroundings.', icon: 'gavel' },
+              ].map((feature, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon sx={{ fontSize: 50, color: theme.palette.primary.main, mr: 2 }}>{feature.icon}</Icon>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        {feature.title}
+                      </Typography>
+                      <Typography variant="body2">{feature.description}</Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
+      );
+    }
+
+    function CommunityImpactSection() {
+      return (
+        <Box sx={{ minHeight: '100vh', py: 8, display: 'flex', alignItems: 'center' }}>
+          <Container maxWidth="md">
+            <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
+              Our Community in Bloom
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
+                { value: '200', label: 'Local Groups', description: 'Find your tribe in various collectives.' },
+                { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
+                { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and connect.' },
+              ].map((metric, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h3" sx={{ color: theme.palette.primary.main, fontWeight: 'bold' }}>
+                      {metric.value}
                     </Typography>
-                    <Typography variant="body2">Position</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+                    <Typography variant="h6">{metric.label}</Typography>
+                    <Typography variant="body2">{metric.description}</Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
       );
     }
 
-    function WhitepaperPage() {
+    function CallToActionSection({ setValue }) {
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Whitepaper
-          </Typography>
-          <Typography variant="body1">
-            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
-          </Typography>
-          <Box sx={{ mt: 4 }}>
-            <Button variant="contained" color="primary" href="#" target="_blank">
-              Download Whitepaper
+        <Box sx={{ minHeight: '100vh', py: 8, backgroundColor: theme.palette.primary.main, color: '#fff', display: 'flex', alignItems: 'center' }}>
+          <Container maxWidth="md" sx={{ textAlign: 'center' }}>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+              Help Us Grow
+            </Typography>
+            <Typography variant="h6" sx={{ mb: 4 }}>
+              “Every dollar sown grows a forest of connection.”
+            </Typography>
+            <Button variant="contained" color="secondary" sx={{ mr: 2 }} onClick={() => window.alert('Donate Now')}>
+              Donate Now
             </Button>
-          </Box>
-        </Container>
-      );
-    }
-
-    function InvestorsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Invest in a New Kind of Social Infrastructure
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Equity options, growth potential, and the chance to support a platform rooted in local, regenerative economics.
-          </Typography>
-          <Button variant="contained" color="secondary" onClick={() => window.alert('Invest Now')}>
-            Join the Movement — Invest Today
-          </Button>
-        </Container>
-      );
-    }
-
-    function FeaturesOverviewPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Discover What’s Possible with ONE Local
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
-          </Typography>
-          {/* Features can be displayed here */}
-          <FeaturesPreviewSection />
-        </Container>
-      );
-    }
-
-    function LocalMembersPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Local Members
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Access local events, meetups, and happenings.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Share tools, skills, and knowledge.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Connect through messaging and forums.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Skill-building workshops and mentorship programs.
-          </Typography>
-          <Box sx={{ mt: 4 }}>
-            <Button variant="contained" color="primary" onClick={() => setValue('download-app')}>
-              Join as a Local Member
+            <Button variant="outlined" color="inherit" sx={{ mr: 2 }} onClick={() => window.alert('Take Survey')}>
+              Tell Us What Matters to You
             </Button>
-          </Box>
-        </Container>
-      );
-    }
-
-    function EventHostsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Event Hosts
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Easy event creation and promotion tools.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Engagement tracking — see who’s coming, who’s buzzing.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Integrated ticketing and payments.
-          </Typography>
-          <Box sx={{ mt: 4 }}>
-            <Button variant="contained" color="primary" onClick={() => setValue('download-app')}>
-              Start Hosting Events
+            <Button variant="outlined" color="inherit" onClick={() => setValue('investors')}>
+              Learn How to Become a Seed Investor
             </Button>
-          </Box>
-        </Container>
+          </Container>
+        </Box>
       );
     }
 
-    function SellersPage() {
+    function TestimonialsSection() {
       return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Sellers
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Set up a storefront in minutes.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Secure payments, local connections.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Promote your offerings and reach customers who care.
-          </Typography>
-          <Box sx={{ mt: 4 }}>
-            <Button variant="contained" color="primary" onClick={() => setValue('download-app')}>
-              Open Your Shop
-            </Button>
-          </Box>
-        </Container>
+        <Box sx={{ minHeight: '100vh', py: 8, display: 'flex', alignItems: 'center' }}>
+          <Container maxWidth="md">
+            <Typography variant="h4" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
+              What Our Members Say
+            </Typography>
+            <Grid container spacing={4}>
+              {[
+                {
+                  name: 'Local Member',
+                  quote: '“I found my neighbors, my friends, my sense of belonging.”',
+                  avatar: 'https://i.pravatar.cc/100?img=1',
+                },
+                {
+                  name: 'Event Host',
+                  quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+                  avatar: 'https://i.pravatar.cc/100?img=2',
+                },
+                {
+                  name: 'Seller',
+                  quote: '“This platform brought customers who appreciate the local touch.”',
+                  avatar: 'https://i.pravatar.cc/100?img=3',
+                },
+                {
+                  name: 'Organization Leader',
+                  quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+                  avatar: 'https://i.pravatar.cc/100?img=4',
+                },
+              ].map((testimonial, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  <Card>
+                    <CardContent>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Avatar src={testimonial.avatar} sx={{ mr: 2 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                          {testimonial.name}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" sx={{ fontStyle: 'italic' }}>
+                        {testimonial.quote}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
       );
     }
 
-    function OrganizationsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Organizations
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Create a profile for your group or nonprofit.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Manage tasks, events, and member engagement.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Share updates and rally support.
-          </Typography>
-          <Box sx={{ mt: 4 }}>
-            <Button variant="contained" color="primary" onClick={() => setValue('download-app')}>
-              Register Your Organization
-            </Button>
-          </Box>
-        </Container>
-      );
-    }
+    // Other page components remain the same as in the previous code
 
-    function ImpactStoriesPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Impact Stories
-          </Typography>
-          {/* You can display stories here using Accordions or Cards */}
-          {[1, 2, 3].map((story, index) => (
-            <Accordion key={index}>
-              <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Impact Story {index + 1}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1">
-                  This is a story of connection, transformation, and the power of showing up.
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Container>
-      );
-    }
+    // Ensure to pass setValue to components that require it
 
-    function BlogPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Blog
-          </Typography>
-          {/* Blog posts can be displayed here */}
-          {[1, 2, 3].map((post, index) => (
-            <Card key={index} sx={{ mb: 4 }}>
-              <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  Blog Post Title {index + 1}
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 2 }}>
-                  Excerpt of the blog post...
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Container>
-      );
-    }
-
-    function DownloadAppPage() {
-      return (
-        <Container sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Download the App
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Step in, the door is open.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
-            Get the App Now
-          </Button>
-        </Container>
-      );
-    }
-
-    // Include other components as necessary
-
-    function Footer() {
+    // Adjust Footer to accept setValue prop
+    function Footer({ setValue }) {
       return (
         <Box sx={{ backgroundColor: '#212121', color: '#FFFFFF', py: 4 }}>
           <Container maxWidth="lg">
