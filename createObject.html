@@ -85,6 +85,7 @@
       Card,
       CardContent,
       CardActions,
+      CardMedia,
     } = MaterialUI;
 
     // Define the object types and their properties
@@ -510,6 +511,84 @@
       ],
     };
 
+    // ObjectDetailCard Component to display detailed information
+    function ObjectDetailCard({ object, type }) {
+      // Helper function to render key-value pairs
+      const renderProperties = () => {
+        return Object.entries(object).map(([key, value]) => {
+          // Skip @context as it's not displayed in the card
+          if (key === '@context') return null;
+
+          // Handle nested objects
+          if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+            return (
+              <Box key={key} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {formatLabel(key)}:
+                </Typography>
+                {Object.entries(value).map(([subKey, subValue]) => (
+                  <Typography variant="body2" key={subKey}>
+                    <strong>{formatLabel(subKey)}:</strong> {subValue}
+                  </Typography>
+                ))}
+              </Box>
+            );
+          }
+
+          // Handle arrays
+          if (Array.isArray(value)) {
+            return (
+              <Box key={key} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {formatLabel(key)}:
+                </Typography>
+                {value.map((item, idx) => (
+                  <Chip label={item} key={idx} sx={{ mr: 1, mb: 1 }} />
+                ))}
+              </Box>
+            );
+          }
+
+          // Handle other types
+          return (
+            <Box key={key} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {formatLabel(key)}:
+              </Typography>
+              <Typography variant="body2">{value}</Typography>
+            </Box>
+          );
+        });
+      };
+
+      // Helper function to format labels (e.g., 'addressLocality' to 'Address Locality')
+      const formatLabel = (label) => {
+        return label
+          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+          .replace(/^@/, '') // Remove @ from keys like '@id'
+          .trim();
+      };
+
+      return (
+        <Card>
+          {object.image && (
+            <CardMedia
+              component="img"
+              height="200"
+              image={object.image}
+              alt={object.name}
+            />
+          )}
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              {object.name}
+            </Typography>
+            {renderProperties()}
+          </CardContent>
+        </Card>
+      );
+    }
+
     // Main App Component
     function App() {
       const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
@@ -547,6 +626,13 @@
       // Handle Form Submission
       const handleSubmit = () => {
         if (currentSchema) {
+          // Validate required fields
+          const missingFields = currentSchema.properties.filter(prop => prop.required && !formData[prop.name]);
+          if (missingFields.length > 0) {
+            alert(`Please fill out the required fields: ${missingFields.map(f => f.label).join(', ')}`);
+            return;
+          }
+
           setCreatedObjects(prev => ({
             ...prev,
             [selectedType]: [...prev[selectedType], formData],
@@ -608,7 +694,7 @@
               dummyData={dummyData}
               setDummyData={setDummyData}
             />
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ mt: 2 }}>
               Create {selectedType}
             </Button>
             <Typography variant="h6" sx={{ mt: 4 }}>
@@ -623,6 +709,14 @@
             <Box className="card-grid">
               {createdObjects[selectedType].map((obj, idx) => (
                 <Card key={idx} className="card-item">
+                  {obj.image && (
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={obj.image}
+                      alt={obj.name}
+                    />
+                  )}
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       {obj.name}
@@ -643,9 +737,7 @@
             <Dialog open={modalOpen} onClose={handleModalClose} maxWidth="md" fullWidth>
               <DialogTitle>{selectedObject.name} Details</DialogTitle>
               <DialogContent dividers>
-                <DialogContentText>
-                  <pre>{JSON.stringify(selectedObject, null, 2)}</pre>
-                </DialogContentText>
+                <ObjectDetailCard object={selectedObject} type={selectedObject.type} />
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleModalClose}>Close</Button>
@@ -794,6 +886,85 @@
       );
     }
 
+    // ObjectDetailCard Component to display detailed information
+    function ObjectDetailCard({ object, type }) {
+      // Helper function to render key-value pairs
+      const renderProperties = () => {
+        return Object.entries(object).map(([key, value]) => {
+          // Skip @context as it's not displayed in the card
+          if (key === '@context') return null;
+
+          // Handle nested objects
+          if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+            return (
+              <Box key={key} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {formatLabel(key)}:
+                </Typography>
+                {Object.entries(value).map(([subKey, subValue]) => (
+                  <Typography variant="body2" key={subKey}>
+                    <strong>{formatLabel(subKey)}:</strong> {subValue}
+                  </Typography>
+                ))}
+              </Box>
+            );
+          }
+
+          // Handle arrays
+          if (Array.isArray(value)) {
+            return (
+              <Box key={key} sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {formatLabel(key)}:
+                </Typography>
+                {value.map((item, idx) => (
+                  <Chip label={item} key={idx} sx={{ mr: 1, mb: 1 }} />
+                ))}
+              </Box>
+            );
+          }
+
+          // Handle other types
+          return (
+            <Box key={key} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {formatLabel(key)}:
+              </Typography>
+              <Typography variant="body2">{value}</Typography>
+            </Box>
+          );
+        });
+      };
+
+      // Helper function to format labels (e.g., 'addressLocality' to 'Address Locality')
+      const formatLabel = (label) => {
+        return label
+          .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+          .replace(/^@/, '') // Remove @ from keys like '@id'
+          .trim();
+      };
+
+      return (
+        <Card>
+          {object.image && (
+            <CardMedia
+              component="img"
+              height="200"
+              image={object.image}
+              alt={object.name}
+            />
+          )}
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              {object.name}
+            </Typography>
+            {renderProperties()}
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // Render the App
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
