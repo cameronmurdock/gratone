@@ -56,6 +56,8 @@
             scroll-behavior: smooth;
             font-family: 'Montserrat', sans-serif;
         }
+
+        /* Additional global styles can be added here */
     </style>
     
     <!-- Structured Data (JSON-LD) -->
@@ -334,14 +336,14 @@
 <body>
     <div id="root"></div>
 
-    <!-- React, ReactDOM, Babel -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+    <!-- React, ReactDOM, Babel via jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
 
-    <!-- Material-UI Core and Icons -->
-    <script src="https://unpkg.com/@mui/material@5.14.3/umd/material-ui.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@mui/icons-material@5.14.3/umd/material-ui-icons.development.js" crossorigin></script>
+    <!-- Material-UI Core and Icons via jsDelivr -->
+    <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.14.3/umd/material-ui.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mui/icons-material@5.14.3/umd/material-ui-icons.development.js" crossorigin></script>
 
     <!-- React Application Script -->
     <script type="text/babel">
@@ -358,19 +360,10 @@
             CardContent,
             CardActions,
             Avatar,
-            Modal,
-            Fade,
-            Backdrop,
-            Link,
             List,
             ListItem,
             ListItemText,
             Divider,
-            Accordion,
-            AccordionSummary,
-            AccordionDetails,
-            TextField,
-            Icon,
             Stack
         } = MaterialUI;
 
