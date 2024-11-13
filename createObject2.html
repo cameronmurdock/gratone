@@ -2,23 +2,160 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local Object Builder</title>
+  <title>ONE Local - Empower Your Community</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Material-UI CSS -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <!-- Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5;
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
     }
-    #root {
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Animated Gradient Background */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
+      background-size: 400% 400%;
+      animation: gradientAnimation 60s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      font-family: 'Montserrat', sans-serif;
+    }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
       padding: 20px;
     }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+    /* Enhanced Form Styling */
+    .form-section {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+    /* JSON Output Styling */
     .json-output {
       width: 100%;
       height: 300px;
@@ -30,11 +167,7 @@
       border-radius: 8px;
       overflow: auto;
     }
-    .nested-form {
-      border-left: 2px solid #ccc;
-      padding-left: 15px;
-      margin-bottom: 20px;
-    }
+    /* Responsive Grid */
     .card-grid {
       display: flex;
       flex-wrap: wrap;
@@ -49,59 +182,75 @@
 <body>
   <div id="root"></div>
 
-  <!-- React and ReactDOM -->
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <!-- Babel for JSX Transformation -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
-      Button,
-      TextField,
-      Select,
-      MenuItem,
-      FormControl,
-      InputLabel,
-      Tabs,
-      Tab,
-      Box,
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
       Typography,
-      Autocomplete,
-      Grid,
-      Paper,
-      Checkbox,
-      FormControlLabel,
-      Chip,
+      Button,
       IconButton,
-      Dialog,
-      DialogTitle,
-      DialogContent,
-      DialogContentText,
-      DialogActions,
+      Container,
+      Box,
+      Grid,
       Card,
       CardContent,
       CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
       Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Autocomplete,
+      Checkbox,
+      FormControlLabel,
+      Chip,
     } = MaterialUI;
 
     // Define the object types and their properties
     const objectTypes = [
-      // ... [Your existing objectTypes array remains unchanged]
-      // Ensure you include the entire objectTypes array as provided in your initial code.
-      // For brevity, only a sample is included here. Replace this with your full array.
       {
         name: 'Person',
         properties: [
           { label: 'ID', name: '@id', type: 'text', required: true },
           { label: 'Type', name: '@type', type: 'text', default: 'schema:Person', disabled: true },
           { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Alternate Name', name: 'alternateName', type: 'text' },
+          { label: 'Identifier', name: 'identifier', type: 'text' },
           { label: 'Email', name: 'email', type: 'email' },
           { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Image URL', name: 'image', type: 'url' },
           { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: [
+            { label: 'Twitter', value: 'https://twitter.com/janedoe' },
+            { label: 'LinkedIn', value: 'https://linkedin.com/in/janedoe' }
+          ] },
+          { label: 'Birth Date', name: 'birthDate', type: 'date' },
+          { label: 'Gender', name: 'gender', type: 'select', options: ['Male', 'Female', 'Non-binary', 'Other'] },
           { label: 'Address', name: 'address', type: 'object', fields: [
               { label: 'Street Address', name: 'streetAddress', type: 'text' },
               { label: 'City', name: 'addressLocality', type: 'text' },
@@ -110,10 +259,78 @@
               { label: 'Country', name: 'addressCountry', type: 'text' },
             ]
           },
-          // Add other properties as needed
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Language', name: 'language', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Cultural Context', name: 'culturalContext', type: 'text' },
+          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' },
+            { label: 'ONE Local', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'CEO', value: 'CEO' },
+            { label: 'COO', value: 'COO' },
+            { label: 'CMO', value: 'CMO' }
+          ] },
+          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: [
+            { label: 'Strategic Planning', value: 'Strategic Planning' },
+            { label: 'Leadership', value: 'Leadership' },
+            { label: 'Gardening', value: 'Gardening' },
+            { label: 'Carpentry', value: 'Carpentry' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: '3D Printer', value: 'urn:uuid:resource103' },
+            { label: 'Lawn Mower', value: 'urn:uuid:resource104' }
+          ] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: [
+            { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+            { label: 'Tool Sharing', value: 'urn:uuid:offer105' }
+          ] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: [
+            { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+            { label: 'Event Volunteers', value: 'urn:uuid:demand106' }
+          ] },
+          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: [
+            { label: 'Community Leader', value: 'urn:uuid:badge106' },
+            { label: 'Volunteer', value: 'urn:uuid:badge107' }
+          ] },
+          { label: 'Has Reputation Score', name: 'hasReputationScore', type: 'number' },
+          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: [
+            { label: 'John Smith', value: 'urn:uuid:user456' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Privacy Setting', name: 'privacySetting', type: 'text' },
+          { label: 'User Preferences', name: 'userPreferences', type: 'textarea' },
+          { label: 'Blockchain Identity', name: 'blockchainIdentity', type: 'text' },
+          { label: 'Security Scheme', name: 'securityScheme', type: 'text' },
+          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: [
+            { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' }
+          ] },
+          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: [
+            { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' }
+          ] },
+          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: [
+            { label: 'Task Assignment', value: 'urn:uuid:notification110' }
+          ] },
+          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: [
+            { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' }
+          ] },
+          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: [
+            { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' }
+          ] },
+          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: [
+            { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' }
+          ] },
         ],
       },
-      // Add other object types (Organization, Group, Event, etc.)
+      // Add other object types (Organization, Group, Event, etc.) here as needed
     ];
 
     // Dummy Data for Dropdowns (initial options)
@@ -141,7 +358,63 @@
         { label: 'Gardening', value: 'Gardening' },
         { label: 'Carpentry', value: 'Carpentry' },
       ],
-      // Add other dummy data as needed
+      offers: [
+        { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+        { label: 'Tool Sharing', value: 'urn:uuid:offer105' },
+        { label: 'Selling Fresh Produce', value: 'urn:uuid:offer205' },
+      ],
+      demands: [
+        { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+        { label: 'Event Volunteers', value: 'urn:uuid:demand106' },
+        { label: 'Volunteer Gardeners', value: 'urn:uuid:demand206' },
+      ],
+      badges: [
+        { label: 'Community Leader', value: 'urn:uuid:badge106' },
+        { label: 'Volunteer', value: 'urn:uuid:badge107' },
+      ],
+      permissions: [
+        { label: 'Use Permission', value: 'Use Permission' },
+        { label: 'Read Permission', value: 'Read Permission' },
+      ],
+      proposals: [
+        { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' },
+      ],
+      votes: [
+        { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' },
+      ],
+      notifications: [
+        { label: 'Task Assignment', value: 'urn:uuid:notification110' },
+      ],
+      alerts: [
+        { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' },
+      ],
+      recommendations: [
+        { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' },
+      ],
+      sessions: [
+        { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' },
+      ],
+      subOrganizations: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:suborg001' },
+      ],
+      resources: [
+        { label: '3D Printer', value: 'urn:uuid:resource103' },
+        { label: 'Lawn Mower', value: 'urn:uuid:resource104' },
+        { label: 'Community Garden Plots', value: 'urn:uuid:resource204' },
+        { label: 'Shared Tools', value: 'urn:uuid:resource205' },
+        { label: 'Shared Gardening Tools', value: 'urn:uuid:resource310' },
+      ],
+      credentials: [
+        { label: 'Organic Farming Certification', value: 'urn:uuid:credential209' },
+      ],
+      events: [
+        { label: 'Farmers Market', value: 'urn:uuid:event207' },
+        { label: 'Gardening Workshop', value: 'urn:uuid:event310' },
+      ],
+      projects: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:project208' },
+        { label: 'Rainwater Harvesting System', value: 'urn:uuid:project310' },
+      ],
     };
 
     // Helper Functions
@@ -178,6 +451,117 @@
       return path.split('.').reduce((acc, part) => acc && acc[part], obj);
     }
 
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const themeOptions = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#5a4033',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
+
     // Main App Component
     function App() {
       const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
@@ -185,13 +569,7 @@
       const [jsonOutput, setJsonOutput] = React.useState('');
       const [createdObjects, setCreatedObjects] = React.useState({
         Person: [],
-        Organization: [],
-        Group: [],
-        Event: [],
-        Task: [],
-        Resource: [],
-        Offer: [],
-        Demand: [],
+        // Initialize other object types here
       });
       const [dummyData, setDummyData] = React.useState(initialDummyData);
       const [modalOpen, setModalOpen] = React.useState(false);
@@ -287,266 +665,296 @@
       };
 
       return (
-        <Box sx={{ width: '100%' }}>
-          <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
-            ONE Local Object Builder
-          </Typography>
-          <Tabs
-            value={selectedType}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            centered
-          >
-            {objectTypes.map((obj) => (
-              <Tab key={obj.name} label={obj.name} value={obj.name} />
-            ))}
-          </Tabs>
-          <Box sx={{ p: 3 }}>
-            <ObjectForm
-              schema={currentSchema}
-              formData={formData}
-              setFormData={setFormData}
-              dummyData={dummyData}
-              setDummyData={setDummyData}
-              formErrors={formErrors}
-            />
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Create {selectedType}
-            </Button>
-            <Typography variant="h6" sx={{ mt: 4 }}>
-              JSON Output:
-            </Typography>
-            <Paper variant="outlined" className="json-output">
-              <pre>{jsonOutput}</pre>
-            </Paper>
-            <Typography variant="h5" sx={{ mt: 6, mb: 2 }}>
-              Created {selectedType}s
-            </Typography>
-            <Box className="card-grid">
-              {createdObjects[selectedType].map((obj, idx) => (
-                <Card key={idx} className="card-item">
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      {obj.name}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {obj.description || 'No Description'}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" onClick={() => handleModalOpen(obj, selectedType)}>View Details</Button>
-                  </CardActions>
-                </Card>
-              ))}
-            </Box>
-          </Box>
-          {/* Detail Modal */}
-          {selectedObject && (
-            <Dialog open={modalOpen} onClose={handleModalClose} maxWidth="xs" fullWidth>
-              <Card sx={{ borderRadius: 2, overflow: 'hidden' }}>
-                {selectedObject.image && (
-                  <Box
-                    component="img"
-                    sx={{
-                      height: 200,
-                      width: '100%',
-                      objectFit: 'cover',
-                    }}
-                    alt={selectedObject.name}
-                    src={selectedObject.image}
-                  />
-                )}
-                <DialogTitle sx={{ textAlign: 'center' }}>{selectedObject.name}</DialogTitle>
-                <DialogContent dividers>
-                  <CardContent>
-                    <Grid container spacing={1}>
-                      {Object.entries(selectedObject).map(([key, value], index) => {
-                        if (key === '@type') return null; // Skip type or any other fields you don't want to display
-                        if (key === 'image') return null; // Already displayed as image
-                        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                          return (
-                            <React.Fragment key={index}>
-                              <Grid item xs={12}>
-                                <Typography variant="subtitle1" sx={{ mt: 2 }}>
-                                  {capitalizeFirstLetter(key)}
-                                </Typography>
-                                <Divider />
-                              </Grid>
-                              {Object.entries(value).map(([subKey, subValue], subIndex) => (
-                                <Grid item xs={12} sm={6} key={`${index}-${subIndex}`}>
-                                  <Typography variant="body2" color="textSecondary">
-                                    <strong>{formatLabel(subKey)}:</strong> {subValue || 'N/A'}
+        <ThemeProvider theme={themeOptions}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <Container maxWidth="lg" sx={{ pt: 12 }}>
+              <Typography variant="h4" align="center" gutterBottom>
+                ONE Local Object Builder
+              </Typography>
+              <Box sx={{ textAlign: 'center', mb: 6 }}>
+                <Typography variant="h5" sx={{ mb: 4 }}>
+                  Create and Manage Your Local Objects Seamlessly
+                </Typography>
+                <Button variant="contained" color="primary" onClick={() => setSelectedType('Person')}>
+                  Create a Person
+                </Button>
+                {/* Add more buttons for other object types as needed */}
+              </Box>
+              <Tabs
+                value={selectedType}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                centered
+                sx={{ mb: 6 }}
+              >
+                {objectTypes.map((obj) => (
+                  <Tab key={obj.name} label={obj.name} value={obj.name} />
+                ))}
+              </Tabs>
+              <Box className="form-section">
+                <Typography variant="h5" gutterBottom sx={{ mb: 4 }}>
+                  {selectedType} Form
+                </Typography>
+                <ObjectForm
+                  schema={currentSchema}
+                  formData={formData}
+                  setFormData={setFormData}
+                  dummyData={dummyData}
+                  setDummyData={setDummyData}
+                  formErrors={formErrors}
+                />
+                <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ mt: 2 }}>
+                  Create {selectedType}
+                </Button>
+                <Typography variant="h6" sx={{ mt: 4 }}>
+                  JSON Output:
+                </Typography>
+                <Paper variant="outlined" className="json-output">
+                  <pre>{jsonOutput}</pre>
+                </Paper>
+                <Typography variant="h5" sx={{ mt: 6, mb: 2 }}>
+                  Created {selectedType}s
+                </Typography>
+                <Box className="card-grid">
+                  {createdObjects[selectedType].map((obj, idx) => (
+                    <Card key={idx} className="card-item">
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          {obj.name}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {obj.description || 'No Description'}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" onClick={() => handleModalOpen(obj, selectedType)}>View Details</Button>
+                      </CardActions>
+                    </Card>
+                  ))}
+                </Box>
+              </Box>
+              {/* Detail Modal */}
+              {selectedObject && (
+                <Modal
+                  open={modalOpen}
+                  onClose={handleModalClose}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                    timeout: 500,
+                  }}
+                  aria-labelledby="detail-modal-title"
+                  aria-describedby="detail-modal-description"
+                >
+                  <Fade in={modalOpen}>
+                    <Box className="modalContent">
+                      {selectedObject.image && (
+                        <Box
+                          component="img"
+                          sx={{
+                            height: 200,
+                            width: '100%',
+                            objectFit: 'cover',
+                            borderRadius: '10px 10px 0 0',
+                          }}
+                          alt={selectedObject.name}
+                          src={selectedObject.image}
+                        />
+                      )}
+                      <Typography id="detail-modal-title" variant="h5" component="h2" sx={{ mt: 2 }}>
+                        {selectedObject.name}
+                      </Typography>
+                      <Typography id="detail-modal-description" sx={{ mb: 2 }}>
+                        {selectedObject.description || 'No Description Available'}
+                      </Typography>
+                      <Grid container spacing={2}>
+                        {Object.entries(selectedObject).map(([key, value], index) => {
+                          if (key === '@type') return null; // Skip type or any other fields you don't want to display
+                          if (key === 'image') return null; // Already displayed as image
+                          if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                            return (
+                              <React.Fragment key={index}>
+                                <Grid item xs={12}>
+                                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mt: 2 }}>
+                                    {capitalizeFirstLetter(key)}
                                   </Typography>
+                                  <Divider />
                                 </Grid>
-                              ))}
-                            </React.Fragment>
-                          );
-                        }
-                        if (Array.isArray(value)) {
+                                {Object.entries(value).map(([subKey, subValue], subIndex) => (
+                                  <Grid item xs={12} sm={6} key={`${index}-${subIndex}`}>
+                                    <Typography variant="body2" color="textSecondary">
+                                      <strong>{formatLabel(subKey)}:</strong> {subValue || 'N/A'}
+                                    </Typography>
+                                  </Grid>
+                                ))}
+                              </React.Fragment>
+                            );
+                          }
+                          if (Array.isArray(value)) {
+                            return (
+                              <Grid item xs={12} sm={6} key={index}>
+                                <Typography variant="body2" color="textSecondary">
+                                  <strong>{formatLabel(key)}:</strong> {value.length > 0 ? value.join(', ') : 'N/A'}
+                                </Typography>
+                              </Grid>
+                            );
+                          }
                           return (
                             <Grid item xs={12} sm={6} key={index}>
                               <Typography variant="body2" color="textSecondary">
-                                <strong>{formatLabel(key)}:</strong> {value.length > 0 ? value.join(', ') : 'N/A'}
+                                <strong>{formatLabel(key)}:</strong> {value || 'N/A'}
                               </Typography>
                             </Grid>
                           );
+                        })}
+                      </Grid>
+                      <Button variant="contained" color="primary" onClick={handleModalClose} sx={{ mt: 2 }}>
+                        Close
+                      </Button>
+                    </Box>
+                  </Fade>
+                </Modal>
+              )}
+            </Box>
+          </ThemeProvider>
+        }
+
+        // ObjectForm Component
+        function ObjectForm({ schema, formData, setFormData, dummyData, setDummyData, formErrors }) {
+          // Handle input changes
+          const handleChange = (name, value) => {
+            setFormData(prev => setNestedValue(prev, name, value));
+          };
+
+          // Recursive function to handle nested objects and arrays
+          const renderFields = (properties, parentName = '') => {
+            return properties.map((prop, index) => {
+              const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
+              const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
+              const error = formErrors[fullName];
+
+              switch (prop.type) {
+                case 'text':
+                case 'email':
+                case 'tel':
+                case 'url':
+                case 'number':
+                case 'date':
+                case 'datetime-local':
+                case 'password':
+                  return (
+                    <Box key={index} sx={{ mb: 3 }}>
+                      <TextField
+                        label={prop.label}
+                        type={prop.type === 'textarea' ? 'text' : prop.type}
+                        multiline={prop.type === 'textarea'}
+                        rows={prop.type === 'textarea' ? 4 : 1}
+                        fullWidth
+                        disabled={prop.disabled}
+                        required={prop.required}
+                        value={value}
+                        error={!!error}
+                        helperText={error}
+                        data-error={!!error}
+                        onChange={(e) => handleChange(fullName, e.target.value)}
+                      />
+                    </Box>
+                  );
+                case 'select':
+                  return (
+                    <Box key={index} sx={{ mb: 3 }}>
+                      <Autocomplete
+                        freeSolo
+                        options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
+                        value={value}
+                        onChange={(event, newValue) => {
+                          handleChange(fullName, newValue);
+                        }}
+                        onInputChange={(event, newInputValue) => {
+                          handleChange(fullName, newInputValue);
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label={prop.label}
+                            placeholder={`Select or create ${prop.label}`}
+                            required={prop.required}
+                          />
+                        )}
+                      />
+                    </Box>
+                  );
+                case 'multiselect':
+                  return (
+                    <Box key={index} sx={{ mb: 3 }}>
+                      <Autocomplete
+                        multiple
+                        freeSolo
+                        options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
+                        value={value}
+                        onChange={(event, newValue) => {
+                          // Add new options to dummyData
+                          const newEntries = newValue.filter(item => !dummyData[prop.name]?.some(option => option.value === item));
+                          if (newEntries.length > 0) {
+                            setDummyData(prev => ({
+                              ...prev,
+                              [prop.name]: [...(prev[prop.name] || []), ...newEntries.map(item => ({ label: item, value: item }))]
+                            }));
+                          }
+                          handleChange(fullName, newValue);
+                        }}
+                        renderTags={(tagValue, getTagProps) =>
+                          tagValue.map((option, index) => (
+                            <Chip label={option} {...getTagProps({ index })} key={index} />
+                          ))
                         }
-                        return (
-                          <Grid item xs={12} sm={6} key={index}>
-                            <Typography variant="body2" color="textSecondary">
-                              <strong>{formatLabel(key)}:</strong> {value || 'N/A'}
-                            </Typography>
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
-                  </CardContent>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleModalClose}>Close</Button>
-                </DialogActions>
-              </Card>
-            </Dialog>
-          )}
-        </Box>
-      );
-
-      // ObjectForm Component
-      function ObjectForm({ schema, formData, setFormData, dummyData, setDummyData, formErrors }) {
-        // Handle input changes
-        const handleChange = (name, value) => {
-          setFormData(prev => setNestedValue(prev, name, value));
-        };
-
-        // Recursive function to handle nested objects and arrays
-        const renderFields = (properties, parentName = '') => {
-          return properties.map((prop, index) => {
-            const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
-            const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
-            const error = formErrors[fullName];
-
-            switch (prop.type) {
-              case 'text':
-              case 'email':
-              case 'tel':
-              case 'url':
-              case 'number':
-              case 'date':
-              case 'datetime-local':
-              case 'password':
-                return (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <TextField
-                      label={prop.label}
-                      type={prop.type === 'textarea' ? 'text' : prop.type}
-                      multiline={prop.type === 'textarea'}
-                      rows={prop.type === 'textarea' ? 4 : 1}
-                      fullWidth
-                      disabled={prop.disabled}
-                      required={prop.required}
-                      value={value}
-                      error={!!error}
-                      helperText={error}
-                      data-error={!!error}
-                      onChange={(e) => handleChange(fullName, e.target.value)}
-                    />
-                  </Box>
-                );
-              case 'select':
-                return (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <Autocomplete
-                      freeSolo
-                      options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
-                      value={value}
-                      onChange={(event, newValue) => {
-                        handleChange(fullName, newValue);
-                      }}
-                      onInputChange={(event, newInputValue) => {
-                        handleChange(fullName, newInputValue);
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={prop.label}
-                          placeholder={`Select or create ${prop.label}`}
-                          required={prop.required}
-                        />
-                      )}
-                    />
-                  </Box>
-                );
-              case 'multiselect':
-                return (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <Autocomplete
-                      multiple
-                      freeSolo
-                      options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
-                      value={value}
-                      onChange={(event, newValue) => {
-                        // Add new options to dummyData
-                        const newEntries = newValue.filter(item => !dummyData[prop.name]?.some(option => option.value === item));
-                        if (newEntries.length > 0) {
-                          setDummyData(prev => ({
-                            ...prev,
-                            [prop.name]: [...(prev[prop.name] || []), ...newEntries.map(item => ({ label: item, value: item }))]
-                          }));
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label={prop.label}
+                            placeholder={`Select or create ${prop.label}`}
+                          />
+                        )}
+                      />
+                    </Box>
+                  );
+                case 'checkbox':
+                  return (
+                    <Box key={index} sx={{ mb: 3 }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={value}
+                            onChange={(e) => handleChange(fullName, e.target.checked)}
+                          />
                         }
-                        handleChange(fullName, newValue);
-                      }}
-                      renderTags={(tagValue, getTagProps) =>
-                        tagValue.map((option, index) => (
-                          <Chip label={option} {...getTagProps({ index })} key={index} />
-                        ))
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={prop.label}
-                          placeholder={`Select or create ${prop.label}`}
-                        />
-                      )}
-                    />
-                  </Box>
-                );
-              case 'checkbox':
-                return (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={value}
-                          onChange={(e) => handleChange(fullName, e.target.checked)}
-                        />
-                      }
-                      label={prop.label}
-                    />
-                  </Box>
-                );
-              case 'object':
-                return (
-                  <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
-                    <Typography variant="h6" gutterBottom>
-                      {prop.label}
-                    </Typography>
-                    {renderFields(prop.fields, fullName)}
-                  </Box>
-                );
-              default:
-                return null;
-            }
-          });
-        };
+                        label={prop.label}
+                      />
+                    </Box>
+                  );
+                case 'object':
+                  return (
+                    <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
+                      <Typography variant="h6" gutterBottom>
+                        {prop.label}
+                      </Typography>
+                      {renderFields(prop.fields, fullName)}
+                    </Box>
+                  );
+                default:
+                  return null;
+              }
+            });
+          };
 
-        return (
-          <Box>
-            {renderFields(schema.properties)}
-          </Box>
-        );
-      }
-    }
+          return (
+            <Box>
+              {renderFields(schema.properties)}
+            </Box>
+          );
+        }
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
