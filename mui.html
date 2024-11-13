@@ -1,784 +1,756 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ONE Local - Empower Your Community</title>
-  <!-- Responsive Meta Tag -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE|Local - Empower Your Community</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Define the gradient animation keyframes */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* General Reset and Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+            background: linear-gradient(45deg, #339999, #003333, #bcdecf, #339999);
+            background-size: 600% 2800%;
+            animation: gradientAnimation 20s ease infinite;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(0, 51, 51, 0.8);
+            z-index: 100;
+            position: fixed;
+            top: 0;
+        }
+
+        nav .logo {
+            color: #ffffff;
+            font-size: 1.8em;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        nav .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav .nav-links li {
+            margin-left: 20px;
+        }
+
+        nav .nav-links a {
+            color: #ffffff;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: background 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            background: #fff;
+            color: #003333;
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px; /* To account for fixed nav */
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 0 20px;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        /* Button Group */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #BF820A;
+            color: #003333;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover {
+            background: #fff;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 80px 50px;
+            max-width: 1800px; /* Limit the width of the content */
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+            min-height: 600px;
+        }
+
+        .section h2 {
+            font-size: 2.8em;
+            margin-bottom: 30px;
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .section p {
+            font-size: 1.5em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+
+        /* Alternating Section Backgrounds */
+        .section-dark {
+            background-color: rgba(0, 51, 51, 0.8);
+        }
+
+        .section-transparent {
+        }
+
+        /* Card Styling */
+        .card {
+            background: #ffffffbe;
+            padding: 20px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            color: #000;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 50px;
+            max-width: 350px;
+            border: 2px solid #BF820A; /* Add border to cards */
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 2em;
+            color: #BF820A;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+        }
+
+        .card p {
+            font-size: 1.4em;
+            color: #000;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .card .serving-hands {
+            font-size: 6em;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+        }
+
+        /* How It Works Grid */
+        .how-it-works-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Set 4 cards per row */
+            gap: 30px;
+            margin-top: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Responsive for smaller screens */
+        @media (max-width: 1024px) {
+            .how-it-works-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 cards per row on medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works-grid {
+                grid-template-columns: 1fr; /* 1 card per row on small screens */
+            }
+        }
+
+        /* Image Container for How It Works */
+        .image-container {
+            position: relative;
+        }
+
+        .image-container .caption {
+            opacity: 0;
+            transition: opacity 0.3s;
+            position: absolute;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .image-container:hover .caption {
+            opacity: 1;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Roadmap Grid */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Roadmap Item */
+        .roadmap-item {
+            /* Styles moved to .card */
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: rgba(0, 51, 51, 0.8);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .quote-section p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.3em;
+        }
+
+        /* Additional Sections */
+        .additional-section {
+            padding: 60px 30px;
+            text-align: center;
+            color: #fff;
+            min-height: 600px;
+        }
+
+        .additional-section h2 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .additional-section p {
+            font-size: 1em;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003333;
+            color: #ffffff;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        footer nav {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #BF820A;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .section, .additional-section {
+                padding: 40px 20px;
+            }
+
+            .features-grid, .metrics-grid, .roadmap-grid, .how-it-works-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card, .roadmap-item {
+                max-width: 100%;
+            }
+        }
+
+        /* Technology Section */
+        .technology-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+
+        .technology-text {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+
+        .technology-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .technology-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Adjust for smaller screen sizes */
+        @media (max-width: 768px) {
+            .technology-wrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            .technology-text, .technology-image {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
-<body style="margin: 0;">
-  <div id="root"></div>
+<body>
 
-  <!-- React, ReactDOM, Babel, and Material UI from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" crossorigin></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">ONE|Local</div>
+    <ul class="nav-links">
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#community">Community</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-  <script type="text/babel">
-    const {
-      ThemeProvider,
-      createTheme,
-      CssBaseline,
-      AppBar,
-      Toolbar,
-      Typography,
-      Button,
-      IconButton,
-      Container,
-      Box,
-      Grid,
-      Card,
-      CardContent,
-      CardActions,
-      Icon,
-      Menu,
-      MenuItem,
-      Link,
-      Divider,
-      Avatar,
-      List,
-      ListItem,
-      ListItemText,
-      Accordion,
-      AccordionSummary,
-      AccordionDetails,
-      TextField,
-    } = MaterialUI;
+<!-- Hero Section -->
+<header class="hero">
+    <div class="hero-content">
+        <h1>Empower Your Community, Enrich Your Life.</h1>
+        <p>Together, we build the future — one connection, one offering, one moment at a time.</p>
+        <div class="btn-group">
+            <a href="https://app.onelocal.one" class="btn">Download the App</a>
+        </div>
+    </div>
+</header>
 
-    // Custom OL Theme
-    const theme = createTheme({
-      palette: {
-        mode: 'dark',
-        primary: {
-          main: '#00e676',
-        },
-        secondary: {
-          main: '#ff3d00',
-        },
-        background: {
-          default: '#121212',
-          paper: '#1e1e1e',
-        },
-        text: {
-          primary: '#ffffff',
-          secondary: '#b0bec5',
-        },
-      },
-      typography: {
-        fontFamily: 'Roboto, sans-serif',
-        fontWeightBold: 700,
-      },
-      shape: {
-        borderRadius: 20,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-              '&:hover': {
-                boxShadow: '0 0 12px rgba(0, 230, 118, 0.6)',
-              },
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(0, 51, 51, 0.8)',
-              backdropFilter: 'blur(10px)',
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-            },
-          },
-        },
-      },
-    });
+<!-- Mission Section -->
+<section id="mission" class="section section-dark" style="display: flex; align-items: center;">
+    <div class="mission-text" style="flex: 1; padding-right: 20px;">
+        <h2>Our Pledge, Our Promise</h2>
+        <p>A declaration of what we’re building together. Dive deep into our purpose.</p>
+        <p>"The foundation of our mission has always been to connect people with the things humans really need. The true nourishing things..."</p>
+    </div>
+    <div class="mission-image" style="flex: 1;">
+        <img src="https://i.imgur.com/MlfFB8Y.png" alt="Mission image" style="width: 50%; height: auto;">
+    </div>
+</section>
 
-    // Background Gradient
-    const backgroundStyle = {
-      background: 'linear-gradient(315deg, #339999, #003333)',
-      minHeight: '100vh',
-      color: '#ffffff',
-    };
+<!-- App Introduction Section -->
+<section class="additional-section section-transparent" style="display: flex; align-items: center;">
+    <div class="technology-image" style="flex: 1; padding-right: 20px;">
+        <img src="https://i.imgur.com/A1Nddct.jpg" alt="Connecting through technology image" style="width: 100%; height: auto;">
+    </div>
+    <div class="technology-text" style="flex: 1;">
+        <h2>Connect Through Technology</h2>
+        <p>The ONE|Local app is for a beautifully thriving future.</p>
+        <p>Discover events, connect with others, share resources, and engage locally. Organize and promote events, showcase your offerings, and manage your group effectively.</p>
+    </div>
+</section>
 
-    function NavigationBar() {
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const [menuId, setMenuId] = React.useState(null);
+<!-- Features Section -->
+<section id="features" class="section section-dark">
+    <h2>Explore What We Offer</h2>
+    <p>The core threads that weave us together. Explore the fabric of our platform’s offerings.</p>
 
-      const handleMenuOpen = (event, id) => {
-        setAnchorEl(event.currentTarget);
-        setMenuId(id);
-      };
+    <!-- Feature Cards -->
+    <div class="features-grid">
+        <!-- Local Members -->
+        <div class="card">
+            <i class="fas fa-user-friends" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Local Members</h3>
+            <p>Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people. Here, you’re not just a face in the crowd — you’re the spark.</p>
+        </div>
+        
+        <!-- Event Hosts -->
+        <div class="card">
+            <i class="fas fa-calendar-plus" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Event Hosts</h3>
+            <p>Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold. From cozy gatherings to city-wide celebrations, you hold the key.</p>
+        </div>
+        <!-- Sellers -->
+        <div class="card">
+            <i class="fas fa-store" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Sellers</h3>
+            <p>Your storefront in the village square. Whether it’s handmade goods or fresh produce, share what you create with the people who’ll love it most.</p>
+        </div>
+        <!-- Organizations -->
+        <div class="card">
+            <i class="fas fa-building" style="font-size: 2.5em; color: #BF820A; margin-bottom: 15px; text-align: center;"></i>
+            <h3>Organizations</h3>
+            <p>Your mission, our platform. Unite your team, manage your projects, rally your community. All in one place, all for the common good.</p>
+        </div>
+    </div>
 
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-        setMenuId(null);
-      };
-
-      return (
-        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-              ONE Local
-            </Typography>
-            <div className="desktopMenu">
-              <Button color="inherit">Home</Button>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'about')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                About
-              </Button>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'features')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                Features
-              </Button>
-              <Button
-                color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'community')}
-                endIcon={<Icon>expand_more</Icon>}
-              >
-                Community
-              </Button>
-              <Button color="inherit">Download App</Button>
+    <!-- Additional Features with Benefits -->
+    <div class="additional-section section-transparent" style="padding-top: 60px;">
+        <h2>Features & Benefits</h2>
+        <div class="features-grid">
+            <!-- Events & Calendar -->
+            <div class="card">
+                <h3>Events Calendar</h3>
+                <p><strong>Discover:</strong> Explore local events and connect with others.</p>
+                <p><strong>Organize:</strong> Manage your schedule with personalized calendars.</p>
+                <p><strong>Create:</strong> List events, manage registrations, promote widely.</p>
             </div>
-            <div className="mobileMenu">
-              <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')}>
-                <Icon>menu</Icon>
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={menuId === 'mobileMenu'}
-                onClose={handleMenuClose}
-                PaperProps={{ style: { zIndex: 1400 } }}
-              >
-                <MenuItem onClick={handleMenuClose}>Home</MenuItem>
-                <MenuItem onClick={handleMenuClose}>About</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Features</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Community</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Download App</MenuItem>
-              </Menu>
+            <!-- Resource Sharing -->
+            <div class="card">
+                <h3>Resource Sharing</h3>
+                <p><strong>Share:</strong> Offer skills and resources to the community.</p>
+                <p><strong>Request:</strong> Find help and support from local members.</p>
+                <p><strong>Build:</strong> Foster a culture of mutual support.</p>
             </div>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
-              onClose={handleMenuClose}
-              PaperProps={{ style: { zIndex: 1400 } }}
-            >
-              {menuId === 'about' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Manifesto</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Team</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Whitepaper</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'features' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Overview</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Local Members</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Sellers</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'community' && (
-                <>
-                  <MenuItem onClick={handleMenuClose}>Impact Stories</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>Blog</MenuItem>
-                </>
-              )}
-            </Menu>
-          </Toolbar>
-        </AppBar>
-      );
-    }
+            <!-- Member Profiles -->
+            <div class="card">
+                <h3>Member Profiles</h3>
+                <p><strong>Connect:</strong> Discover neighbors with shared interests.</p>
+                <p><strong>Showcase:</strong> Highlight your talents and contributions.</p>
+                <p><strong>Find:</strong> Search for experts and collaborators.</p>
+            </div>
+            <!-- Interactive Map -->
+            <div class="card">
+                <h3>Interactive Map</h3>
+                <p><strong>Explore:</strong> Find local businesses and resources.</p>
+                <p><strong>Navigate:</strong> Locate points of interest easily.</p>
+                <p><strong>Visualize:</strong> See your community connections.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-    function HeroSection() {
-      return (
-        <Box sx={{ textAlign: 'center', mt: 12, py: 8 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Empower Your Community, Enrich Your Life.
-          </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
-            Together, we build the future — one connection, one offering, one moment at a time.
-          </Typography>
-          <Button variant="contained" color="primary" size="large">
-            Download the App
-          </Button>
-        </Box>
-      );
-    }
+<!-- How It Works Section with Marta's Journey -->
+<section id="how-it-works" class="section section-transparent">
+    <h2>How It Works</h2>
+    <h1>Marta's Journey</h1>
+    <div class="how-it-works-grid">
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/FCm8kyL.png" alt="Marta Awakens">
+                <div class="caption">Marta Awakens</div>
+            </div>
+            <h3>1. Awakening</h3>
+            <p>Marta opens ONE|Local and sees opportunities—requests, offers, events.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/yZ8b5PA.png" alt="Marta Feels the Need">
+                <div class="caption">Marta Feels the Need</div>
+            </div>
+            <h3>2. Connecting</h3>
+            <p>She wants to help in a community garden and offer a yoga class.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/wBfHZkd.jpg" alt="Marta Takes the Step">
+                <div class="caption">Marta Takes the Step</div>
+            </div>
+            <h3>3. Engaging</h3>
+            <p>Marta confirms participation and posts her event, stepping forward.</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/9vjkWii.png" alt="Marta Engages">
+                <div class="caption">Marta Engages</div>
+            </div>
+            <h3>4. Collaborating</h3>
+            <p>She collaborates at the garden, strengthening community bonds.</p>
+        </div>
+        <!-- Card 5 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/atmOhof.png" alt="Marta Sees Results">
+                <div class="caption">Marta Sees Results</div>
+            </div>
+            <h3>5. Achieving</h3>
+            <p>The garden blooms; Marta logs her contribution.</p>
+        </div>
+        <!-- Card 6 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/MUNq56b.png" alt="Marta Overcomes Doubt">
+                <div class="caption">Marta Overcomes Doubt</div>
+            </div>
+            <h3>6. Overcoming</h3>
+            <p>She moves forward despite uncertainties about her yoga class.</p>
+        </div>
+        <!-- Card 7 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/wMORcQb.png" alt="Marta Shares">
+                <div class="caption">Marta Shares</div>
+            </div>
+            <h3>7. Sharing</h3>
+            <p>The class is a success; she feels purposeful.</p>
+        </div>
+        <!-- Card 8 -->
+        <div class="card">
+            <div class="image-container">
+                <img src="https://i.imgur.com/ei4786o.png" alt="Marta Reflects">
+                <div class="caption">Marta Reflects</div>
+            </div>
+            <h3>8. Reflecting</h3>
+            <p>Marta feels transformed by community connections. Inspired, she continues to engage and inspire others.</p>
+        </div>
+    </div>
+</section>
 
-    function LogoCollection() {
-      const logos = [
-        'https://via.placeholder.com/100x80?text=Logo1',
-        'https://via.placeholder.com/100x80?text=Logo2',
-        'https://via.placeholder.com/100x80?text=Logo3',
-        'https://via.placeholder.com/100x80?text=Logo4',
-        'https://via.placeholder.com/100x80?text=Logo5',
-        'https://via.placeholder.com/100x80?text=Logo6',
-      ];
+<!-- Community Impact Section -->
+<section class="section section-dark">
+    <h2>Our Community in Bloom</h2>
+    <div class="metrics-grid">
+        <div class="card">
+            <h3 style="text-align: center;">15,000+</h3>
+            <p>Active Members — Real people, real connections.</p>
+        </div>
+        <div class="card">
+            <h3 style="text-align: center;">200+</h3>
+            <p>Local Groups — From urban gardens to music collectives, find your tribe.</p>
+        </div>
+        <div class="card">
+            <h3 style="text-align: center;">3,500+</h3>
+            <p>Resources Shared — Bikes, tools, books — because sharing is the oldest economy.</p>
+        </div>
+        <div class="card">
+            <h3 style="text-align: center;">1,200+</h3>
+            <p>Events Hosted — Celebrate, learn, and dance in the streets.</p>
+        </div>
+    </div>
+</section>
 
-      const logoStyle = {
-        width: '100px',
-        height: '80px',
-        margin: '0 32px',
-        opacity: 0.7,
-      };
+<!-- Call-to-Action: "Help Us Grow" -->
+<section class="section section-transparent">
+    <h2>Help Us Grow</h2>
+    <p>Every dollar sown grows a forest of connection.</p>
+    <div class="btn-group">
+        <a href="#donate" class="btn">Donate Now</a>
+        <a href="#survey" class="btn">Tell Us What Matters to You</a>
+        <a href="#investors" class="btn">Learn How to Become a Seed Investor</a>
+    </div>
+</section>
 
-      return (
-        <Box id="logoCollection" sx={{ py: 4 }}>
-          <Typography
-            component="p"
-            variant="subtitle2"
-            align="center"
-            sx={{ color: 'text.secondary' }}
-          >
-            Trusted by communities worldwide
-          </Typography>
-          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.6 }}>
-            {logos.map((logo, index) => (
-              <Grid item key={index}>
-                <img
-                  src={logo}
-                  alt={`Partner logo ${index + 1}`}
-                  style={logoStyle}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+<!-- Testimonials Section -->
+<section class="section section-dark">
+    <h2>What Our Community Says</h2>
+    <div class="features-grid">
+        <div class="card">
+            <p>"I found my neighbors, my friends, my sense of belonging."</p>
+            <h3>- Local Member</h3>
+        </div>
+        <div class="card">
+            <p>"Hosting through ONE Local made our festival a homegrown success."</p>
+            <h3>- Event Host</h3>
+        </div>
+        <div class="card">
+            <p>"This platform brought customers who appreciate the local touch."</p>
+            <h3>- Seller</h3>
+        </div>
+        <div class="card">
+            <p>"Our projects have a real heartbeat now — we’re more than just a team."</p>
+            <h3>- Organization Leader</h3>
+        </div>
+    </div>
+</section>
 
-    function FeaturesSection() {
-      const features = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-          iconName: 'connect_without_contact',
-        },
-        {
-          title: 'Share',
-          description: 'Tools, time, talents — give what you can, receive what you need.',
-          iconName: 'share',
-        },
-        {
-          title: 'Skill Development',
-          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
-          iconName: 'school',
-        },
-        {
-          title: 'Governance',
-          description: 'Democracy in action. Voice your vision, shape your surroundings.',
-          iconName: 'gavel',
-        },
-      ];
+<!-- Community Section -->
+<section id="community" class="section section-transparent" style="display: flex; align-items: center;">
+    <div class="community-text" style="flex: 1; padding-right: 20px;">
+        <h2>Collective Vision</h2>
+        <p>We welcome your inspirations. Let's start playing!</p>
+        <div class="btn-group">
+            <a href="#get-started" class="btn">Get Started</a>
+        </div>
+    </div>
+    <div class="community-image" style="flex: 1;">
+        <img src="https://i.imgur.com/JcbKl0J.jpg" alt="Community vision image" style="width: 100%; height: auto;">
+    </div>
+</section>
 
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            Features
-          </Typography>
-          <Grid container spacing={4}>
-            {features.map((feature) => (
-              <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card>
-                  <CardContent>
-                    <Box display="flex" alignItems="center" gap={2}>
-                      <Icon color="primary" sx={{ fontSize: 40 }}>{feature.iconName}</Icon>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature.title}</Typography>
-                    </Box>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+<!-- Quote Section -->
+<section class="quote-section">
+    <p>"The foundation of our mission has always been to connect people with the things humans really need. The true nourishing things..."</p>
+</section>
 
-    function MembershipTypes() {
-      const memberships = [
-        {
-          title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
-          cta: 'Join as a Local Member',
-        },
-        {
-          title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
-          cta: 'Start Hosting Events',
-        },
-        {
-          title: 'Sellers',
-          description:
-            'Your storefront in the village square. Share what you create with those who’ll love it most.',
-          cta: 'Open Your ONE Local Shop',
-        },
-        {
-          title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
-          cta: 'Register Your Organization',
-        },
-      ];
+<!-- Get Started Section -->
+<section id="get-started" class="additional-section section-dark">
+    <h2>Join Today</h2>
+    <p>Download the ONE|Local app from the Apple App Store or Google Play Store.</p>
+    <p><strong>Note:</strong> Update from ONE|Boulder app or sign up as a new user.</p>
+    <p>Visit the web version at <a href="https://app.onelocal.one/" target="_blank">app.onelocal.one</a></p>
+    <div class="btn-group">
+        <a href="https://app.onelocal.one/" class="btn" target="_blank">Check Web App</a>
+    </div>
+</section>
 
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            How Will You Show Up?
-          </Typography>
-          <Grid container spacing={4}>
-            {memberships.map((membership) => (
-              <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{membership.title}</Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
-                      {membership.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button variant="outlined" color="primary" fullWidth>
-                      {membership.cta}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+<!-- Contact Section -->
+<section id="contact" class="section section-transparent">
+    <h2>Get In Touch</h2>
+    <p>Questions or want to get involved? We'd love to hear from you.</p>
+    <form action="#" method="post" style="max-width:600px;margin:0 auto;text-align:left;">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required style="width:100%;padding:10px;margin-bottom:15px;"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required style="width:100%;padding:10px;margin-bottom:15px;"><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" rows="6" required style="width:100%;padding:10px;margin-bottom:15px;"></textarea><br>
+        <button type="submit" class="btn" style="width:100%;">Send Message</button>
+    </form>
+</section>
 
-    function Pricing() {
-      const tiers = [
-        {
-          title: 'Local Members',
-          price: 'Free',
-          description: [
-            'Access to community events',
-            'Connect with neighbors',
-            'Share and request resources',
-          ],
-          buttonText: 'Join Now',
-          buttonVariant: 'contained',
-          buttonColor: 'primary',
-        },
-        {
-          title: 'Event Hosts',
-          price: '$9.99/mo',
-          description: [
-            'Create and manage events',
-            'Sell tickets directly',
-            'Promote to local audiences',
-          ],
-          buttonText: 'Start Hosting',
-          buttonVariant: 'contained',
-          buttonColor: 'primary',
-        },
-        {
-          title: 'Sellers',
-          price: '$19.99/mo',
-          description: [
-            'Set up your online shop',
-            'Secure payment processing',
-            'Feature products in marketplace',
-          ],
-          buttonText: 'Open Shop',
-          buttonVariant: 'contained',
-          buttonColor: 'primary',
-        },
-        {
-          title: 'Organizations',
-          price: 'Custom Pricing',
-          description: [
-            'Team collaboration tools',
-            'Event and task management',
-            'Dedicated support',
-          ],
-          buttonText: 'Contact Us',
-          buttonVariant: 'outlined',
-          buttonColor: 'primary',
-        },
-      ];
+<!-- Footer -->
+<footer>
+    <nav>
+        <a href="#mission">Mission</a>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#community">Community</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <p>&copy; 2024 ONE|Local. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    <p>Get the Latest Stories and Updates — <a href="#newsletter">Sign Up Here</a>.</p>
+</footer>
 
-      return (
-        <Container id="pricing" sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            Membership Types
-          </Typography>
-          <Typography variant="body1" align="center" sx={{ color: 'text.secondary', mb: 4 }}>
-            Choose a membership that fits your needs.
-          </Typography>
-          <Grid container spacing={4} justifyContent="center">
-            {tiers.map((tier) => (
-              <Grid item xs={12} sm={6} md={3} key={tier.title}>
-                <Card
-                  sx={[
-                    {
-                      p: 2,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 2,
-                    },
-                    tier.title === 'Local Members' && {
-                      border: '2px solid',
-                      borderColor: 'primary.main',
-                    },
-                  ]}
-                >
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      {tier.title}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 2 }}>
-                      <Typography variant="h3">
-                        {tier.price}
-                      </Typography>
-                    </Box>
-                    <Divider sx={{ my: 2 }} />
-                    <ul>
-                      {tier.description.map((line, index) => (
-                        <Typography component="li" variant="subtitle1" key={index} sx={{ mb: 1 }}>
-                          {line}
-                        </Typography>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <CardActions>
-                    <Button
-                      fullWidth
-                      variant={tier.buttonVariant}
-                      color={tier.buttonColor}
-                    >
-                      {tier.buttonText}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      );
-    }
-
-    function CommunityImpact() {
-      const metrics = [
-        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
-        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
-        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
-      ];
-
-      return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            Our Community in Numbers
-          </Typography>
-          <Grid container spacing={4}>
-            {metrics.map((metric) => (
-              <Grid item xs={12} sm={6} md={3} key={metric.label}>
-                <Box textAlign="center">
-                  <Typography variant="h3" color="primary">
-                    {metric.value}
-                  </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{metric.label}</Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {metric.description}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
-
-    function TestimonialsSection() {
-      const testimonials = [
-        {
-          avatar: <Avatar alt="Member 1" src="https://via.placeholder.com/150" />,
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: <Avatar alt="Member 2" src="https://via.placeholder.com/150" />,
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: <Avatar alt="Member 3" src="https://via.placeholder.com/150" />,
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: <Avatar alt="Member 4" src="https://via.placeholder.com/150" />,
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
-
-      return (
-        <Container id="testimonials" sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            What Our Community Says
-          </Typography>
-          <Grid container spacing={4}>
-            {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
-                      {testimonial.quote}
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                      {testimonial.avatar}
-                      <Box ml={2}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                          {testimonial.name}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          {testimonial.role}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      );
-    }
-
-    function FAQSection() {
-      const faqs = [
-        {
-          question: 'What is ONE Local?',
-          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
-        },
-        {
-          question: 'How do I join as a member?',
-          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
-        },
-        {
-          question: 'How do I create an event?',
-          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
-        },
-        {
-          question: 'What payment options are available?',
-          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
-        },
-      ];
-
-      return (
-        <Container id="faq" sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
-            Frequently Asked Questions
-          </Typography>
-          <Box mt={4}>
-            {faqs.map((faq, index) => (
-              <Accordion key={index}>
-                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {faq.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {faq.answer}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
-          </Box>
-        </Container>
-      );
-    }
-
-    function CallToAction() {
-      return (
-        <Box mt={8} mb={8} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
-            Help Us Grow
-          </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary' }}>
-            “Every dollar sown grows a forest of connection.”
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }}>
-            Donate Now
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
-            Take the Survey
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }}>
-            Become an Investor
-          </Button>
-        </Box>
-      );
-    }
-
-    function Footer() {
-      return (
-        <Box py={4} sx={{ backgroundColor: '#1f1f1f' }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">ONE Local</Typography>
-                <List>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="Home" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="About" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="Features" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="Community" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="Investors" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none">
-                      <ListItemText primary="Contact Us" />
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  Join the conversation.
-                </Typography>
-                {/* Social media icons can be added here */}
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  “Get the Latest Stories and Updates — Sign Up Here.”
-                </Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ style: { color: '#bbbbbb' } }}
-                  InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
-                />
-                <Button variant="contained" color="primary" fullWidth>
-                  Subscribe
-                </Button>
-              </Grid>
-            </Grid>
-            <Box textAlign="center" mt={4}>
-              <Typography variant="body2">
-                © 2024 ONE Local. All rights reserved.
-              </Typography>
-            </Box>
-          </Container>
-        </Box>
-      );
-    }
-
-    function LandingPage() {
-      return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box style={backgroundStyle}>
-            <NavigationBar />
-            <Container maxWidth="lg">
-              <HeroSection />
-              <LogoCollection />
-              <FeaturesSection />
-              <MembershipTypes />
-              <Pricing />
-              <CommunityImpact />
-              <TestimonialsSection />
-              <FAQSection />
-              <CallToAction />
-            </Container>
-            <Footer />
-          </Box>
-        </ThemeProvider>
-      );
-    }
-
-    ReactDOM.render(<LandingPage />, document.getElementById('root'));
-  </script>
-
-  <style>
-    /* Responsive Menu Styling */
-    @media (max-width: 960px) {
-      .desktopMenu {
-        display: none;
-      }
-    }
-    @media (min-width: 960px) {
-      .mobileMenu {
-        display: none;
-      }
-    }
-    /* Scrollbar Styling */
-    body {
-      overflow-x: hidden;
-      scrollbar-color: #1e1e1e #333;
-      scrollbar-width: thin;
-    }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-track {
-      background: #1e1e1e;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #333;
-      border-radius: 4px;
-    }
-  </style>
 </body>
 </html>
