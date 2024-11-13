@@ -1,181 +1,842 @@
-{
-  "id": "U123",
-  "agentId": "A123",
-  "firstName": "Cam",
-  "lastName": "Alot",
-  "name": "Cam Alot",
-  "nickName": "CamAlot",
-  "userName": "camalot",
-  "dateOfBirth": "1990-01-01",
-  "password": "password",
-  "alternateIdentities": {
-    "agentId": "A124",
-    "firstName": "Barry",
-    "lastName": "Allen",
-    "name": "Barry Allen",
-    "moniker": "Scarlet Speedster",
-    "userName": "CrimsonKing",
-    "catchphrase": "Run fast",
-    "email": "flash52@gmail.com",
-    "alternateIdentities": []
-  },
-  "email": "camalot999@gmail.com",
-  "phone": "123-456-7890",
-  "address": {
-    "street": "123 Main St.",
-    "city": "Boulder",
-    "state": "CO",
-    "zip": "94105",
-    "province": "",
-    "country": "USA",
-    "region": "West",
-    "ecoregion": {
-      "lv1_ecoregion": "Great Plains",
-      "lv2_ecoregion": "South Central Semi-arid Prairies",
-      "lv3_ecoregion": "High Plains",
-      "lv4_ecoregion": "Front Range Fans"
-    },
-    "continent": "North America",
-    "planet": "Earth",
-    "starsystem": "Sol"
-  },
-  "location": {
-    "name": "Cam's House",
-    "venue": "Cam's House",
-    "latitude": 37.783692,
-    "longitude": -122.409972
-  },
-  "referredBy": {
-    "id": "U124",
-    "name": "Barry Allen"
-  },
-  "profilePicture": "https://www.google.com/profile.jpg",
-  "backgroundPicture": "https://www.google.com/background.jpg",
-  "description": "I'm a cool guy",
-  "memberships": {
-    "Player": [],
-    "Producer": [],
-    "ProductMerchant": [],
-    "ServiceProvider": [],
-    "orgOperator": []
-  },
-  "attributes": {
-    "physicalTraits": [],
-    "personalityTraits": [],
-    "wealth": [],
-    "humanDesign": "",
-    "astrology": "",
-    "numerology": "",
-    "geneKeys": "",
-    "myersBriggs": "",
-    "enneagram": "",
-    "bigFive": "",
-    "strengthsFinder": "",
-    "wealthDynamics": ""
-  },
-  "skills": {
-    "Skill": []
-  },
-  "resources": {
-    "asset": {
-      "type": "Cash",
-      "cashUSD": 1000,
-      "crypto": "",
-      "NFT": "",
-      "inGameToken": "",
-      "giftPoints": 0,
-      "resource": ""
-    },
-    "quantity": 5,
-    "location": "Location001",
-    "permissions": {
-      "canEdit": true,
-      "canView": true,
-      "canTake": true,
-      "canTakeUser": true,
-      "canTakeOrg": true,
-      "canTakeGroup": true,
-      "canTakeBadge": true
-    },
-    "minTokenQuantity": 10,
-    "services": "Service1",
-    "products": "Product1"
-  },
-  "organizations": ["Org001"],
-  "groups": {
-    "Group": []
-  },
-  "projects": ["Project001"],
-  "events": {
-    "producing": "User1",
-    "maybeGoing": "E123",
-    "went": "E123",
-    "at": "E123",
-    "going": "E123",
-    "interested": "E123",
-    "notGoing": "E123",
-    "viewed": "E123",
-    "created": "E123",
-    "hosting": "E123"
-  },
-  "roles": [
-    { "id": "Role001", "name": "CEO" }
-  ],
-  "tasks": [
-    { "id": "Task001", "name": "Set up chairs" }
-  ],
-  "badges": [
-    { "id": "Badge001", "name": "Community Leader", "description": "Leads community initiatives." }
-  ],
-  "products": [
-    { "id": "Product001", "name": "Organic Apples", "description": "Freshly harvested organic apples.", "price": 2.99, "owner": "urn:uuid:user123" }
-  ],
-  "services": [
-    { "id": "Service001", "name": "Gardening Workshop", "description": "Learn advanced gardening techniques.", "price": 50, "provider": "urn:uuid:user123" }
-  ],
-  "offers": [
-    { "id": "Offer001", "description": "Offering free gardening tutorials.", "itemOffered": "Gardening Tips", "price": 0, "priceCurrency": "USD", "availability": "InStock", "validFrom": "2023-01-01T00:00", "validThrough": "2023-12-31T23:59", "seller": "urn:uuid:user123", "acceptedPaymentMethod": ["CreditCard", "PayPal"] }
-  ],
-  "requests": [
-    { "id": "Request001", "description": "Requesting help to build a fence.", "buyer": "urn:uuid:user123" }
-  ],
-  "gratisPoints": [
-    { "id": "Gratis001", "user": "urn:uuid:user123", "source": "Referral", "points": 100 }
-  ],
-  "posts": [
-    { "id": "Post001", "content": "Excited to start the new gardening project!", "user": "urn:uuid:user123", "comments": ["Comment1", "Comment2"] }
-  ],
-  "interests": [
-    { "id": "Interest001", "name": "Gardening", "users": ["urn:uuid:user123"] }
-  ],
-  "purchases": [
-    { "id": "Purchase001", "product": "Product001", "buyer": "urn:uuid:user123" }
-  ],
-  "inGameTokens": [
-    { "id": "Token001", "user": "urn:uuid:user123", "tokens": 500 }
-  ],
-  "friendships": {
-    "Friendship": []
-  },
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Object Builder</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Material-UI CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+    }
+    #root {
+      padding: 20px;
+    }
+    .json-output {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+      padding: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      overflow: auto;
+    }
+    .nested-form {
+      border-left: 2px solid #ccc;
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX Transformation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      Button,
+      TextField,
+      Select,
+      MenuItem,
+      FormControl,
+      InputLabel,
+      Tabs,
+      Tab,
+      Box,
+      Typography,
+      Autocomplete,
+      Grid,
+      Paper,
+      Checkbox,
+      FormControlLabel,
+      Chip,
+      IconButton,
+      Divider,
+      Tooltip,
+    } = MaterialUI;
+
+    // Define the object types and their properties based on the provided schema
+    const objectTypes = [
+      {
+        name: 'User',
+        properties: [
+          { label: 'ID', name: 'id', type: 'text', required: true },
+          { label: 'Agent ID', name: 'agentId', type: 'text' },
+          { label: 'First Name', name: 'firstName', type: 'text', required: true },
+          { label: 'Last Name', name: 'lastName', type: 'text', required: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Nickname', name: 'nickName', type: 'text' },
+          { label: 'Username', name: 'userName', type: 'text', required: true },
+          { label: 'Date of Birth', name: 'dateOfBirth', type: 'date' },
+          {
+            label: 'Password',
+            name: 'password',
+            type: 'password',
+            helperText: 'Password is hashed and never stored or transmitted in plain text.',
+          },
+          {
+            label: 'Alternate Identities',
+            name: 'alternateIdentities',
+            type: 'object',
+            fields: [
+              { label: 'Agent ID', name: 'agentId', type: 'text' },
+              { label: 'First Name', name: 'firstName', type: 'text' },
+              { label: 'Last Name', name: 'lastName', type: 'text' },
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Moniker', name: 'moniker', type: 'text' },
+              { label: 'Username', name: 'userName', type: 'text' },
+              { label: 'Catchphrase', name: 'catchphrase', type: 'text' },
+              { label: 'Email', name: 'email', type: 'email' },
+              {
+                label: 'Alternate Identities',
+                name: 'alternateIdentities',
+                type: 'array',
+                fields: [
+                  { label: 'Agent ID', name: 'agentId', type: 'text' },
+                  { label: 'First Name', name: 'firstName', type: 'text' },
+                  { label: 'Last Name', name: 'lastName', type: 'text' },
+                  { label: 'Name', name: 'name', type: 'text' },
+                  { label: 'Moniker', name: 'moniker', type: 'text' },
+                  { label: 'Username', name: 'userName', type: 'text' },
+                  { label: 'Catchphrase', name: 'catchphrase', type: 'text' },
+                  { label: 'Email', name: 'email', type: 'email' },
+                ],
+              },
+            ],
+          },
+          { label: 'Email', name: 'email', type: 'email', required: true },
+          { label: 'Phone', name: 'phone', type: 'tel' },
+          {
+            label: 'Address',
+            name: 'address',
+            type: 'object',
+            fields: [
+              { label: 'Street', name: 'street', type: 'text' },
+              { label: 'City', name: 'city', type: 'text' },
+              { label: 'State', name: 'state', type: 'text' },
+              { label: 'Zip', name: 'zip', type: 'text' },
+              { label: 'Province', name: 'province', type: 'text' },
+              { label: 'Country', name: 'country', type: 'text' },
+              { label: 'Region', name: 'region', type: 'text' },
+              {
+                label: 'Ecoregion',
+                name: 'ecoregion',
+                type: 'object',
+                fields: [
+                  { label: 'LV1 Ecoregion', name: 'lv1_ecoregion', type: 'text' },
+                  { label: 'LV2 Ecoregion', name: 'lv2_ecoregion', type: 'text' },
+                  { label: 'LV3 Ecoregion', name: 'lv3_ecoregion', type: 'text' },
+                  { label: 'LV4 Ecoregion', name: 'lv4_ecoregion', type: 'text' },
+                ],
+              },
+              { label: 'Continent', name: 'continent', type: 'text' },
+              { label: 'Planet', name: 'planet', type: 'text' },
+              { label: 'Star System', name: 'starsystem', type: 'text' },
+            ],
+          },
+          {
+            label: 'Location',
+            name: 'location',
+            type: 'object',
+            fields: [
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Venue', name: 'venue', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ],
+          },
+          {
+            label: 'Referred By',
+            name: 'referredBy',
+            type: 'object',
+            fields: [
+              { label: 'ID', name: 'id', type: 'text' },
+              { label: 'Name', name: 'name', type: 'text' },
+            ],
+          },
+          { label: 'Profile Picture URL', name: 'profilePicture', type: 'url' },
+          { label: 'Background Picture URL', name: 'backgroundPicture', type: 'url' },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          {
+            label: 'Memberships',
+            name: 'memberships',
+            type: 'object',
+            fields: [
+              {
+                label: 'Player',
+                name: 'Player',
+                type: 'array',
+                fields: [
+                  { label: 'Membership Detail', name: 'membershipDetail', type: 'text' },
+                ],
+              },
+              {
+                label: 'Producer',
+                name: 'Producer',
+                type: 'array',
+                fields: [
+                  { label: 'Membership Detail', name: 'membershipDetail', type: 'text' },
+                ],
+              },
+              {
+                label: 'Product Merchant',
+                name: 'ProductMerchant',
+                type: 'array',
+                fields: [
+                  { label: 'Membership Detail', name: 'membershipDetail', type: 'text' },
+                ],
+              },
+              {
+                label: 'Service Provider',
+                name: 'ServiceProvider',
+                type: 'array',
+                fields: [
+                  { label: 'Membership Detail', name: 'membershipDetail', type: 'text' },
+                ],
+              },
+              {
+                label: 'Organization Operator',
+                name: 'orgOperator',
+                type: 'array',
+                fields: [
+                  { label: 'Membership Detail', name: 'membershipDetail', type: 'text' },
+                ],
+              },
+            ],
+          },
+          {
+            label: 'Attributes',
+            name: 'attributes',
+            type: 'object',
+            fields: [
+              {
+                label: 'Physical Traits',
+                name: 'physicalTraits',
+                type: 'array',
+                fields: [
+                  { label: 'Height', name: 'height', type: 'text' },
+                  { label: 'Weight', name: 'weight', type: 'text' },
+                  { label: 'Hair Color', name: 'hairColor', type: 'text' },
+                  { label: 'Eye Color', name: 'eyeColor', type: 'text' },
+                ],
+              },
+              {
+                label: 'Personality Traits',
+                name: 'personalityTraits',
+                type: 'array',
+                fields: [
+                  { label: 'Personality', name: 'personality', type: 'text' },
+                ],
+              },
+              {
+                label: 'Wealth',
+                name: 'wealth',
+                type: 'array',
+                fields: [
+                  { label: 'Cash', name: 'cash', type: 'number' },
+                  { label: 'Crypto', name: 'crypto', type: 'text' },
+                  { label: 'In-Game Token', name: 'inGameToken', type: 'text' },
+                  { label: 'Gift Points', name: 'giftPoints', type: 'number' },
+                  { label: 'Resource', name: 'resource', type: 'text' },
+                ],
+              },
+              { label: 'Human Design', name: 'humanDesign', type: 'text' },
+              { label: 'Astrology', name: 'astrology', type: 'text' },
+              { label: 'Numerology', name: 'numerology', type: 'text' },
+              { label: 'Gene Keys', name: 'geneKeys', type: 'text' },
+              { label: 'Myers-Briggs', name: 'myersBriggs', type: 'text' },
+              { label: 'Enneagram', name: 'enneagram', type: 'text' },
+              { label: 'Big Five', name: 'bigFive', type: 'text' },
+              { label: 'StrengthsFinder', name: 'strengthsFinder', type: 'text' },
+              { label: 'Wealth Dynamics', name: 'wealthDynamics', type: 'text' },
+            ],
+          },
+          {
+            label: 'Skills',
+            name: 'skills',
+            type: 'object',
+            fields: [
+              {
+                label: 'Skill',
+                name: 'Skill',
+                type: 'array',
+                fields: [
+                  { label: 'Type', name: 'type', type: 'select', options: ['Programming', 'Design', 'Gardening', 'Carpentry'] },
+                ],
+              },
+            ],
+          },
+          {
+            label: 'Resources',
+            name: 'resources',
+            type: 'object',
+            fields: [
+              {
+                label: 'Asset',
+                name: 'asset',
+                type: 'object',
+                fields: [
+                  { label: 'Type', name: 'type', type: 'select', options: ['Cash', 'Crypto', 'NFT', 'In-Game Token', 'Gift Points', 'Resource'] },
+                  { label: 'Cash USD', name: 'cashUSD', type: 'number' },
+                  { label: 'Crypto', name: 'crypto', type: 'text' },
+                  { label: 'NFT', name: 'NFT', type: 'text' },
+                  { label: 'In-Game Token', name: 'inGameToken', type: 'text' },
+                  { label: 'Gift Points', name: 'giftPoints', type: 'number' },
+                  { label: 'Resource', name: 'resource', type: 'text' },
+                ],
+              },
+              { label: 'Quantity', name: 'quantity', type: 'number' },
+              {
+                label: 'Location',
+                name: 'location',
+                type: 'select',
+                options: ['urn:uuid:location001', 'urn:uuid:location002'],
+              },
+              {
+                label: 'Permissions',
+                name: 'permissions',
+                type: 'object',
+                fields: [
+                  { label: 'Can Edit', name: 'canEdit', type: 'checkbox' },
+                  { label: 'Can View', name: 'canView', type: 'checkbox' },
+                  { label: 'Can Take', name: 'canTake', type: 'checkbox' },
+                  { label: 'Can Take User', name: 'canTakeUser', type: 'checkbox' },
+                  { label: 'Can Take Org', name: 'canTakeOrg', type: 'checkbox' },
+                  { label: 'Can Take Group', name: 'canTakeGroup', type: 'checkbox' },
+                  { label: 'Can Take Badge', name: 'canTakeBadge', type: 'checkbox' },
+                ],
+              },
+              { label: 'Min Token Quantity', name: 'minTokenQuantity', type: 'number' },
+              {
+                label: 'Services',
+                name: 'services',
+                type: 'select',
+                options: ['Service1', 'Service2'],
+              },
+              {
+                label: 'Products',
+                name: 'products',
+                type: 'select',
+                options: ['Product1', 'Product2'],
+              },
+            ],
+          },
+          {
+            label: 'Organizations',
+            name: 'organizations',
+            type: 'array',
+            fields: [
+              { label: 'Organization ID', name: 'organizationId', type: 'select', options: ['urn:uuid:org001', 'urn:uuid:org456'] },
+            ],
+          },
+          {
+            label: 'Groups',
+            name: 'groups',
+            type: 'object',
+            fields: [
+              {
+                label: 'Group',
+                name: 'Group',
+                type: 'array',
+                fields: [
+                  { label: 'Group ID', name: 'id', type: 'select', options: ['G123', 'G456'] },
+                  { label: 'Name', name: 'name', type: 'text' },
+                  { label: 'Description', name: 'description', type: 'text' },
+                  {
+                    label: 'Roles',
+                    name: 'roles',
+                    type: 'object',
+                    fields: [
+                      {
+                        label: 'Role',
+                        name: 'Role',
+                        type: 'array',
+                        fields: [
+                          { label: 'Role ID', name: 'id', type: 'select', options: ['R123', 'R456'] },
+                          { label: 'Name', name: 'name', type: 'text' },
+                          { label: 'Description', name: 'description', type: 'text' },
+                          { label: 'Responsibilities', name: 'responsibilities', type: 'textarea' },
+                          {
+                            label: 'Tasks',
+                            name: 'tasks',
+                            type: 'array',
+                            fields: [
+                              { label: 'Task ID', name: 'taskId', type: 'select', options: ['T123', 'T456'] },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: 'Projects',
+            name: 'projects',
+            type: 'array',
+            fields: [
+              { label: 'Project ID', name: 'projectId', type: 'select', options: ['P123', 'P456'] },
+            ],
+          },
+          {
+            label: 'Events',
+            name: 'events',
+            type: 'object',
+            fields: [
+              {
+                label: 'Producing',
+                name: 'producing',
+                type: 'select',
+                options: ['User1', 'User2'],
+              },
+              { label: 'Maybe Going', name: 'maybeGoing', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Went', name: 'went', type: 'select', options: ['E123', 'E456'] },
+              { label: 'At', name: 'at', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Going', name: 'going', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Interested', name: 'interested', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Not Going', name: 'notGoing', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Viewed', name: 'viewed', type: 'select', options: ['E123', 'E456'] },
+              { label: 'Created', name: 'created', type: 'select', options: ['E123', 'E456'] },
+              {
+                label: 'Hosting',
+                name: 'hosting',
+                type: 'select',
+                options: ['E123', 'E456'],
+              },
+            ],
+          },
+          {
+            label: 'Roles',
+            name: 'roles',
+            type: 'array',
+            fields: [
+              { label: 'Role ID', name: 'id', type: 'select', options: ['Role1', 'Role2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+            ],
+          },
+          {
+            label: 'Tasks',
+            name: 'tasks',
+            type: 'array',
+            fields: [
+              { label: 'Task ID', name: 'id', type: 'select', options: ['Task1', 'Task2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Summary', name: 'summary', type: 'text' },
+              { label: 'Description', name: 'description', type: 'textarea' },
+              { label: 'When', name: 'when', type: 'datetime-local' },
+              { label: 'Work Periods', name: 'workPeriods', type: 'datetime-local' },
+              { label: 'Due Date', name: 'dueDate', type: 'datetime-local' },
+              {
+                label: 'Bounty Type',
+                name: 'bountyType',
+                type: 'select',
+                options: ['Cash', 'Crypto', 'In-Game Token', 'Gift Points', 'Resource'],
+              },
+              { label: 'Bounty Amount', name: 'bountyAmount', type: 'number' },
+              {
+                label: 'Location',
+                name: 'location',
+                type: 'select',
+                options: ['Location1', 'Location2'],
+              },
+              { label: 'Schedule', name: 'schedule', type: 'text' },
+              {
+                label: 'Stakeholders',
+                name: 'stakeholders',
+                type: 'select',
+                options: ['User1', 'User2'],
+              },
+              {
+                label: 'Resources',
+                name: 'resources',
+                type: 'select',
+                options: ['Resource1', 'Resource2'],
+              },
+              {
+                label: 'Permissions',
+                name: 'permissions',
+                type: 'object',
+                fields: [
+                  { label: 'Can Edit', name: 'canEdit', type: 'checkbox' },
+                  { label: 'Can View', name: 'canView', type: 'checkbox' },
+                  { label: 'Can Take', name: 'canTake', type: 'checkbox' },
+                  { label: 'Can Take User', name: 'canTakeUser', type: 'checkbox' },
+                  { label: 'Can Take Org', name: 'canTakeOrg', type: 'checkbox' },
+                  { label: 'Can Take Group', name: 'canTakeGroup', type: 'checkbox' },
+                  { label: 'Can Take Badge', name: 'canTakeBadge', type: 'checkbox' },
+                ],
+              },
+              { label: 'Can Take Min Token Quantity', name: 'canTakeMinTokenQuantity', type: 'number' },
+              { label: 'Services', name: 'services', type: 'select', options: ['Service1', 'Service2'] },
+              { label: 'Products', name: 'products', type: 'select', options: ['Product1', 'Product2'] },
+            ],
+          },
+          {
+            label: 'Badges',
+            name: 'badges',
+            type: 'array',
+            fields: [
+              { label: 'Badge ID', name: 'id', type: 'select', options: ['Badge1', 'Badge2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Description', name: 'description', type: 'text' },
+            ],
+          },
+          {
+            label: 'Products',
+            name: 'products',
+            type: 'array',
+            fields: [
+              { label: 'Product ID', name: 'id', type: 'select', options: ['Product1', 'Product2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Description', name: 'description', type: 'textarea' },
+              { label: 'Price', name: 'price', type: 'number' },
+              { label: 'Owner', name: 'owner', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
+            ],
+          },
+          {
+            label: 'Services',
+            name: 'services',
+            type: 'array',
+            fields: [
+              { label: 'Service ID', name: 'id', type: 'select', options: ['Service1', 'Service2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+              { label: 'Description', name: 'description', type: 'textarea' },
+              { label: 'Price', name: 'price', type: 'number' },
+              { label: 'Provider', name: 'provider', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
+            ],
+          },
+          {
+            label: 'Offers',
+            name: 'offers',
+            type: 'array',
+            fields: [
+              { label: 'Offer ID', name: 'id', type: 'select', options: ['Offer1', 'Offer2'] },
+              { label: 'Description', name: 'description', type: 'textarea' },
+              { label: 'Item Offered', name: 'itemOffered', type: 'text' },
+              { label: 'Price', name: 'price', type: 'number' },
+              { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+              { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+              { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+              { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+              { label: 'Seller', name: 'seller', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
+              {
+                label: 'Accepted Payment Methods',
+                name: 'acceptedPaymentMethod',
+                type: 'multiselect',
+                options: ['CreditCard', 'PayPal', 'Cash'],
+              },
+            ],
+          },
+          {
+            label: 'Requests',
+            name: 'requests',
+            type: 'array',
+            fields: [
+              { label: 'Request ID', name: 'id', type: 'select', options: ['Request1', 'Request2'] },
+              { label: 'Description', name: 'description', type: 'textarea' },
+              { label: 'Buyer', name: 'buyer', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
+            ],
+          },
+          {
+            label: 'Gratis Points',
+            name: 'gratisPoints',
+            type: 'array',
+            fields: [
+              { label: 'Gratis ID', name: 'id', type: 'select', options: ['Gratis1', 'Gratis2'] },
+              { label: 'User', name: 'user', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:user456'] },
+              { label: 'Source', name: 'source', type: 'text' },
+              { label: 'Points', name: 'points', type: 'number' },
+            ],
+          },
+          {
+            label: 'Posts',
+            name: 'posts',
+            type: 'array',
+            fields: [
+              { label: 'Post ID', name: 'id', type: 'select', options: ['Post1', 'Post2'] },
+              { label: 'Content', name: 'content', type: 'textarea' },
+              { label: 'User', name: 'user', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:user456'] },
+              {
+                label: 'Comments',
+                name: 'comments',
+                type: 'array',
+                fields: [
+                  { label: 'Comment ID', name: 'commentId', type: 'select', options: ['Comment1', 'Comment2'] },
+                ],
+              },
+            ],
+          },
+          {
+            label: 'Interests',
+            name: 'interests',
+            type: 'array',
+            fields: [
+              { label: 'Interest ID', name: 'id', type: 'select', options: ['Interest1', 'Interest2'] },
+              { label: 'Name', name: 'name', type: 'text' },
+            ],
+          },
+          {
+            label: 'Purchases',
+            name: 'purchases',
+            type: 'array',
+            fields: [
+              { label: 'Purchase ID', name: 'id', type: 'select', options: ['Purchase1', 'Purchase2'] },
+              { label: 'Product', name: 'product', type: 'select', options: ['Product1', 'Product2'] },
+              { label: 'Buyer', name: 'buyer', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:user456'] },
+            ],
+          },
+          {
+            label: 'In-Game Tokens',
+            name: 'inGameTokens',
+            type: 'array',
+            fields: [
+              { label: 'Token ID', name: 'id', type: 'select', options: ['Token1', 'Token2'] },
+              { label: 'User', name: 'user', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:user456'] },
+              { label: 'Tokens', name: 'tokens', type: 'number' },
+            ],
+          },
+          {
+            label: 'Friendships',
+            name: 'friendships',
+            type: 'object',
+            fields: [
+              {
+                label: 'Friendship',
+                name: 'Friendship',
+                type: 'array',
+                fields: [
+                  { label: 'Type', name: 'type', type: 'select', options: ['Stranger', 'Heard Of', 'Close', 'Acquaintance', 'Related', 'Intimate', 'Business Connection', 'Physical', 'Committed Relationship', 'Open Relationship'] },
+                  {
+                    label: 'View Permissions',
+                    name: 'viewPermissions',
+                    type: 'object',
+                    fields: [
+                      { label: 'Can View', name: 'canView', type: 'checkbox' },
+                      { label: 'Can Edit', name: 'canEdit', type: 'checkbox' },
+                      { label: 'Can Take', name: 'canTake', type: 'checkbox' },
+                    ],
+                  },
+                  {
+                    label: 'Physical Traits',
+                    name: 'physicalTraits',
+                    type: 'array',
+                    fields: [
+                      { label: 'Height', name: 'height', type: 'text' },
+                      { label: 'Weight', name: 'weight', type: 'text' },
+                      { label: 'Hair Color', name: 'hairColor', type: 'text' },
+                      { label: 'Eye Color', name: 'eyeColor', type: 'text' },
+                    ],
+                  },
+                  {
+                    label: 'Personality Traits',
+                    name: 'personalityTraits',
+                    type: 'array',
+                    fields: [
+                      { label: 'Personality', name: 'personality', type: 'text' },
+                    ],
+                  },
+                  { label: 'Location', name: 'location', type: 'select', options: ['Location1', 'Location2'] },
+                  {
+                    label: 'Interests',
+                    name: 'interests',
+                    type: 'select',
+                    options: ['Interest1', 'Interest2'],
+                  },
+                  {
+                    label: 'Skills',
+                    name: 'skills',
+                    type: 'select',
+                    options: ['Skill1', 'Skill2'],
+                  },
+                  {
+                    label: 'Resources',
+                    name: 'resources',
+                    type: 'select',
+                    options: ['Resource1', 'Resource2'],
+                  },
+                  {
+                    label: 'Projects',
+                    name: 'projects',
+                    type: 'select',
+                    options: ['Project1', 'Project2'],
+                  },
+                  {
+                    label: 'Organizations',
+                    name: 'organizations',
+                    type: 'select',
+                    options: ['Organization1', 'Organization2'],
+                  },
+                  {
+                    label: 'Groups',
+                    name: 'groups',
+                    type: 'select',
+                    options: ['Group1', 'Group2'],
+                  },
+                  {
+                    label: 'Products',
+                    name: 'products',
+                    type: 'select',
+                    options: ['Product1', 'Product2'],
+                  },
+                  {
+                    label: 'Services',
+                    name: 'services',
+                    type: 'select',
+                    options: ['Service1', 'Service2'],
+                  },
+                  {
+                    label: 'Offers',
+                    name: 'offers',
+                    type: 'select',
+                    options: ['Offer1', 'Offer2'],
+                  },
+                  {
+                    label: 'Requests',
+                    name: 'requests',
+                    type: 'select',
+                    options: ['Request1', 'Request2'],
+                  },
+                  {
+                    label: 'Gratis Points',
+                    name: 'gratisPoints',
+                    type: 'number',
+                  },
+                  {
+                    label: 'Posts',
+                    name: 'posts',
+                    type: 'select',
+                    options: ['Post1', 'Post2'],
+                  },
+                  {
+                    label: 'Comments',
+                    name: 'comments',
+                    type: 'select',
+                    options: ['Comment1', 'Comment2'],
+                  },
+                  {
+                    label: 'Purchases',
+                    name: 'purchases',
+                    type: 'select',
+                    options: ['Purchase1', 'Purchase2'],
+                  },
+                  {
+                    label: 'In-Game Tokens',
+                    name: 'inGameTokens',
+                    type: 'number',
+                  },
+                  {
+                    label: 'Friendships Type',
+                    name: 'friendshipsType',
+                    type: 'select',
+                    options: ['Admire', 'Adore', 'Like', 'Dislike', 'Trust', 'Distrust', 'Neutral'],
+                  },
+                  { label: 'Friends', name: 'friends', type: 'select', options: ['User1', 'User2'] },
+                  { label: 'Friend Requests', name: 'friendRequests', type: 'select', options: ['User1', 'User2'] },
+                ],
+              },
+            ],
+          },
+          // Additional object types can be added here following the same structure
+        ],
       },
-      // Define other object types here following the same pattern
+      // You can define other object types here (e.g., Organization, Group, Event) following the same pattern
     ];
 
-    // Helper function to set nested values in an object
-    const setNestedValue = (obj, path, value) => {
-      const keys = path.split(/\.|\[|\].?/).filter(key => key);
-      const lastKey = keys.pop();
-      const nested = keys.reduce((acc, key) => {
-        if (!acc[key]) acc[key] = {};
-        return acc[key];
-      }, obj);
-      nested[lastKey] = value;
-      return { ...obj };
-    };
-
-    // Helper function to get nested values from an object
-    const getNestedValue = (obj, path) => {
-      return path.split(/\.|\[|\].?/).reduce((acc, part) => acc && acc[part], obj);
+    // Dummy Data for Dropdowns
+    const dummyData = {
+      users: [
+        { label: 'Cam Alot', value: 'U123' },
+        { label: 'Barry Allen', value: 'U124' },
+        { label: 'Emily R.', value: 'U125' },
+        // Add more dummy users as needed
+      ],
+      organizations: [
+        { label: 'HackHouse', value: 'Org001' },
+        { label: 'Boulder Producers Guild', value: 'Org002' },
+        // Add more dummy organizations as needed
+      ],
+      roles: [
+        { label: 'CEO', value: 'Role001' },
+        { label: 'COO', value: 'Role002' },
+        { label: 'CMO', value: 'Role003' },
+        // Add more dummy roles as needed
+      ],
+      skills: [
+        { label: 'Programming', value: 'Skill001' },
+        { label: 'Design', value: 'Skill002' },
+        { label: 'Gardening', value: 'Skill003' },
+        // Add more dummy skills as needed
+      ],
+      offers: [
+        { label: 'Free Tutoring', value: 'Offer001' },
+        { label: 'Tool Sharing', value: 'Offer002' },
+        // Add more dummy offers as needed
+      ],
+      requests: [
+        { label: 'Help Building Fence', value: 'Request001' },
+        { label: 'Event Volunteers', value: 'Request002' },
+        // Add more dummy requests as needed
+      ],
+      badges: [
+        { label: 'Community Leader', value: 'Badge001' },
+        { label: 'Volunteer', value: 'Badge002' },
+        // Add more dummy badges as needed
+      ],
+      permissions: [
+        { label: 'Edit', value: 'canEdit' },
+        { label: 'View', value: 'canView' },
+        { label: 'Take', value: 'canTake' },
+        // Add more dummy permissions as needed
+      ],
+      projects: [
+        { label: 'App Development', value: 'Project001' },
+        { label: 'Urban Farming', value: 'Project002' },
+        // Add more dummy projects as needed
+      ],
+      events: [
+        { label: 'Hackathon', value: 'E123' },
+        { label: 'Community Garden Planting', value: 'E124' },
+        // Add more dummy events as needed
+      ],
+      groups: [
+        { label: 'Boulder Producers Guild', value: 'G123' },
+        { label: 'Community Volunteers', value: 'G124' },
+        // Add more dummy groups as needed
+      ],
+      products: [
+        { label: 'Organic Apples', value: 'Product001' },
+        { label: 'Handmade Lanterns', value: 'Product002' },
+        // Add more dummy products as needed
+      ],
+      services: [
+        { label: 'Gardening Workshop', value: 'Service001' },
+        { label: 'Web Design', value: 'Service002' },
+        // Add more dummy services as needed
+      ],
+      locations: [
+        { label: 'Cam\'s House', value: 'Location001' },
+        { label: 'Community Center', value: 'Location002' },
+        // Add more dummy locations as needed
+      ],
     };
 
     // Main App Component
@@ -305,7 +966,7 @@
                     multiple
                     options={options}
                     getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-                    value={value.map(val => options.find(opt => opt.value === val) || { label: val, value: val })}
+                    value={value.map(val => options.find(opt => opt.value === val) || val)}
                     onChange={(event, newValue) => {
                       const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
                       handleChange(currentPath, selectedValues);
