@@ -30,13 +30,18 @@
       border-radius: 8px;
       overflow: auto;
     }
-    .object-cards {
+    .nested-form {
+      border-left: 2px solid #ccc;
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+    .card-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 16px;
       margin-top: 20px;
     }
-    .object-card {
+    .card-item {
       width: 300px;
     }
   </style>
@@ -72,29 +77,23 @@
       FormControlLabel,
       Chip,
       IconButton,
-      Modal,
-      Card,
-      CardContent,
-      CardActions,
-      Divider,
-      Tooltip,
       Dialog,
       DialogTitle,
       DialogContent,
       DialogContentText,
       DialogActions,
+      Card,
+      CardContent,
+      CardActions,
     } = MaterialUI;
 
     // Define the object types and their properties
     const objectTypes = [
-      // ... (Your existing objectTypes definition)
-      // For brevity, I'll assume you have the 'Person', 'Organization', 'Group', 'Event', 'Task', 'Resource', 'Offer', 'Demand' defined as per your previous message.
-      // Please ensure all objectTypes are included here as per your requirements.
       {
         name: 'Person',
         properties: [
           { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Person', disabled: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Person', disabled: true },
           { label: 'Name', name: 'name', type: 'text', required: true },
           { label: 'Alternate Name', name: 'alternateName', type: 'text' },
           { label: 'Identifier', name: 'identifier', type: 'text' },
@@ -102,7 +101,10 @@
           { label: 'Telephone', name: 'telephone', type: 'tel' },
           { label: 'Image URL', name: 'image', type: 'url' },
           { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: ['https://twitter.com/janedoe', 'https://linkedin.com/in/janedoe'] },
+          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: [
+            { label: 'Twitter', value: 'https://twitter.com/janedoe' },
+            { label: 'LinkedIn', value: 'https://linkedin.com/in/janedoe' }
+          ] },
           { label: 'Birth Date', name: 'birthDate', type: 'date' },
           { label: 'Gender', name: 'gender', type: 'select', options: ['Male', 'Female', 'Non-binary', 'Other'] },
           { label: 'Address', name: 'address', type: 'object', fields: [
@@ -121,35 +123,312 @@
           },
           { label: 'Language', name: 'language', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
           { label: 'Cultural Context', name: 'culturalContext', type: 'text' },
-          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: ['urn:uuid:org001', 'urn:uuid:org456'] },
-          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['CEO', 'COO', 'CMO'] },
-          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: ['Strategic Planning', 'Leadership', 'Gardening', 'Carpentry'] },
-          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['3D Printer', 'Lawn Mower'] },
-          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: ['Free Tutoring', 'Tool Sharing'] },
-          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: ['Help Building Fence', 'Event Volunteers'] },
-          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: ['Community Leader', 'Volunteer'] },
+          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' },
+            { label: 'ONE Local', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'CEO', value: 'CEO' },
+            { label: 'COO', value: 'COO' },
+            { label: 'CMO', value: 'CMO' }
+          ] },
+          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: [
+            { label: 'Strategic Planning', value: 'Strategic Planning' },
+            { label: 'Leadership', value: 'Leadership' },
+            { label: 'Gardening', value: 'Gardening' },
+            { label: 'Carpentry', value: 'Carpentry' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: '3D Printer', value: 'urn:uuid:resource103' },
+            { label: 'Lawn Mower', value: 'urn:uuid:resource104' }
+          ] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: [
+            { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+            { label: 'Tool Sharing', value: 'urn:uuid:offer105' }
+          ] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: [
+            { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+            { label: 'Event Volunteers', value: 'urn:uuid:demand106' }
+          ] },
+          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: [
+            { label: 'Community Leader', value: 'urn:uuid:badge106' },
+            { label: 'Volunteer', value: 'urn:uuid:badge107' }
+          ] },
           { label: 'Has Reputation Score', name: 'hasReputationScore', type: 'number' },
-          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: ['urn:uuid:user456', 'urn:uuid:user789'] },
-          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: ['urn:uuid:org456'] },
+          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: [
+            { label: 'John Smith', value: 'urn:uuid:user456' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
           { label: 'Privacy Setting', name: 'privacySetting', type: 'text' },
           { label: 'User Preferences', name: 'userPreferences', type: 'textarea' },
           { label: 'Blockchain Identity', name: 'blockchainIdentity', type: 'text' },
           { label: 'Security Scheme', name: 'securityScheme', type: 'text' },
-          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: ['Proposal1', 'Proposal2'] },
-          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: ['Vote1', 'Vote2'] },
-          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: ['Notification1', 'Notification2'] },
-          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: ['Alert1', 'Alert2'] },
-          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: ['Recommendation1', 'Recommendation2'] },
-          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: ['Session1', 'Session2'] },
+          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: [
+            { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' }
+          ] },
+          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: [
+            { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' }
+          ] },
+          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: [
+            { label: 'Task Assignment', value: 'urn:uuid:notification110' }
+          ] },
+          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: [
+            { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' }
+          ] },
+          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: [
+            { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' }
+          ] },
+          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: [
+            { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' }
+          ] },
         ],
       },
-      // Add other object types (Organization, Group, Event, Task, Resource, Offer, Demand) similarly...
-      // For brevity, only Person is fully defined here. Ensure to include all as per your schema.
-      // ...
+      // Define other object types (Organization, Group, Event, Task, Resource, Offer, Demand) similarly...
+      {
+        name: 'Organization',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Email', name: 'email', type: 'email' },
+          { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Address', name: 'address', type: 'object', fields: [
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Member', name: 'member', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'John Smith', value: 'urn:uuid:user456' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Sub Organization', name: 'subOrganization', type: 'multiselect', options: [
+            { label: 'Urban Farm Initiative', value: 'urn:uuid:suborg001' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'Resource Manager', value: 'Resource Manager' },
+            { label: 'Event Coordinator', value: 'Event Coordinator' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: 'Community Garden Plots', value: 'urn:uuid:resource204' },
+            { label: 'Shared Tools', value: 'urn:uuid:resource205' }
+          ] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: [
+            { label: 'Selling Fresh Produce', value: 'urn:uuid:offer205' }
+          ] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: [
+            { label: 'Volunteer Gardeners', value: 'urn:uuid:demand206' }
+          ] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: [
+            { label: 'Farmers Market', value: 'urn:uuid:event207' }
+          ] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: [
+            { label: 'Urban Farm Initiative', value: 'urn:uuid:project208' }
+          ] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: [
+            { label: 'ONE Local Community Garden', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+          { label: 'Has Credential', name: 'hasCredential', type: 'multiselect', options: [
+            { label: 'Organic Farming Certification', value: 'urn:uuid:credential209' }
+          ] },
+        ],
+      },
+      {
+        name: 'Group',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Member', name: 'member', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: [
+            { label: 'Group Moderator', value: 'Group Moderator' },
+            { label: 'Event Coordinator', value: 'Event Coordinator' }
+          ] },
+          { label: 'Member Of', name: 'memberOf', type: 'select', options: [
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: [
+            { label: 'Gardening Workshop', value: 'urn:uuid:event310' }
+          ] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: [
+            { label: 'Rainwater Harvesting System', value: 'urn:uuid:project310' }
+          ] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: [
+            { label: 'Shared Gardening Tools', value: 'urn:uuid:resource310' }
+          ] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+        ],
+      },
+      {
+        name: 'Event',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Event', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Date & Time', name: 'startDate', type: 'datetime-local' },
+          { label: 'End Date & Time', name: 'endDate', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Event Status', name: 'eventStatus', type: 'select', options: ['EventScheduled', 'EventCancelled', 'EventPostponed'] },
+          { label: 'Event Attendance Mode', name: 'eventAttendanceMode', type: 'select', options: ['Offline', 'Online'] },
+          { label: 'Organizer', name: 'organizer', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'ONE Local', value: 'urn:uuid:org001' }
+          ] },
+          { label: 'Attendee', name: 'attendee', type: 'multiselect', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Performer', name: 'performer', type: 'multiselect', options: [
+            { label: 'DJ Rhythm', value: 'urn:uuid:user456' }
+          ] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: [
+            { label: 'Free Entry', value: 'urn:uuid:offer206' }
+          ] },
+          { label: 'In Language', name: 'inLanguage', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Keywords', name: 'keywords', type: 'multiselect', options: ['Music', 'Community', 'Workshop'] },
+        ],
+      },
+      {
+        name: 'Task',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Action', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Time', name: 'startTime', type: 'datetime-local' },
+          { label: 'End Time', name: 'endTime', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Assigned To', name: 'assignedTo', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Emily Clark', value: 'urn:uuid:user789' }
+          ] },
+          { label: 'Assigned By', name: 'assignedBy', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' }
+          ] },
+          { label: 'Depends On', name: 'dependsOn', type: 'select', options: [
+            { label: 'Task 103', value: 'urn:uuid:task103' }
+          ] },
+          { label: 'Action Status', name: 'actionStatus', type: 'select', options: ['Active', 'Completed', 'Pending'] },
+          { label: 'Instrument', name: 'instrument', type: 'text' },
+          { label: 'Target', name: 'target', type: 'text' },
+        ],
+      },
+      {
+        name: 'Resource',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'select', options: ['Product', 'Service'], required: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Owner', name: 'owner', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Category', name: 'category', type: 'text' },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: [
+            { label: 'Material: Stainless Steel', value: 'Material: Stainless Steel' },
+            { label: 'Color: Black', value: 'Color: Black' }
+          ] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: [
+            { label: 'Free Tutoring', value: 'urn:uuid:offer104' }
+          ] },
+          { label: 'Has Permission', name: 'hasPermission', type: 'multiselect', options: [
+            { label: 'Use Permission', value: 'Use Permission' },
+            { label: 'Read Permission', value: 'Read Permission' }
+          ] },
+          { label: 'Governed By', name: 'governedBy', type: 'text' },
+        ],
+      },
+      {
+        name: 'Offer',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Offer', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Offered', name: 'itemOffered', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Seller', name: 'seller', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Accepted Payment Method', name: 'acceptedPaymentMethod', type: 'multiselect', options: [
+            { label: 'Credit Card', value: 'CreditCard' },
+            { label: 'PayPal', value: 'PayPal' },
+            { label: 'Cash', value: 'Cash' }
+          ] },
+        ],
+      },
+      {
+        name: 'Demand',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Demand', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Requested', name: 'itemRequested', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Buyer', name: 'buyer', type: 'select', options: [
+            { label: 'Jane Doe', value: 'urn:uuid:user123' },
+            { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' }
+          ] },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: [
+            { label: 'Property1', value: 'Property1' },
+            { label: 'Property2', value: 'Property2' }
+          ] },
+        ],
+      },
     ];
 
-    // Dummy Data for Dropdowns
-    const dummyData = {
+    // Dummy Data for Dropdowns (initial options)
+    const initialDummyData = {
       users: [
         { label: 'Jane Doe', value: 'urn:uuid:user123' },
         { label: 'John Smith', value: 'urn:uuid:user456' },
@@ -174,46 +453,60 @@
         { label: 'Carpentry', value: 'Carpentry' },
       ],
       offers: [
-        { label: 'Free Tutoring', value: 'Free Tutoring' },
-        { label: 'Tool Sharing', value: 'Tool Sharing' },
-        { label: 'Selling Fresh Produce', value: 'Selling Fresh Produce' },
+        { label: 'Free Tutoring', value: 'urn:uuid:offer104' },
+        { label: 'Tool Sharing', value: 'urn:uuid:offer105' },
+        { label: 'Selling Fresh Produce', value: 'urn:uuid:offer205' },
       ],
       demands: [
-        { label: 'Help Building Fence', value: 'Help Building Fence' },
-        { label: 'Event Volunteers', value: 'Event Volunteers' },
-        { label: 'Volunteer Gardeners', value: 'Volunteer Gardeners' },
+        { label: 'Help Building Fence', value: 'urn:uuid:demand105' },
+        { label: 'Event Volunteers', value: 'urn:uuid:demand106' },
+        { label: 'Volunteer Gardeners', value: 'urn:uuid:demand206' },
       ],
       badges: [
-        { label: 'Community Leader', value: 'Community Leader' },
-        { label: 'Volunteer', value: 'Volunteer' },
+        { label: 'Community Leader', value: 'urn:uuid:badge106' },
+        { label: 'Volunteer', value: 'urn:uuid:badge107' },
       ],
       permissions: [
         { label: 'Use Permission', value: 'Use Permission' },
         { label: 'Read Permission', value: 'Read Permission' },
       ],
       proposals: [
-        { label: 'Proposal1', value: 'Proposal1' },
-        { label: 'Proposal2', value: 'Proposal2' },
+        { label: 'Proposal to Expand Garden', value: 'urn:uuid:proposal108' },
       ],
       votes: [
-        { label: 'Vote1', value: 'Vote1' },
-        { label: 'Vote2', value: 'Vote2' },
+        { label: 'Vote Yes on Proposal', value: 'urn:uuid:vote109' },
       ],
       notifications: [
-        { label: 'Notification1', value: 'Notification1' },
-        { label: 'Notification2', value: 'Notification2' },
+        { label: 'Task Assignment', value: 'urn:uuid:notification110' },
       ],
       alerts: [
-        { label: 'Alert1', value: 'Alert1' },
-        { label: 'Alert2', value: 'Alert2' },
+        { label: 'Emergency Resource Shortage', value: 'urn:uuid:alert111' },
       ],
       recommendations: [
-        { label: 'Recommendation1', value: 'Recommendation1' },
-        { label: 'Recommendation2', value: 'Recommendation2' },
+        { label: 'Followed AI Recommendation', value: 'urn:uuid:action112' },
       ],
       sessions: [
-        { label: 'Session1', value: 'Session1' },
-        { label: 'Session2', value: 'Session2' },
+        { label: 'Project Kickoff Meeting', value: 'urn:uuid:session113' },
+      ],
+      subOrganizations: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:suborg001' },
+      ],
+      resources: [
+        { label: '3D Printer', value: 'urn:uuid:resource103' },
+        { label: 'Lawn Mower', value: 'urn:uuid:resource104' },
+        { label: 'Community Garden Plots', value: 'urn:uuid:resource204' },
+        { label: 'Shared Tools', value: 'urn:uuid:resource205' },
+      ],
+      credentials: [
+        { label: 'Organic Farming Certification', value: 'urn:uuid:credential209' },
+      ],
+      events: [
+        { label: 'Farmers Market', value: 'urn:uuid:event207' },
+        { label: 'Gardening Workshop', value: 'urn:uuid:event310' },
+      ],
+      projects: [
+        { label: 'Urban Farm Initiative', value: 'urn:uuid:project208' },
+        { label: 'Rainwater Harvesting System', value: 'urn:uuid:project310' },
       ],
     };
 
@@ -222,7 +515,18 @@
       const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
       const [formData, setFormData] = React.useState({});
       const [jsonOutput, setJsonOutput] = React.useState('');
-      const [objects, setObjects] = React.useState([]);
+      const [createdObjects, setCreatedObjects] = React.useState({
+        Person: [],
+        Organization: [],
+        Group: [],
+        Event: [],
+        Task: [],
+        Resource: [],
+        Offer: [],
+        Demand: [],
+      });
+      const [dummyData, setDummyData] = React.useState(initialDummyData);
+      const [modalOpen, setModalOpen] = React.useState(false);
       const [selectedObject, setSelectedObject] = React.useState(null);
 
       // Handle Tab Change
@@ -232,11 +536,6 @@
         setJsonOutput('');
       };
 
-      // Handle Form Submission
-      const handleSubmit = (data) => {
-        setObjects(prev => [...prev, data]);
-      };
-
       // Update JSON Output whenever formData changes
       React.useEffect(() => {
         setJsonOutput(JSON.stringify(formData, null, 2));
@@ -244,6 +543,46 @@
 
       // Get the schema for the selected object type
       const currentSchema = objectTypes.find(obj => obj.name === selectedType);
+
+      // Handle Form Submission
+      const handleSubmit = () => {
+        if (currentSchema) {
+          setCreatedObjects(prev => ({
+            ...prev,
+            [selectedType]: [...prev[selectedType], formData],
+          }));
+
+          // Update dummyData for multiselects with new entries
+          currentSchema.properties.forEach(prop => {
+            if (prop.type === 'multiselect' && formData[prop.name]) {
+              const newOptions = formData[prop.name]
+                .filter(item => !dummyData[prop.name]?.some(option => option.value === item))
+                .map(item => ({ label: item, value: item }));
+              if (newOptions.length > 0) {
+                setDummyData(prev => ({
+                  ...prev,
+                  [prop.name]: [...(prev[prop.name] || []), ...newOptions],
+                }));
+              }
+            }
+          });
+
+          // Reset form
+          setFormData({});
+        }
+      };
+
+      // Handle Modal Open
+      const handleModalOpen = (object, type) => {
+        setSelectedObject({ ...object, type });
+        setModalOpen(true);
+      };
+
+      // Handle Modal Close
+      const handleModalClose = () => {
+        setModalOpen(false);
+        setSelectedObject(null);
+      };
 
       return (
         <Box sx={{ width: '100%' }}>
@@ -267,35 +606,67 @@
               formData={formData}
               setFormData={setFormData}
               dummyData={dummyData}
-              onSubmit={handleSubmit}
+              setDummyData={setDummyData}
             />
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Create {selectedType}
+            </Button>
             <Typography variant="h6" sx={{ mt: 4 }}>
               JSON Output:
             </Typography>
             <Paper variant="outlined" className="json-output">
               <pre>{jsonOutput}</pre>
             </Paper>
-            <Divider sx={{ my: 4 }} />
-            <Typography variant="h5" gutterBottom>
-              Created Objects:
+            <Typography variant="h5" sx={{ mt: 6, mb: 2 }}>
+              Created {selectedType}s
             </Typography>
-            <ObjectCards objects={objects} onSelect={setSelectedObject} />
+            <Box className="card-grid">
+              {createdObjects[selectedType].map((obj, idx) => (
+                <Card key={idx} className="card-item">
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {obj.name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary">
+                      {obj.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small" onClick={() => handleModalOpen(obj, selectedType)}>View Details</Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </Box>
           </Box>
+          {/* Detail Modal */}
           {selectedObject && (
-            <DetailModal object={selectedObject} onClose={() => setSelectedObject(null)} />
+            <Dialog open={modalOpen} onClose={handleModalClose} maxWidth="md" fullWidth>
+              <DialogTitle>{selectedObject.name} Details</DialogTitle>
+              <DialogContent dividers>
+                <DialogContentText>
+                  <pre>{JSON.stringify(selectedObject, null, 2)}</pre>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleModalClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
           )}
         </Box>
       );
     }
 
     // ObjectForm Component
-    function ObjectForm({ schema, formData, setFormData, dummyData, onSubmit }) {
+    function ObjectForm({ schema, formData, setFormData, dummyData, setDummyData }) {
       // Handle input changes
       const handleChange = (name, value) => {
-        setFormData(prev => setNestedValue(prev, name, value));
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+        }));
       };
 
-      // Recursive function to handle nested objects
+      // Recursive function to handle nested objects and arrays
       const renderFields = (properties, parentName = '') => {
         return properties.map((prop, index) => {
           const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
@@ -322,56 +693,62 @@
                     required={prop.required}
                     value={value}
                     onChange={(e) => handleChange(fullName, e.target.value)}
-                    helperText={prop.helperText || ''}
                   />
                 </Box>
               );
             case 'select':
               return (
                 <Box key={index} sx={{ mb: 3 }}>
-                  <FormControl fullWidth>
-                    <InputLabel>{prop.label}</InputLabel>
-                    <Select
-                      value={value}
-                      label={prop.label}
-                      onChange={(e) => handleChange(fullName, e.target.value)}
-                    >
-                      {prop.options.map((option, idx) => (
-                        <MenuItem key={idx} value={option}>{option}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <Autocomplete
+                    freeSolo
+                    options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      handleChange(fullName, newValue);
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      handleChange(fullName, newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={prop.label}
+                        placeholder={`Select or create ${prop.label}`}
+                      />
+                    )}
+                  />
                 </Box>
               );
             case 'multiselect':
-              // Determine options based on property name
-              let options = [];
-              if (prop.options) {
-                options = prop.options;
-              } else {
-                // Dynamically assign options from dummyData based on name
-                const key = prop.name.replace(/([A-Z])/g, '_$1').toLowerCase();
-                options = dummyData[key] || [];
-              }
-
               return (
                 <Box key={index} sx={{ mb: 3 }}>
                   <Autocomplete
                     multiple
-                    options={options}
-                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                    freeSolo
+                    options={dummyData[prop.name] ? dummyData[prop.name].map(option => option.value) : []}
                     value={value}
                     onChange={(event, newValue) => {
-                      const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
-                      handleChange(fullName, selectedValues);
+                      // Add new options to dummyData
+                      const newEntries = newValue.filter(item => !dummyData[prop.name]?.some(option => option.value === item));
+                      if (newEntries.length > 0) {
+                        setDummyData(prev => ({
+                          ...prev,
+                          [prop.name]: [...(prev[prop.name] || []), ...newEntries.map(item => ({ label: item, value: item }))]
+                        }));
+                      }
+                      handleChange(fullName, newValue);
                     }}
                     renderTags={(tagValue, getTagProps) =>
-                      tagValue.map((option, idx) => (
-                        <Chip label={option} {...getTagProps({ index: idx })} key={idx} />
+                      tagValue.map((option, index) => (
+                        <Chip label={option} {...getTagProps({ index })} key={index} />
                       ))
                     }
                     renderInput={(params) => (
-                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
+                      <TextField
+                        {...params}
+                        label={prop.label}
+                        placeholder={`Select or create ${prop.label}`}
+                      />
                     )}
                   />
                 </Box>
@@ -405,126 +782,18 @@
         });
       };
 
-      // Helper functions to manage nested state
-      const setNestedValue = (obj, path, value) => {
-        const keys = path.split(/\.|\[|\].?/).filter(key => key);
-        const lastKey = keys.pop();
-        const nested = keys.reduce((acc, key) => {
-          if (!acc[key]) acc[key] = {};
-          return acc[key];
-        }, obj);
-        nested[lastKey] = value;
-        return { ...obj };
-      };
-
+      // Helper to get nested value
       const getNestedValue = (obj, path) => {
-        return path.split(/\.|\[|\].?/).reduce((acc, part) => acc && acc[part], obj);
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
       };
 
-      // Handle form submission
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        onSubmit(formData);
-        setFormData({});
-      };
-
-      // Render the form fields
       return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box>
           {renderFields(schema.properties)}
-          <Button variant="contained" color="primary" type="submit">
-            Add {schema.name}
-          </Button>
         </Box>
       );
     }
 
-    // ObjectCards Component
-    function ObjectCards({ objects, onSelect }) {
-      return (
-        <Box className="object-cards">
-          {objects.map((obj, index) => (
-            <Card key={index} className="object-card">
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {obj.name || obj['@type']}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Type: {obj['@type']}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ID: {obj['@id']}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" onClick={() => onSelect(obj)}>View Details</Button>
-              </CardActions>
-            </Card>
-          ))}
-        </Box>
-      );
-    }
-
-    // DetailModal Component
-    function DetailModal({ object, onClose }) {
-      return (
-        <Modal
-          open={Boolean(object)}
-          onClose={onClose}
-          aria-labelledby="object-detail-title"
-          aria-describedby="object-detail-description"
-        >
-          <Box sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '80%',
-            maxHeight: '80%',
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            p: 4,
-            overflow: 'auto',
-            borderRadius: 2,
-          }}>
-            <Typography id="object-detail-title" variant="h6" component="h2" gutterBottom>
-              {object.name || object['@type']}
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
-            <Box>
-              {Object.entries(object).map(([key, value], index) => (
-                key !== '@context' && (
-                  <Box key={index} sx={{ mb: 2 }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      {key}
-                    </Typography>
-                    <Typography variant="body1">
-                      {renderValue(value)}
-                    </Typography>
-                  </Box>
-                )
-              ))}
-            </Box>
-            <Button variant="contained" onClick={onClose} sx={{ mt: 2 }}>
-              Close
-            </Button>
-          </Box>
-        </Modal>
-      );
-    }
-
-    // Helper function to render different types of values
-    function renderValue(value) {
-      if (Array.isArray(value)) {
-        return value.length > 0 ? value.join(', ') : 'N/A';
-      } else if (typeof value === 'object' && value !== null) {
-        return <pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(value, null, 2)}</pre>;
-      } else {
-        return value || 'N/A';
-      }
-    }
-
-    // Render the App
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
