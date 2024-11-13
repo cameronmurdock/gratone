@@ -2,520 +2,2424 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local Object Builder</title>
+  <title>ONE Local - Empower Your Community</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Material-UI CSS -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <!-- Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5;
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
     }
-    #root {
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Animated Gradient Background */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
+      background-size: 400% 400%;
+      animation: gradientAnimation 60s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+    }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
       padding: 20px;
     }
-    .json-output {
-      width: 100%;
-      height: 300px;
-      margin-top: 20px;
-      padding: 10px;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 14px;
-      background-color: #e0e0e0;
-      border-radius: 8px;
-      overflow: auto;
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
     }
   </style>
 </head>
-<body>
+<body style="margin: 0;">
   <div id="root"></div>
 
-  <!-- React and ReactDOM -->
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <!-- Babel for JSX Transformation -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Material-UI Components -->
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
-      Button,
-      TextField,
-      Select,
-      MenuItem,
-      FormControl,
-      InputLabel,
-      Tabs,
-      Tab,
-      Box,
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
       Typography,
-      Autocomplete,
+      Button,
+      IconButton,
+      Container,
+      Box,
       Grid,
-      Paper,
-      Checkbox,
-      FormControlLabel,
-      Chip,
+      Card,
+      CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
     } = MaterialUI;
 
-    // Define the object types and their properties
-    const objectTypes = [
-      {
-        name: 'Person',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Person', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Alternate Name', name: 'alternateName', type: 'text' },
-          { label: 'Identifier', name: 'identifier', type: 'text' },
-          { label: 'Email', name: 'email', type: 'email' },
-          { label: 'Telephone', name: 'telephone', type: 'tel' },
-          { label: 'Image URL', name: 'image', type: 'url' },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: ['https://twitter.com/janedoe', 'https://linkedin.com/in/janedoe'] },
-          { label: 'Birth Date', name: 'birthDate', type: 'date' },
-          { label: 'Gender', name: 'gender', type: 'select', options: ['Male', 'Female', 'Non-binary', 'Other'] },
-          { label: 'Address', name: 'address', type: 'object', fields: [
-              { label: 'Street Address', name: 'streetAddress', type: 'text' },
-              { label: 'City', name: 'addressLocality', type: 'text' },
-              { label: 'Region', name: 'addressRegion', type: 'text' },
-              { label: 'Postal Code', name: 'postalCode', type: 'text' },
-              { label: 'Country', name: 'addressCountry', type: 'text' },
+    // Comprehensive Data Model Based on JSON-LD Schema
+    const data = {
+      people: [
+        {
+          "@id": "urn:uuid:user123",
+          "@type": "Person",
+          "name": "Cam Johnson",
+          "alternateName": "",
+          "identifier": "cam_johnson",
+          "email": "cam.johnson@onelocal.com",
+          "telephone": "+1234567890",
+          "image": "https://i.pravatar.cc/100?img=5",
+          "description": "Director of Operations and Co-founder of ONE Local.",
+          "sameAs": [
+            "https://linkedin.com/in/camjohnson",
+            "https://twitter.com/camjohnson"
+          ],
+          "birthDate": "1985-04-12",
+          "gender": "Male",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "789 Community Drive",
+            "addressLocality": "Boulder",
+            "addressRegion": "CO",
+            "postalCode": "80302",
+            "addressCountry": "USA"
+          },
+          "location": {
+            "@type": "Place",
+            "name": "Boulder, CO",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.01499,
+              "longitude": -105.27055
+            }
+          },
+          "language": "en-US",
+          "culturalContext": "Western",
+          "memberOf": [
+            {
+              "@id": "urn:uuid:org001",
+              "@type": "Organization",
+              "name": "ONE Local",
+              "description": "Platform connecting communities through shared resources and collaboration."
+            }
+          ],
+          "hasRole": [
+            {
+              "@type": "Role",
+              "roleName": "CEO",
+              "withinOrganization": "urn:uuid:org001",
+              "startDate": "2020-01-01"
+            },
+            {
+              "@type": "Role",
+              "roleName": "COO",
+              "withinOrganization": "urn:uuid:org001",
+              "startDate": "2020-01-01"
+            }
+          ],
+          "hasSkill": [
+            {
+              "@type": "DefinedTerm",
+              "name": "Strategic Planning",
+              "inDefinedTermSet": "urn:uuid:skill-set001"
+            },
+            {
+              "@type": "DefinedTerm",
+              "name": "Leadership",
+              "inDefinedTermSet": "urn:uuid:skill-set001"
+            }
+          ],
+          "owns": [
+            {
+              "@type": "Product",
+              "name": "3D Printer",
+              "@id": "urn:uuid:resource103",
+              "description": "High-precision 3D printer for community projects.",
+              "brand": "MakerBot",
+              "model": "Replicator+",
+              "productID": "MBP-Replicator+",
+              "category": "Tool",
+              "image": "https://via.placeholder.com/150x100?text=3D+Printer",
+              "owner": "urn:uuid:user123",
+              "location": {
+                "@type": "Place",
+                "name": "Community Workshop",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "789 Community Drive",
+                  "addressLocality": "Boulder",
+                  "addressRegion": "CO",
+                  "postalCode": "80302",
+                  "addressCountry": "USA"
+                }
+              },
+              "availability": "InStock"
+            }
+          ],
+          "makesOffer": [
+            {
+              "@type": "Offer",
+              "@id": "urn:uuid:offer104",
+              "name": "Offering Free Tutoring in Mathematics",
+              "description": "Providing free tutoring sessions for students struggling with math.",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Mathematics Tutoring",
+                "description": "One-on-one tutoring sessions to improve mathematical skills."
+              },
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "InStock",
+              "validFrom": "2024-01-01T09:00:00Z",
+              "validThrough": "2024-12-31T17:00:00Z",
+              "seller": "urn:uuid:user123",
+              "acceptedPaymentMethod": [
+                "CreditCard",
+                "PayPal"
+              ]
+            }
+          ],
+          "seeks": [
+            {
+              "@type": "Demand",
+              "@id": "urn:uuid:demand105",
+              "name": "Need Help Building a Fence",
+              "description": "Looking for volunteers to help build a wooden fence for the community garden.",
+              "itemRequested": {
+                "@type": "Product",
+                "name": "Wooden Fence Panels",
+                "description": "Durable wooden panels for building a perimeter fence."
+              },
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "InStock",
+              "validFrom": "2024-03-01T08:00:00Z",
+              "validThrough": "2024-04-30T18:00:00Z",
+              "buyer": "urn:uuid:user123"
+            }
+          ],
+          "hasBadge": [
+            {
+              "@type": "EducationalOccupationalCredential",
+              "@id": "urn:uuid:badge106",
+              "name": "Community Leader",
+              "description": "Awarded for outstanding leadership in community projects.",
+              "issuer": {
+                "@type": "Organization",
+                "name": "ONE Local"
+              },
+              "dateIssued": "2024-05-15",
+              "credentialCategory": "Achievement",
+              "credentialRecipient": "urn:uuid:user123"
+            }
+          ],
+          "hasReputationScore": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "bestRating": "5",
+            "worstRating": "1",
+            "author": "urn:uuid:user456",
+            "reviewAspect": "Trustworthiness",
+            "dateCreated": "2024-06-01"
+          },
+          "friendOf": [
+            {
+              "@id": "urn:uuid:user456",
+              "@type": "Person",
+              "name": "John Smith"
+            }
+          ],
+          "collaboratesWith": [
+            {
+              "@id": "urn:uuid:org456",
+              "@type": "Organization",
+              "name": "Boulder Farmers Co-op",
+              "description": "A cooperative of local farmers working together to provide fresh produce."
+            }
+          ],
+          "privacySetting": {
+            "@type": "DigitalDocumentPermission",
+            "name": "Profile Visibility",
+            "description": "Controls who can view your profile information.",
+            "grantee": "Public",
+            "permissionType": "Read"
+          },
+          "userPreferences": {
+            "@type": "DigitalDocument",
+            "name": "User Preferences",
+            "description": "Settings related to user experience and notifications.",
+            "property": [
+              {
+                "name": "notificationSettings",
+                "value": {
+                  "@type": "PropertyValue",
+                  "name": "Email Notifications",
+                  "value": "Enabled"
+                }
+              },
+              {
+                "name": "languagePreference",
+                "value": "en-US"
+              }
             ]
           },
-          { label: 'Location', name: 'location', type: 'object', fields: [
-              { label: 'Place Name', name: 'name', type: 'text' },
-              { label: 'Latitude', name: 'latitude', type: 'number' },
-              { label: 'Longitude', name: 'longitude', type: 'number' },
-            ]
+          "blockchainIdentity": {
+            "@type": "BlockchainIdentity",
+            "identifier": "did:example:123456789abcdefghi",
+            "associatedAgent": "urn:uuid:user123"
           },
-          { label: 'Language', name: 'language', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
-          { label: 'Cultural Context', name: 'culturalContext', type: 'text' },
-          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: ['urn:uuid:org001', 'urn:uuid:org456'] },
-          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['CEO', 'COO', 'CMO'] },
-          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: ['Strategic Planning', 'Leadership', 'Gardening', 'Carpentry'] },
-          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['3D Printer', 'Lawn Mower'] },
-          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: ['Free Tutoring', 'Tool Sharing'] },
-          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: ['Help Building Fence', 'Event Volunteers'] },
-          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: ['Community Leader', 'Volunteer'] },
-          { label: 'Has Reputation Score', name: 'hasReputationScore', type: 'number' },
-          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: ['urn:uuid:user456', 'urn:uuid:user789'] },
-          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: ['urn:uuid:org456'] },
-          { label: 'Privacy Setting', name: 'privacySetting', type: 'text' },
-          { label: 'User Preferences', name: 'userPreferences', type: 'textarea' },
-          { label: 'Blockchain Identity', name: 'blockchainIdentity', type: 'text' },
-          { label: 'Security Scheme', name: 'securityScheme', type: 'text' },
-          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: ['Proposal1', 'Proposal2'] },
-          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: ['Vote1', 'Vote2'] },
-          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: ['Notification1', 'Notification2'] },
-          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: ['Alert1', 'Alert2'] },
-          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: ['Recommendation1', 'Recommendation2'] },
-          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: ['Session1', 'Session2'] },
-        ],
-      },
-      {
-        name: 'Organization',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Organization', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'URL', name: 'url', type: 'url' },
-          { label: 'Logo URL', name: 'logo', type: 'url' },
-          { label: 'Email', name: 'email', type: 'email' },
-          { label: 'Telephone', name: 'telephone', type: 'tel' },
-          { label: 'Address', name: 'address', type: 'object', fields: [
-              { label: 'Street Address', name: 'streetAddress', type: 'text' },
-              { label: 'City', name: 'addressLocality', type: 'text' },
-              { label: 'Region', name: 'addressRegion', type: 'text' },
-              { label: 'Postal Code', name: 'postalCode', type: 'text' },
-              { label: 'Country', name: 'addressCountry', type: 'text' },
-            ]
+          "securityScheme": {
+            "@type": "Action",
+            "name": "Two-Factor Authentication",
+            "description": "Enhances account security by requiring a second form of verification."
           },
-          { label: 'Member', name: 'member', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user456', 'urn:uuid:user789'] },
-          { label: 'Sub Organization', name: 'subOrganization', type: 'multiselect', options: ['urn:uuid:suborg001', 'urn:uuid:suborg002'] },
-          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['Resource Manager', 'Event Coordinator'] },
-          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['Community Garden Plots', 'Shared Tools'] },
-          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: ['Selling Fresh Produce'] },
-          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: ['Volunteer Gardeners'] },
-          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: ['Farmers Market'] },
-          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: ['Urban Farm Initiative'] },
-          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: ['urn:uuid:org001'] },
-          { label: 'Legal', name: 'legal', type: 'text' },
-          { label: 'Has Credential', name: 'hasCredential', type: 'multiselect', options: ['Organic Farming Certification'] },
-        ],
-      },
-      {
-        name: 'Group',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Organization', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'URL', name: 'url', type: 'url' },
-          { label: 'Logo URL', name: 'logo', type: 'url' },
-          { label: 'Member', name: 'member', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
-          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['Group Moderator', 'Event Coordinator'] },
-          { label: 'Member Of', name: 'memberOf', type: 'select', options: ['urn:uuid:org456'] },
-          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: ['Gardening Workshop'] },
-          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: ['Rainwater Harvesting System'] },
-          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['Shared Gardening Tools'] },
-          { label: 'Legal', name: 'legal', type: 'text' },
-        ],
-      },
-      {
-        name: 'Event',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Event', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Start Date & Time', name: 'startDate', type: 'datetime-local' },
-          { label: 'End Date & Time', name: 'endDate', type: 'datetime-local' },
-          { label: 'Image URL', name: 'image', type: 'url' },
-          { label: 'Location', name: 'location', type: 'object', fields: [
-              { label: 'Place Name', name: 'name', type: 'text' },
-              { label: 'Street Address', name: 'streetAddress', type: 'text' },
-              { label: 'City', name: 'addressLocality', type: 'text' },
-              { label: 'Region', name: 'addressRegion', type: 'text' },
-              { label: 'Postal Code', name: 'postalCode', type: 'text' },
-              { label: 'Country', name: 'addressCountry', type: 'text' },
-              { label: 'Latitude', name: 'latitude', type: 'number' },
-              { label: 'Longitude', name: 'longitude', type: 'number' },
-            ]
-          },
-          { label: 'Event Status', name: 'eventStatus', type: 'select', options: ['EventScheduled', 'EventCancelled', 'EventPostponed'] },
-          { label: 'Event Attendance Mode', name: 'eventAttendanceMode', type: 'select', options: ['Offline', 'Online'] },
-          { label: 'Organizer', name: 'organizer', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
-          { label: 'Attendee', name: 'attendee', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
-          { label: 'Performer', name: 'performer', type: 'multiselect', options: ['urn:uuid:user456'] },
-          { label: 'Offers', name: 'offers', type: 'multiselect', options: ['Offer1', 'Offer2'] },
-          { label: 'In Language', name: 'inLanguage', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
-          { label: 'Keywords', name: 'keywords', type: 'multiselect', options: ['Music', 'Community', 'Workshop'] },
-        ],
-      },
-      {
-        name: 'Task',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Action', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Start Time', name: 'startTime', type: 'datetime-local' },
-          { label: 'End Time', name: 'endTime', type: 'datetime-local' },
-          { label: 'Image URL', name: 'image', type: 'url' },
-          { label: 'Assigned To', name: 'assignedTo', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
-          { label: 'Assigned By', name: 'assignedBy', type: 'select', options: ['urn:uuid:user123'] },
-          { label: 'Depends On', name: 'dependsOn', type: 'select', options: ['urn:uuid:task103'] },
-          { label: 'Action Status', name: 'actionStatus', type: 'select', options: ['Active', 'Completed', 'Pending'] },
-          { label: 'Instrument', name: 'instrument', type: 'text' },
-          { label: 'Target', name: 'target', type: 'text' },
-        ],
-      },
-      {
-        name: 'Resource',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'select', options: ['Product', 'Service'], required: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Image URL', name: 'image', type: 'url' },
-          { label: 'Owner', name: 'owner', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
-          { label: 'Location', name: 'location', type: 'object', fields: [
-              { label: 'Place Name', name: 'name', type: 'text' },
-              { label: 'Street Address', name: 'streetAddress', type: 'text' },
-              { label: 'City', name: 'addressLocality', type: 'text' },
-              { label: 'Region', name: 'addressRegion', type: 'text' },
-              { label: 'Postal Code', name: 'postalCode', type: 'text' },
-              { label: 'Country', name: 'addressCountry', type: 'text' },
-            ]
-          },
-          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
-          { label: 'Category', name: 'category', type: 'text' },
-          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: ['Material: Stainless Steel', 'Color: Black'] },
-          { label: 'Offers', name: 'offers', type: 'multiselect', options: ['Offer1', 'Offer2'] },
-          { label: 'Has Permission', name: 'hasPermission', type: 'multiselect', options: ['Permission1', 'Permission2'] },
-          { label: 'Governed By', name: 'governedBy', type: 'text' },
-        ],
-      },
-      {
-        name: 'Offer',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Offer', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Item Offered', name: 'itemOffered', type: 'text' },
-          { label: 'Price', name: 'price', type: 'number' },
-          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
-          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
-          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
-          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
-          { label: 'Seller', name: 'seller', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
-          { label: 'Accepted Payment Method', name: 'acceptedPaymentMethod', type: 'multiselect', options: ['CreditCard', 'PayPal', 'Cash'] },
-        ],
-      },
-      {
-        name: 'Demand',
-        properties: [
-          { label: 'ID', name: '@id', type: 'text', required: true },
-          { label: 'Type', name: '@type', type: 'text', default: 'Demand', disabled: true },
-          { label: 'Name', name: 'name', type: 'text', required: true },
-          { label: 'Description', name: 'description', type: 'textarea' },
-          { label: 'Item Requested', name: 'itemRequested', type: 'text' },
-          { label: 'Price', name: 'price', type: 'number' },
-          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
-          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
-          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
-          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
-          { label: 'Buyer', name: 'buyer', type: 'select', options: ['urn:uuid:user123', 'urn:uuid:org456'] },
-          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: ['Property1', 'Property2'] },
-        ],
-      },
-    ];
-
-    // Dummy Data for Dropdowns
-    const dummyData = {
-      users: [
-        { label: 'Jane Doe', value: 'urn:uuid:user123' },
-        { label: 'John Smith', value: 'urn:uuid:user456' },
-        { label: 'Emily Clark', value: 'urn:uuid:user789' },
+          "proposes": [
+            {
+              "@type": "AskAction",
+              "@id": "urn:uuid:proposal108",
+              "name": "Proposal to Expand Community Garden",
+              "description": "Requesting additional funding and resources to expand the community garden by 50%.",
+              "agent": "urn:uuid:user123",
+              "object": {
+                "@type": "CreativeWork",
+                "name": "Community Garden Expansion Plan"
+              },
+              "startTime": "2024-07-01T10:00:00Z",
+              "endTime": "2024-07-15T17:00:00Z",
+              "actionStatus": "ActiveActionStatus"
+            }
+          ],
+          "votesOn": [
+            {
+              "@type": "VoteAction",
+              "@id": "urn:uuid:vote109",
+              "agent": "urn:uuid:user456",
+              "option": "Yes",
+              "startTime": "2024-07-02T12:00:00Z",
+              "endTime": "2024-07-14T16:00:00Z"
+            }
+          ],
+          "receivesNotification": [
+            {
+              "@type": "Message",
+              "@id": "urn:uuid:notification110",
+              "name": "Task Assignment",
+              "description": "You have been assigned to set up chairs for the Community Drum Circle event.",
+              "dateSent": "2024-06-30T08:00:00Z",
+              "sender": "urn:uuid:system001",
+              "recipient": "urn:uuid:user123",
+              "about": "Task Assignment",
+              "content": "Please set up 20 chairs for the upcoming drum circle event on July 10th."
+            }
+          ],
+          "receivesAlert": [
+            {
+              "@type": "InformAction",
+              "@id": "urn:uuid:alert111",
+              "name": "Emergency Resource Shortage",
+              "description": "The community garden has run out of compost. Immediate action required.",
+              "agent": "urn:uuid:system001",
+              "recipient": "urn:uuid:user123",
+              "object": "Resource Alert",
+              "startTime": "2024-08-01T09:00:00Z"
+            }
+          ],
+          "actedOnRecommendation": [
+            {
+              "@type": "Action",
+              "@id": "urn:uuid:action112",
+              "name": "Followed AI Recommendation",
+              "description": "Implemented AI's suggestion to allocate more resources to the community garden.",
+              "agent": "urn:uuid:user123",
+              "object": "AI Recommendation",
+              "startTime": "2024-08-02T10:00:00Z",
+              "actionStatus": "CompletedActionStatus"
+            }
+          ],
+          "participatesInSession": [
+            {
+              "@type": "Conversation",
+              "@id": "urn:uuid:session113",
+              "name": "Project Kickoff Meeting",
+              "description": "Initial meeting to discuss the community garden expansion project.",
+              "startDate": "2024-07-05T14:00:00Z",
+              "endDate": "2024-07-05T15:30:00Z",
+              "participant": [
+                "urn:uuid:user123",
+                "urn:uuid:user456",
+                "urn:uuid:org456"
+              ],
+              "message": [
+                {
+                  "@type": "Message",
+                  "@id": "urn:uuid:message114",
+                  "name": "Welcome Message",
+                  "description": "Welcome to the project kickoff meeting!",
+                  "dateSent": "2024-07-05T14:05:00Z",
+                  "sender": "urn:uuid:user123",
+                  "recipient": "urn:uuid:user456",
+                  "content": "Glad to have you on board for this project."
+                }
+              ]
+            }
+          ]
+        },
+        // Additional Person objects can be added here
       ],
       organizations: [
-        { label: 'ONE Local', value: 'urn:uuid:org001' },
-        { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' },
+        {
+          "@id": "urn:uuid:org001",
+          "@type": "Organization",
+          "name": "ONE Local",
+          "description": "Platform connecting communities through shared resources and collaboration.",
+          "url": "https://onelocal.com",
+          "logo": "https://via.placeholder.com/150x100?text=ONE+Local+Logo",
+          "email": "contact@onelocal.com",
+          "telephone": "+1234567890",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "123 Community Lane",
+            "addressLocality": "Boulder",
+            "addressRegion": "CO",
+            "postalCode": "80302",
+            "addressCountry": "USA"
+          },
+          "member": [
+            "urn:uuid:user123",
+            // Other members can be added here
+          ],
+          "subOrganization": [
+            {
+              "@type": "Organization",
+              "name": "Tech Development Department",
+              "@id": "urn:uuid:suborg001",
+              "description": "Handles all technology-related initiatives and platform development."
+            },
+            {
+              "@type": "Organization",
+              "name": "Community Outreach Department",
+              "@id": "urn:uuid:suborg002",
+              "description": "Focuses on engaging the community, organizing events, and managing marketing efforts."
+            },
+            // Additional sub-organizations can be added here
+          ],
+          "hasRole": [
+            {
+              "@type": "Role",
+              "roleName": "Director",
+              "withinOrganization": "urn:uuid:org001",
+              "startDate": "2020-01-01"
+            },
+            {
+              "@type": "Role",
+              "roleName": "Secretary",
+              "withinOrganization": "urn:uuid:org001",
+              "startDate": "2020-01-01"
+            },
+            {
+              "@type": "Role",
+              "roleName": "Treasurer",
+              "withinOrganization": "urn:uuid:org001",
+              "startDate": "2020-01-01"
+            }
+          ],
+          "owns": [
+            // Organizational resources can be added here
+          ],
+          "makesOffer": [
+            // Organizational offers can be added here
+          ],
+          "seeks": [
+            // Organizational demands can be added here
+          ],
+          "hasEvent": [
+            // Organizational events can be added here
+          ],
+          "hasProject": [
+            // Organizational projects can be added here
+          ],
+          "collaboratesWith": [
+            "urn:uuid:org456"
+          ],
+          "legal": {
+            "@type": "DigitalDocument",
+            "name": "Terms of Service",
+            "description": "Platform-wide terms and policies.",
+            "dateCreated": "2020-01-01",
+            "dateModified": "2024-04-15",
+            "contentUrl": "https://onelocal.com/terms",
+            "format": "application/pdf"
+          },
+          "hasCredential": [
+            // Organizational credentials can be added here
+          ]
+        },
+        {
+          "@id": "urn:uuid:org456",
+          "@type": "Organization",
+          "name": "Boulder Farmers Co-op",
+          "description": "A cooperative of local farmers working together to provide fresh produce.",
+          "url": "https://bouldermfarmerscoop.org",
+          "logo": "https://via.placeholder.com/150x100?text=Boulder+Farmers+Co-op+Logo",
+          "email": "contact@bouldermfarmerscoop.org",
+          "telephone": "+19876543210",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "456 Orchard Lane",
+            "addressLocality": "Boulder",
+            "addressRegion": "CO",
+            "postalCode": "80302",
+            "addressCountry": "USA"
+          },
+          "member": [
+            "urn:uuid:user123",
+            "urn:uuid:user456",
+            {
+              "@type": "Person",
+              "name": "Emily Clark",
+              "@id": "urn:uuid:user789"
+            }
+          ],
+          "subOrganization": [
+            {
+              "@type": "Organization",
+              "name": "Urban Farm Initiative",
+              "@id": "urn:uuid:suborg003",
+              "description": "Initiative to expand farming practices within urban areas."
+            }
+          ],
+          "hasRole": [
+            {
+              "@type": "Role",
+              "roleName": "Resource Manager",
+              "withinOrganization": "urn:uuid:org456",
+              "startDate": "2022-03-01"
+            }
+          ],
+          "owns": [
+            {
+              "@type": "Thing",
+              "name": "Community Garden Plots",
+              "@id": "urn:uuid:resource204",
+              "description": "Allocated plots for community members to grow their own produce.",
+              "location": {
+                "@type": "Place",
+                "name": "Main Community Garden",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "789 Greenway Blvd",
+                  "addressLocality": "Boulder",
+                  "addressRegion": "CO",
+                  "postalCode": "80302",
+                  "addressCountry": "USA"
+                }
+              },
+              "availability": "InStock"
+            }
+          ],
+          "makesOffer": [
+            {
+              "@type": "Offer",
+              "@id": "urn:uuid:offer205",
+              "name": "Selling Fresh Produce",
+              "description": "Weekly fresh produce available for purchase at the farmers' market.",
+              "itemOffered": {
+                "@type": "Product",
+                "name": "Organic Apples",
+                "description": "Freshly picked organic apples from our orchards."
+              },
+              "price": "2.50",
+              "priceCurrency": "USD",
+              "availability": "InStock",
+              "validFrom": "2024-01-01T00:00:00Z",
+              "validThrough": "2024-12-31T23:59:59Z",
+              "seller": "urn:uuid:org456",
+              "acceptedPaymentMethod": [
+                "Cash",
+                "CreditCard",
+                "PayPal"
+              ]
+            }
+          ],
+          "seeks": [
+            {
+              "@type": "Demand",
+              "@id": "urn:uuid:demand206",
+              "name": "Looking for Volunteer Gardeners",
+              "description": "Seeking passionate individuals to help maintain and expand our community garden.",
+              "itemRequested": {
+                "@type": "Service",
+                "name": "Gardening Assistance",
+                "description": "Volunteer gardening services to support community initiatives."
+              },
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "InStock",
+              "validFrom": "2024-03-01T08:00:00Z",
+              "validThrough": "2024-06-30T18:00:00Z",
+              "buyer": "urn:uuid:org456"
+            }
+          ],
+          "hasEvent": [
+            {
+              "@type": "Event",
+              "@id": "urn:uuid:event207",
+              "name": "Monthly Farmers' Market",
+              "description": "A market showcasing fresh produce from local farmers.",
+              "startDate": "2024-04-15T09:00:00Z",
+              "endDate": "2024-04-15T15:00:00Z",
+              "location": {
+                "@type": "Place",
+                "name": "Boulder Downtown",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "321 Market Street",
+                  "addressLocality": "Boulder",
+                  "addressRegion": "CO",
+                  "postalCode": "80302",
+                  "addressCountry": "USA"
+                },
+                "geo": {
+                  "@type": "GeoCoordinates",
+                  "latitude": 40.01499,
+                  "longitude": -105.27055
+                }
+              },
+              "organizer": "urn:uuid:org456",
+              "attendee": [
+                "urn:uuid:user123",
+                "urn:uuid:user789"
+              ],
+              "eventStatus": "EventScheduled",
+              "eventAttendanceMode": "OfflineEventAttendanceMode",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "InStock",
+                "validFrom": "2024-04-01T00:00:00Z",
+                "validThrough": "2024-04-15T15:00:00Z",
+                "seller": "urn:uuid:org456"
+              }
+            }
+          ],
+          "hasProject": [
+            {
+              "@type": "Project",
+              "@id": "urn:uuid:project208",
+              "name": "Urban Farm Initiative",
+              "description": "Expanding farming practices into urban areas to increase local produce availability.",
+              "startDate": "2024-05-01",
+              "endDate": "2025-05-01",
+              "member": [
+                "urn:uuid:user123",
+                "urn:uuid:user789",
+                "urn:uuid:user456"
+              ],
+              "hasTask": [
+                {
+                  "@type": "Action",
+                  "@id": "urn:uuid:task209",
+                  "name": "Set Up Irrigation System",
+                  "description": "Install automated irrigation for the new urban farm plots.",
+                  "assignedTo": "urn:uuid:user789",
+                  "assignedBy": "urn:uuid:user123",
+                  "startTime": "2024-05-15T08:00:00Z",
+                  "endTime": "2024-06-15T17:00:00Z",
+                  "actionStatus": "ActiveActionStatus",
+                  "dependsOn": "urn:uuid:task210"
+                },
+                {
+                  "@type": "Action",
+                  "@id": "urn:uuid:task210",
+                  "name": "Procure Irrigation Materials",
+                  "description": "Purchase necessary materials for the irrigation system.",
+                  "assignedTo": "urn:uuid:user456",
+                  "assignedBy": "urn:uuid:user123",
+                  "startTime": "2024-05-10T09:00:00Z",
+                  "endTime": "2024-05-20T17:00:00Z",
+                  "actionStatus": "CompletedActionStatus"
+                }
+              ],
+              "contributor": [
+                "urn:uuid:user456"
+              ],
+              "projectStatus": "ActiveActionStatus",
+              "dateModified": "2024-06-01"
+            }
+          ],
+          "contributor": [
+            // Contributors can be added here
+          ],
+          "projectStatus": "ActiveActionStatus",
+          "dateModified": "2024-06-01"
+        },
+        // Additional Organization objects can be added here
       ],
-      roles: [
-        { label: 'CEO', value: 'CEO' },
-        { label: 'COO', value: 'COO' },
-        { label: 'CMO', value: 'CMO' },
-        { label: 'Resource Manager', value: 'Resource Manager' },
-        { label: 'Event Coordinator', value: 'Event Coordinator' },
-        { label: 'Group Moderator', value: 'Group Moderator' },
+      groups: [
+        {
+          "@id": "urn:uuid:group789",
+          "@type": "Organization",
+          "name": "Admin + Org Structure",
+          "description": "Handles administrative tasks and organizational structuring.",
+          "url": "https://onelocal.com/groups/admin-org-structure",
+          "logo": "https://via.placeholder.com/150x100?text=Admin+Group",
+          "member": [
+            "urn:uuid:user123",
+            // Other members can be added here
+          ],
+          "hasRole": [
+            {
+              "@type": "Role",
+              "roleName": "Secretary",
+              "withinOrganization": "urn:uuid:group789",
+              "startDate": "2020-01-01"
+            },
+            {
+              "@type": "Role",
+              "roleName": "Treasurer",
+              "withinOrganization": "urn:uuid:group789",
+              "startDate": "2020-01-01"
+            }
+          ],
+          "hasEvent": [
+            // Group-specific events can be added here
+          ],
+          "hasProject": [
+            // Group-specific projects can be added here
+          ],
+          "owns": [
+            // Group-specific resources can be added here
+          ],
+          "legal": {
+            "@type": "DigitalDocument",
+            "name": "Group Terms and Policies",
+            "description": "Guidelines and rules governing group behavior and resource usage.",
+            "dateCreated": "2023-05-01",
+            "dateModified": "2024-04-15",
+            "contentUrl": "https://onelocal.com/groups/admin-org-structure/policies",
+            "format": "application/pdf"
+          }
+        },
+        {
+          "@id": "urn:uuid:group790",
+          "@type": "Organization",
+          "name": "Community Outreach (Product and Marketing)",
+          "description": "Focuses on engaging the community, organizing events, and managing marketing efforts.",
+          "url": "https://onelocal.com/groups/community-outreach",
+          "logo": "https://via.placeholder.com/150x100?text=Community+Outreach",
+          "member": [
+            "urn:uuid:user123",
+            "urn:uuid:user789",
+            "urn:uuid:user456"
+          ],
+          "hasRole": [
+            {
+              "@type": "Role",
+              "roleName": "CMO",
+              "withinOrganization": "urn:uuid:group790",
+              "startDate": "2021-02-01"
+            },
+            {
+              "@type": "Role",
+              "roleName": "Marketing Manager",
+              "withinOrganization": "urn:uuid:group790",
+              "startDate": "2021-03-01"
+            }
+          ],
+          "hasEvent": [
+            // Group-specific events can be added here
+          ],
+          "hasProject": [
+            // Group-specific projects can be added here
+          ],
+          "owns": [
+            // Group-specific resources can be added here
+          ],
+          "legal": {
+            "@type": "DigitalDocument",
+            "name": "Group Terms and Policies",
+            "description": "Guidelines and rules governing group behavior and resource usage.",
+            "dateCreated": "2023-05-01",
+            "dateModified": "2024-04-15",
+            "contentUrl": "https://onelocal.com/groups/community-outreach/policies",
+            "format": "application/pdf"
+          }
+        },
+        // Additional Group objects can be added here
       ],
-      skills: [
-        { label: 'Strategic Planning', value: 'Strategic Planning' },
-        { label: 'Leadership', value: 'Leadership' },
-        { label: 'Gardening', value: 'Gardening' },
-        { label: 'Carpentry', value: 'Carpentry' },
+      teamDepartments: [
+        {
+          "name": "Admin + Org Structure",
+          "roles": [
+            {
+              "name": "CEO",
+              "tags": "",
+              "description": "Directs ONE Local's strategy and alignment.",
+              "people": ["Cam Johnson"],
+              "responsibilities": "Set strategic direction, align departments, lead executive team, oversee performance, manage stakeholders, ensure financial stability.",
+              "keyTasks": "Strategic Planning, Performance Monitoring, Stakeholder Engagement, Financial Oversight, Leadership and Culture.",
+              "keyGoal": "Achieve vision and mission, build a thriving community, create a sustainable platform, establish leadership in civic tech, support org structure, community outreach, secure funding, guide tech development.",
+              "tasks": ""
+            },
+            {
+              "name": "COO",
+              "tags": "Biz-Ops Manager",
+              "description": "Oversees daily operations, implements policies.",
+              "people": ["Cam Johnson"],
+              "responsibilities": "Oversees daily operations, policy implementation, and business process efficiency.",
+              "keyTasks": "Finalize project management frameworks, conduct cooperative model research, establish governance policies.",
+              "keyGoal": "Establish a scalable and efficient structure for growth, transparent governance, and strong foundation for user engagement and expansion.",
+              "tasks": ""
+            },
+            {
+              "name": "Human Resources Manager",
+              "tags": "",
+              "description": "Manages recruitment, training, and development of staff.",
+              "people": [],
+              "responsibilities": "Manages recruitment, staff training, role definitions, and responsibilities.",
+              "keyTasks": "Train staff on new structures, refine administrative processes.",
+              "keyGoal": "",
+              "tasks": ""
+            }
+          ]
+        },
+        {
+          "name": "Community Outreach (Product and Marketing)",
+          "roles": [
+            {
+              "name": "CMO",
+              "tags": "Community Engagement Director",
+              "description": "Leads community engagement, membership growth, events.",
+              "people": ["Kathena", "Cam Johnson"],
+              "responsibilities": "Increase membership, coordinate events, drive community engagement efforts.",
+              "keyTasks": "Plan feedback sessions, membership drives, community festivals.",
+              "keyGoal": "Cultivate an engaged community that participates actively, shaping ONE Local’s development through a feedback loop, building strong user relationships.",
+              "tasks": ""
+            },
+            {
+              "name": "Marketing Manager",
+              "tags": "",
+              "description": "Develops and implements marketing strategies.",
+              "people": ["Cam Johnson", "Miranda Lee"],
+              "responsibilities": "Creates promotional materials, implements strategies, monitors engagement.",
+              "keyTasks": "Distribute promotional materials, develop referral programs, monitor campaigns.",
+              "keyGoal": "",
+              "tasks": "1.1 launch and field update Email to Users"
+            },
+            {
+              "name": "Product Manager",
+              "tags": "",
+              "description": "Manages product lifecycle and user feedback.",
+              "people": ["Cam Johnson"],
+              "responsibilities": "Oversees feature development, user feedback, and iteration process.",
+              "keyTasks": "Develop community voting features, integrate personalization, monitor user engagement.",
+              "keyGoal": "",
+              "tasks": ""
+            }
+          ]
+        },
+        {
+          "name": "Funding and Finance",
+          "roles": [
+            {
+              "name": "CFO",
+              "tags": "Funding and Finance",
+              "description": "Manages financial health and fundraising.",
+              "people": ["Cam Johnson"],
+              "responsibilities": "Oversees fundraising, financial sustainability, and overall financial health.",
+              "keyTasks": "Prepare fundraising materials, launch campaigns, secure funding.",
+              "keyGoal": "Establish diverse, sustainable funding streams for financial stability and long-term growth, allowing investment in new initiatives and geographic expansion.",
+              "tasks": ""
+            },
+            {
+              "name": "Fundraising Manager",
+              "tags": "",
+              "description": "Identifies investors, organizes pitch sessions.",
+              "people": ["Cam Johnson"],
+              "responsibilities": "Identify potential investors, maintain donor relationships, organize pitch sessions.",
+              "keyTasks": "Approach investors, organize pitch sessions, monitor fundraising progress.",
+              "keyGoal": "",
+              "tasks": ""
+            }
+          ]
+        },
+        {
+          "name": "Tech Development",
+          "roles": [
+            {
+              "name": "CTO",
+              "tags": "Tech Lead",
+              "description": "Oversees technology development and maintenance.",
+              "people": ["Shawn Lee"],
+              "responsibilities": "Develop, implement, and maintain tech solutions.",
+              "keyTasks": "Develop new features, ensure platform stability, conduct user testing.",
+              "keyGoal": "Develop and maintain a cutting-edge platform ensuring user-friendly, secure, and scalable tech. Focus on user engagement, adaptability, and new feature implementation.",
+              "tasks": ""
+            }
+          ]
+        }
+      ],
+      organizations: [
+        // As defined above
+      ],
+      groups: [
+        // As defined above
+      ],
+      events: [
+        // Events can be added here based on the data model
+      ],
+      tasks: [
+        // Tasks can be added here based on the data model
+      ],
+      resources: [
+        // Resources can be added here based on the data model
       ],
       offers: [
-        { label: 'Free Tutoring', value: 'Free Tutoring' },
-        { label: 'Tool Sharing', value: 'Tool Sharing' },
-        { label: 'Selling Fresh Produce', value: 'Selling Fresh Produce' },
+        // Offers can be added here based on the data model
       ],
       demands: [
-        { label: 'Help Building Fence', value: 'Help Building Fence' },
-        { label: 'Event Volunteers', value: 'Event Volunteers' },
-        { label: 'Volunteer Gardeners', value: 'Volunteer Gardeners' },
+        // Demands can be added here based on the data model
       ],
-      badges: [
-        { label: 'Community Leader', value: 'Community Leader' },
-        { label: 'Volunteer', value: 'Volunteer' },
+      testimonials: [
+        {
+          avatar: 'https://i.pravatar.cc/100?img=1',
+          name: 'Emily R.',
+          role: 'Local Member',
+          quote: '“I found my neighbors, my friends, my sense of belonging.”',
+        },
+        {
+          avatar: 'https://i.pravatar.cc/100?img=2',
+          name: 'Michael T.',
+          role: 'Event Host',
+          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
+        },
+        {
+          avatar: 'https://i.pravatar.cc/100?img=3',
+          name: 'Sarah L.',
+          role: 'Seller',
+          quote: '“This platform brought customers who appreciate the local touch.”',
+        },
+        {
+          avatar: 'https://i.pravatar.cc/100?img=4',
+          name: 'David G.',
+          role: 'Organization Leader',
+          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
+        },
       ],
-      permissions: [
-        { label: 'Use Permission', value: 'Use Permission' },
-        { label: 'Read Permission', value: 'Read Permission' },
+      impactStories: [
+        {
+          title: 'Artisans Unite',
+          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
+          image: 'https://via.placeholder.com/600x400?text=Artisans+Unite',
+        },
+        {
+          title: 'Youth Leadership',
+          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
+          image: 'https://via.placeholder.com/600x400?text=Youth+Leadership',
+        },
+        {
+          title: 'Circular Economy',
+          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
+          image: 'https://via.placeholder.com/600x400?text=Circular+Economy',
+        },
+        {
+          title: 'Disaster Relief',
+          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
+          image: 'https://via.placeholder.com/600x400?text=Disaster+Relief',
+        },
       ],
-      proposals: [
-        { label: 'Proposal1', value: 'Proposal1' },
-        { label: 'Proposal2', value: 'Proposal2' },
+      blogPosts: [
+        {
+          title: 'Building Sustainable Communities',
+          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
+          image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+          content: 'Detailed content about building sustainable communities through ONE Local...',
+        },
+        {
+          title: 'The Power of Local Events',
+          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
+          image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+          content: 'Detailed content about the impact of local events on community strength...',
+        },
+        {
+          title: 'Supporting Local Businesses',
+          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
+          image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+          content: 'Detailed content about the economic benefits of supporting local businesses...',
+        },
       ],
-      votes: [
-        { label: 'Vote1', value: 'Vote1' },
-        { label: 'Vote2', value: 'Vote2' },
+      products: [
+        // Products can be added here based on the data model
       ],
-      notifications: [
-        { label: 'Notification1', value: 'Notification1' },
-        { label: 'Notification2', value: 'Notification2' },
-      ],
-      alerts: [
-        { label: 'Alert1', value: 'Alert1' },
-        { label: 'Alert2', value: 'Alert2' },
-      ],
-      recommendations: [
-        { label: 'Recommendation1', value: 'Recommendation1' },
-        { label: 'Recommendation2', value: 'Recommendation2' },
-      ],
-      sessions: [
-        { label: 'Session1', value: 'Session1' },
-        { label: 'Session2', value: 'Session2' },
+      groupsDetails: [
+        // Detailed groups can be added here if needed
       ],
     };
 
-    // Main App Component
-    function App() {
-      const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
-      const [formData, setFormData] = React.useState({});
-      const [jsonOutput, setJsonOutput] = React.useState('');
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const themeOptions = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#5a4033',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
 
-      // Handle Tab Change
-      const handleChange = (event, newValue) => {
-        setSelectedType(newValue);
-        setFormData({});
-        setJsonOutput('');
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('home');
+      const isMobile = useMediaQuery(themeOptions.breakpoints.down('md'));
+
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'home':
+            return <LandingPage setCurrentPage={setCurrentPage} />;
+          case 'manifesto':
+            return <ManifestoPage />;
+          case 'team':
+            return <TeamPage />;
+          case 'whitepaper':
+            return <WhitepaperPage />;
+          case 'investors':
+            return <InvestorsPage />;
+          case 'features-overview':
+            return <FeaturesOverviewPage />;
+          case 'local-members':
+            return <LocalMembersPage />;
+          case 'event-hosts':
+            return <EventHostsPage />;
+          case 'sellers':
+            return <SellersPage />;
+          case 'organizations':
+            return <OrganizationsPage />;
+          case 'impact-stories':
+            return <ImpactStoriesPage />;
+          case 'blog':
+            return <BlogPage />;
+          case 'download-app':
+            return <DownloadAppPage />;
+          case 'terms-of-service':
+            return <TermsOfServicePage />;
+          case 'privacy-policy':
+            return <PrivacyPolicyPage />;
+          case 'faq':
+            return <FAQPage />;
+          case 'contact-us':
+            return <ContactUsPage />;
+          default:
+            return <LandingPage setCurrentPage={setCurrentPage} />;
+        }
       };
 
-      // Update JSON Output whenever formData changes
-      React.useEffect(() => {
-        setJsonOutput(JSON.stringify(formData, null, 2));
-      }, [formData]);
+      return (
+        <ThemeProvider theme={themeOptions}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
+            {renderPage()}
+            <Footer setCurrentPage={setCurrentPage} />
+          </Box>
+        </ThemeProvider>
+      );
+    }
 
-      // Get the schema for the selected object type
-      const currentSchema = objectTypes.find(obj => obj.name === selectedType);
+    function NavigationBar({ setCurrentPage, isMobile }) {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+
+      const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
+      };
 
       return (
-        <Box sx={{ width: '100%' }}>
-          <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
-            ONE Local Object Builder
-          </Typography>
-          <Tabs
-            value={selectedType}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            centered
-          >
-            {objectTypes.map((obj) => (
-              <Tab key={obj.name} label={obj.name} value={obj.name} />
-            ))}
-          </Tabs>
-          <Box sx={{ p: 3 }}>
-            <ObjectForm
-              schema={currentSchema}
-              formData={formData}
-              setFormData={setFormData}
-              dummyData={dummyData}
-            />
-            <Typography variant="h6" sx={{ mt: 4 }}>
-              JSON Output:
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
+              ONE Local
             </Typography>
-            <Paper variant="outlined" className="json-output">
-              <pre>{jsonOutput}</pre>
-            </Paper>
+            {isMobile ? (
+              <>
+                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')} aria-label="menu">
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  <MenuItem onClick={() => { setCurrentPage('home'); handleMenuClose(); }}>Home</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'about'); }}>About</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'features'); }}>Features</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'community'); }}>Community</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('download-app'); handleMenuClose(); }}>Download App</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <div className="desktopMenu">
+                <Button color="primary" onClick={() => setCurrentPage('home')}>Home</Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'about')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  About
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'features')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  Features
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'community')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  Community
+                </Button>
+                <Button color="primary" onClick={() => setCurrentPage('download-app')}>Download App</Button>
+              </div>
+            )}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
+              onClose={handleMenuClose}
+              PaperProps={{ style: { zIndex: 1400 } }}
+            >
+              {menuId === 'about' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('manifesto'); handleMenuClose(); }}>Manifesto</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('team'); handleMenuClose(); }}>Team</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('whitepaper'); handleMenuClose(); }}>Whitepaper</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('investors'); handleMenuClose(); }}>Investors</MenuItem>
+                </>
+              )}
+              {menuId === 'features' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('features-overview'); handleMenuClose(); }}>Overview</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('local-members'); handleMenuClose(); }}>For Local Members</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('event-hosts'); handleMenuClose(); }}>For Event Hosts</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('sellers'); handleMenuClose(); }}>For Sellers</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('organizations'); handleMenuClose(); }}>For Organizations</MenuItem>
+                </>
+              )}
+              {menuId === 'community' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('impact-stories'); handleMenuClose(); }}>Impact Stories</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('blog'); handleMenuClose(); }}>Blog</MenuItem>
+                </>
+              )}
+            </Menu>
+          </AppBar>
+        );
+      
+    }
+
+    // Landing Page
+    function LandingPage({ setCurrentPage }) {
+      return (
+        <Container maxWidth="lg" sx={{ mt: 16 }}>
+          <HeroSection setCurrentPage={setCurrentPage} />
+          <LogoCollection />
+          <FeaturesSection />
+          <MembershipTypes setCurrentPage={setCurrentPage} />
+          <TeamSection setCurrentPage={setCurrentPage} />
+          <CommunityImpact />
+          <TestimonialsCarousel />
+          <CallToAction setCurrentPage={setCurrentPage} />
+        </Container>
+      );
+    }
+
+    // Other Pages
+    function ManifestoPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Manifesto
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
+            Our pledge, our promise: A declaration of what we’re building together.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
+          </Typography>
+          <Typography variant="body1">
+            Join us in reshaping the future of local communities. Together, we are stronger.
+          </Typography>
+        </Container>
+      );
+    }
+
+    function TeamPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          <TeamSection setCurrentPage={() => {}} />
+        </Container>
+      );
+    }
+
+    function WhitepaperPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Whitepaper
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
+            Download Whitepaper
+          </Button>
+        </Container>
+      );
+    }
+
+    function InvestorsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Invest in a New Kind of Social Infrastructure
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 8 }}>
+            For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
+            Join the Movement — Invest Today
+          </Button>
+        </Container>
+      );
+    }
+
+    function FeaturesOverviewPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Discover What’s Possible with ONE Local
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
+          </Typography>
+          <FeaturesSection />
+        </Container>
+      );
+    }
+
+    function LocalMembersPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Local Members
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Join Now
+          </Button>
+        </Container>
+      );
+    }
+
+    function EventHostsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Event Hosts
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Start Hosting Events
+          </Button>
+        </Container>
+      );
+    }
+
+    function SellersPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Sellers
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Open Your Shop
+          </Button>
+        </Container>
+      );
+    }
+
+    function OrganizationsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Organizations
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Register Your Organization
+          </Button>
+        </Container>
+      );
+    }
+
+    function ImpactStoriesPage() {
+      const stories = data.impactStories;
+
+      const [currentSlide, setCurrentSlide] = React.useState(0);
+
+      const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % stories.length);
+      };
+
+      const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + stories.length) % stories.length);
+      };
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextSlide();
+        }, 7000); // Change slide every 7 seconds
+        return () => clearInterval(timer);
+      }, []);
+
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Impact Stories
+          </Typography>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                    {stories[currentSlide].title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 4 }}>
+                    {stories[currentSlide].content}
+                  </Typography>
+                  <Box className="carousel" sx={{ position: 'relative' }}>
+                    <img src={stories[currentSlide].image} alt={stories[currentSlide].title} />
+                    <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
+                      <Icon>chevron_left</Icon>
+                    </button>
+                    <button className="carousel-button right" onClick={nextSlide} aria-label="Next Slide">
+                      <Icon>chevron_right</Icon>
+                    </button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Container>
+      );
+    }
+
+    function BlogPage() {
+      const blogPosts = data.blogPosts;
+
+      const [currentPost, setCurrentPost] = React.useState(0);
+
+      const nextPost = () => {
+        setCurrentPost((prev) => (prev + 1) % blogPosts.length);
+      };
+
+      const prevPost = () => {
+        setCurrentPost((prev) => (prev - 1 + blogPosts.length) % blogPosts.length);
+      };
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextPost();
+        }, 8000); // Change post every 8 seconds
+        return () => clearInterval(timer);
+      }, []);
+
+      // Modal State for Blog Posts
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
+
+      const handleOpenModal = (post) => {
+        setSelectedPost(post);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedPost(null);
+      };
+
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Blog
+          </Typography>
+          <Grid container spacing={6} justifyContent="center">
+            <Grid item xs={12} md={8}>
+              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    {blogPosts[currentPost].title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 4 }}>
+                    {blogPosts[currentPost].excerpt}
+                  </Typography>
+                  <Box className="carousel" sx={{ position: 'relative' }}>
+                    <img src={blogPosts[currentPost].image} alt={blogPosts[currentPost].title} />
+                    <button className="carousel-button left" onClick={prevPost} aria-label="Previous Post">
+                      <Icon>chevron_left</Icon>
+                    </button>
+                    <button className="carousel-button right" onClick={nextPost} aria-label="Next Post">
+                      <Icon>chevron_right</Icon>
+                    </button>
+                  </Box>
+                </CardContent>
+                <CardActions>
+                  <Button variant="text" color="primary">Read More</Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* Blog Post Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="blog-modal-title"
+            aria-describedby="blog-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedPost.title}
+                    </Typography>
+                    <Typography id="blog-modal-description" sx={{ mb: 4 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    function DownloadAppPage() {
+      const [openModal, setOpenModal] = React.useState(false);
+
+      const handleOpen = () => setOpenModal(true);
+      const handleClose = () => setOpenModal(false);
+
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Download the App
+          </Typography>
+          <Typography variant="h5" sx={{ mb: 8 }}>
+            Step in, the door is open.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
+            Get the App Now
+          </Button>
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="download-app-modal-title"
+            aria-describedby="download-app-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                  Thank You for Your Interest!
+                </Typography>
+                <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
+                  The app is coming soon. Stay tuned!
+                </Typography>
+                <Button variant="contained" color="primary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    function TermsOfServicePage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Terms of Service
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Please read these terms of service carefully before using the ONE Local platform.
+          </Typography>
+          {/* Add actual legal text here */}
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            [Legal text outlining user rights, privacy protections, and data usage.]
+          </Typography>
+        </Container>
+      );
+    }
+
+    function PrivacyPolicyPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Privacy Policy
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            Your privacy is important to us. This policy explains how we handle your personal data.
+          </Typography>
+          {/* Add actual privacy policy text here */}
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            [Detailed information about data collection, usage, and user rights.]
+          </Typography>
+        </Container>
+      );
+    }
+
+    function FAQPage() {
+      const faqs = [
+        {
+          question: 'What is ONE Local?',
+          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
+        },
+        {
+          question: 'How do I join as a member?',
+          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
+        },
+        {
+          question: 'How do I create an event?',
+          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
+        },
+        {
+          question: 'What payment options are available?',
+          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
+        },
+        {
+          question: 'Is my data secure?',
+          answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
+        },
+      ];
+
+      return (
+        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Frequently Asked Questions
+          </Typography>
+          <Box mt={4}>
+            {faqs.map((faq, index) => (
+              <Accordion key={index}>
+                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {faq.question}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                    {faq.answer}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Box>
+        </Container>
+      );
+    }
+
+    function ContactUsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Contact Us
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 6 }}>
+            We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
+          </Typography>
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
+                Contact Information
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
+                Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
+                Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
+                Address: 123 Community Lane, Boulder, USA
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
+                Send Us a Message
+              </Typography>
+              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
+              <Button variant="contained" color="primary">
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Container>
+      );
+    }
+
+    // Reusable Components
+    function HeroSection({ setCurrentPage }) {
+      return (
+        <Box sx={{ textAlign: 'center', py: 12 }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Empower Your Community, Enrich Your Life.
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
+            Together, we build the future — one connection, one offering, one moment at a time.
+          </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+            Download the App
+          </Button>
         </Box>
       );
     }
 
-    // ObjectForm Component
-    function ObjectForm({ schema, formData, setFormData, dummyData }) {
-      // Handle input changes
-      const handleChange = (name, value) => {
-        setFormData(prev => ({
-          ...prev,
-          [name]: value,
-        }));
-      };
+    function LogoCollection() {
+      const logos = data.organizations.map(org => org.logo);
 
-      // Recursive function to handle nested objects
-      const renderFields = (properties, parentName = '') => {
-        return properties.map((prop, index) => {
-          const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
-          const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
-
-          switch (prop.type) {
-            case 'text':
-            case 'email':
-            case 'tel':
-            case 'url':
-            case 'number':
-            case 'date':
-            case 'datetime-local':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <TextField
-                    label={prop.label}
-                    type={prop.type === 'textarea' ? 'text' : prop.type}
-                    multiline={prop.type === 'textarea'}
-                    rows={prop.type === 'textarea' ? 4 : 1}
-                    fullWidth
-                    disabled={prop.disabled}
-                    required={prop.required}
-                    value={value}
-                    onChange={(e) => handleChange(fullName, e.target.value)}
-                  />
-                </Box>
-              );
-            case 'select':
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <FormControl fullWidth>
-                    <InputLabel>{prop.label}</InputLabel>
-                    <Select
-                      value={value}
-                      label={prop.label}
-                      onChange={(e) => handleChange(fullName, e.target.value)}
-                    >
-                      {prop.options.map((option, idx) => (
-                        <MenuItem key={idx} value={option}>{option}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
-              );
-            case 'multiselect':
-              // Determine options based on property name
-              let options = [];
-              if (prop.options) {
-                options = prop.options;
-              } else {
-                // Dynamically assign options from dummyData based on name
-                const key = prop.name.replace(/([A-Z])/g, '_$1').toLowerCase();
-                options = dummyData[key] || [];
-              }
-
-              return (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <Autocomplete
-                    multiple
-                    options={options}
-                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
-                    value={value}
-                    onChange={(event, newValue) => {
-                      const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
-                      handleChange(fullName, selectedValues);
-                    }}
-                    renderTags={(tagValue, getTagProps) =>
-                      tagValue.map((option, index) => (
-                        <Chip label={option} {...getTagProps({ index })} key={index} />
-                      ))
-                    }
-                    renderInput={(params) => (
-                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
-                    )}
-                  />
-                </Box>
-              );
-            case 'object':
-              return (
-                <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
-                  <Typography variant="h6" gutterBottom>
-                    {prop.label}
-                  </Typography>
-                  {renderFields(prop.fields, fullName)}
-                </Box>
-              );
-            default:
-              return null;
-          }
-        });
-      };
-
-      // Helper to get nested value
-      const getNestedValue = (obj, path) => {
-        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+      const logoStyle = {
+        width: '150px',
+        height: '100px',
+        margin: '0 20px',
+        opacity: 0.8,
       };
 
       return (
-        <Box>
-          {renderFields(schema.properties)}
+        <Box id="logoCollection" sx={{ py: 8 }}>
+          <Typography
+            component="p"
+            variant="h6"
+            align="center"
+            sx={{ color: 'text.secondary', mb: 6 }}
+          >
+            Trusted by communities worldwide
+          </Typography>
+          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
+            {logos.map((logo, index) => (
+              <Grid item key={index}>
+                <img
+                  src={logo}
+                  alt={`Partner logo ${index + 1}`}
+                  style={logoStyle}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function FeaturesSection() {
+      const features = data.features;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedFeature, setSelectedFeature] = React.useState(null);
+
+      const handleOpenModal = (feature) => {
+        setSelectedFeature(feature);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedFeature(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Explore What We Offer
+          </Typography>
+          <Grid container spacing={6}>
+            {features.map((feature) => (
+              <Grid item xs={12} sm={6} md={3} key={feature.title}>
+                <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" justifyContent="center" gap={2}>
+                      <Icon color="primary" sx={{ fontSize: 60 }}>{feature.iconName}</Icon>
+                    </Box>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
+                      {feature.title}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
+                      {feature.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Feature Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="feature-modal-title"
+            aria-describedby="feature-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedFeature && (
+                  <>
+                    <Typography id="feature-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedFeature.title}
+                    </Typography>
+                    <Typography id="feature-modal-description" sx={{ mb: 4 }}>
+                      {selectedFeature.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function MembershipTypes({ setCurrentPage }) {
+      const memberships = data.membershipTypes;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMembership, setSelectedMembership] = React.useState(null);
+
+      const handleOpenModal = (membership) => {
+        setSelectedMembership(membership);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMembership(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            How Will You Show Up?
+          </Typography>
+          <Grid container spacing={6}>
+            {memberships.map((membership) => (
+              <Grid item xs={12} sm={6} md={3} key={membership.title}>
+                <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
+                  <CardContent>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
+                      {membership.title}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mb: 6, textAlign: 'center' }}>
+                      {membership.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" color="primary" fullWidth size="large">
+                      {membership.cta}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Membership Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="membership-modal-title"
+            aria-describedby="membership-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMembership && (
+                  <>
+                    <Typography id="membership-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMembership.title}
+                    </Typography>
+                    <Typography id="membership-modal-description" sx={{ mb: 4 }}>
+                      {selectedMembership.details}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
+                      Learn More
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function TeamSection({ setCurrentPage }) {
+      const departments = data.teamDepartments;
+
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedRole, setSelectedRole] = React.useState(null);
+
+      const handleOpenModal = (role) => {
+        setSelectedRole(role);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedRole(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          {departments.map((dept, deptIndex) => (
+            <Box key={deptIndex} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {dept.name}
+              </Typography>
+              <Grid container spacing={6}>
+                {dept.roles.map((role, roleIndex) => (
+                  <Grid item xs={12} sm={6} md={3} key={roleIndex}>
+                    <Card onClick={() => handleOpenModal(role)} sx={{ cursor: 'pointer' }} aria-labelledby={`role-${role.name}`}>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 2 }}>
+                          {role.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {role.tags}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {role.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          ))}
+
+          {/* Role Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="role-modal-title"
+            aria-describedby="role-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedRole && (
+                  <>
+                    <Typography id="role-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedRole.name}
+                    </Typography>
+                    {selectedRole.tags && (
+                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {selectedRole.tags}
+                      </Typography>
+                    )}
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Description:</strong> {selectedRole.description}
+                    </Typography>
+                    {selectedRole.people && selectedRole.people.length > 0 && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>People:</strong> {selectedRole.people.join(', ')}
+                      </Typography>
+                    )}
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Responsibilities:</strong> {selectedRole.responsibilities}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      <strong>Key Tasks:</strong> {selectedRole.keyTasks}
+                    </Typography>
+                    {selectedRole.keyGoal && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Key Goal:</strong> {selectedRole.keyGoal}
+                      </Typography>
+                    )}
+                    {selectedRole.tasks && (
+                      <Typography variant="body1" sx={{ mb: 2 }}>
+                        <strong>Tasks:</strong> {selectedRole.tasks}
+                      </Typography>
+                    )}
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function CommunityImpact() {
+      const metrics = [
+        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
+        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
+        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
+        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
+      ];
+
+      const [count, setCount] = React.useState({
+        'Active Members': 0,
+        'Local Groups': 0,
+        'Resources Shared': 0,
+        'Events Hosted': 0,
+      });
+
+      React.useEffect(() => {
+        metrics.forEach(metric => {
+          const target = parseInt(metric.value.replace(/,/g, ''));
+          let current = 0;
+          const increment = target / 200; // Adjust for animation speed
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            setCount(prevCount => ({
+              ...prevCount,
+              [metric.label]: Math.floor(current),
+            }));
+          }, 30);
+        });
+      }, []);
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Our Community in Numbers
+          </Typography>
+          <Grid container spacing={6}>
+            {metrics.map((metric) => (
+              <Grid item xs={12} sm={6} md={3} key={metric.label}>
+                <Box textAlign="center">
+                  <Typography variant="h3" color="primary" sx={{ fontWeight: 'bold' }}>
+                    {count[metric.label].toLocaleString()}
+                  </Typography>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>
+                    {metric.label}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
+                    {metric.description}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    function TestimonialsCarousel() {
+      const testimonials = data.testimonials;
+
+      const [currentTestimonial, setCurrentTestimonial] = React.useState(0);
+
+      const nextTestimonial = () => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      };
+
+      const prevTestimonial = () => {
+        setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      };
+
+      React.useEffect(() => {
+        const timer = setInterval(() => {
+          nextTestimonial();
+        }, 7000); // Change testimonial every 7 seconds
+        return () => clearInterval(timer);
+      }, []);
+
+      return (
+        <Container sx={{ py: 12 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            What Our Members Say
+          </Typography>
+          <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
+            <Box className="testimonial">
+              <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                {testimonials[currentTestimonial].name}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ color: 'text.secondary', mb: 2 }}>
+                {testimonials[currentTestimonial].role}
+              </Typography>
+              <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
+                {testimonials[currentTestimonial].quote}
+              </Typography>
+            </Box>
+            {/* Navigation Buttons */}
+            <IconButton
+              className="carousel-button left"
+              onClick={prevTestimonial}
+              aria-label="Previous Testimonial"
+              sx={{ position: 'absolute', top: '50%', left: '-30px', transform: 'translateY(-50%)' }}
+            >
+              <Icon>chevron_left</Icon>
+            </IconButton>
+            <IconButton
+              className="carousel-button right"
+              onClick={nextTestimonial}
+              aria-label="Next Testimonial"
+              sx={{ position: 'absolute', top: '50%', right: '-30px', transform: 'translateY(-50%)' }}
+            >
+              <Icon>chevron_right</Icon>
+            </IconButton>
+          </Box>
+        </Container>
+      );
+    }
+
+    function CallToAction({ setCurrentPage }) {
+      return (
+        <Box mt={12} mb={12} textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
+            Help Us Grow
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
+            “Every dollar sown grows a forest of connection.”
+          </Typography>
+          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
+            Donate Now
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
+            Take the Survey
+          </Button>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
+            Become an Investor
+          </Button>
+        </Box>
+      );
+    }
+
+    function Footer({ setCurrentPage }) {
+      return (
+        <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={6}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  ONE Local
+                </Typography>
+                <List>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
+                      <ListItemText primary="Home" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
+                      <ListItemText primary="About" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
+                      <ListItemText primary="Features" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
+                      <ListItemText primary="Community" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
+                      <ListItemText primary="Investors" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
+                      <ListItemText primary="Contact Us" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
+                      <ListItemText primary="FAQ" />
+                    </Link>
+                  </ListItem>
+                </List>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Follow Us
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Join the conversation.
+                </Typography>
+                <Box display="flex" justifyContent="flex-start">
+                  <IconButton href="#" color="primary" aria-label="Facebook">
+                    <Icon>facebook</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Twitter">
+                    <Icon>twitter</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Instagram">
+                    <Icon>instagram</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="LinkedIn">
+                    <Icon>linkedin</Icon>
+                  </IconButton>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Newsletter Signup
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Get the Latest Stories and Updates — Sign Up Here.
+                </Typography>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#6d4c41' } }}
+                  InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
+              </Grid>
+            </Grid>
+            <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
+            <Box textAlign="center">
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                © 2024 ONE Local. All rights reserved. |{' '}
+                <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')} className="footer-link">
+                  Terms of Service
+                </Link>{' '}
+                |{' '}
+                <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')} className="footer-link">
+                  Privacy Policy
+                </Link>
+              </Typography>
+            </Box>
+          </Container>
         </Box>
       );
     }
