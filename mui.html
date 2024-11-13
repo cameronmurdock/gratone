@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>ONE Local - Empowering Communities</title>
-  <!-- Responsive meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body style="background-color: #121212; color: #ffffff;">
   <div id="root"></div>
 
-  <!-- React, ReactDOM, Babel, and Material UI -->
-  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script src="https://unpkg.com/@mui/material@5.0.0/umd/material-ui.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@mui/icons-material@5.0.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- React, ReactDOM, Babel, and Material UI from JSDelivr CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mui/material@5/umd/material-ui.development.js" crossorigin></script>
+
+  <!-- Individual Icon Imports -->
+  <script src="https://cdn.jsdelivr.net/npm/@mui/icons-material/AutoAwesome.js" crossorigin></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mui/icons-material/CheckCircleRounded.js" crossorigin></script>
 
   <script type="text/babel">
     const {
@@ -27,84 +26,82 @@
       Toolbar,
       Typography,
       Button,
-      IconButton,
-      Menu,
-      MenuItem,
       Container,
       Box,
       Grid,
       Card,
       CardContent,
-      CardMedia,
-      TextField,
-      Accordion,
-      AccordionSummary,
-      AccordionDetails,
-      List,
-      ListItem,
-      ListItemIcon,
-      ListItemText,
-      Chip,
       CardActions,
-      Divider,
-      Collapse,
-      MenuList,
-      Paper,
+      IconButton,
     } = MaterialUI;
 
-    const {
-      ExpandMore,
-      Menu: MenuIcon,
-      Email,
-      Phone,
-      AutoAwesome,
-      CheckCircleRounded,
-      KeyboardArrowDown,
-    } = MaterialUI.icons;
-
-    function NavigationBar() {
-      // ... [The rest of the code remains the same]
-    }
+    const AutoAwesome = window.MaterialUIIcons.AutoAwesome;
+    const CheckCircleRounded = window.MaterialUIIcons.CheckCircleRounded;
 
     function HeroSection() {
-      // ... [The rest of the code remains the same]
+      return (
+        <Box textAlign="center" mt={8} mb={8}>
+          <Typography variant="h2" component="h1" gutterBottom style={{ color: '#ffffff' }}>
+            Empower Your Community, Enrich Your Life.
+          </Typography>
+          <Typography variant="h5" component="h2" style={{ color: '#bbbbbb' }}>
+            Together, we build the future — one connection, one offering, one moment at a time.
+          </Typography>
+          <Button variant="contained" color="primary" size="large">
+            Download the App
+          </Button>
+        </Box>
+      );
     }
 
-    // ... [Other components remain the same]
+    function FeatureCard({ title, description, Icon }) {
+      return (
+        <Card style={{ backgroundColor: '#1e1e1e', color: '#ffffff' }}>
+          <CardContent>
+            <Box display="flex" alignItems="center" gap={2}>
+              <Icon style={{ color: '#00e676', fontSize: 30 }} />
+              <Typography variant="h6">{title}</Typography>
+            </Box>
+            <Typography variant="body2" style={{ color: '#bbbbbb', marginTop: 16 }}>
+              {description}
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    }
 
-    function LandingPage() {
+    function FeaturesSection() {
+      const features = [
+        { title: 'Connect', description: 'Message away from neighbors you haven’t met yet.', Icon: AutoAwesome },
+        { title: 'Share', description: 'Tools, time, talents — give what you can, receive what you need.', Icon: CheckCircleRounded },
+      ];
+
+      return (
+        <Container maxWidth="lg">
+          <Grid container spacing={4}>
+            {features.map((feature) => (
+              <Grid item xs={12} sm={6} key={feature.title}>
+                <FeatureCard {...feature} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      );
+    }
+
+    function App() {
       return (
         <div>
-          <NavigationBar />
-          <Container maxWidth="lg">
-            <HeroSection />
-            <MembershipTypes />
-            <FeaturesPreview />
-            <CommunityImpact />
-            <CallToAction />
-            <Testimonials />
-          </Container>
-          <Footer />
+          <HeroSection />
+          <FeaturesSection />
         </div>
       );
     }
 
-    ReactDOM.render(<LandingPage />, document.getElementById('root'));
+    ReactDOM.render(<App />, document.getElementById('root'));
   </script>
 
   <style>
-    /* Responsive Menu Styling */
-    @media (max-width: 960px) {
-      .desktopMenu {
-        display: none;
-      }
-    }
-    @media (min-width: 960px) {
-      .mobileMenu {
-        display: none;
-      }
-    }
-    /* Scrollbar Styling */
     body {
       scrollbar-color: #333 #1e1e1e;
       scrollbar-width: thin;
