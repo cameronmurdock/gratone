@@ -13,17 +13,6 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Responsive Menu Styling */
-    @media (max-width: 960px) {
-      .desktopMenu {
-        display: none;
-      }
-    }
-    @media (min-width: 960px) {
-      .mobileMenu {
-        display: none;
-      }
-    }
     /* Scrollbar Styling */
     body {
       overflow-x: hidden;
@@ -59,9 +48,26 @@
       min-height: 100vh;
       color: #ffffff;
     }
+    /* Back-to-Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 1000;
+    }
+    /* Responsive Grid for Older Browsers */
+    @supports not (display: grid) {
+      .MuiGrid-root {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .MuiGrid-item {
+        flex: 1 1 auto;
+      }
+    }
   </style>
 </head>
-<body style="margin: 0;">
+<body>
   <div id="root"></div>
 
   <!-- React, ReactDOM, Babel, and Material UI from CDN -->
@@ -69,6 +75,11 @@
   <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js" crossorigin></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- For Carousel: react-slick and slick-carousel CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 
   <script type="text/babel">
     const {
@@ -85,1083 +96,1685 @@
       Grid,
       Card,
       CardContent,
-      CardActions,
-      Icon,
-      Menu,
-      MenuItem,
-      Link,
-      Divider,
+      CardMedia,
+      Chip,
       Avatar,
-      List,
-      ListItem,
-      ListItemText,
+      AvatarGroup,
+      FormControl,
+      InputAdornment,
+      OutlinedInput,
+      Select,
+      MenuItem,
+      Tooltip,
+      Snackbar,
+      Alert,
+      Modal,
+      Backdrop,
+      Fade,
+      Pagination,
+      Switch,
+      FormControlLabel,
+      TextField,
       Accordion,
       AccordionSummary,
       AccordionDetails,
-      TextField,
-      useMediaQuery,
-      useTheme,
+      useScrollTrigger,
+      Zoom,
+      Dialog,
+      DialogTitle,
+      DialogContent,
+      DialogContentText,
+      DialogActions,
+      Divider,
     } = MaterialUI;
 
-    // Custom Theme
-    const theme = createTheme({
-      palette: {
-        mode: 'dark',
-        primary: {
-          main: '#00e676',
-        },
-        secondary: {
-          main: '#ff3d00',
-        },
-        background: {
-          default: '#121212',
-          paper: '#1e1e1e',
-        },
-        text: {
-          primary: '#ffffff',
-          secondary: '#b0bec5',
-        },
+    const { SearchRounded, RssFeedRounded, ExpandMore, Facebook, Twitter, Instagram, LinkedIn, ArrowUpward, EmailRounded, Send } = MaterialUIIcons;
+
+    // Styled Components
+    const StyledCard = MaterialUI.styled(Card)(({ theme }) => ({
+      display: 'flex',
+      flexDirection: 'column',
+      padding: 0,
+      height: '100%',
+      backgroundColor: (theme.vars || theme).palette.background.paper,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        cursor: 'pointer',
       },
-      typography: {
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeightBold: 700,
-        h2: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '4rem',
-        },
-        h4: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '3rem',
-        },
-        h5: {
-          fontSize: '2rem',
-        },
-        body1: {
-          fontSize: '1.25rem',
-        },
-        body2: {
-          fontSize: '1.1rem',
-        },
+      '&:focus-visible': {
+        outline: '3px solid',
+        outlineColor: 'hsla(210, 98%, 48%, 0.5)',
+        outlineOffset: '2px',
       },
-      shape: {
-        borderRadius: 20,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-              '&:hover': {
-                boxShadow: '0 0 12px rgba(0, 230, 118, 0.6)',
-              },
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(0, 51, 51, 0.8)',
-              backdropFilter: 'blur(10px)',
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-            },
-          },
-        },
+    }));
+
+    const StyledCardContent = MaterialUI.styled(CardContent)({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 4,
+      padding: 24,
+      flexGrow: 1,
+      '&:last-child': {
+        paddingBottom: 24,
       },
     });
 
-    function App() {
-      const [currentPage, setCurrentPage] = React.useState('home');
-      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const StyledTypography = MaterialUI.styled(Typography)({
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: 2,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    });
 
-      const renderPage = () => {
-        switch (currentPage) {
-          case 'home':
-            return <LandingPage setCurrentPage={setCurrentPage} />;
-          case 'manifesto':
-            return <ManifestoPage />;
-          case 'team':
-            return <TeamPage />;
-          case 'whitepaper':
-            return <WhitepaperPage />;
-          case 'investors':
-            return <InvestorsPage />;
-          case 'features-overview':
-            return <FeaturesOverviewPage />;
-          case 'local-members':
-            return <LocalMembersPage />;
-          case 'event-hosts':
-            return <EventHostsPage />;
-          case 'sellers':
-            return <SellersPage />;
-          case 'organizations':
-            return <OrganizationsPage />;
-          case 'impact-stories':
-            return <ImpactStoriesPage />;
-          case 'blog':
-            return <BlogPage />;
-          case 'download-app':
-            return <DownloadAppPage />;
-          case 'terms-of-service':
-            return <TermsOfServicePage />;
-          case 'privacy-policy':
-            return <PrivacyPolicyPage />;
-          case 'faq':
-            return <FAQPage />;
-          case 'contact-us':
-            return <ContactUsPage />;
-          default:
-            return <LandingPage setCurrentPage={setCurrentPage} />;
+    // Author Component
+    function Author({ authors }) {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 2,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '16px',
+          }}
+        >
+          <Box
+            sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
+          >
+            <AvatarGroup max={3}>
+              {authors.map((author, index) => (
+                <Avatar
+                  key={index}
+                  alt={author.name}
+                  src={author.avatar}
+                  sx={{ width: 32, height: 32 }}
+                />
+              ))}
+            </AvatarGroup>
+            <Typography variant="caption">
+              {authors.map((author) => author.name).join(', ')}
+            </Typography>
+          </Box>
+          <Typography variant="caption">July 14, 2021</Typography>
+        </Box>
+      );
+    }
+
+    Author.propTypes = {
+      authors: PropTypes.arrayOf(
+        PropTypes.shape({
+          avatar: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+    };
+
+    // Search Component with Autocomplete (Simplified)
+    function Search() {
+      const searchSuggestions = [
+        'Engineering',
+        'Product',
+        'Design',
+        'Company',
+        'Sustainability',
+        'Innovation',
+        'Community',
+        'Leadership',
+      ];
+
+      return (
+        <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
+          <OutlinedInput
+            size="small"
+            id="search"
+            placeholder="Search…"
+            startAdornment={
+              <InputAdornment position="start" sx={{ color: 'text.primary' }}>
+                <SearchRounded fontSize="small" />
+              </InputAdornment>
+            }
+            inputProps={{
+              'aria-label': 'search',
+            }}
+          />
+        </FormControl>
+      );
+    }
+
+    // Back-to-Top Button
+    function ScrollTop(props) {
+      const { children } = props;
+      const trigger = useScrollTrigger({
+        disableHysteresis: true,
+        threshold: 100,
+      });
+
+      const handleClick = (event) => {
+        const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+
+        if (anchor) {
+          anchor.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
         }
       };
 
       return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box className="animatedBackground">
-            <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
-            {renderPage()}
-            <Footer setCurrentPage={setCurrentPage} />
+        <Zoom in={trigger}>
+          <Box
+            onClick={handleClick}
+            role="presentation"
+            sx={{ position: 'fixed', bottom: 40, right: 40 }}
+          >
+            {children}
           </Box>
-        </ThemeProvider>
+        </Zoom>
       );
     }
 
-    function NavigationBar({ setCurrentPage, isMobile }) {
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const [menuId, setMenuId] = React.useState(null);
+    ScrollTop.propTypes = {
+      children: PropTypes.element.isRequired,
+    };
 
-      const handleMenuOpen = (event, id) => {
-        setAnchorEl(event.currentTarget);
-        setMenuId(id);
+    // MainContent Component with Enhancements
+    function MainContent({ openBlogModal, openDocsModal }) {
+      const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
+      const [openSnackbar, setOpenSnackbar] = React.useState(false);
+      const [snackbarMessage, setSnackbarMessage] = React.useState('');
+      const [snackbarSeverity, setSnackbarSeverity] = React.useState('success');
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
+      const [page, setPage] = React.useState(1);
+      const postsPerPage = 4;
+      const [sortOption, setSortOption] = React.useState('date');
+
+      const handleFocus = (index) => {
+        setFocusedCardIndex(index);
       };
 
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-        setMenuId(null);
+      const handleBlur = () => {
+        setFocusedCardIndex(null);
       };
+
+      const handleClick = (post) => {
+        setSelectedPost(post);
+        openBlogModal(post);
+      };
+
+      const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+      };
+
+      const handlePageChange = (event, value) => {
+        setPage(value);
+      };
+
+      const handleSortChange = (event) => {
+        setSortOption(event.target.value);
+      };
+
+      // Sorting logic
+      const sortedData = React.useMemo(() => {
+        let sorted = [...cardData];
+        if (sortOption === 'date') {
+          // Assuming all dates are the same for demo; implement actual date sorting
+          sorted.sort((a, b) => 0);
+        } else if (sortOption === 'category') {
+          sorted.sort((a, b) => a.tag.localeCompare(b.tag));
+        }
+        return sorted;
+      }, [sortOption]);
+
+      // Pagination logic
+      const paginatedData = React.useMemo(() => {
+        const start = (page - 1) * postsPerPage;
+        return sortedData.slice(start, start + postsPerPage);
+      }, [sortedData, page]);
+
+      // Featured Posts (First 3 posts)
+      const featuredPosts = sortedData.slice(0, 3);
 
       return (
-        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
-              ONE Local
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {/* Featured Posts Carousel */}
+          <Box sx={{ mb: 6 }}>
+            <Typography variant="h4" gutterBottom align="center">
+              Featured Posts
             </Typography>
-            {isMobile ? (
-              <>
-                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')}>
-                  <Icon>menu</Icon>
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={menuId === 'mobileMenu'}
-                  onClose={handleMenuClose}
-                  PaperProps={{ style: { zIndex: 1400 } }}
-                >
-                  <MenuItem onClick={() => { setCurrentPage('home'); handleMenuClose(); }}>Home</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'about'); }}>About</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'features'); }}>Features</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'community'); }}>Community</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('download-app'); handleMenuClose(); }}>Download App</MenuItem>
-                </Menu>
-              </>
-            ) : (
-              <div className="desktopMenu">
-                <Button color="inherit" onClick={() => setCurrentPage('home')}>Home</Button>
-                <Button
-                  color="inherit"
-                  onClick={(e) => handleMenuOpen(e, 'about')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  About
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={(e) => handleMenuOpen(e, 'features')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  Features
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={(e) => handleMenuOpen(e, 'community')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  Community
-                </Button>
-                <Button color="inherit" onClick={() => setCurrentPage('download-app')}>Download App</Button>
-              </div>
-            )}
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
-              onClose={handleMenuClose}
-              PaperProps={{ style: { zIndex: 1400 } }}
-            >
-              {menuId === 'about' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('manifesto'); handleMenuClose(); }}>Manifesto</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('team'); handleMenuClose(); }}>Team</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('whitepaper'); handleMenuClose(); }}>Whitepaper</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('investors'); handleMenuClose(); }}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'features' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('features-overview'); handleMenuClose(); }}>Overview</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('local-members'); handleMenuClose(); }}>For Local Members</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('event-hosts'); handleMenuClose(); }}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('sellers'); handleMenuClose(); }}>For Sellers</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('organizations'); handleMenuClose(); }}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'community' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('impact-stories'); handleMenuClose(); }}>Impact Stories</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('blog'); handleMenuClose(); }}>Blog</MenuItem>
-                </>
-              )}
-            </Menu>
-          </Toolbar>
-        </AppBar>
-      );
-    }
-
-    // Pages
-    function LandingPage({ setCurrentPage }) {
-      return (
-        <Container maxWidth="lg" sx={{ mt: 16 }}>
-          <HeroSection setCurrentPage={setCurrentPage} />
-          <LogoCollection />
-          <FeaturesSection />
-          <MembershipTypes setCurrentPage={setCurrentPage} />
-          <CommunityImpact />
-          <TestimonialsSection />
-          <CallToAction setCurrentPage={setCurrentPage} />
-        </Container>
-      );
-    }
-
-    function ManifestoPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Manifesto
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
-            Our pledge, our promise: A declaration of what we’re building together.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
-          </Typography>
-          <Typography variant="body1">
-            Join us in reshaping the future of local communities. Together, we are stronger.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function TeamPage() {
-      const teamMembers = [
-        {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
-        },
-        {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
-        },
-        {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
-        },
-        {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
-        },
-      ];
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Meet the Team
-          </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card>
+            <Slider {...{
+              dots: true,
+              infinite: true,
+              speed: 500,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true,
+              autoplaySpeed: 3000,
+            }}>
+              {featuredPosts.map((post, index) => (
+                <Card key={index} onClick={() => handleClick(post)} sx={{ cursor: 'pointer' }}>
+                  <CardMedia
+                    component="img"
+                    alt={post.title}
+                    image={post.img}
+                    height="300"
+                  />
                   <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      );
-    }
-
-    function WhitepaperPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Whitepaper
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
-            Download Whitepaper
-          </Button>
-        </Container>
-      );
-    }
-
-    function InvestorsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Invest in a New Kind of Social Infrastructure
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 8 }}>
-            For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
-            Join the Movement — Invest Today
-          </Button>
-        </Container>
-      );
-    }
-
-    function FeaturesOverviewPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Discover What’s Possible with ONE Local
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
-          </Typography>
-          <FeaturesSection />
-        </Container>
-      );
-    }
-
-    function LocalMembersPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Local Members
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Join Now
-          </Button>
-        </Container>
-      );
-    }
-
-    function EventHostsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Event Hosts
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Start Hosting Events
-          </Button>
-        </Container>
-      );
-    }
-
-    function SellersPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Sellers
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Open Your Shop
-          </Button>
-        </Container>
-      );
-    }
-
-    function OrganizationsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            For Organizations
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Register Your Organization
-          </Button>
-        </Container>
-      );
-    }
-
-    function ImpactStoriesPage() {
-      const stories = [
-        {
-          title: 'Artisans Unite',
-          content: 'Local artists collaborated to host a community art fair, boosting local economy and creativity.',
-        },
-        {
-          title: 'Youth Leadership',
-          content: 'Teenagers organized workshops to teach seniors how to use technology, bridging generational gaps.',
-        },
-        {
-          title: 'Circular Economy',
-          content: 'Community members shared tools and resources, reducing waste and fostering sustainability.',
-        },
-        {
-          title: 'Disaster Relief',
-          content: 'After a local flood, neighbors coordinated aid and resources through ONE Local to support affected families.',
-        },
-      ];
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Impact Stories
-          </Typography>
-          <Grid container spacing={6}>
-            {stories.map((story, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
-                      {story.title}
-                    </Typography>
-                    <Typography variant="body1">
-                      {story.content}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      );
-    }
-
-    function BlogPage() {
-      const blogPosts = [
-        {
-          title: 'Building Sustainable Communities',
-          excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-        },
-        {
-          title: 'The Power of Local Events',
-          excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
-        },
-        {
-          title: 'Supporting Local Businesses',
-          excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
-        },
-      ];
-
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Blog
-          </Typography>
-          <Grid container spacing={6}>
-            {blogPosts.map((post, index) => (
-              <Grid item xs={12} sm={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                    <Chip label={post.tag} color="primary" />
+                    <Typography variant="h5" component="div" sx={{ mt: 2 }}>
                       {post.title}
                     </Typography>
-                    <Typography variant="body1">
-                      {post.excerpt}
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                      {post.description}
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button variant="text" color="primary">Read More</Button>
-                  </CardActions>
                 </Card>
+              ))}
+            </Slider>
+          </Box>
+
+          {/* Blog Header */}
+          <div id="back-to-top-anchor">
+            <Typography variant="h1" gutterBottom align="center">
+              Blog
+            </Typography>
+            <Typography variant="h5" align="center" sx={{ color: 'text.secondary', mb: 4 }}>
+              Stay in the loop with the latest about our products
+            </Typography>
+          </div>
+
+          {/* Search and Filters */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 4,
+              mb: 6,
+            }}
+          >
+            <Search />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <FormControl variant="outlined" size="small">
+                <Select
+                  value={sortOption}
+                  onChange={handleSortChange}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Sort By' }}
+                >
+                  <MenuItem value="date">Sort by Date</MenuItem>
+                  <MenuItem value="category">Sort by Category</MenuItem>
+                </Select>
+              </FormControl>
+              <Tooltip title="Subscribe to our newsletter">
+                <IconButton color="primary" onClick={() => {
+                  setSnackbarMessage('Subscribed successfully!');
+                  setSnackbarSeverity('success');
+                  setOpenSnackbar(true);
+                }}>
+                  <EmailRounded />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="RSS Feed">
+                <IconButton color="primary">
+                  <RssFeedRounded />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+
+          {/* Blog Posts Grid */}
+          <Grid container spacing={4}>
+            {paginatedData.map((post, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <StyledCard
+                  variant="outlined"
+                  onFocus={() => handleFocus(index)}
+                  onBlur={handleBlur}
+                  tabIndex={0}
+                  className={focusedCardIndex === index ? 'Mui-focused' : ''}
+                  onClick={() => handleClick(post)}
+                >
+                  <CardMedia
+                    component="img"
+                    alt={post.title}
+                    image={post.img}
+                    height="200"
+                  />
+                  <StyledCardContent>
+                    <Chip label={post.tag} color="primary" />
+                    <Typography gutterBottom variant="h6" component="div">
+                      {post.title}
+                    </Typography>
+                    <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+                      {post.description}
+                    </StyledTypography>
+                  </StyledCardContent>
+                  <Author authors={post.authors} />
+                </StyledCard>
               </Grid>
             ))}
           </Grid>
-        </Container>
-      );
-    }
 
-    function DownloadAppPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Download the App
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 8 }}>
-            Step in, the door is open.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" href="#" target="_blank">
-            Get the App Now
-          </Button>
-        </Container>
-      );
-    }
-
-    function TermsOfServicePage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Terms of Service
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Please read these terms of service carefully before using the ONE Local platform.
-          </Typography>
-          {/* Add actual legal text here */}
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            [Legal text outlining user rights, privacy protections, and data usage.]
-          </Typography>
-        </Container>
-      );
-    }
-
-    function PrivacyPolicyPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Privacy Policy
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            Your privacy is important to us. This policy explains how we handle your personal data.
-          </Typography>
-          {/* Add actual privacy policy text here */}
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            [Detailed information about data collection, usage, and user rights.]
-          </Typography>
-        </Container>
-      );
-    }
-
-    function FAQPage() {
-      const faqs = [
-        {
-          question: 'What is ONE Local?',
-          answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
-        },
-        {
-          question: 'How do I join as a member?',
-          answer: 'Simply download our app, create a free account, and start connecting with your local community.',
-        },
-        {
-          question: 'How do I create an event?',
-          answer: 'Upgrade to an Event Host membership, and you can start creating and managing events directly from your dashboard.',
-        },
-        {
-          question: 'What payment options are available?',
-          answer: 'We support various payment methods including credit cards, debit cards, and secure online payment gateways.',
-        },
-        {
-          question: 'Is my data secure?',
-          answer: 'Yes, we prioritize your privacy and use advanced security measures to protect your personal information.',
-        },
-      ];
-
-      return (
-        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Frequently Asked Questions
-          </Typography>
-          <Box mt={4}>
-            {faqs.map((faq, index) => (
-              <Accordion key={index}>
-                <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                    {faq.question}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                    {faq.answer}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+          {/* Pagination */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+            <Pagination
+              count={Math.ceil(cardData.length / postsPerPage)}
+              page={page}
+              onChange={handlePageChange}
+              color="primary"
+            />
           </Box>
-        </Container>
-      );
-    }
 
-    function ContactUsPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Contact Us
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
-            We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
-          </Typography>
-          <Grid container spacing={6}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 4 }}>
-                Contact Information
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
-                Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
-                Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
-                Address: 123 Community Lane, Townsville, USA
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 4 }}>
-                Send Us a Message
-              </Typography>
-              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
-              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
-              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
-              <Button variant="contained" color="primary">
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
-        </Container>
-      );
-    }
-
-    function HeroSection({ setCurrentPage }) {
-      return (
-        <Box sx={{ textAlign: 'center', mt: 16, py: 12 }}>
-          <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
-            Empower Your Community, Enrich Your Life.
-          </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
-            Together, we build the future — one connection, one offering, one moment at a time.
-          </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
-            Download the App
-          </Button>
+          {/* Snackbar Notifications */}
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          >
+            <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
         </Box>
       );
-    }
 
-    function LogoCollection() {
-      const logos = [
-        'https://via.placeholder.com/100x80?text=Logo1',
-        'https://via.placeholder.com/100x80?text=Logo2',
-        'https://via.placeholder.com/100x80?text=Logo3',
-        'https://via.placeholder.com/100x80?text=Logo4',
-        'https://via.placeholder.com/100x80?text=Logo5',
-        'https://via.placeholder.com/100x80?text=Logo6',
+      // Sample cardData (ensure images are accessible or replace with valid URLs)
+      const cardData = [
+        {
+          img: 'https://picsum.photos/800/450?random=1',
+          tag: 'Engineering',
+          title: 'Revolutionizing software development with cutting-edge tools',
+          description:
+            'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
+          authors: [
+            { name: 'Remy Sharp', avatar: 'https://i.pravatar.cc/100?img=1' },
+            { name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' },
+          ],
+          content: 'Full content of the blog post goes here. Detailed information, insights, and more...',
+        },
+        {
+          img: 'https://picsum.photos/800/450?random=2',
+          tag: 'Product',
+          title: 'Innovative product features that drive success',
+          description:
+            'Explore the key features of our latest product release that are helping businesses achieve their goals. From user-friendly interfaces to robust functionality, learn why our product stands out.',
+          authors: [{ name: 'Erica Johns', avatar: 'https://i.pravatar.cc/100?img=6' }],
+          content: 'Full content of the product blog post goes here. Detailed information, insights, and more...',
+        },
+        {
+          img: 'https://picsum.photos/800/450?random=3',
+          tag: 'Design',
+          title: 'Designing for the future: trends and insights',
+          description:
+            'Stay ahead of the curve with the latest design trends and insights. Our design team shares their expertise on creating intuitive and visually stunning user experiences.',
+          authors: [{ name: 'Kate Morrison', avatar: 'https://i.pravatar.cc/100?img=7' }],
+          content: 'Full content of the design blog post goes here. Detailed information, insights, and more...',
+        },
+        {
+          img: 'https://picsum.photos/800/450?random=4',
+          tag: 'Company',
+          title: "Our company's journey: milestones and achievements",
+          description:
+            "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
+          authors: [{ name: 'Cindy Baker', avatar: 'https://i.pravatar.cc/100?img=3' }],
+          content: 'Full content of the company blog post goes here. Detailed information, insights, and more...',
+        },
+        {
+          img: 'https://picsum.photos/800/450?random=5',
+          tag: 'Engineering',
+          title: 'Pioneering sustainable engineering solutions',
+          description:
+            "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
+          authors: [
+            { name: 'Agnes Walker', avatar: 'https://i.pravatar.cc/100?img=4' },
+            { name: 'Trevor Henderson', avatar: 'https://i.pravatar.cc/100?img=5' },
+          ],
+          content: 'Full content of the sustainable engineering blog post goes here. Detailed information, insights, and more...',
+        },
+        {
+          img: 'https://picsum.photos/800/450?random=6',
+          tag: 'Product',
+          title: 'Maximizing efficiency with our latest product updates',
+          description:
+            'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
+          authors: [{ name: 'Travis Howard', avatar: 'https://i.pravatar.cc/100?img=2' }],
+          content: 'Full content of the product updates blog post goes here. Detailed information, insights, and more...',
+        },
       ];
 
-      const logoStyle = {
-        width: '120px',
-        height: '100px',
-        margin: '0 32px',
-        opacity: 0.7,
+      // Slider Component (using react-slick)
+      const Slider = ({ children, ...props }) => {
+        const sliderRef = React.useRef(null);
+
+        React.useEffect(() => {
+          if (window.jQuery && window.$ && window.jQuery.fn && window.jQuery.fn.slick) {
+            window.$(sliderRef.current).slick(props);
+          }
+        }, [props]);
+
+        return (
+          <div ref={sliderRef}>
+            {children}
+          </div>
+        );
       };
 
-      return (
-        <Box id="logoCollection" sx={{ py: 6 }}>
-          <Typography
-            component="p"
-            variant="h6"
-            align="center"
-            sx={{ color: 'text.secondary', mb: 4 }}
-          >
-            Trusted by communities worldwide
-          </Typography>
-          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.6 }}>
-            {logos.map((logo, index) => (
-              <Grid item key={index}>
-                <img
-                  src={logo}
-                  alt={`Partner logo ${index + 1}`}
-                  style={logoStyle}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+      // Enhanced App Component with Dark Mode Toggle and Modals
+      function App() {
+        const [darkMode, setDarkMode] = React.useState(false);
+        const [blogModalOpen, setBlogModalOpen] = React.useState(false);
+        const [currentBlog, setCurrentBlog] = React.useState(null);
+        const [docsModalOpen, setDocsModalOpen] = React.useState(false);
 
-    function FeaturesSection() {
-      const features = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-          iconName: 'connect_without_contact',
-        },
-        {
-          title: 'Share',
-          description: 'Tools, time, talents — give what you can, receive what you need.',
-          iconName: 'share',
-        },
-        {
-          title: 'Skill Development',
-          description: 'Workshops, mentorships, hands-on learning — grow your gifts.',
-          iconName: 'school',
-        },
-        {
-          title: 'Governance',
-          description: 'Democracy in action. Voice your vision, shape your surroundings.',
-          iconName: 'gavel',
-        },
-      ];
+        const theme = React.useMemo(() => createTheme({
+          palette: {
+            mode: darkMode ? 'dark' : 'light',
+            primary: {
+              main: '#00e676',
+            },
+            secondary: {
+              main: '#ff3d00',
+            },
+            background: {
+              default: darkMode ? '#121212' : '#f5f5f5',
+              paper: darkMode ? '#1e1e1e' : '#ffffff',
+            },
+            text: {
+              primary: darkMode ? '#ffffff' : '#000000',
+              secondary: darkMode ? '#b0bec5' : '#555555',
+            },
+          },
+          typography: {
+            fontFamily: 'Montserrat, sans-serif',
+            fontWeightBold: 700,
+            h1: {
+              fontSize: '3rem',
+              fontWeight: 700,
+            },
+            h4: {
+              fontSize: '2.5rem',
+              fontWeight: 700,
+            },
+            h5: {
+              fontSize: '1.75rem',
+              fontWeight: 700,
+            },
+            h6: {
+              fontSize: '1.5rem',
+              fontWeight: 700,
+            },
+            body1: {
+              fontSize: '1.25rem',
+            },
+            body2: {
+              fontSize: '1.1rem',
+            },
+          },
+          shape: {
+            borderRadius: 20,
+          },
+          components: {
+            MuiButton: {
+              styleOverrides: {
+                root: {
+                  borderRadius: '20px',
+                  textTransform: 'none',
+                  fontWeight: 'bold',
+                  transition: '0.3s',
+                  '&:hover': {
+                    boxShadow: '0 0 12px rgba(0, 230, 118, 0.6)',
+                  },
+                },
+              },
+            },
+            MuiAppBar: {
+              styleOverrides: {
+                root: {
+                  background: darkMode ? 'rgba(0, 51, 51, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                  color: darkMode ? '#ffffff' : '#000000',
+                  backdropFilter: 'blur(10px)',
+                },
+              },
+            },
+            MuiCard: {
+              styleOverrides: {
+                root: {
+                  borderRadius: '20px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+                },
+              },
+            },
+            MuiSelect: {
+              styleOverrides: {
+                outlined: {
+                  backgroundColor: darkMode ? '#1e1e1e' : '#ffffff',
+                  color: darkMode ? '#ffffff' : '#000000',
+                },
+              },
+            },
+            MuiOutlinedInput: {
+              styleOverrides: {
+                notchedOutline: {
+                  borderColor: darkMode ? '#555555' : '#cccccc',
+                },
+              },
+            },
+          },
+        }), [darkMode]);
 
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Explore What We Offer
-          </Typography>
-          <Grid container spacing={6}>
-            {features.map((feature) => (
-              <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card>
-                  <CardContent>
-                    <Box display="flex" alignItems="center" gap={2}>
-                      <Icon color="primary" sx={{ fontSize: 100 }}>{feature.iconName}</Icon>
-                      <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{feature.title}</Typography>
-                    </Box>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 4 }}>
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+        const toggleDarkMode = () => {
+          setDarkMode((prevMode) => !prevMode);
+        };
 
-    function MembershipTypes({ setCurrentPage }) {
-      const memberships = [
-        {
-          title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
-          cta: 'Join Now',
-          page: 'local-members',
-        },
-        {
-          title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
-          cta: 'Start Hosting',
-          page: 'event-hosts',
-        },
-        {
-          title: 'Sellers',
-          description:
-            'Your storefront in the village square. Share what you create with those who’ll love it most.',
-          cta: 'Open Shop',
-          page: 'sellers',
-        },
-        {
-          title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
-          cta: 'Register Now',
-          page: 'organizations',
-        },
-      ];
+        const openBlogModalHandler = (post) => {
+          setCurrentBlog(post);
+          setBlogModalOpen(true);
+        };
 
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            How Will You Show Up?
-          </Typography>
-          <Grid container spacing={6}>
-            {memberships.map((membership) => (
-              <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{membership.title}</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 4 }}>
-                      {membership.description}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button variant="outlined" color="primary" fullWidth size="large" onClick={() => setCurrentPage(membership.page)}>
-                      {membership.cta}
-                    </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+        const closeBlogModalHandler = () => {
+          setBlogModalOpen(false);
+          setCurrentBlog(null);
+        };
 
-    function CommunityImpact() {
-      const metrics = [
-        { value: '15,000', label: 'Active Members', description: 'Real people, real connections.' },
-        { value: '200', label: 'Local Groups', description: 'Find your tribe.' },
-        { value: '3,500', label: 'Resources Shared', description: 'Because sharing is the oldest economy.' },
-        { value: '1,200', label: 'Events Hosted', description: 'Celebrate, learn, and dance in the streets.' },
-      ];
+        const openDocsModalHandler = () => {
+          setDocsModalOpen(true);
+        };
 
-      return (
-        <Box mt={12} mb={12}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Our Community in Bloom
-          </Typography>
-          <Grid container spacing={6}>
-            {metrics.map((metric) => (
-              <Grid item xs={12} sm={6} md={3} key={metric.label}>
-                <Box textAlign="center">
-                  <Typography variant="h2" color="primary">
-                    {metric.value}
-                  </Typography>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>{metric.label}</Typography>
-                  <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
-                    {metric.description}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-      );
-    }
+        const closeDocsModalHandler = () => {
+          setDocsModalOpen(false);
+        };
 
-    function TestimonialsSection() {
-      const testimonials = [
-        {
-          avatar: <Avatar alt="Member 1" src="https://i.pravatar.cc/100?img=1" sx={{ width: 80, height: 80 }} />,
-          name: 'Emily R.',
-          role: 'Local Member',
-          quote: '“I found my neighbors, my friends, my sense of belonging.”',
-        },
-        {
-          avatar: <Avatar alt="Member 2" src="https://i.pravatar.cc/100?img=2" sx={{ width: 80, height: 80 }} />,
-          name: 'Michael T.',
-          role: 'Event Host',
-          quote: '“Hosting through ONE Local made our festival a homegrown success.”',
-        },
-        {
-          avatar: <Avatar alt="Member 3" src="https://i.pravatar.cc/100?img=3" sx={{ width: 80, height: 80 }} />,
-          name: 'Sarah L.',
-          role: 'Seller',
-          quote: '“This platform brought customers who appreciate the local touch.”',
-        },
-        {
-          avatar: <Avatar alt="Member 4" src="https://i.pravatar.cc/100?img=4" sx={{ width: 80, height: 80 }} />,
-          name: 'David G.',
-          role: 'Organization Leader',
-          quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
-        },
-      ];
-
-      return (
-        <Container id="testimonials" sx={{ py: 12 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
-            What Our Members Say
-          </Typography>
-          <Grid container spacing={6}>
-            {testimonials.map((testimonial, index) => (
-              <Grid item xs={12} md={6} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 4 }}>
-                      {testimonial.quote}
-                    </Typography>
-                    <Box display="flex" alignItems="center">
-                      {testimonial.avatar}
-                      <Box ml={4}>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          {testimonial.name}
-                        </Typography>
-                        <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                          {testimonial.role}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      );
-    }
-
-    function CallToAction({ setCurrentPage }) {
-      return (
-        <Box mt={12} mb={12} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
-            Help Us Grow
-          </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
-            “Every dollar sown grows a forest of connection.”
-          </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
-            Donate Now
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
-            Take the Survey
-          </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
-            Become an Investor
-          </Button>
-        </Box>
-      );
-    }
-
-    function Footer({ setCurrentPage }) {
-      return (
-        <Box py={6} sx={{ backgroundColor: '#1f1f1f' }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={6}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">ONE Local</Typography>
-                <List>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')}>
-                      <ListItemText primary="Home" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')}>
-                      <ListItemText primary="About" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')}>
-                      <ListItemText primary="Features" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')}>
-                      <ListItemText primary="Community" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')}>
-                      <ListItemText primary="Investors" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')}>
-                      <ListItemText primary="Contact Us" />
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                  Join the conversation.
-                </Typography>
-                <Box display="flex">
-                  <IconButton href="#" color="inherit" aria-label="Facebook">
-                    <Icon>facebook</Icon>
+        return (
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Box className="animatedBackground">
+              <NavigationBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} openDocsModal={openDocsModalHandler} />
+              <Container maxWidth="lg" sx={{ mt: 12, mb: 6 }}>
+                <MainContent openBlogModal={openBlogModalHandler} openDocsModal={openDocsModalHandler} />
+              </Container>
+              <Footer />
+              <ScrollTop>
+                <Tooltip title="Back to Top" placement="left">
+                  <IconButton color="primary" size="large">
+                    <ArrowUpward />
                   </IconButton>
-                  <IconButton href="#" color="inherit" aria-label="Twitter">
-                    <Icon>twitter</Icon>
-                  </IconButton>
-                  <IconButton href="#" color="inherit" aria-label="Instagram">
-                    <Icon>instagram</Icon>
-                  </IconButton>
-                  <IconButton href="#" color="inherit" aria-label="LinkedIn">
-                    <Icon>linkedin</Icon>
-                  </IconButton>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
-                  Get the Latest Stories and Updates — Sign Up Here.
-                </Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ style: { color: '#bbbbbb' } }}
-                  InputProps={{ style: { color: '#ffffff', backgroundColor: '#1e1e1e' } }}
-                />
-                <Button variant="contained" color="primary" fullWidth>
-                  Subscribe
-                </Button>
-              </Grid>
-            </Grid>
-            <Divider sx={{ my: 6, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
-            <Box textAlign="center">
-              <Typography variant="body2">
-                © 2024 ONE Local. All rights reserved. |{' '}
-                <Link href="#" color="inherit" onClick={() => setCurrentPage('terms-of-service')}>
-                  Terms of Service
-                </Link>{' '}
-                |{' '}
-                <Link href="#" color="inherit" onClick={() => setCurrentPage('privacy-policy')}>
-                  Privacy Policy
-                </Link>
-              </Typography>
+                </Tooltip>
+              </ScrollTop>
+              {/* Blog Post Modal */}
+              <BlogModal
+                open={blogModalOpen}
+                handleClose={closeBlogModalHandler}
+                post={currentBlog}
+              />
+              {/* Documentation Modal */}
+              <DocsModal
+                open={docsModalOpen}
+                handleClose={closeDocsModalHandler}
+              />
             </Box>
-          </Container>
-        </Box>
-      );
-    }
+          </ThemeProvider>
+        );
+      }
 
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+      // NavigationBar Component with Dark Mode Toggle and Documentation Link
+      function NavigationBar({ darkMode, toggleDarkMode, openDocsModal }) {
+        const [anchorEl, setAnchorEl] = React.useState(null);
+        const [menuId, setMenuId] = React.useState(null);
+        const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+        const handleMenuOpen = (event, id) => {
+          setAnchorEl(event.currentTarget);
+          setMenuId(id);
+        };
+
+        const handleMenuClose = () => {
+          setAnchorEl(null);
+          setMenuId(null);
+        };
+
+        const toggleDrawer = (open) => () => {
+          setDrawerOpen(open);
+        };
+
+        const menuItems = [
+          { label: 'Home', page: 'home' },
+          { label: 'About', page: 'about', submenu: ['Manifesto', 'Team', 'Whitepaper', 'Investors'] },
+          { label: 'Features', page: 'features', submenu: ['Overview', 'For Local Members', 'For Event Hosts', 'For Sellers', 'For Organizations'] },
+          { label: 'Community', page: 'community', submenu: ['Impact Stories', 'Blog'] },
+          { label: 'Download App', page: 'download-app' },
+          { label: 'Documentation', page: 'documentation' },
+        ];
+
+        return (
+          <>
+            <AppBar position="fixed">
+              <Toolbar>
+                <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                  ONE Local
+                </Typography>
+                <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, alignItems: 'center' }}>
+                  {menuItems.map((item, index) => (
+                    <Box key={index}>
+                      {item.submenu ? (
+                        <>
+                          <Button
+                            color="inherit"
+                            onClick={(e) => handleMenuOpen(e, item.page)}
+                            endIcon={<ExpandMore />}
+                          >
+                            {item.label}
+                          </Button>
+                          <Menu
+                            anchorEl={anchorEl}
+                            open={menuId === item.page}
+                            onClose={handleMenuClose}
+                          >
+                            {item.submenu.map((sub, subIndex) => (
+                              <MenuItem key={subIndex} onClick={() => {
+                                handleMenuClose();
+                                if (sub === 'Team') {
+                                  alert(`Navigate to ${sub}`);
+                                  // Implement Team Modal or Navigation
+                                } else if (sub === 'Blog') {
+                                  alert(`Navigate to ${sub}`);
+                                  // Implement Blog Modal or Navigation
+                                } else {
+                                  alert(`Navigate to ${sub}`);
+                                }
+                              }}>
+                                {sub}
+                              </MenuItem>
+                            ))}
+                          </Menu>
+                        </>
+                      ) : (
+                        <Button color="inherit" onClick={() => {
+                          if (item.page === 'documentation') {
+                            openDocsModal();
+                          } else {
+                            alert(`Navigate to ${item.label}`);
+                          }
+                        }}>
+                          {item.label}
+                        </Button>
+                      )}
+                    </Box>
+                  ))}
+                  <FormControlLabel
+                    control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
+                    label="Dark Mode"
+                  />
+                </Box>
+                {/* Mobile Menu Icon */}
+                <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                  <IconButton color="inherit" onClick={toggleDrawer(true)}>
+                    <MaterialUIIcons.Menu />
+                  </IconButton>
+                  <Drawer
+                    anchor="right"
+                    open={drawerOpen}
+                    onClose={toggleDrawer(false)}
+                  >
+                    <Box
+                      sx={{ width: 250, p: 2 }}
+                      role="presentation"
+                      onClick={toggleDrawer(false)}
+                      onKeyDown={toggleDrawer(false)}
+                    >
+                      <Typography variant="h6" sx={{ mb: 2 }}>
+                        ONE Local
+                      </Typography>
+                      <List>
+                        {menuItems.map((item, index) => (
+                          <Box key={index}>
+                            <ListItem>
+                              {item.submenu ? (
+                                <>
+                                  <Button
+                                    color="inherit"
+                                    onClick={(e) => handleMenuOpen(e, item.page)}
+                                    endIcon={<ExpandMore />}
+                                    fullWidth
+                                  >
+                                    {item.label}
+                                  </Button>
+                                  <Menu
+                                    anchorEl={anchorEl}
+                                    open={menuId === item.page}
+                                    onClose={handleMenuClose}
+                                  >
+                                    {item.submenu.map((sub, subIndex) => (
+                                      <MenuItem key={subIndex} onClick={() => {
+                                        handleMenuClose();
+                                        if (sub === 'Team') {
+                                          alert(`Navigate to ${sub}`);
+                                          // Implement Team Modal or Navigation
+                                        } else if (sub === 'Blog') {
+                                          alert(`Navigate to ${sub}`);
+                                          // Implement Blog Modal or Navigation
+                                        } else {
+                                          alert(`Navigate to ${sub}`);
+                                        }
+                                      }}>
+                                        {sub}
+                                      </MenuItem>
+                                    ))}
+                                  </Menu>
+                                </>
+                              ) : (
+                                <Button color="inherit" onClick={() => {
+                                  if (item.page === 'documentation') {
+                                    openDocsModal();
+                                  } else {
+                                    alert(`Navigate to ${item.label}`);
+                                  }
+                                }} fullWidth>
+                                  {item.label}
+                                </Button>
+                              )}
+                            </ListItem>
+                          </Box>
+                        ))}
+                        <ListItem>
+                          <FormControlLabel
+                            control={<Switch checked={darkMode} onChange={toggleDarkMode} color="primary" />}
+                            label="Dark Mode"
+                          />
+                        </ListItem>
+                      </List>
+                    </Box>
+                  </Drawer>
+                </Box>
+              </Toolbar>
+            </AppBar>
+          );
+        }
+
+        // Footer Component
+        function Footer() {
+          return (
+            <Box sx={{ py: 6, backgroundColor: '#1f1f1f' }}>
+              <Container maxWidth="lg">
+                <Grid container spacing={6}>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      ONE Local
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Empowering communities through connection, sharing, and sustainable growth.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Tooltip title="Facebook">
+                        <IconButton href="#" color="inherit" aria-label="Facebook">
+                          <Facebook />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Twitter">
+                        <IconButton href="#" color="inherit" aria-label="Twitter">
+                          <Twitter />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Instagram">
+                        <IconButton href="#" color="inherit" aria-label="Instagram">
+                          <Instagram />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="LinkedIn">
+                        <IconButton href="#" color="inherit" aria-label="LinkedIn">
+                          <LinkedIn />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Quick Links
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Home')}>
+                          Home
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to About')}>
+                          About
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Features')}>
+                          Features
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Community')}>
+                          Community
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Investors')}>
+                          Investors
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Contact Us')}>
+                          Contact Us
+                        </Link>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Newsletter
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Get the latest updates and news from ONE Local.
+                    </Typography>
+                    <Box component="form" noValidate autoComplete="off">
+                      <TextField
+                        label="Email"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton type="submit" color="primary">
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
+                <Box textAlign="center">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    © 2024 ONE Local. All rights reserved.
+                  </Typography>
+                </Box>
+              </Container>
+            </Box>
+          );
+
+          // List and ListItem components for Footer
+          const List = ({ children }) => <Box>{children}</Box>;
+          const ListItem = ({ children }) => (
+            <Box sx={{ py: 0.5 }}>
+              {children}
+            </Box>
+          );
+        }
+
+        // BlogModal Component
+        function BlogModal({ open, handleClose, post }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="blog-dialog-title"
+              aria-describedby="blog-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              {post && (
+                <>
+                  <DialogTitle id="blog-dialog-title">{post.title}</DialogTitle>
+                  <DialogContent dividers>
+                    <CardMedia
+                      component="img"
+                      alt={post.title}
+                      image={post.img}
+                      height="300"
+                      sx={{ mb: 4 }}
+                    />
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {post.tag} | July 14, 2021
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {post.content}
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Close
+                    </Button>
+                  </DialogActions>
+                </>
+              )}
+            </Dialog>
+          );
+        }
+
+        BlogModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+          post: PropTypes.object,
+        };
+
+        // DocsModal Component
+        function DocsModal({ open, handleClose }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="docs-dialog-title"
+              aria-describedby="docs-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              <DialogTitle id="docs-dialog-title">Documentation</DialogTitle>
+              <DialogContent dividers>
+                <Typography variant="h6" gutterBottom>
+                  Getting Started
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Welcome to ONE Local! This documentation will guide you through the features and functionalities of our platform.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Features
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  - **Connect**: Find and connect with your local community members.<br/>
+                  - **Share**: Share resources, tools, and knowledge.<br/>
+                  - **Events**: Create, manage, and participate in local events.<br/>
+                  - **Sellers**: Showcase and sell your products within the community.<br/>
+                  - **Organizations**: Manage your group or nonprofit initiatives.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Getting Help
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  If you need assistance, please contact our support team at <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          );
+        }
+
+        DocsModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+        };
+
+        // Footer Component
+        function Footer() {
+          return (
+            <Box sx={{ py: 6, backgroundColor: '#1f1f1f' }}>
+              <Container maxWidth="lg">
+                <Grid container spacing={6}>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      ONE Local
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Empowering communities through connection, sharing, and sustainable growth.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Tooltip title="Facebook">
+                        <IconButton href="#" color="inherit" aria-label="Facebook">
+                          <Facebook />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Twitter">
+                        <IconButton href="#" color="inherit" aria-label="Twitter">
+                          <Twitter />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Instagram">
+                        <IconButton href="#" color="inherit" aria-label="Instagram">
+                          <Instagram />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="LinkedIn">
+                        <IconButton href="#" color="inherit" aria-label="LinkedIn">
+                          <LinkedIn />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Quick Links
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Home')}>
+                          Home
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to About')}>
+                          About
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Features')}>
+                          Features
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Community')}>
+                          Community
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Investors')}>
+                          Investors
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Contact Us')}>
+                          Contact Us
+                        </Link>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Newsletter
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Get the latest updates and news from ONE Local.
+                    </Typography>
+                    <Box component="form" noValidate autoComplete="off">
+                      <TextField
+                        label="Email"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton type="submit" color="primary">
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
+                <Box textAlign="center">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    © 2024 ONE Local. All rights reserved.
+                  </Typography>
+                </Box>
+              </Container>
+            </Box>
+          );
+
+          // List and ListItem components for Footer
+          const List = ({ children }) => <Box>{children}</Box>;
+          const ListItem = ({ children }) => (
+            <Box sx={{ py: 0.5 }}>
+              {children}
+            </Box>
+          );
+        }
+
+        // BlogModal Component
+        function BlogModal({ open, handleClose, post }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="blog-dialog-title"
+              aria-describedby="blog-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              {post && (
+                <>
+                  <DialogTitle id="blog-dialog-title">{post.title}</DialogTitle>
+                  <DialogContent dividers>
+                    <CardMedia
+                      component="img"
+                      alt={post.title}
+                      image={post.img}
+                      height="300"
+                      sx={{ mb: 4 }}
+                    />
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {post.tag} | July 14, 2021
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {post.content}
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Close
+                    </Button>
+                  </DialogActions>
+                </>
+              )}
+            </Dialog>
+          );
+        }
+
+        BlogModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+          post: PropTypes.object,
+        };
+
+        // DocsModal Component
+        function DocsModal({ open, handleClose }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="docs-dialog-title"
+              aria-describedby="docs-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              <DialogTitle id="docs-dialog-title">Documentation</DialogTitle>
+              <DialogContent dividers>
+                <Typography variant="h6" gutterBottom>
+                  Getting Started
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Welcome to ONE Local! This documentation will guide you through the features and functionalities of our platform.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Features
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  - **Connect**: Find and connect with your local community members.<br/>
+                  - **Share**: Share resources, tools, and knowledge.<br/>
+                  - **Events**: Create, manage, and participate in local events.<br/>
+                  - **Sellers**: Showcase and sell your products within the community.<br/>
+                  - **Organizations**: Manage your group or nonprofit initiatives.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Getting Help
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  If you need assistance, please contact our support team at <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          );
+        }
+
+        DocsModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+        };
+
+        // Footer Component
+        function Footer() {
+          return (
+            <Box sx={{ py: 6, backgroundColor: '#1f1f1f' }}>
+              <Container maxWidth="lg">
+                <Grid container spacing={6}>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      ONE Local
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Empowering communities through connection, sharing, and sustainable growth.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Tooltip title="Facebook">
+                        <IconButton href="#" color="inherit" aria-label="Facebook">
+                          <Facebook />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Twitter">
+                        <IconButton href="#" color="inherit" aria-label="Twitter">
+                          <Twitter />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Instagram">
+                        <IconButton href="#" color="inherit" aria-label="Instagram">
+                          <Instagram />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="LinkedIn">
+                        <IconButton href="#" color="inherit" aria-label="LinkedIn">
+                          <LinkedIn />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Quick Links
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Home')}>
+                          Home
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to About')}>
+                          About
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Features')}>
+                          Features
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Community')}>
+                          Community
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Investors')}>
+                          Investors
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Contact Us')}>
+                          Contact Us
+                        </Link>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Newsletter
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Get the latest updates and news from ONE Local.
+                    </Typography>
+                    <Box component="form" noValidate autoComplete="off">
+                      <TextField
+                        label="Email"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton type="submit" color="primary">
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
+                <Box textAlign="center">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    © 2024 ONE Local. All rights reserved.
+                  </Typography>
+                </Box>
+              </Container>
+            </Box>
+          );
+
+          // List and ListItem components for Footer
+          const List = ({ children }) => <Box>{children}</Box>;
+          const ListItem = ({ children }) => (
+            <Box sx={{ py: 0.5 }}>
+              {children}
+            </Box>
+          );
+        }
+
+        // BlogModal Component
+        function BlogModal({ open, handleClose, post }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="blog-dialog-title"
+              aria-describedby="blog-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              {post && (
+                <>
+                  <DialogTitle id="blog-dialog-title">{post.title}</DialogTitle>
+                  <DialogContent dividers>
+                    <CardMedia
+                      component="img"
+                      alt={post.title}
+                      image={post.img}
+                      height="300"
+                      sx={{ mb: 4 }}
+                    />
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {post.tag} | July 14, 2021
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {post.content}
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Close
+                    </Button>
+                  </DialogActions>
+                </>
+              )}
+            </Dialog>
+          );
+        }
+
+        BlogModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+          post: PropTypes.object,
+        };
+
+        // DocsModal Component
+        function DocsModal({ open, handleClose }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="docs-dialog-title"
+              aria-describedby="docs-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              <DialogTitle id="docs-dialog-title">Documentation</DialogTitle>
+              <DialogContent dividers>
+                <Typography variant="h6" gutterBottom>
+                  Getting Started
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Welcome to ONE Local! This documentation will guide you through the features and functionalities of our platform.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Features
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  - **Connect**: Find and connect with your local community members.<br/>
+                  - **Share**: Share resources, tools, and knowledge.<br/>
+                  - **Events**: Create, manage, and participate in local events.<br/>
+                  - **Sellers**: Showcase and sell your products within the community.<br/>
+                  - **Organizations**: Manage your group or nonprofit initiatives.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Getting Help
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  If you need assistance, please contact our support team at <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          );
+        }
+
+        DocsModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+        };
+
+        // Footer Component
+        function Footer() {
+          return (
+            <Box sx={{ py: 6, backgroundColor: '#1f1f1f' }}>
+              <Container maxWidth="lg">
+                <Grid container spacing={6}>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      ONE Local
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Empowering communities through connection, sharing, and sustainable growth.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Tooltip title="Facebook">
+                        <IconButton href="#" color="inherit" aria-label="Facebook">
+                          <Facebook />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Twitter">
+                        <IconButton href="#" color="inherit" aria-label="Twitter">
+                          <Twitter />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Instagram">
+                        <IconButton href="#" color="inherit" aria-label="Instagram">
+                          <Instagram />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="LinkedIn">
+                        <IconButton href="#" color="inherit" aria-label="LinkedIn">
+                          <LinkedIn />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Quick Links
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Home')}>
+                          Home
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to About')}>
+                          About
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Features')}>
+                          Features
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Community')}>
+                          Community
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Investors')}>
+                          Investors
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link href="#" color="inherit" underline="hover" onClick={() => alert('Navigate to Contact Us')}>
+                          Contact Us
+                        </Link>
+                      </ListItem>
+                    </List>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                      Newsletter
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Get the latest updates and news from ONE Local.
+                    </Typography>
+                    <Box component="form" noValidate autoComplete="off">
+                      <TextField
+                        label="Email"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton type="submit" color="primary">
+                                <Send />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
+                <Box textAlign="center">
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    © 2024 ONE Local. All rights reserved.
+                  </Typography>
+                </Box>
+              </Container>
+            </Box>
+          );
+
+          // List and ListItem components for Footer
+          const List = ({ children }) => <Box>{children}</Box>;
+          const ListItem = ({ children }) => (
+            <Box sx={{ py: 0.5 }}>
+              {children}
+            </Box>
+          );
+        }
+
+        // BlogModal Component
+        function BlogModal({ open, handleClose, post }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="blog-dialog-title"
+              aria-describedby="blog-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              {post && (
+                <>
+                  <DialogTitle id="blog-dialog-title">{post.title}</DialogTitle>
+                  <DialogContent dividers>
+                    <CardMedia
+                      component="img"
+                      alt={post.title}
+                      image={post.img}
+                      height="300"
+                      sx={{ mb: 4 }}
+                    />
+                    <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+                      {post.tag} | July 14, 2021
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {post.content}
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                      Close
+                    </Button>
+                  </DialogActions>
+                </>
+              )}
+            </Dialog>
+          );
+        }
+
+        BlogModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+          post: PropTypes.object,
+        };
+
+        // DocsModal Component
+        function DocsModal({ open, handleClose }) {
+          return (
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              scroll="paper"
+              aria-labelledby="docs-dialog-title"
+              aria-describedby="docs-dialog-description"
+              maxWidth="md"
+              fullWidth
+            >
+              <DialogTitle id="docs-dialog-title">Documentation</DialogTitle>
+              <DialogContent dividers>
+                <Typography variant="h6" gutterBottom>
+                  Getting Started
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Welcome to ONE Local! This documentation will guide you through the features and functionalities of our platform.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Features
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  - **Connect**: Find and connect with your local community members.<br/>
+                  - **Share**: Share resources, tools, and knowledge.<br/>
+                  - **Events**: Create, manage, and participate in local events.<br/>
+                  - **Sellers**: Showcase and sell your products within the community.<br/>
+                  - **Organizations**: Manage your group or nonprofit initiatives.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h6" gutterBottom>
+                  Getting Help
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  If you need assistance, please contact our support team at <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          );
+        }
+
+        DocsModal.propTypes = {
+          open: PropTypes.bool.isRequired,
+          handleClose: PropTypes.func.isRequired,
+        };
+
+        // Footer Component (Already Defined Above)
+
+        // Rendering the App
+        ReactDOM.render(<App />, document.getElementById('root'));
+      </script>
 </body>
 </html>
