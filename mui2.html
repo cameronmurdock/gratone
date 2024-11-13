@@ -55,6 +55,9 @@
         body, html {
             scroll-behavior: smooth;
             font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         /* Additional global styles can be added here */
@@ -397,7 +400,7 @@
         // HeroSection Component
         function HeroSection() {
             return (
-                <Box id="home" sx={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', paddingTop: '64px' }}>
+                <Box id="home" sx={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', paddingTop: '64px', backgroundImage: 'url(https://www.onelocal.one/images/hero-background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                     <Container>
                         <Typography variant="h2" component="h1" sx={{ fontFamily: 'Playfair Display, serif', color: '#fff', textShadow: '2px 2px 8px rgba(0,0,0,0.7)' }}>
                             ONE Local - Empowering Local Communities
@@ -501,427 +504,426 @@
                         </Typography>
                     </Box>
                 </Box>
-            );
-        }
+            }
 
-        // Stakeholders Component
-        function Stakeholders() {
-            const { stakeholders } = oneLocalData;
+            // Stakeholders Component
+            function Stakeholders() {
+                const { stakeholders } = oneLocalData;
 
-            return (
-                <Box id="stakeholders" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Meet Our Stakeholders
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            Learn more about the stakeholders, their roles, impact metrics, and stake holdings.
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {stakeholders.map((stakeholder, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#000', border: '2px solid #BF820A' }}>
-                                        <CardContent>
-                                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
-                                                {stakeholder.name}
-                                            </Typography>
-                                            <Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-                                                {stakeholder.role}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-                                                <strong>Impact Metrics:</strong>
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Projects Led: {stakeholder.impactMetrics.projectsLed}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Community Hours: {stakeholder.impactMetrics.communityHours}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Funds Raised: {stakeholder.impactMetrics.fundsRaised}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ marginTop: 1 }}>
-                                                <strong>Stake Holdings:</strong> {stakeholder.stake}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
-
-        // BoardMembers Component
-        function BoardMembers() {
-            const { boardMembers } = oneLocalData;
-
-            return (
-                <Box id="board" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Meet Our Board
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            Our board members bring a wealth of experience and passion to drive ONE Local's mission forward.
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {boardMembers.map((member, index) => (
-                                <Grid item xs={12} sm={6} md={3} key={index}>
-                                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#000', border: '2px solid #BF820A', textAlign: 'center' }}>
-                                        <CardContent>
-                                            <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, margin: '0 auto 20px' }} />
-                                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
-                                                {member.name}
-                                            </Typography>
-                                            <Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-                                                {member.role}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                <a href={`mailto:${member.email}`} style={{ color: '#BF820A' }}>{member.email}</a>
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
-
-        // MembershipGroups Component
-        function MembershipGroups() {
-            const { membershipGroups } = oneLocalData;
-
-            return (
-                <Box id="groups" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Membership Groups
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            Join one of our groups to collaborate with like-minded individuals and make a positive impact in your community.
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {membershipGroups.map((group, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
-                                        <CardContent>
-                                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
-                                                {group.name}
-                                            </Typography>
-                                            <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                                                {group.description}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-                                                Members:
-                                            </Typography>
-                                            <List>
-                                                {group.members.map((member, idx) => (
-                                                    <ListItem key={idx} disablePadding>
-                                                        <ListItemText primary={`• ${member}`} />
-                                                    </ListItem>
-                                                ))}
-                                            </List>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
-
-        // Governance Component
-        function Governance() {
-            const { governance } = oneLocalData;
-
-            return (
-                <Box id="governance" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Governance
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            {governance.structure}
-                        </Typography>
-                        <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
-                            Voting Membership Classes
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {governance.votingMembershipClasses.map((classItem, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
-                                        <CardContent>
-                                            <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
-                                                {classItem.name}
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                {classItem.description}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Box sx={{ marginTop: 4 }}>
-                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
-                                Key Governance Policies
+                return (
+                    <Box id="stakeholders" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Meet Our Stakeholders
                             </Typography>
-                            <List>
-                                {governance.policies.map((policy, index) => (
-                                    <ListItem key={index}>
-                                        <ListItemText primary={<a href={policy.url} target="_blank" rel="noopener noreferrer" style={{ color: '#BF820A' }}>{policy.name}</a>} />
-                                    </ListItem>
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                Learn more about the stakeholders, their roles, impact metrics, and stake holdings.
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {stakeholders.map((stakeholder, index) => (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#000', border: '2px solid #BF820A' }}>
+                                            <CardContent>
+                                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
+                                                    {stakeholder.name}
+                                                </Typography>
+                                                <Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
+                                                    {stakeholder.role}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                                                    <strong>Impact Metrics:</strong>
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Projects Led: {stakeholder.impactMetrics.projectsLed}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Community Hours: {stakeholder.impactMetrics.communityHours}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    Funds Raised: {stakeholder.impactMetrics.fundsRaised}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ marginTop: 1 }}>
+                                                    <strong>Stake Holdings:</strong> {stakeholder.stake}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
                                 ))}
-                            </List>
-                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginTop: 2, textAlign: 'center' }}>
-                                Our Board of Directors oversees the strategic direction and ensures that ONE Local remains true to its mission of empowering local communities.
+                            </Grid>
+                        </Container>
+                    </Box>
+                );
+            }
+
+            // BoardMembers Component
+            function BoardMembers() {
+                const { boardMembers } = oneLocalData;
+
+                return (
+                    <Box id="board" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Meet Our Board
                             </Typography>
-                        </Box>
-                    </Container>
-                </Box>
-            );
-        }
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                Our board members bring a wealth of experience and passion to drive ONE Local's mission forward.
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {boardMembers.map((member, index) => (
+                                    <Grid item xs={12} sm={6} md={3} key={index}>
+                                        <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', color: '#000', border: '2px solid #BF820A', textAlign: 'center' }}>
+                                            <CardContent>
+                                                <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, margin: '0 auto 20px' }} />
+                                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
+                                                    {member.name}
+                                                </Typography>
+                                                <Typography variant="body1" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
+                                                    {member.role}
+                                                </Typography>
+                                                <Typography variant="body2">
+                                                    <a href={`mailto:${member.email}`} style={{ color: '#BF820A' }}>{member.email}</a>
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+                );
+            }
 
-        // Comments Component
-        function Comments() {
-            const { comments } = oneLocalData;
+            // MembershipGroups Component
+            function MembershipGroups() {
+                const { membershipGroups } = oneLocalData;
 
-            return (
-                <Box id="comments" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Community Comments
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {comments.map((comment, index) => (
-                                <Grid item xs={12} sm={6} md={4} key={index}>
-                                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
-                                        <CardContent>
-                                            <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
-                                                {comment.author}
-                                            </Typography>
-                                            <Typography variant="subtitle1" sx={{ fontStyle: 'italic', marginBottom: 2 }}>
-                                                {comment.role}
-                                            </Typography>
-                                            <Typography variant="body1">
-                                                "{comment.text}"
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
+                return (
+                    <Box id="groups" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Membership Groups
+                            </Typography>
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                Join one of our groups to collaborate with like-minded individuals and make a positive impact in your community.
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {membershipGroups.map((group, index) => (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
+                                            <CardContent>
+                                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
+                                                    {group.name}
+                                                </Typography>
+                                                <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                                                    {group.description}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
+                                                    Members:
+                                                </Typography>
+                                                <List>
+                                                    {group.members.map((member, idx) => (
+                                                        <ListItem key={idx} disablePadding>
+                                                            <ListItemText primary={`• ${member}`} />
+                                                        </ListItem>
+                                                    ))}
+                                                </List>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+                );
+            }
 
-        // Projects Component
-        function Projects() {
-            const { projects } = oneLocalData;
+            // Governance Component
+            function Governance() {
+                const { governance } = oneLocalData;
 
-            return (
-                <Box id="projects" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Our Projects
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            We are actively working on projects that have a meaningful impact on our community.
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {projects.map((project, index) => (
-                                <Grid item xs={12} sm={6} md={3} key={index}>
-                                    <Card sx={{ border: '2px solid #BF820A' }}>
-                                        <CardMedia
-                                            component="img"
-                                            height="200"
-                                            image={project.image}
-                                            alt={project.name}
-                                        />
-                                        <CardContent>
-                                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
-                                                {project.name}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ marginBottom: 2 }}>
-                                                {project.description}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small" variant="contained" href={project.url} target="_blank" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
-                                                Learn More
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
-
-        // Events Component
-        function Events() {
-            const { events } = oneLocalData;
-
-            return (
-                <Box id="events" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
-                    <Container>
-                        <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
-                            Upcoming Events
-                        </Typography>
-                        <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
-                            Join us at our upcoming events to connect, learn, and make a difference in your community.
-                        </Typography>
-                        <Grid container spacing={4} justifyContent="center">
-                            {events.map((event, index) => (
-                                <Grid item xs={12} sm={6} md={3} key={index}>
-                                    <Card sx={{ border: '2px solid #BF820A' }}>
-                                        <CardMedia
-                                            component="img"
-                                            height="200"
-                                            image={event.image}
-                                            alt={event.name}
-                                        />
-                                        <CardContent>
-                                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
-                                                {event.name}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ color: '#BF820A', marginBottom: 1 }}>
-                                                {event.date}
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ marginBottom: 2 }}>
-                                                {event.description}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small" variant="contained" href={event.url} target="_blank" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
-                                                Details
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Container>
-                </Box>
-            );
-        }
-
-        // Footer Component
-        function Footer() {
-            const { contactInformation } = oneLocalData;
-
-            return (
-                <Box id="contact" sx={{ backgroundColor: '#003333', color: '#fff', padding: 4 }}>
-                    <Container>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} md={4}>
-                                <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
-                                    ONE Local
+                return (
+                    <Box id="governance" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Governance
+                            </Typography>
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                {governance.structure}
+                            </Typography>
+                            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
+                                Voting Membership Classes
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {governance.votingMembershipClasses.map((classItem, index) => (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
+                                            <CardContent>
+                                                <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
+                                                    {classItem.name}
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    {classItem.description}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            <Box sx={{ marginTop: 4 }}>
+                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 2 }}>
+                                    Key Governance Policies
                                 </Typography>
                                 <List>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#home" sx={{ color: '#BF820A' }}>Home</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#organization-details" sx={{ color: '#BF820A' }}>About</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#stakeholders" sx={{ color: '#BF820A' }}>Stakeholders</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#board" sx={{ color: '#BF820A' }}>Board</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#groups" sx={{ color: '#BF820A' }}>Groups</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#governance" sx={{ color: '#BF820A' }}>Governance</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#projects" sx={{ color: '#BF820A' }}>Projects</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#events" sx={{ color: '#BF820A' }}>Events</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#comments" sx={{ color: '#BF820A' }}>Comments</Link>} />
-                                    </ListItem>
-                                    <ListItem disablePadding>
-                                        <ListItemText primary={<Link href="#contact" sx={{ color: '#BF820A' }}>Contact</Link>} />
-                                    </ListItem>
-                                </List>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
-                                    Follow Us
-                                </Typography>
-                                <Box>
-                                    {Object.entries(contactInformation.socialMedia).map(([platform, url], index) => (
-                                        <IconButton key={index} href={url} target="_blank" sx={{ color: '#BF820A' }}>
-                                            <i className={`fab fa-${platform.toLowerCase()}`}></i>
-                                        </IconButton>
+                                    {governance.policies.map((policy, index) => (
+                                        <ListItem key={index}>
+                                            <ListItemText primary={<a href={policy.url} target="_blank" rel="noopener noreferrer" style={{ color: '#BF820A' }}>{policy.name}</a>} />
+                                        </ListItem>
                                     ))}
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
-                                    Newsletter Signup
+                                </List>
+                                <Typography variant="body1" sx={{ fontSize: '1.2em', marginTop: 2, textAlign: 'center' }}>
+                                    Our Board of Directors oversees the strategic direction and ensures that ONE Local remains true to its mission of empowering local communities.
                                 </Typography>
-                                <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                                    Get the Latest Stories and Updates — Sign Up Here.
-                                </Typography>
-                                <Box component="form" noValidate autoComplete="off">
-                                    <TextField
-                                        variant="outlined"
-                                        label="Email"
-                                        fullWidth
-                                        size="small"
-                                        sx={{ marginBottom: 2, backgroundColor: '#fff', borderRadius: 1 }}
-                                    />
-                                    <Button variant="contained" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
-                                        Subscribe
-                                    </Button>
-                                </Box>
+                            </Box>
+                        </Container>
+                    </Box>
+                );
+            }
+
+            // Comments Component
+            function Comments() {
+                const { comments } = oneLocalData;
+
+                return (
+                    <Box id="comments" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Community Comments
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {comments.map((comment, index) => (
+                                    <Grid item xs={12} sm={6} md={4} key={index}>
+                                        <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', color: '#000', border: '2px solid #BF820A' }}>
+                                            <CardContent>
+                                                <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
+                                                    {comment.author}
+                                                </Typography>
+                                                <Typography variant="subtitle1" sx={{ fontStyle: 'italic', marginBottom: 2 }}>
+                                                    {comment.role}
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    "{comment.text}"
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
                             </Grid>
-                        </Grid>
-                        <Divider sx={{ backgroundColor: '#a8d5ba', marginY: 2 }} />
-                        <Typography variant="body2" sx={{ textAlign: 'center', color: '#a8d5ba' }}>
-                            © 2024 ONE Local. All rights reserved. | <Link href="https://www.onelocal.one/policies/terms-of-service" target="_blank" sx={{ color: '#BF820A' }}>Terms of Service</Link> | <Link href="https://www.onelocal.one/policies/privacy-policy" target="_blank" sx={{ color: '#BF820A' }}>Privacy Policy</Link>
-                        </Typography>
-                    </Container>
-                </Box>
-            );
-        }
+                        </Container>
+                    </Box>
+                );
+            }
 
-        // Main App Component
-        function App() {
-            return (
-                <div>
-                    <NavigationBar />
-                    <HeroSection />
-                    <OrganizationDetails />
-                    <Stakeholders />
-                    <BoardMembers />
-                    <MembershipGroups />
-                    <Governance />
-                    <Comments />
-                    <Projects />
-                    <Events />
-                    <Footer />
-                </div>
-            );
-        }
+            // Projects Component
+            function Projects() {
+                const { projects } = oneLocalData;
 
-        // Render the App
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
+                return (
+                    <Box id="projects" sx={{ padding: 8, backgroundColor: '#f5f5f5', color: '#333' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Our Projects
+                            </Typography>
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                We are actively working on projects that have a meaningful impact on our community.
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {projects.map((project, index) => (
+                                    <Grid item xs={12} sm={6} md={3} key={index}>
+                                        <Card sx={{ border: '2px solid #BF820A' }}>
+                                            <CardMedia
+                                                component="img"
+                                                height="200"
+                                                image={project.image}
+                                                alt={project.name}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
+                                                    {project.name}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ marginBottom: 2 }}>
+                                                    {project.description}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button size="small" variant="contained" href={project.url} target="_blank" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
+                                                    Learn More
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+                );
+            }
+
+            // Events Component
+            function Events() {
+                const { events } = oneLocalData;
+
+                return (
+                    <Box id="events" sx={{ padding: 8, backgroundColor: '#003333', color: '#fff' }}>
+                        <Container>
+                            <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 4, textAlign: 'center' }}>
+                                Upcoming Events
+                            </Typography>
+                            <Typography variant="body1" sx={{ fontSize: '1.2em', marginBottom: 4, textAlign: 'center' }}>
+                                Join us at our upcoming events to connect, learn, and make a difference in your community.
+                            </Typography>
+                            <Grid container spacing={4} justifyContent="center">
+                                {events.map((event, index) => (
+                                    <Grid item xs={12} sm={6} md={3} key={index}>
+                                        <Card sx={{ border: '2px solid #BF820A' }}>
+                                            <CardMedia
+                                                component="img"
+                                                height="200"
+                                                image={event.image}
+                                                alt={event.name}
+                                            />
+                                            <CardContent>
+                                                <Typography variant="h5" sx={{ fontFamily: 'Playfair Display, serif', color: '#BF820A', marginBottom: 1 }}>
+                                                    {event.name}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ color: '#BF820A', marginBottom: 1 }}>
+                                                    {event.date}
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ marginBottom: 2 }}>
+                                                    {event.description}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardActions>
+                                                <Button size="small" variant="contained" href={event.url} target="_blank" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
+                                                    Details
+                                                </Button>
+                                            </CardActions>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Container>
+                    </Box>
+                );
+            }
+
+            // Footer Component
+            function Footer() {
+                const { contactInformation } = oneLocalData;
+
+                return (
+                    <Box id="contact" sx={{ backgroundColor: '#003333', color: '#fff', padding: 4 }}>
+                        <Container>
+                            <Grid container spacing={4}>
+                                <Grid item xs={12} md={4}>
+                                    <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
+                                        ONE Local
+                                    </Typography>
+                                    <List>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#home" sx={{ color: '#BF820A' }}>Home</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#organization-details" sx={{ color: '#BF820A' }}>About</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#stakeholders" sx={{ color: '#BF820A' }}>Stakeholders</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#board" sx={{ color: '#BF820A' }}>Board</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#groups" sx={{ color: '#BF820A' }}>Groups</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#governance" sx={{ color: '#BF820A' }}>Governance</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#projects" sx={{ color: '#BF820A' }}>Projects</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#events" sx={{ color: '#BF820A' }}>Events</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#comments" sx={{ color: '#BF820A' }}>Comments</Link>} />
+                                        </ListItem>
+                                        <ListItem disablePadding>
+                                            <ListItemText primary={<Link href="#contact" sx={{ color: '#BF820A' }}>Contact</Link>} />
+                                        </ListItem>
+                                    </List>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
+                                        Follow Us
+                                    </Typography>
+                                    <Box>
+                                        {Object.entries(contactInformation.socialMedia).map(([platform, url], index) => (
+                                            <IconButton key={index} href={url} target="_blank" sx={{ color: '#BF820A' }}>
+                                                <i className={`fab fa-${platform.toLowerCase()}`}></i>
+                                            </IconButton>
+                                        ))}
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <Typography variant="h6" sx={{ fontFamily: 'Playfair Display, serif', marginBottom: 2 }}>
+                                        Newsletter Signup
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                                        Get the Latest Stories and Updates — Sign Up Here.
+                                    </Typography>
+                                    <Box component="form" noValidate autoComplete="off">
+                                        <TextField
+                                            variant="outlined"
+                                            label="Email"
+                                            fullWidth
+                                            size="small"
+                                            sx={{ marginBottom: 2, backgroundColor: '#fff', borderRadius: 1 }}
+                                        />
+                                        <Button variant="contained" sx={{ backgroundColor: '#BF820A', color: '#fff' }}>
+                                            Subscribe
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                            <Divider sx={{ backgroundColor: '#a8d5ba', marginY: 2 }} />
+                            <Typography variant="body2" sx={{ textAlign: 'center', color: '#a8d5ba' }}>
+                                © 2024 ONE Local. All rights reserved. | <Link href="https://www.onelocal.one/policies/terms-of-service" target="_blank" sx={{ color: '#BF820A' }}>Terms of Service</Link> | <Link href="https://www.onelocal.one/policies/privacy-policy" target="_blank" sx={{ color: '#BF820A' }}>Privacy Policy</Link>
+                            </Typography>
+                        </Container>
+                    </Box>
+                );
+            }
+
+            // Main App Component
+            function App() {
+                return (
+                    <div>
+                        <NavigationBar />
+                        <HeroSection />
+                        <OrganizationDetails />
+                        <Stakeholders />
+                        <BoardMembers />
+                        <MembershipGroups />
+                        <Governance />
+                        <Comments />
+                        <Projects />
+                        <Events />
+                        <Footer />
+                    </div>
+                );
+            }
+
+            // Render the App
+            ReactDOM.render(<App />, document.getElementById('root'));
+        </script>
 </body>
 </html>
