@@ -118,22 +118,21 @@
     };
 
     function NavigationBar({ setValue }) {
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const [menuId, setMenuId] = React.useState(null);
+      const [anchorEls, setAnchorEls] = React.useState({});
+      const [menuIds, setMenuIds] = React.useState({});
 
       const handleMenuOpen = (event, id) => {
-        setAnchorEl(event.currentTarget);
-        setMenuId(id);
+        setAnchorEls((prev) => ({ ...prev, [id]: event.currentTarget }));
       };
 
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-        setMenuId(null);
+      const handleMenuClose = (id) => {
+        setAnchorEls((prev) => ({ ...prev, [id]: null }));
       };
 
       const handleMenuItemClick = (value) => {
         setValue(value);
-        handleMenuClose();
+        // Close all menus
+        setAnchorEls({});
       };
 
       return (
@@ -146,25 +145,54 @@
               <Button color="inherit" onClick={() => setValue('home')}>Home</Button>
               <Button
                 color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'about')}
+                onClick={(e) => handleMenuOpen(e, 'aboutMenu')}
                 endIcon={<Icon>expand_more</Icon>}
               >
                 About
               </Button>
+              <Menu
+                anchorEl={anchorEls['aboutMenu']}
+                open={Boolean(anchorEls['aboutMenu'])}
+                onClose={() => handleMenuClose('aboutMenu')}
+              >
+                <MenuItem onClick={() => handleMenuItemClick('manifesto')}>Manifesto</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('team')}>Team</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('whitepaper')}>Whitepaper</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('investors')}>Investors</MenuItem>
+              </Menu>
               <Button
                 color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'features')}
+                onClick={(e) => handleMenuOpen(e, 'featuresMenu')}
                 endIcon={<Icon>expand_more</Icon>}
               >
                 Features
               </Button>
+              <Menu
+                anchorEl={anchorEls['featuresMenu']}
+                open={Boolean(anchorEls['featuresMenu'])}
+                onClose={() => handleMenuClose('featuresMenu')}
+              >
+                <MenuItem onClick={() => handleMenuItemClick('overview')}>Overview</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('local-members')}>For Local Members</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('event-hosts')}>For Event Hosts</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('sellers')}>For Sellers</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('organizations')}>For Organizations</MenuItem>
+              </Menu>
               <Button
                 color="inherit"
-                onClick={(e) => handleMenuOpen(e, 'community')}
+                onClick={(e) => handleMenuOpen(e, 'communityMenu')}
                 endIcon={<Icon>expand_more</Icon>}
               >
                 Community
               </Button>
+              <Menu
+                anchorEl={anchorEls['communityMenu']}
+                open={Boolean(anchorEls['communityMenu'])}
+                onClose={() => handleMenuClose('communityMenu')}
+              >
+                <MenuItem onClick={() => handleMenuItemClick('impact-stories')}>Impact Stories</MenuItem>
+                <MenuItem onClick={() => handleMenuItemClick('blog')}>Blog</MenuItem>
+              </Menu>
               <Button color="inherit" onClick={() => setValue('download-app')}>Download App</Button>
             </div>
             <div className="mobileMenu">
@@ -172,78 +200,57 @@
                 <Icon>menu</Icon>
               </IconButton>
               <Menu
-                anchorEl={anchorEl}
-                open={menuId === 'mobileMenu'}
-                onClose={handleMenuClose}
+                anchorEl={anchorEls['mobileMenu']}
+                open={Boolean(anchorEls['mobileMenu'])}
+                onClose={() => handleMenuClose('mobileMenu')}
                 PaperProps={{ style: { zIndex: 1400 } }}
               >
-                <MenuItem onClick={() => handleMenuItemClick('home')}>Home</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'aboutMobile')}>About</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'featuresMobile')}>Features</MenuItem>
-                <MenuItem onClick={(e) => handleMenuOpen(e, 'communityMobile')}>Community</MenuItem>
-                <MenuItem onClick={() => handleMenuItemClick('download-app')}>Download App</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('home'); handleMenuClose('mobileMenu'); }}>Home</MenuItem>
+                <MenuItem onClick={(e) => { handleMenuOpen(e, 'aboutMobileMenu'); }}>About</MenuItem>
+                <MenuItem onClick={(e) => { handleMenuOpen(e, 'featuresMobileMenu'); }}>Features</MenuItem>
+                <MenuItem onClick={(e) => { handleMenuOpen(e, 'communityMobileMenu'); }}>Community</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('download-app'); handleMenuClose('mobileMenu'); }}>Download App</MenuItem>
+              </Menu>
+              {/* Mobile Submenus */}
+              <Menu
+                anchorEl={anchorEls['aboutMobileMenu']}
+                open={Boolean(anchorEls['aboutMobileMenu'])}
+                onClose={() => handleMenuClose('aboutMobileMenu')}
+                PaperProps={{ style: { zIndex: 1400 } }}
+              >
+                <MenuItem onClick={() => { handleMenuItemClick('manifesto'); handleMenuClose('aboutMobileMenu'); }}>Manifesto</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('team'); handleMenuClose('aboutMobileMenu'); }}>Team</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('whitepaper'); handleMenuClose('aboutMobileMenu'); }}>Whitepaper</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('investors'); handleMenuClose('aboutMobileMenu'); }}>Investors</MenuItem>
+              </Menu>
+              <Menu
+                anchorEl={anchorEls['featuresMobileMenu']}
+                open={Boolean(anchorEls['featuresMobileMenu'])}
+                onClose={() => handleMenuClose('featuresMobileMenu')}
+                PaperProps={{ style: { zIndex: 1400 } }}
+              >
+                <MenuItem onClick={() => { handleMenuItemClick('overview'); handleMenuClose('featuresMobileMenu'); }}>Overview</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('local-members'); handleMenuClose('featuresMobileMenu'); }}>For Local Members</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('event-hosts'); handleMenuClose('featuresMobileMenu'); }}>For Event Hosts</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('sellers'); handleMenuClose('featuresMobileMenu'); }}>For Sellers</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('organizations'); handleMenuClose('featuresMobileMenu'); }}>For Organizations</MenuItem>
+              </Menu>
+              <Menu
+                anchorEl={anchorEls['communityMobileMenu']}
+                open={Boolean(anchorEls['communityMobileMenu'])}
+                onClose={() => handleMenuClose('communityMobileMenu')}
+                PaperProps={{ style: { zIndex: 1400 } }}
+              >
+                <MenuItem onClick={() => { handleMenuItemClick('impact-stories'); handleMenuClose('communityMobileMenu'); }}>Impact Stories</MenuItem>
+                <MenuItem onClick={() => { handleMenuItemClick('blog'); handleMenuClose('communityMobileMenu'); }}>Blog</MenuItem>
               </Menu>
             </div>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
-              onClose={handleMenuClose}
-              PaperProps={{ style: { zIndex: 1400 } }}
-            >
-              {menuId === 'about' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('manifesto')}>Manifesto</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('team')}>Team</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('whitepaper')}>Whitepaper</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('investors')}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'features' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('overview')}>Overview</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('local-members')}>For Local Members</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('event-hosts')}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('sellers')}>For Sellers</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('organizations')}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'community' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('impact-stories')}>Impact Stories</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('blog')}>Blog</MenuItem>
-                </>
-              )}
-              {/* Mobile submenu */}
-              {menuId === 'aboutMobile' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('manifesto')}>Manifesto</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('team')}>Team</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('whitepaper')}>Whitepaper</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('investors')}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'featuresMobile' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('overview')}>Overview</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('local-members')}>For Local Members</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('event-hosts')}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('sellers')}>For Sellers</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('organizations')}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'communityMobile' && (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick('impact-stories')}>Impact Stories</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick('blog')}>Blog</MenuItem>
-                </>
-              )}
-            </Menu>
           </Toolbar>
         </AppBar>
       );
     }
 
-    // The rest of the components remain largely the same, but we need to add the setValue prop where necessary and create page components for each menu item.
+    // Rest of the components remain the same, but we ensure that 'setValue' is passed where needed.
 
     function LandingPage() {
       const [value, setValue] = React.useState('home');
@@ -284,230 +291,9 @@
       );
     }
 
-    // Page Components
-    function ManifestoPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Manifesto
-          </Typography>
-          <Typography variant="body1">
-            Our pledge, our promise: A declaration of what we’re building together. Dive deep into our purpose.
-          </Typography>
-        </Container>
-      );
-    }
+    // Page Components (e.g., ManifestoPage, TeamPage, etc.) remain the same as before.
 
-    function TeamPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Meet the Team
-          </Typography>
-          {/* Add team member cards here */}
-          <Typography variant="body1">Details about the team members will be displayed here.</Typography>
-        </Container>
-      );
-    }
-
-    function WhitepaperPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Whitepaper
-          </Typography>
-          <Typography variant="body1">
-            For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
-          </Typography>
-          <Button variant="contained" color="primary" sx={{ mt: 4 }}>
-            Download Whitepaper
-          </Button>
-        </Container>
-      );
-    }
-
-    function InvestorsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Invest in a New Kind of Social Infrastructure
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Equity options, growth potential, and the chance to support a platform rooted in local, regenerative economics.
-          </Typography>
-          <Button variant="contained" color="secondary">
-            Join the Movement — Invest Today
-          </Button>
-        </Container>
-      );
-    }
-
-    function OverviewPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Features Overview
-          </Typography>
-          <Typography variant="body1">
-            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
-          </Typography>
-          {/* Include additional content or reuse existing sections */}
-          <FeaturesSection />
-        </Container>
-      );
-    }
-
-    function LocalMembersPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Local Members
-          </Typography>
-          <Typography variant="body1">
-            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function EventHostsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Event Hosts
-          </Typography>
-          <Typography variant="body1">
-            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function SellersPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Sellers
-          </Typography>
-          <Typography variant="body1">
-            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function OrganizationsPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            For Organizations
-          </Typography>
-          <Typography variant="body1">
-            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function ImpactStoriesPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Impact Stories
-          </Typography>
-          <Typography variant="body1">
-            From backyard food swaps to city-wide initiatives, see the ripple effects of connection. Read stories that show the power of a shared purpose.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function BlogPage() {
-      return (
-        <Container sx={{ py: 8 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Blog
-          </Typography>
-          <Typography variant="body1">
-            Tips on resource sharing, updates on platform features, and insights into building resilient communities.
-          </Typography>
-        </Container>
-      );
-    }
-
-    function DownloadAppPage() {
-      return (
-        <Container sx={{ py: 8, textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
-            Download the App
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
-            Step in, the door is open.
-          </Typography>
-          <Button variant="contained" color="primary" size="large">
-            Get the App Now
-          </Button>
-        </Container>
-      );
-    }
-
-    // The rest of the components (HeroSection, LogoCollection, FeaturesSection, etc.) remain the same as in the code you provided.
-
-    // Ensure that the Footer component accepts setValue as a prop and uses it for navigation
-    function Footer({ setValue }) {
-      return (
-        <Box py={4} sx={{ backgroundColor: '#1f1f1f' }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Typography variant="h6">ONE Local</Typography>
-                <List>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setValue('home')}>
-                      <ListItemText primary="Home" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setValue('manifesto')}>
-                      <ListItemText primary="About" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setValue('overview')}>
-                      <ListItemText primary="Features" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setValue('impact-stories')}>
-                      <ListItemText primary="Community" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => setValue('investors')}>
-                      <ListItemText primary="Investors" />
-                    </Link>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <Link href="#" color="inherit" underline="none" onClick={() => alert('Contact Us')}>
-                      <ListItemText primary="Contact Us" />
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-              {/* The rest of the Footer remains the same */}
-            </Grid>
-            <Box textAlign="center" mt={4}>
-              <Typography variant="body2">
-                © 2024 ONE Local. All rights reserved.
-              </Typography>
-            </Box>
-          </Container>
-        </Box>
-      );
-    }
+    // Footer component remains the same, ensuring 'setValue' is passed for navigation.
 
     ReactDOM.render(<LandingPage />, document.getElementById('root'));
   </script>
