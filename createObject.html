@@ -1,55 +1,915 @@
-<Modal
-  open={modalOpen}
-  onClose={() => setModalOpen(false)}
-  aria-labelledby="modal-title"
-  aria-describedby="modal-description"
->
-  {selectedObject && (
-    <Box sx={modalStyle}>
-      <IconButton
-        aria-label="close"
-        onClick={() => setModalOpen(false)}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        <Close />
-      </IconButton>
-      <Card>
-        {selectedObject.image && (
-          <CardMedia
-            component="img"
-            height="200"
-            image={selectedObject.image}
-            alt={`${selectedObject.name} image`}
-          />
-        )}
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            {selectedObject.name}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Object Builder</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Material-UI CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <!-- Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+    }
+    #root {
+      padding: 20px;
+    }
+    .json-output {
+      width: 100%;
+      height: 300px;
+      margin-top: 20px;
+      padding: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      overflow: auto;
+    }
+    .nested-form {
+      border-left: 2px solid #ccc;
+      padding-left: 15px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX Transformation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      Button,
+      TextField,
+      Select,
+      MenuItem,
+      FormControl,
+      InputLabel,
+      Tabs,
+      Tab,
+      Box,
+      Typography,
+      Autocomplete,
+      Grid,
+      Paper,
+      Checkbox,
+      FormControlLabel,
+      Chip,
+      IconButton,
+      Modal,
+      Card,
+      CardContent,
+      CardMedia,
+      CardActions,
+    } = MaterialUI;
+    const { Close } = MaterialUIIcons;
+
+    // Define the object types and their properties
+    const objectTypes = [
+      {
+        name: 'Person',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Person', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Alternate Name', name: 'alternateName', type: 'text' },
+          { label: 'Identifier', name: 'identifier', type: 'text' },
+          { label: 'Email', name: 'email', type: 'email' },
+          { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Same As', name: 'sameAs', type: 'multiselect', options: ['https://twitter.com/janedoe', 'https://linkedin.com/in/janedoe'] },
+          { label: 'Birth Date', name: 'birthDate', type: 'date' },
+          { label: 'Gender', name: 'gender', type: 'select', options: ['Male', 'Female', 'Non-binary', 'Other'] },
+          { label: 'Address', name: 'address', type: 'object', fields: [
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Language', name: 'language', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Cultural Context', name: 'culturalContext', type: 'text' },
+          { label: 'Member Of', name: 'memberOf', type: 'multiselect', options: ['urn:uuid:org001', 'urn:uuid:org456'] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['CEO', 'COO', 'CMO'] },
+          { label: 'Has Skill', name: 'hasSkill', type: 'multiselect', options: ['Strategic Planning', 'Leadership', 'Gardening', 'Carpentry'] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['3D Printer', 'Lawn Mower'] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: ['Free Tutoring', 'Tool Sharing'] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: ['Help Building Fence', 'Event Volunteers'] },
+          { label: 'Has Badge', name: 'hasBadge', type: 'multiselect', options: ['Community Leader', 'Volunteer'] },
+          { label: 'Has Reputation Score', name: 'hasReputationScore', type: 'number' },
+          { label: 'Friend Of', name: 'friendOf', type: 'multiselect', options: ['urn:uuid:user456', 'urn:uuid:user789'] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: ['urn:uuid:org456'] },
+          { label: 'Privacy Setting', name: 'privacySetting', type: 'text' },
+          { label: 'User Preferences', name: 'userPreferences', type: 'textarea' },
+          { label: 'Blockchain Identity', name: 'blockchainIdentity', type: 'text' },
+          { label: 'Security Scheme', name: 'securityScheme', type: 'text' },
+          { label: 'Proposes', name: 'proposes', type: 'multiselect', options: ['Proposal1', 'Proposal2'] },
+          { label: 'Votes On', name: 'votesOn', type: 'multiselect', options: ['Vote1', 'Vote2'] },
+          { label: 'Receives Notification', name: 'receivesNotification', type: 'multiselect', options: ['Notification1', 'Notification2'] },
+          { label: 'Receives Alert', name: 'receivesAlert', type: 'multiselect', options: ['Alert1', 'Alert2'] },
+          { label: 'Acted On Recommendation', name: 'actedOnRecommendation', type: 'multiselect', options: ['Recommendation1', 'Recommendation2'] },
+          { label: 'Participates In Session', name: 'participatesInSession', type: 'multiselect', options: ['Session1', 'Session2'] },
+        ],
+      },
+      // Define other object types like Organization, Group, Event, Task, Resource, Offer, Demand
+      {
+        name: 'Organization',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Email', name: 'email', type: 'email' },
+          { label: 'Telephone', name: 'telephone', type: 'tel' },
+          { label: 'Address', name: 'address', type: 'object', fields: [
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Member', name: 'member', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user456', 'urn:uuid:user789'] },
+          { label: 'Sub Organization', name: 'subOrganization', type: 'multiselect', options: ['urn:uuid:suborg001', 'urn:uuid:suborg002'] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['Resource Manager', 'Event Coordinator'] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['Community Garden Plots', 'Shared Tools'] },
+          { label: 'Makes Offer', name: 'makesOffer', type: 'multiselect', options: ['Selling Fresh Produce'] },
+          { label: 'Seeks', name: 'seeks', type: 'multiselect', options: ['Volunteer Gardeners'] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: ['Farmers Market'] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: ['Urban Farm Initiative'] },
+          { label: 'Collaborates With', name: 'collaboratesWith', type: 'multiselect', options: ['urn:uuid:org001'] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+          { label: 'Has Credential', name: 'hasCredential', type: 'multiselect', options: ['Organic Farming Certification'] },
+        ],
+      },
+      {
+        name: 'Group',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Organization', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'URL', name: 'url', type: 'url' },
+          { label: 'Logo URL', name: 'logo', type: 'url' },
+          { label: 'Member', name: 'member', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
+          { label: 'Has Role', name: 'hasRole', type: 'multiselect', options: ['Group Moderator', 'Event Coordinator'] },
+          { label: 'Member Of', name: 'memberOf', type: 'select', options: ['urn:uuid:org456'] },
+          { label: 'Has Event', name: 'hasEvent', type: 'multiselect', options: ['Gardening Workshop'] },
+          { label: 'Has Project', name: 'hasProject', type: 'multiselect', options: ['Rainwater Harvesting System'] },
+          { label: 'Owns', name: 'owns', type: 'multiselect', options: ['Shared Gardening Tools'] },
+          { label: 'Legal', name: 'legal', type: 'text' },
+        ],
+      },
+      {
+        name: 'Event',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Event', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Date & Time', name: 'startDate', type: 'datetime-local' },
+          { label: 'End Date & Time', name: 'endDate', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+              { label: 'Latitude', name: 'latitude', type: 'number' },
+              { label: 'Longitude', name: 'longitude', type: 'number' },
+            ]
+          },
+          { label: 'Event Status', name: 'eventStatus', type: 'select', options: ['EventScheduled', 'EventCancelled', 'EventPostponed'] },
+          { label: 'Event Attendance Mode', name: 'eventAttendanceMode', type: 'select', options: ['Offline', 'Online'] },
+          { label: 'Organizer', name: 'organizer', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:org456'], allowCreate: false },
+          { label: 'Attendee', name: 'attendee', type: 'multiselect', options: ['urn:uuid:user123', 'urn:uuid:user789'] },
+          { label: 'Performer', name: 'performer', type: 'multiselect', options: ['urn:uuid:user456'] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: ['Offer1', 'Offer2'] },
+          { label: 'In Language', name: 'inLanguage', type: 'select', options: ['en-US', 'es-ES', 'fr-FR', 'de-DE'] },
+          { label: 'Keywords', name: 'keywords', type: 'multiselect', options: ['Music', 'Community', 'Workshop'] },
+        ],
+      },
+      {
+        name: 'Task',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'Action', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Start Time', name: 'startTime', type: 'datetime-local' },
+          { label: 'End Time', name: 'endTime', type: 'datetime-local' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Assigned To', name: 'assignedTo', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:user789'], allowCreate: true },
+          { label: 'Assigned By', name: 'assignedBy', type: 'autocomplete', options: ['urn:uuid:user123'], allowCreate: false },
+          { label: 'Depends On', name: 'dependsOn', type: 'autocomplete', options: ['urn:uuid:task103'], allowCreate: false },
+          { label: 'Action Status', name: 'actionStatus', type: 'select', options: ['Active', 'Completed', 'Pending'] },
+          { label: 'Instrument', name: 'instrument', type: 'text' },
+          { label: 'Target', name: 'target', type: 'text' },
+        ],
+      },
+      {
+        name: 'Resource',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'select', options: ['Product', 'Service'], required: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Image URL', name: 'image', type: 'url' },
+          { label: 'Owner', name: 'owner', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:org456'], allowCreate: false },
+          { label: 'Location', name: 'location', type: 'object', fields: [
+              { label: 'Place Name', name: 'name', type: 'text' },
+              { label: 'Street Address', name: 'streetAddress', type: 'text' },
+              { label: 'City', name: 'addressLocality', type: 'text' },
+              { label: 'Region', name: 'addressRegion', type: 'text' },
+              { label: 'Postal Code', name: 'postalCode', type: 'text' },
+              { label: 'Country', name: 'addressCountry', type: 'text' },
+            ]
+          },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Category', name: 'category', type: 'text' },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: ['Material: Stainless Steel', 'Color: Black'] },
+          { label: 'Offers', name: 'offers', type: 'multiselect', options: ['Offer1', 'Offer2'] },
+          { label: 'Has Permission', name: 'hasPermission', type: 'multiselect', options: ['Permission1', 'Permission2'] },
+          { label: 'Governed By', name: 'governedBy', type: 'text' },
+        ],
+      },
+      {
+        name: 'Offer',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Offer', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Offered', name: 'itemOffered', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Seller', name: 'seller', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:org456'], allowCreate: false },
+          { label: 'Accepted Payment Method', name: 'acceptedPaymentMethod', type: 'multiselect', options: ['CreditCard', 'PayPal', 'Cash'] },
+        ],
+      },
+      {
+        name: 'Demand',
+        properties: [
+          { label: 'ID', name: '@id', type: 'text', required: true },
+          { label: 'Type', name: '@type', type: 'text', default: 'schema:Demand', disabled: true },
+          { label: 'Name', name: 'name', type: 'text', required: true },
+          { label: 'Description', name: 'description', type: 'textarea' },
+          { label: 'Item Requested', name: 'itemRequested', type: 'text' },
+          { label: 'Price', name: 'price', type: 'number' },
+          { label: 'Price Currency', name: 'priceCurrency', type: 'select', options: ['USD', 'EUR', 'GBP', 'JPY'] },
+          { label: 'Availability', name: 'availability', type: 'select', options: ['InStock', 'OutOfStock'] },
+          { label: 'Valid From', name: 'validFrom', type: 'datetime-local' },
+          { label: 'Valid Through', name: 'validThrough', type: 'datetime-local' },
+          { label: 'Buyer', name: 'buyer', type: 'autocomplete', options: ['urn:uuid:user123', 'urn:uuid:org456'], allowCreate: false },
+          { label: 'Additional Property', name: 'additionalProperty', type: 'multiselect', options: ['Property1', 'Property2'] },
+        ],
+      },
+    ];
+
+    // Dummy Data for Dropdowns and Autocomplete
+    const dummyData = {
+      users: [
+        { label: 'Jane Doe', value: 'urn:uuid:user123' },
+        { label: 'John Smith', value: 'urn:uuid:user456' },
+        { label: 'Emily Clark', value: 'urn:uuid:user789' },
+      ],
+      organizations: [
+        { label: 'ONE Local', value: 'urn:uuid:org001' },
+        { label: 'Boulder Farmers Co-op', value: 'urn:uuid:org456' },
+      ],
+      roles: [
+        { label: 'CEO', value: 'CEO' },
+        { label: 'COO', value: 'COO' },
+        { label: 'CMO', value: 'CMO' },
+        { label: 'Resource Manager', value: 'Resource Manager' },
+        { label: 'Event Coordinator', value: 'Event Coordinator' },
+        { label: 'Group Moderator', value: 'Group Moderator' },
+      ],
+      skills: [
+        { label: 'Strategic Planning', value: 'Strategic Planning' },
+        { label: 'Leadership', value: 'Leadership' },
+        { label: 'Gardening', value: 'Gardening' },
+        { label: 'Carpentry', value: 'Carpentry' },
+      ],
+      offers: [
+        { label: 'Free Tutoring', value: 'Free Tutoring' },
+        { label: 'Tool Sharing', value: 'Tool Sharing' },
+        { label: 'Selling Fresh Produce', value: 'Selling Fresh Produce' },
+      ],
+      demands: [
+        { label: 'Help Building Fence', value: 'Help Building Fence' },
+        { label: 'Event Volunteers', value: 'Event Volunteers' },
+        { label: 'Volunteer Gardeners', value: 'Volunteer Gardeners' },
+      ],
+      badges: [
+        { label: 'Community Leader', value: 'Community Leader' },
+        { label: 'Volunteer', value: 'Volunteer' },
+      ],
+      permissions: [
+        { label: 'Use Permission', value: 'Use Permission' },
+        { label: 'Read Permission', value: 'Read Permission' },
+      ],
+      proposals: [
+        { label: 'Proposal1', value: 'Proposal1' },
+        { label: 'Proposal2', value: 'Proposal2' },
+      ],
+      votes: [
+        { label: 'Vote1', value: 'Vote1' },
+        { label: 'Vote2', value: 'Vote2' },
+      ],
+      notifications: [
+        { label: 'Notification1', value: 'Notification1' },
+        { label: 'Notification2', value: 'Notification2' },
+      ],
+      alerts: [
+        { label: 'Alert1', value: 'Alert1' },
+        { label: 'Alert2', value: 'Alert2' },
+      ],
+      recommendations: [
+        { label: 'Recommendation1', value: 'Recommendation1' },
+        { label: 'Recommendation2', value: 'Recommendation2' },
+      ],
+      sessions: [
+        { label: 'Session1', value: 'Session1' },
+        { label: 'Session2', value: 'Session2' },
+      ],
+      tasks: [
+        { label: 'Task103', value: 'urn:uuid:task103' },
+        { label: 'Task104', value: 'urn:uuid:task104' },
+      ],
+    };
+
+    // Modal Style
+    const modalStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '80%',
+      maxHeight: '90vh',
+      bgcolor: 'background.paper',
+      boxShadow: 24,
+      p: 4,
+      overflow: 'auto',
+    };
+
+    // Main App Component
+    function App() {
+      const [selectedType, setSelectedType] = React.useState(objectTypes[0].name);
+      const [formData, setFormData] = React.useState({});
+      const [jsonOutput, setJsonOutput] = React.useState('');
+      const [createdObjects, setCreatedObjects] = React.useState([]);
+      const [modalOpen, setModalOpen] = React.useState(false);
+      const [selectedObject, setSelectedObject] = React.useState(null);
+
+      // Handle Tab Change
+      const handleChange = (event, newValue) => {
+        setSelectedType(newValue);
+        setFormData({});
+        setJsonOutput('');
+      };
+
+      // Update JSON Output whenever formData changes
+      React.useEffect(() => {
+        setJsonOutput(JSON.stringify(formData, null, 2));
+      }, [formData]);
+
+      // Handle Object Creation
+      const handleCreateObject = () => {
+        if (!formData['@id'] || !formData['name']) {
+          alert('Please fill in the required fields: ID and Name.');
+          return;
+        }
+        setCreatedObjects([...createdObjects, { type: selectedType, ...formData }]);
+        setFormData({});
+        setJsonOutput('');
+      };
+
+      // Get the schema for the selected object type
+      const currentSchema = objectTypes.find(obj => obj.name === selectedType);
+
+      return (
+        <Box sx={{ width: '100%' }}>
+          <Typography variant="h4" align="center" gutterBottom sx={{ mt: 4 }}>
+            ONE Local Object Builder
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-            {selectedObject.description || 'No description available.'}
-          </Typography>
-          {/* Display all properties */}
-          {Object.entries(selectedObject).map(([key, value], idx) => {
-            if (key === 'image' || key === 'description' || key === 'name' || key === '@type') return null;
-            return (
-              <Box key={idx} sx={{ mb: 1 }}>
-                <Typography variant="subtitle1" component="span" sx={{ fontWeight: 'bold' }}>
-                  {formatLabel(key)}:
-                </Typography>
-                <Typography variant="body2" component="span" sx={{ ml: 1 }}>
-                  {Array.isArray(value) ? value.join(', ') : value}
-                </Typography>
-              </Box>
-            );
-          })}
-        </CardContent>
-      </Card>
-    </Box>
-  )}
-</Modal>
+          <Tabs
+            value={selectedType}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            centered
+          >
+            {objectTypes.map((obj) => (
+              <Tab key={obj.name} label={obj.name} value={obj.name} />
+            ))}
+          </Tabs>
+          <Box sx={{ p: 3 }}>
+            <ObjectForm
+              schema={currentSchema}
+              formData={formData}
+              setFormData={setFormData}
+              dummyData={dummyData}
+            />
+            <Button variant="contained" color="primary" onClick={handleCreateObject}>
+              Create {selectedType}
+            </Button>
+            <Typography variant="h6" sx={{ mt: 4 }}>
+              JSON Output:
+            </Typography>
+            <Paper variant="outlined" className="json-output">
+              <pre>{jsonOutput}</pre>
+            </Paper>
+            <Typography variant="h5" sx={{ mt: 6, mb: 3 }}>
+              Created Objects
+            </Typography>
+            <Grid container spacing={3}>
+              {createdObjects.map((obj, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card>
+                    {obj.image && (
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={obj.image}
+                        alt={`${obj.name} image`}
+                      />
+                    )}
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {obj.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {obj.description ? obj.description.substring(0, 100) + '...' : 'No description available.'}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small" onClick={() => { setSelectedObject(obj); setModalOpen(true); }}>
+                        View Details
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+            {/* Detail Modal */}
+            <Modal
+              open={modalOpen}
+              onClose={() => setModalOpen(false)}
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+            >
+              {selectedObject && (
+                <Box sx={modalStyle}>
+                  <IconButton
+                    aria-label="close"
+                    onClick={() => setModalOpen(false)}
+                    sx={{
+                      position: 'absolute',
+                      right: 8,
+                      top: 8,
+                      color: (theme) => theme.palette.grey[500],
+                    }}
+                  >
+                    <Close />
+                  </IconButton>
+                  <Card>
+                    {selectedObject.image && (
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={selectedObject.image}
+                        alt={`${selectedObject.name} image`}
+                      />
+                    )}
+                    <CardContent>
+                      <Typography gutterBottom variant="h4" component="div">
+                        {selectedObject.name}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                        {selectedObject.description || 'No description available.'}
+                      </Typography>
+                      {/* Display all properties */}
+                      {Object.entries(selectedObject).map(([key, value], idx) => {
+                        if (key === 'image' || key === 'description' || key === 'name' || key === '@type') return null;
+                        return (
+                          <Box key={idx} sx={{ mb: 1 }}>
+                            <Typography variant="subtitle1" component="span" sx={{ fontWeight: 'bold' }}>
+                              {formatLabel(key)}:
+                            </Typography>
+                            <Typography variant="body2" component="span" sx={{ ml: 1 }}>
+                              {Array.isArray(value) ? value.join(', ') : value}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </CardContent>
+                  </Card>
+                </Box>
+              )}
+            </Modal>
+          </Box>
+        </Box>
+      );
+    }
+
+    // Helper function to format labels
+    function formatLabel(label) {
+      return label.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    }
+
+    // ObjectForm Component
+    function ObjectForm({ schema, formData, setFormData, dummyData }) {
+      // Handle input changes
+      const handleChange = (name, value) => {
+        setFormData(prev => setNestedValue(prev, name, value));
+      };
+
+      // Recursive function to handle nested objects and arrays
+      const renderFields = (properties, parentName = '') => {
+        return properties.map((prop, index) => {
+          const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
+          const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
+
+          switch (prop.type) {
+            case 'text':
+            case 'email':
+            case 'tel':
+            case 'url':
+            case 'number':
+            case 'date':
+            case 'datetime-local':
+            case 'password':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <TextField
+                    label={prop.label}
+                    type={prop.type === 'textarea' ? 'text' : prop.type}
+                    multiline={prop.type === 'textarea'}
+                    rows={prop.type === 'textarea' ? 4 : 1}
+                    fullWidth
+                    required={prop.required}
+                    disabled={prop.disabled}
+                    value={value}
+                    onChange={(e) => handleChange(fullName, e.target.value)}
+                  />
+                </Box>
+              );
+            case 'select':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <FormControl fullWidth>
+                    <InputLabel>{prop.label}</InputLabel>
+                    <Select
+                      value={value}
+                      label={prop.label}
+                      onChange={(e) => handleChange(fullName, e.target.value)}
+                    >
+                      {prop.options.map((option, idx) => (
+                        <MenuItem key={idx} value={option}>{option}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              );
+            case 'autocomplete':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    freeSolo={prop.allowCreate}
+                    options={dummyData[mapOptionKey(prop.name)] || []}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      if (typeof newValue === 'string') {
+                        handleChange(fullName, newValue);
+                      } else if (newValue && newValue.inputValue) {
+                        // Create a new option
+                        handleChange(fullName, newValue.inputValue);
+                      } else {
+                        handleChange(fullName, newValue ? newValue.value : '');
+                      }
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      handleChange(fullName, newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
+                    )}
+                  />
+                </Box>
+              );
+            case 'multiselect':
+              // Determine options based on property name
+              let options = [];
+              if (prop.options) {
+                options = prop.options;
+              } else {
+                // Dynamically assign options from dummyData based on name
+                const key = prop.name.replace(/([A-Z])/g, '_$1').toLowerCase();
+                options = dummyData[key] || [];
+              }
+
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    multiple
+                    freeSolo={false}
+                    options={options}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                    value={value.map(val => options.find(opt => opt.value === val) || val)}
+                    onChange={(event, newValue) => {
+                      const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
+                      handleChange(fullName, selectedValues);
+                    }}
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, idx) => (
+                        <Chip label={option.label || option} {...getTagProps({ index: idx })} key={idx} />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
+                    )}
+                  />
+                </Box>
+              );
+            case 'checkbox':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={value}
+                        onChange={(e) => handleChange(fullName, e.target.checked)}
+                      />
+                    }
+                    label={prop.label}
+                  />
+                </Box>
+              );
+            case 'object':
+              return (
+                <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
+                  <Typography variant="h6" gutterBottom>
+                    {prop.label}
+                  </Typography>
+                  {renderFields(prop.fields, fullName)}
+                </Box>
+              );
+            default:
+              return null;
+          }
+        });
+      };
+
+      // Helper functions to manage nested state
+      const setNestedValue = (obj, path, value) => {
+        const keys = path.split('.');
+        const lastKey = keys.pop();
+        const nested = keys.reduce((acc, key) => {
+          if (!acc[key]) acc[key] = {};
+          return acc[key];
+        }, obj);
+        nested[lastKey] = value;
+        return { ...obj };
+      };
+
+      const getNestedValue = (obj, path) => {
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+      };
+
+      const mapOptionKey = (name) => {
+        // Map property names to dummyData keys
+        const mapping = {
+          'assignedTo': 'users',
+          'assignedBy': 'users',
+          'dependsOn': 'tasks',
+          'seller': 'users',
+          'buyer': 'users',
+        };
+        return mapping[name] || name.toLowerCase();
+      };
+
+      return (
+        <Box>
+          {renderFields(schema.properties)}
+        </Box>
+      );
+    }
+
+    // Helper function to format labels
+    function formatLabel(label) {
+      return label.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    }
+
+    // ObjectForm Component
+    function ObjectForm({ schema, formData, setFormData, dummyData }) {
+      // Handle input changes
+      const handleChange = (name, value) => {
+        setFormData(prev => setNestedValue(prev, name, value));
+      };
+
+      // Recursive function to handle nested objects
+      const renderFields = (properties, parentName = '') => {
+        return properties.map((prop, index) => {
+          const fullName = parentName ? `${parentName}.${prop.name}` : prop.name;
+          const value = getNestedValue(formData, fullName) || (prop.type === 'multiselect' ? [] : '');
+
+          switch (prop.type) {
+            case 'text':
+            case 'email':
+            case 'tel':
+            case 'url':
+            case 'number':
+            case 'date':
+            case 'datetime-local':
+            case 'password':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <TextField
+                    label={prop.label}
+                    type={prop.type === 'textarea' ? 'text' : prop.type}
+                    multiline={prop.type === 'textarea'}
+                    rows={prop.type === 'textarea' ? 4 : 1}
+                    fullWidth
+                    required={prop.required}
+                    disabled={prop.disabled}
+                    value={value}
+                    onChange={(e) => handleChange(fullName, e.target.value)}
+                  />
+                </Box>
+              );
+            case 'select':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <FormControl fullWidth>
+                    <InputLabel>{prop.label}</InputLabel>
+                    <Select
+                      value={value}
+                      label={prop.label}
+                      onChange={(e) => handleChange(fullName, e.target.value)}
+                    >
+                      {prop.options.map((option, idx) => (
+                        <MenuItem key={idx} value={option}>{option}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              );
+            case 'autocomplete':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    freeSolo={prop.allowCreate}
+                    options={dummyData[mapOptionKey(prop.name)] || []}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                    value={value}
+                    onChange={(event, newValue) => {
+                      if (typeof newValue === 'string') {
+                        handleChange(fullName, newValue);
+                      } else if (newValue && newValue.inputValue) {
+                        // Create a new option
+                        handleChange(fullName, newValue.inputValue);
+                      } else {
+                        handleChange(fullName, newValue ? newValue.value : '');
+                      }
+                    }}
+                    onInputChange={(event, newInputValue) => {
+                      handleChange(fullName, newInputValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
+                    )}
+                  />
+                </Box>
+              );
+            case 'multiselect':
+              // Determine options based on property name
+              let options = [];
+              if (prop.options) {
+                options = prop.options;
+              } else {
+                // Dynamically assign options from dummyData based on name
+                const key = prop.name.replace(/([A-Z])/g, '_$1').toLowerCase();
+                options = dummyData[key] || [];
+              }
+
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <Autocomplete
+                    multiple
+                    freeSolo={false}
+                    options={options}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.label}
+                    value={value.map(val => options.find(opt => opt.value === val) || val)}
+                    onChange={(event, newValue) => {
+                      const selectedValues = newValue.map(item => typeof item === 'string' ? item : item.value);
+                      handleChange(fullName, selectedValues);
+                    }}
+                    renderTags={(tagValue, getTagProps) =>
+                      tagValue.map((option, idx) => (
+                        <Chip label={option.label || option} {...getTagProps({ index: idx })} key={idx} />
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label={prop.label} placeholder={`Select ${prop.label}`} />
+                    )}
+                  />
+                </Box>
+              );
+            case 'checkbox':
+              return (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={value}
+                        onChange={(e) => handleChange(fullName, e.target.checked)}
+                      />
+                    }
+                    label={prop.label}
+                  />
+                </Box>
+              );
+            case 'object':
+              return (
+                <Box key={index} sx={{ mb: 3, pl: 3, borderLeft: '2px solid #ccc' }}>
+                  <Typography variant="h6" gutterBottom>
+                    {prop.label}
+                  </Typography>
+                  {renderFields(prop.fields, fullName)}
+                </Box>
+              );
+            default:
+              return null;
+          }
+        });
+      };
+
+      // Helper functions to manage nested state
+      const setNestedValue = (obj, path, value) => {
+        const keys = path.split('.');
+        const lastKey = keys.pop();
+        const nested = keys.reduce((acc, key) => {
+          if (!acc[key]) acc[key] = {};
+          return acc[key];
+        }, obj);
+        nested[lastKey] = value;
+        return { ...obj };
+      };
+
+      const getNestedValue = (obj, path) => {
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+      };
+
+      const mapOptionKey = (name) => {
+        // Map property names to dummyData keys
+        const mapping = {
+          'assignedTo': 'users',
+          'assignedBy': 'users',
+          'dependsOn': 'tasks',
+          'seller': 'users',
+          'buyer': 'users',
+        };
+        return mapping[name] || name.toLowerCase();
+      };
+
+      return (
+        <Box>
+          {renderFields(schema.properties)}
+        </Box>
+      );
+    }
+
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
