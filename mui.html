@@ -98,7 +98,7 @@
       background-color: #e57373;
     }
     .MuiButton-outlinedPrimary:hover {
-      background-color: rgba(129, 199, 132, 0.1);
+      background-color: rgba(109, 76, 65, 0.1);
     }
     /* Testimonials Styling */
     .testimonial {
@@ -123,10 +123,9 @@
       transform: translate(-50%, -50%);
       width: 90%;
       max-width: 600px;
-      bgcolor: 'background.paper';
       background-color: #ffffff;
       border-radius: 10px;
-      box-shadow: 24;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       padding: 20px;
       outline: none;
     }
@@ -139,7 +138,12 @@
     .modalBody {
       font-family: 'Montserrat', sans-serif;
       font-size: 1.2rem;
-      color: #666666;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
     }
   </style>
 </head>
@@ -467,6 +471,7 @@
           <LogoCollection />
           <FeaturesSection />
           <MembershipTypes setCurrentPage={setCurrentPage} />
+          <TeamSection />
           <CommunityImpact />
           <TestimonialsCarousel />
           <CallToAction setCurrentPage={setCurrentPage} />
@@ -525,6 +530,20 @@
         },
       ];
 
+      // Modal State for Team Members
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMember, setSelectedMember] = React.useState(null);
+
+      const handleOpenModal = (member) => {
+        setSelectedMember(member);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMember(null);
+      };
+
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -533,7 +552,7 @@
           <Grid container spacing={6}>
             {teamMembers.map((member, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card>
+                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
                   <CardContent>
                     <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
@@ -550,6 +569,38 @@
               </Grid>
             ))}
           </Grid>
+
+          {/* Team Member Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="team-modal-title"
+            aria-describedby="team-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMember && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMember.name}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}<br /><br />
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Container>
       );
     }
@@ -782,6 +833,20 @@
         return () => clearInterval(timer);
       }, []);
 
+      // Modal State for Blog Posts
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedPost, setSelectedPost] = React.useState(null);
+
+      const handleOpenModal = (post) => {
+        setSelectedPost(post);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedPost(null);
+      };
+
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -789,7 +854,7 @@
           </Typography>
           <Grid container spacing={6} justifyContent="center">
             <Grid item xs={12} md={8}>
-              <Card>
+              <Card onClick={() => handleOpenModal(blogPosts[currentPost])} sx={{ cursor: 'pointer' }} aria-labelledby={`blog-${blogPosts[currentPost].title}`}>
                 <CardContent>
                   <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
                     {blogPosts[currentPost].title}
@@ -813,6 +878,38 @@
               </Card>
             </Grid>
           </Grid>
+
+          {/* Blog Post Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="blog-modal-title"
+            aria-describedby="blog-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Typography id="blog-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedPost.title}
+                    </Typography>
+                    <Typography id="blog-modal-description" sx={{ mb: 4 }}>
+                      {/* Detailed blog content goes here */}
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Container>
       );
     }
@@ -1252,6 +1349,109 @@
                       Learn More
                     </Button>
                     <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function TeamSection() {
+      const teamMembers = [
+        {
+          name: 'Alice Johnson',
+          role: 'Founder & CEO',
+          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+          image: 'https://i.pravatar.cc/300?img=5',
+        },
+        {
+          name: 'Bob Smith',
+          role: 'CTO',
+          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
+          image: 'https://i.pravatar.cc/300?img=6',
+        },
+        {
+          name: 'Carol Williams',
+          role: 'Head of Community',
+          bio: 'Carol works closely with local groups to foster engagement and growth.',
+          image: 'https://i.pravatar.cc/300?img=7',
+        },
+        {
+          name: 'David Lee',
+          role: 'Marketing Director',
+          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+          image: 'https://i.pravatar.cc/300?img=8',
+        },
+      ];
+
+      // Modal State for Team Members
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMember, setSelectedMember] = React.useState(null);
+
+      const handleOpenModal = (member) => {
+        setSelectedMember(member);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedMember(null);
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+            Meet the Team
+          </Typography>
+          <Grid container spacing={6}>
+            {teamMembers.map((member, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                  <CardContent>
+                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                      {member.name}
+                    </Typography>
+                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                      {member.role}
+                    </Typography>
+                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                      {member.bio}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {/* Team Member Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="team-modal-title"
+            aria-describedby="team-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMember && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMember.name}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}<br /><br />
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
                     </Button>
                   </>
