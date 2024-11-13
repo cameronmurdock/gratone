@@ -40,6 +40,25 @@
       background-color: #333;
       border-radius: 4px;
     }
+    /* Animated Gradient Background */
+    @keyframes gradientAnimation {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #339999, #003333, #339999, #003333);
+      background-size: 400% 400%;
+      animation: gradientAnimation 30s ease infinite;
+      min-height: 100vh;
+      color: #ffffff;
+    }
   </style>
 </head>
 <body style="margin: 0;">
@@ -109,12 +128,21 @@
         h2: {
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
-          fontSize: '3rem',
+          fontSize: '4rem',
         },
         h4: {
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
-          fontSize: '2.5rem',
+          fontSize: '3rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.25rem',
+        },
+        body2: {
+          fontSize: '1.1rem',
         },
       },
       shape: {
@@ -152,13 +180,6 @@
         },
       },
     });
-
-    // Background Gradient
-    const backgroundStyle = {
-      background: 'linear-gradient(315deg, #339999, #003333)',
-      minHeight: '100vh',
-      color: '#ffffff',
-    };
 
     function App() {
       const [currentPage, setCurrentPage] = React.useState('home');
@@ -208,7 +229,7 @@
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Box style={backgroundStyle}>
+          <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
             {renderPage()}
             <Footer setCurrentPage={setCurrentPage} />
@@ -320,7 +341,7 @@
     // Pages
     function LandingPage({ setCurrentPage }) {
       return (
-        <Container maxWidth="lg" sx={{ mt: 12 }}>
+        <Container maxWidth="lg" sx={{ mt: 16 }}>
           <HeroSection setCurrentPage={setCurrentPage} />
           <LogoCollection />
           <FeaturesSection />
@@ -334,17 +355,17 @@
 
     function ManifestoPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Manifesto
           </Typography>
-          <Typography variant="body1" sx={{ fontSize: '1.25rem', mb: 4 }}>
+          <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
             Our pledge, our promise: A declaration of what we’re building together.
           </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 4 }}>
             At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
           </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
+          <Typography variant="body1" sx={{ mb: 4 }}>
             Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
           </Typography>
           <Typography variant="body1">
@@ -383,16 +404,16 @@
       ];
 
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Meet the Team
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {teamMembers.map((member, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Card>
                   <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 100, height: 100, mx: 'auto', mb: 2 }} />
+                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                       {member.name}
                     </Typography>
@@ -413,14 +434,14 @@
 
     function WhitepaperPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Whitepaper
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
           </Typography>
           <Button variant="contained" color="primary" size="large" href="#" target="_blank">
@@ -432,17 +453,17 @@
 
     function InvestorsPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Invest in a New Kind of Social Infrastructure
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
           </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
+          <Typography variant="body1" sx={{ mb: 8 }}>
             For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
           </Typography>
           <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
@@ -454,11 +475,11 @@
 
     function FeaturesOverviewPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Discover What’s Possible with ONE Local
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
           </Typography>
           <FeaturesSection />
@@ -468,11 +489,11 @@
 
     function LocalMembersPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Local Members
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
@@ -484,11 +505,11 @@
 
     function EventHostsPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Event Hosts
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
@@ -500,11 +521,11 @@
 
     function SellersPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Sellers
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
@@ -516,11 +537,11 @@
 
     function OrganizationsPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Organizations
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
@@ -551,16 +572,16 @@
       ];
 
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Impact Stories
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {stories.map((story, index) => (
               <Grid item xs={12} sm={6} key={index}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
                       {story.title}
                     </Typography>
                     <Typography variant="body1">
@@ -592,16 +613,16 @@
       ];
 
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Blog
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {blogPosts.map((post, index) => (
               <Grid item xs={12} sm={6} key={index}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
                       {post.title}
                     </Typography>
                     <Typography variant="body1">
@@ -621,11 +642,11 @@
 
     function DownloadAppPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Download the App
           </Typography>
-          <Typography variant="body1" sx={{ mb: 6 }}>
+          <Typography variant="body1" sx={{ mb: 8 }}>
             Step in, the door is open.
           </Typography>
           <Button variant="contained" color="primary" size="large" href="#" target="_blank">
@@ -637,11 +658,11 @@
 
     function TermsOfServicePage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Terms of Service
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Please read these terms of service carefully before using the ONE Local platform.
           </Typography>
           {/* Add actual legal text here */}
@@ -654,11 +675,11 @@
 
     function PrivacyPolicyPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Privacy Policy
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             Your privacy is important to us. This policy explains how we handle your personal data.
           </Typography>
           {/* Add actual privacy policy text here */}
@@ -694,8 +715,8 @@
       ];
 
       return (
-        <Container id="faq" sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Frequently Asked Questions
           </Typography>
           <Box mt={4}>
@@ -720,38 +741,38 @@
 
     function ContactUsPage() {
       return (
-        <Container sx={{ py: 8, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 6 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Contact Us
           </Typography>
-          <Typography variant="body1" sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ mb: 6 }}>
             We'd love to hear from you! Whether you have a question, feedback, or need support, please reach out.
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
                 Contact Information
               </Typography>
-              <Typography variant="body1" sx={{ mb: 1 }}>
+              <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
                 Email: <Link href="mailto:support@onelocal.com" color="secondary">support@onelocal.com</Link>
               </Typography>
-              <Typography variant="body1" sx={{ mb: 1 }}>
+              <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
                 Phone: <Link href="tel:+1234567890" color="secondary">+1 (234) 567-890</Link>
               </Typography>
-              <Typography variant="body1" sx={{ mb: 1 }}>
+              <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
                 Address: 123 Community Lane, Townsville, USA
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ mb: 4 }}>
                 Send Us a Message
               </Typography>
-              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 2 }} />
-              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} />
-              <TextField label="Message" variant="outlined" fullWidth multiline rows={4} sx={{ mb: 2 }} />
+              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
               <Button variant="contained" color="primary">
                 Submit
               </Button>
@@ -763,11 +784,11 @@
 
     function HeroSection({ setCurrentPage }) {
       return (
-        <Box sx={{ textAlign: 'center', mt: 12, py: 8 }}>
+        <Box sx={{ textAlign: 'center', mt: 16, py: 12 }}>
           <Typography variant="h2" sx={{ fontWeight: 'bold' }}>
             Empower Your Community, Enrich Your Life.
           </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
             Together, we build the future — one connection, one offering, one moment at a time.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
@@ -788,19 +809,19 @@
       ];
 
       const logoStyle = {
-        width: '100px',
-        height: '80px',
+        width: '120px',
+        height: '100px',
         margin: '0 32px',
         opacity: 0.7,
       };
 
       return (
-        <Box id="logoCollection" sx={{ py: 4 }}>
+        <Box id="logoCollection" sx={{ py: 6 }}>
           <Typography
             component="p"
-            variant="subtitle2"
+            variant="h6"
             align="center"
-            sx={{ color: 'text.secondary' }}
+            sx={{ color: 'text.secondary', mb: 4 }}
           >
             Trusted by communities worldwide
           </Typography>
@@ -844,20 +865,20 @@
       ];
 
       return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Explore What We Offer
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {features.map((feature) => (
               <Grid item xs={12} sm={6} md={3} key={feature.title}>
                 <Card>
                   <CardContent>
                     <Box display="flex" alignItems="center" gap={2}>
-                      <Icon color="primary" sx={{ fontSize: 70 }}>{feature.iconName}</Icon>
+                      <Icon color="primary" sx={{ fontSize: 100 }}>{feature.iconName}</Icon>
                       <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{feature.title}</Typography>
                     </Box>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 4 }}>
                       {feature.description}
                     </Typography>
                   </CardContent>
@@ -902,22 +923,22 @@
       ];
 
       return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             How Will You Show Up?
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {memberships.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
                 <Card>
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{membership.title}</Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 4 }}>
                       {membership.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button variant="outlined" color="primary" fullWidth onClick={() => setCurrentPage(membership.page)}>
+                    <Button variant="outlined" color="primary" fullWidth size="large" onClick={() => setCurrentPage(membership.page)}>
                       {membership.cta}
                     </Button>
                   </CardActions>
@@ -938,19 +959,19 @@
       ];
 
       return (
-        <Box mt={8} mb={8}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Our Community in Bloom
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {metrics.map((metric) => (
               <Grid item xs={12} sm={6} md={3} key={metric.label}>
                 <Box textAlign="center">
                   <Typography variant="h2" color="primary">
                     {metric.value}
                   </Typography>
-                  <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{metric.label}</Typography>
-                  <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                  <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 2 }}>{metric.label}</Typography>
+                  <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2 }}>
                     {metric.description}
                   </Typography>
                 </Box>
@@ -964,25 +985,25 @@
     function TestimonialsSection() {
       const testimonials = [
         {
-          avatar: <Avatar alt="Member 1" src="https://i.pravatar.cc/100?img=1" sx={{ width: 60, height: 60 }} />,
+          avatar: <Avatar alt="Member 1" src="https://i.pravatar.cc/100?img=1" sx={{ width: 80, height: 80 }} />,
           name: 'Emily R.',
           role: 'Local Member',
           quote: '“I found my neighbors, my friends, my sense of belonging.”',
         },
         {
-          avatar: <Avatar alt="Member 2" src="https://i.pravatar.cc/100?img=2" sx={{ width: 60, height: 60 }} />,
+          avatar: <Avatar alt="Member 2" src="https://i.pravatar.cc/100?img=2" sx={{ width: 80, height: 80 }} />,
           name: 'Michael T.',
           role: 'Event Host',
           quote: '“Hosting through ONE Local made our festival a homegrown success.”',
         },
         {
-          avatar: <Avatar alt="Member 3" src="https://i.pravatar.cc/100?img=3" sx={{ width: 60, height: 60 }} />,
+          avatar: <Avatar alt="Member 3" src="https://i.pravatar.cc/100?img=3" sx={{ width: 80, height: 80 }} />,
           name: 'Sarah L.',
           role: 'Seller',
           quote: '“This platform brought customers who appreciate the local touch.”',
         },
         {
-          avatar: <Avatar alt="Member 4" src="https://i.pravatar.cc/100?img=4" sx={{ width: 60, height: 60 }} />,
+          avatar: <Avatar alt="Member 4" src="https://i.pravatar.cc/100?img=4" sx={{ width: 80, height: 80 }} />,
           name: 'David G.',
           role: 'Organization Leader',
           quote: '“Our projects have a real heartbeat now — we’re more than just a team.”',
@@ -990,25 +1011,25 @@
       ];
 
       return (
-        <Container id="testimonials" sx={{ py: 8 }}>
-          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold' }}>
+        <Container id="testimonials" sx={{ py: 12 }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             What Our Members Say
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={6}>
             {testimonials.map((testimonial, index) => (
               <Grid item xs={12} md={6} key={index}>
                 <Card>
                   <CardContent>
-                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+                    <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 4 }}>
                       {testimonial.quote}
                     </Typography>
                     <Box display="flex" alignItems="center">
                       {testimonial.avatar}
-                      <Box ml={2}>
+                      <Box ml={4}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                           {testimonial.name}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        <Typography variant="body1" sx={{ color: 'text.secondary' }}>
                           {testimonial.role}
                         </Typography>
                       </Box>
@@ -1024,20 +1045,20 @@
 
     function CallToAction({ setCurrentPage }) {
       return (
-        <Box mt={8} mb={8} textAlign="center">
-          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold' }}>
+        <Box mt={12} mb={12} textAlign="center">
+          <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
             Help Us Grow
           </Typography>
-          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 4 }}>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
             “Every dollar sown grows a forest of connection.”
           </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 1 }} onClick={() => window.alert('Donate Now')}>
+          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
             Donate Now
           </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }} onClick={() => window.alert('Take the Survey')}>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
             Take the Survey
           </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 1 }} onClick={() => setCurrentPage('investors')}>
+          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
             Become an Investor
           </Button>
         </Box>
@@ -1046,9 +1067,9 @@
 
     function Footer({ setCurrentPage }) {
       return (
-        <Box py={4} sx={{ backgroundColor: '#1f1f1f' }}>
+        <Box py={6} sx={{ backgroundColor: '#1f1f1f' }}>
           <Container maxWidth="lg">
-            <Grid container spacing={4}>
+            <Grid container spacing={6}>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">ONE Local</Typography>
                 <List>
@@ -1086,7 +1107,7 @@
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Follow Us</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
                   Join the conversation.
                 </Typography>
                 <Box display="flex">
@@ -1106,7 +1127,7 @@
               </Grid>
               <Grid item xs={12} md={4}>
                 <Typography variant="h6">Newsletter Signup</Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
                   Get the Latest Stories and Updates — Sign Up Here.
                 </Typography>
                 <TextField
@@ -1122,7 +1143,7 @@
                 </Button>
               </Grid>
             </Grid>
-            <Divider sx={{ my: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
+            <Divider sx={{ my: 6, backgroundColor: 'rgba(255, 255, 255, 0.2)' }} />
             <Box textAlign="center">
               <Typography variant="body2">
                 © 2024 ONE Local. All rights reserved. |{' '}
