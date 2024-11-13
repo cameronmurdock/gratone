@@ -86,56 +86,20 @@
       CardContent,
       CardActions,
       Divider,
-      List,
-      ListItem,
-      ListItemText,
     } = MaterialUI;
 
-    // [ ... (Your existing objectTypes and initialDummyData definitions) ... ]
+    // Define the object types and their properties
+    const objectTypes = [
+      // ... [Your existing objectTypes array remains unchanged]
+      // For brevity, the objectTypes array is omitted here.
+      // Ensure you include the entire objectTypes array as provided in your initial code.
+    ];
 
-    // Recursive Component to Display Object Details
-    function ObjectDetails({ data, parentKey = '' }) {
-      return (
-        <Box>
-          {Object.entries(data).map(([key, value], index) => (
-            <Box key={index} sx={{ mb: 2 }}>
-              <Typography variant="subtitle2" color="textSecondary">
-                {formatLabel(key)}
-              </Typography>
-              {typeof value === 'object' && value !== null && !Array.isArray(value) ? (
-                <Box sx={{ pl: 2, borderLeft: '2px solid #eee', mt: 1 }}>
-                  <ObjectDetails data={value} parentKey={key} />
-                </Box>
-              ) : Array.isArray(value) ? (
-                <Box sx={{ pl: 2, mt: 1 }}>
-                  {value.length > 0 ? (
-                    value.map((item, idx) => (
-                      <Chip key={idx} label={item} sx={{ mr: 1, mb: 1 }} />
-                    ))
-                  ) : (
-                    <Typography variant="body2" color="textSecondary">
-                      None
-                    </Typography>
-                  )}
-                </Box>
-              ) : (
-                <Typography variant="body1">{value || 'N/A'}</Typography>
-              )}
-              {index < Object.entries(data).length - 1 && <Divider sx={{ mt: 2 }} />}
-            </Box>
-          ))}
-        </Box>
-      );
-    }
-
-    // Helper Function to Format Labels (e.g., '@id' to 'ID')
-    function formatLabel(label) {
-      // Remove '@' if present and capitalize words
-      return label
-        .replace(/^@/, '')
-        .replace(/([A-Z])/g, ' $1')
-        .replace(/^./, str => str.toUpperCase());
-    }
+    // Dummy Data for Dropdowns (initial options)
+    const initialDummyData = {
+      // ... [Your existing initialDummyData object remains unchanged]
+      // Ensure you include the entire initialDummyData object as provided in your initial code.
+    };
 
     // Main App Component
     function App() {
@@ -270,7 +234,46 @@
             <Dialog open={modalOpen} onClose={handleModalClose} maxWidth="md" fullWidth>
               <DialogTitle>{selectedObject.name} Details</DialogTitle>
               <DialogContent dividers>
-                <ObjectDetails data={selectedObject} />
+                <Grid container spacing={2}>
+                  {Object.entries(selectedObject).map(([key, value], index) => {
+                    if (key === 'type') return null; // Skip type or any other fields you don't want to display
+                    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+                      return (
+                        <React.Fragment key={index}>
+                          <Grid item xs={12}>
+                            <Typography variant="subtitle1" sx={{ mt: 2 }}>
+                              {capitalizeFirstLetter(key)}
+                            </Typography>
+                            <Divider />
+                          </Grid>
+                          {Object.entries(value).map(([subKey, subValue], subIndex) => (
+                            <Grid item xs={12} sm={6} key={`${index}-${subIndex}`}>
+                              <Typography variant="body2" color="textSecondary">
+                                <strong>{formatLabel(subKey)}:</strong> {subValue || 'N/A'}
+                              </Typography>
+                            </Grid>
+                          ))}
+                        </React.Fragment>
+                      );
+                    }
+                    if (Array.isArray(value)) {
+                      return (
+                        <Grid item xs={12} sm={6} key={index}>
+                          <Typography variant="body2" color="textSecondary">
+                            <strong>{formatLabel(key)}:</strong> {value.length > 0 ? value.join(', ') : 'N/A'}
+                          </Typography>
+                        </Grid>
+                      );
+                    }
+                    return (
+                      <Grid item xs={12} sm={6} key={index}>
+                        <Typography variant="body2" color="textSecondary">
+                          <strong>{formatLabel(key)}:</strong> {value || 'N/A'}
+                        </Typography>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleModalClose}>Close</Button>
@@ -279,6 +282,19 @@
           )}
         </Box>
       );
+    }
+
+    // Helper Functions
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function formatLabel(label) {
+      // Convert camelCase or snake_case to Regular Case
+      return label
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/_/g, ' ')
+        .replace(/^./, function(str){ return str.toUpperCase(); });
     }
 
     // ObjectForm Component
