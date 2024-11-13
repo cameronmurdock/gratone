@@ -31,8 +31,6 @@
     <!-- Material-UI Components via CDN -->
     <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
     <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-    <!-- Moment.js for Date Handling (optional) -->
-    <script src="https://unpkg.com/moment@2.29.4/min/moment.min.js"></script>
 
     <!-- React Application Script -->
     <script type="text/babel">
@@ -54,38 +52,38 @@
             DialogActions,
             IconButton,
             Paper,
+            CircularProgress,
+            Alert,
         } = MaterialUI;
 
         const { Close } = MaterialUIIcons;
 
-        // Dummy Data for Autocomplete Fields
-        const dummyUsers = [
-            { id: 1, name: 'Alice Johnson' },
-            { id: 2, name: 'Bob Smith' },
-            { id: 3, name: 'Charlie Davis' },
-            { id: 4, name: 'Diana Prince' },
-            { id: 5, name: 'Ethan Hunt' },
-            { id: 6, name: 'Fiona Gallagher' },
-            { id: 7, name: 'George Michael' },
-            { id: 8, name: 'Hannah Montana' },
-            { id: 9, name: 'Ian Somerhalder' },
-            { id: 10, name: 'Jane Doe' },
-        ];
-
-        // Schema Definition for Object Types
+        // Schema Definition for Object Types with Endpoints
         const schema = {
             Person: {
                 name: { type: 'text', label: 'Name', required: true },
                 email: { type: 'email', label: 'Email', required: true },
                 birthDate: { type: 'date', label: 'Birth Date', required: false },
                 gender: { type: 'select', label: 'Gender', required: false, options: ['Male', 'Female', 'Other'] },
-                roles: { type: 'autocomplete', label: 'Roles', required: false, multiple: true, options: dummyUsers },
+                roles: { 
+                    type: 'autocomplete', 
+                    label: 'Roles', 
+                    required: false, 
+                    multiple: true, 
+                    endpoint: '/api/roles' // Specify your endpoint here
+                },
             },
             Organization: {
                 name: { type: 'text', label: 'Organization Name', required: true },
                 description: { type: 'multiline', label: 'Description', required: false },
                 url: { type: 'url', label: 'Website URL', required: false },
-                members: { type: 'autocomplete', label: 'Members', required: false, multiple: true, options: dummyUsers },
+                members: { 
+                    type: 'autocomplete', 
+                    label: 'Members', 
+                    required: false, 
+                    multiple: true, 
+                    endpoint: '/api/users' // Specify your endpoint here
+                },
             },
             // Add more object types as needed
         };
@@ -187,23 +185,119 @@
                                 <Grid item xs={12} key={field}>
                                     <Autocomplete
                                         multiple={config.multiple}
-                                        options={config.options}
+                                        options={[]} // Initially empty; will fetch from endpoint
                                         getOptionLabel={(option) => option.name}
                                         value={formData[field] || []}
                                         onChange={(event, newValue) => handleAutocompleteChange(field, newValue)}
+                                        loading={formData[`${field}Loading`] || false}
+                                        disableCloseOnSelect
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
                                                 label={config.label}
                                                 placeholder={`Select ${config.label}`}
+                                                InputProps={{
+                                                    ...params.InputProps,
+                                                    endAdornment: (
+                                                        <>
+                                                            {formData[`${field}Loading`] ? <CircularProgress color="inherit" size={20} /> : null}
+                                                            {params.InputProps.endAdornment}
+                                                        </>
+                                                    ),
+                                                }}
                                             />
                                         )}
+                                        onOpen={() => fetchOptions(field, config.endpoint)}
+                                        onClose={() => {}} // Prevent closing on selection
                                     />
                                 </Grid>
                             );
                         default:
                             return null;
                     }
+                });
+            };
+
+            // Function to Fetch Options for Autocomplete Fields
+            const fetchOptions = async (field, endpoint) => {
+                // Prevent multiple fetches
+                if (formData[`${field}Fetched`]) return;
+
+                // Set loading state
+                setFormData((prev) => ({
+                    ...prev,
+                    [`${field}Loading`]: true,
+                }));
+
+                try {
+                    const response = await fetch(endpoint);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch data from ${endpoint}`);
+                    }
+                    const data = await response.json();
+                    // Assume data is an array of objects with 'id' and 'name'
+                    setFormData((prev) => ({
+                        ...prev,
+                        [field]: prev[field] || [],
+                        [`${field}Options`]: data,
+                        [`${field}Loading`]: false,
+                        [`${field}Fetched`]: true,
+                    }));
+                } catch (error) {
+                    console.error(error);
+                    setFormData((prev) => ({
+                        ...prev,
+                        [`${field}Loading`]: false,
+                        [`${field}Error`]: error.message,
+                    }));
+                }
+            };
+
+            // Modify Autocomplete Components to use fetched options
+            const renderAutocompleteFields = () => {
+                if (!objectType) return null;
+
+                const fields = schema[objectType];
+                return Object.entries(fields).map(([field, config]) => {
+                    if (config.type !== 'autocomplete') return null;
+
+                    const options = formData[`${field}Options`] || [];
+                    const loading = formData[`${field}Loading`] || false;
+                    const error = formData[`${field}Error`] || null;
+
+                    return (
+                        <Grid item xs={12} key={field}>
+                            <Autocomplete
+                                multiple={config.multiple}
+                                options={options}
+                                getOptionLabel={(option) => option.name}
+                                value={formData[field] || []}
+                                onChange={(event, newValue) => handleAutocompleteChange(field, newValue)}
+                                loading={loading}
+                                disableCloseOnSelect
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label={config.label}
+                                        placeholder={`Select ${config.label}`}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            endAdornment: (
+                                                <>
+                                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                                    {params.InputProps.endAdornment}
+                                                </>
+                                            ),
+                                        }}
+                                        error={Boolean(error)}
+                                        helperText={error}
+                                    />
+                                )}
+                                onOpen={() => fetchOptions(field, config.endpoint)}
+                                onClose={() => {}} // Prevent closing on selection
+                            />
+                        </Grid>
+                    );
                 });
             };
 
@@ -242,16 +336,18 @@
                             </Grid>
                         )}
                         {/* Dynamic Fields */}
-                        {renderFields()}
-                        {/* Submit Button */}
-                        {objectType && (
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="primary" type="submit">
-                                    Generate JSON
-                                </Button>
-                            </Grid>
-                        )}
+                        {objectType && renderFields()}
                     </Grid>
+                    {/* Render Autocomplete Fields Separately */}
+                    {objectType && renderAutocompleteFields()}
+                    {/* Submit Button */}
+                    {objectType && (
+                        <Box sx={{ mt: 4 }}>
+                            <Button variant="contained" color="primary" type="submit">
+                                Generate JSON
+                            </Button>
+                        </Box>
+                    )}
 
                     {/* JSON Output Dialog */}
                     <Dialog
