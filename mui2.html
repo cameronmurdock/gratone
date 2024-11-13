@@ -92,10 +92,10 @@
     }
     /* Button Hover Effect */
     .MuiButton-containedPrimary:hover {
-      background-color: #5a9e5a;
+      background-color: #5a4033;
     }
     .MuiButton-containedSecondary:hover {
-      background-color: #e57373;
+      background-color: #7a5e55;
     }
     .MuiButton-outlinedPrimary:hover {
       background-color: rgba(109, 76, 65, 0.1);
@@ -693,7 +693,7 @@
       );
     }
 
-    // Other Pages
+    // Manifesto Page
     function ManifestoPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -716,6 +716,7 @@
       );
     }
 
+    // Team Page
     function TeamPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -727,6 +728,7 @@
       );
     }
 
+    // Whitepaper Page
     function WhitepaperPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -746,6 +748,7 @@
       );
     }
 
+    // Investors Page
     function InvestorsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -768,6 +771,7 @@
       );
     }
 
+    // Features Overview Page
     function FeaturesOverviewPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -782,6 +786,7 @@
       );
     }
 
+    // For Local Members Page
     function LocalMembersPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -798,6 +803,7 @@
       );
     }
 
+    // For Event Hosts Page
     function EventHostsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -814,6 +820,7 @@
       );
     }
 
+    // For Sellers Page
     function SellersPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -830,6 +837,7 @@
       );
     }
 
+    // For Organizations Page
     function OrganizationsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -846,6 +854,7 @@
       );
     }
 
+    // Impact Stories Page
     function ImpactStoriesPage() {
       const stories = data.reviews; // Using reviews as impact stories for demonstration
 
@@ -882,7 +891,7 @@
                     {stories[currentSlide].quote}
                   </Typography>
                   <Box className="carousel" sx={{ position: 'relative' }}>
-                    <img src={stories[currentSlide].avatar} alt={stories[currentSlide].name} />
+                    <Avatar src={stories[currentSlide].avatar} alt={stories[currentSlide].name} sx={{ width: '100%', height: 'auto', borderRadius: '50%', margin: '0 auto', display: 'block', mb: 2 }} />
                     <button className="carousel-button left" onClick={prevSlide} aria-label="Previous Slide">
                       <Icon>chevron_left</Icon>
                     </button>
@@ -898,6 +907,7 @@
       );
     }
 
+    // Blog Page
     function BlogPage() {
       const blogPosts = data.blogPosts;
 
@@ -998,6 +1008,7 @@
       );
     }
 
+    // Download App Page
     function DownloadAppPage() {
       const [openModal, setOpenModal] = React.useState(false);
 
@@ -1044,6 +1055,7 @@
       );
     }
 
+    // Terms of Service Page
     function TermsOfServicePage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -1061,6 +1073,7 @@
       );
     }
 
+    // Privacy Policy Page
     function PrivacyPolicyPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -1078,6 +1091,7 @@
       );
     }
 
+    // FAQ Page
     function FAQPage() {
       const faqs = [
         {
@@ -1127,6 +1141,7 @@
       );
     }
 
+    // Contact Us Page
     function ContactUsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
@@ -1497,7 +1512,7 @@
             }));
           }, 30);
         });
-      }, []);
+      }, [metrics]);
 
       return (
         <Box mt={12} mb={12}>
