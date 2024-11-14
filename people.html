@@ -17,12 +17,11 @@
   <!-- Material-UI Components -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-  <!-- React Router for Navigation -->
-  <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 
   <script type="text/babel">
-    const { BrowserRouter, Routes, Route, Link } = ReactRouterDOM;
     const {
+      Tabs,
+      Tab,
       Box,
       Grid,
       Card,
@@ -31,29 +30,25 @@
       Avatar,
       Typography,
       Button,
-      Tabs,
-      Tab,
       List,
       ListItem,
       ListItemAvatar,
       ListItemText,
-      IconButton,
+      Chip,
     } = MaterialUI;
-    const { Chat, Favorite, Person } = MaterialUIIcons;
 
-    // Sample Data
-    const people = [
-      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150", reputation: "97.5%" },
-      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150", reputation: "96%" },
-      { id: 3, name: "Rob Jones", role: "Builder", avatar: "https://via.placeholder.com/150", reputation: "95%" },
+    const peopleData = [
+      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150", reputation: "97.5%", skills: ["Designing", "Art Making"] },
+      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150", reputation: "96%", skills: ["Meditation", "Leadership"] },
+      { id: 3, name: "Rob Jones", role: "Builder", avatar: "https://via.placeholder.com/150", reputation: "95%", skills: ["Construction", "Community Work"] },
     ];
 
     // Grid View Component
     function GridView() {
       return (
         <Grid container spacing={2} sx={{ p: 2 }}>
-          {people.map(person => (
-            <Grid item xs={6} md={4} key={person.id}>
+          {peopleData.map(person => (
+            <Grid item xs={12} sm={6} md={4} key={person.id}>
               <Card sx={{ textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
                 <CardMedia
                   component="img"
@@ -64,6 +59,7 @@
                 <CardContent>
                   <Typography variant="h6">{person.name}</Typography>
                   <Typography variant="subtitle2" color="textSecondary">{person.role}</Typography>
+                  <Chip label={`Reputation: ${person.reputation}`} sx={{ mt: 1, bgcolor: '#444', color: '#fff' }} />
                 </CardContent>
               </Card>
             </Grid>
@@ -76,21 +72,20 @@
     function ListView() {
       return (
         <List sx={{ bgcolor: '#2e2e2e', color: '#fff', p: 2 }}>
-          {people.map(person => (
+          {peopleData.map(person => (
             <ListItem key={person.id} sx={{ borderBottom: '1px solid #444' }}>
               <ListItemAvatar>
-                <Avatar src={person.avatar} />
+                <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
               </ListItemAvatar>
               <ListItemText
                 primary={person.name}
                 secondary={`${person.role} • Reputation: ${person.reputation}`}
               />
-              <IconButton color="primary">
-                <Chat />
-              </IconButton>
-              <IconButton color="secondary">
-                <Favorite />
-              </IconButton>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                {person.skills.map(skill => (
+                  <Chip key={skill} label={skill} sx={{ bgcolor: '#444', color: '#fff' }} />
+                ))}
+              </Box>
             </ListItem>
           ))}
         </List>
@@ -101,7 +96,7 @@
     function CardView() {
       return (
         <Box sx={{ p: 4 }}>
-          {people.map(person => (
+          {peopleData.map(person => (
             <Card key={person.id} sx={{ maxWidth: 450, m: 'auto', mb: 4, bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
               <CardMedia
                 component="img"
@@ -113,6 +108,11 @@
                 <Typography variant="h5">{person.name}</Typography>
                 <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
                 <Typography variant="body2" sx={{ my: 2 }}>Reputation: {person.reputation}</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mb: 2 }}>
+                  {person.skills.map(skill => (
+                    <Chip key={skill} label={skill} sx={{ bgcolor: '#444', color: '#fff' }} />
+                  ))}
+                </Box>
                 <Button variant="contained" color="success" sx={{ m: 1 }}>Give</Button>
                 <Button variant="outlined" color="primary" sx={{ m: 1 }}>Message</Button>
               </CardContent>
@@ -141,7 +141,7 @@
 
       return (
         <Box>
-          <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)} centered>
+          <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)} centered sx={{ bgcolor: '#333', color: '#fff' }}>
             <Tab label="Grid View" />
             <Tab label="List View" />
             <Tab label="Card View" />
@@ -153,13 +153,7 @@
 
     // App Component
     function App() {
-      return (
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<PeopleModule />} />
-          </Routes>
-        </BrowserRouter>
-      );
+      return <PeopleModule />;
     }
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
