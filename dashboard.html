@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
-<body style="background-color: #002b36;">
+<body style="background-color: #1a1a1a;">
   <div id="root"></div>
 
   <!-- React and ReactDOM -->
@@ -24,48 +24,40 @@
       Toolbar,
       Typography,
       IconButton,
-      TextField,
-      Avatar,
-      Box,
       Tabs,
       Tab,
+      Box,
       Grid,
       Card,
       CardContent,
+      Avatar,
       Button,
       List,
       ListItem,
       ListItemAvatar,
       ListItemText,
-      Paper,
       Divider,
+      Paper,
     } = MaterialUI;
 
-    const avatars = [
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
+    const posts = [
+      { id: 1, user: "Cameron Murdock", content: "Offering free yoga class tomorrow!", avatar: "https://via.placeholder.com/150" },
+      { id: 2, user: "Emily Clark", content: "Looking for help with community garden.", avatar: "https://via.placeholder.com/150" },
     ];
 
-    const posts = [
-      {
-        id: 1,
-        user: "Cameron Ely-Murdock",
-        date: "Nov 13, 2024",
-        content: "Offering a free yoga class tomorrow morning!",
-        type: "Offer",
-        avatar: "https://via.placeholder.com/50",
-      },
-      {
-        id: 2,
-        user: "Emily Clark",
-        date: "Nov 14, 2024",
-        content: "Looking for help setting up a community garden this weekend.",
-        type: "Request",
-        avatar: "https://via.placeholder.com/50",
-      },
+    const chats = [
+      { id: 1, name: "Working Group", message: "What kind of strategy is better?" },
+      { id: 2, name: "Sales", message: "Hey, I have a good idea!" },
+    ];
+
+    const events = [
+      { id: 1, name: "Meditation Training", date: "Aug 10", location: "Shambala Center" },
+      { id: 2, name: "Community Gardening", date: "Aug 11", location: "Oakland Lot" },
+    ];
+
+    const people = [
+      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150" },
+      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150" },
     ];
 
     function TopBar() {
@@ -73,14 +65,8 @@
         <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              ONE Global
+              ONE Local
             </Typography>
-            <TextField
-              variant="outlined"
-              placeholder="Search"
-              size="small"
-              sx={{ backgroundColor: 'white', borderRadius: 1, width: '200px' }}
-            />
             <IconButton color="inherit">
               <span className="material-icons">account_circle</span>
             </IconButton>
@@ -89,104 +75,122 @@
       );
     }
 
-    function AvatarRow() {
+    function ChatsModule() {
       return (
-        <Box sx={{ display: 'flex', overflowX: 'scroll', p: 1 }}>
-          {avatars.map((src, index) => (
-            <Avatar key={index} src={src} sx={{ m: 1 }} />
+        <List sx={{ p: 2 }}>
+          {chats.map(chat => (
+            <ListItem key={chat.id}>
+              <ListItemAvatar>
+                <Avatar src="https://via.placeholder.com/40" />
+              </ListItemAvatar>
+              <ListItemText primary={chat.name} secondary={chat.message} />
+            </ListItem>
           ))}
-        </Box>
+        </List>
       );
     }
 
-    function FeedCard({ post }) {
-      return (
-        <Card sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
-          <CardContent>
-            <Grid container alignItems="center">
-              <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
-              <Box>
-                <Typography variant="subtitle1">{post.user}</Typography>
-                <Typography variant="body2" color="textSecondary">{post.date}</Typography>
-              </Box>
-            </Grid>
-            <Typography variant="body1" sx={{ mt: 2 }}>
-              {post.content}
-            </Typography>
-          </CardContent>
-          <Divider />
-          <Button size="small" color="primary">Like</Button>
-          <Button size="small" color="primary">Comment</Button>
-          <Button size="small" color="primary">Share</Button>
-        </Card>
-      );
-    }
-
-    function MainFeed() {
+    function FeedModule() {
       return (
         <Box sx={{ p: 2 }}>
           {posts.map(post => (
-            <FeedCard key={post.id} post={post} />
+            <Card key={post.id} sx={{ mb: 2 }}>
+              <CardContent>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <Avatar src={post.avatar} />
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="h6">{post.user}</Typography>
+                    <Typography>{post.content}</Typography>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
           ))}
         </Box>
       );
     }
 
-    function Dashboard() {
+    function CalendarModule() {
+      return (
+        <List sx={{ p: 2 }}>
+          {events.map(event => (
+            <ListItem key={event.id}>
+              <ListItemText primary={event.name} secondary={`${event.date} • ${event.location}`} />
+            </ListItem>
+          ))}
+        </List>
+      );
+    }
+
+    function MapModule() {
+      return (
+        <Paper sx={{ p: 2, textAlign: 'center', color: '#fff', backgroundColor: '#333' }}>
+          <Typography variant="h6">Map View</Typography>
+          <Typography>Map Placeholder</Typography>
+        </Paper>
+      );
+    }
+
+    function PeopleModule() {
       return (
         <Grid container spacing={2} sx={{ p: 2 }}>
-          <Grid item xs={3}>
-            <Paper sx={{ p: 2, height: '100%' }}>
-              <Typography variant="h6">Chats</Typography>
-              <List>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar src="https://via.placeholder.com/40" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Working Group" secondary="Last message..." />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar src="https://via.placeholder.com/40" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Sales" secondary="Hey, I have an idea!" />
-                </ListItem>
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <MainFeed />
-          </Grid>
-          <Grid item xs={3}>
-            <Paper sx={{ p: 2, height: '100%' }}>
-              <Typography variant="h6">Map</Typography>
-              <Box sx={{ height: '200px', backgroundColor: '#e0e0e0' }}>
-                <Typography variant="body2" align="center" sx={{ p: 2 }}>Map Placeholder</Typography>
-              </Box>
-            </Paper>
-          </Grid>
+          {people.map(person => (
+            <Grid item xs={12} key={person.id}>
+              <Card sx={{ p: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="h6">{person.name}</Typography>
+                    <Typography>{person.role}</Typography>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
       );
     }
 
-    function App() {
+    function MainContent({ tabIndex }) {
+      switch (tabIndex) {
+        case 0:
+          return <ChatsModule />;
+        case 1:
+          return <FeedModule />;
+        case 2:
+          return <CalendarModule />;
+        case 3:
+          return <MapModule />;
+        case 4:
+          return <PeopleModule />;
+        default:
+          return <FeedModule />;
+      }
+    }
+
+    function Dashboard() {
+      const [tabIndex, setTabIndex] = React.useState(1);
+
       return (
         <>
           <TopBar />
-          <AvatarRow />
-          <Tabs centered>
-            <Tab label="Events" />
-            <Tab label="Orgs" />
-            <Tab label="Groups" />
-            <Tab label="Sharing" />
-            <Tab label="Services" />
+          <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)} centered sx={{ bgcolor: '#333', color: '#fff' }}>
+            <Tab label="Chats" />
+            <Tab label="Feed" />
+            <Tab label="Calendar" />
+            <Tab label="Map" />
+            <Tab label="People" />
           </Tabs>
-          <Dashboard />
+          <MainContent tabIndex={tabIndex} />
         </>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
   </script>
 </body>
 </html>
