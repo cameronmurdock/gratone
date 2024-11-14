@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>People Feed - ONE Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+<body style="background-color: #1a1a1a;">
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      AppBar,
+      Toolbar,
+      Typography,
+      IconButton,
+      Avatar,
+      Box,
+      Tabs,
+      Tab,
+      Grid,
+      Card,
+      CardContent,
+      Button,
+      Paper,
+      Divider,
+      List,
+      ListItem,
+      ListItemAvatar,
+      ListItemText,
+    } = MaterialUI;
+
+    const people = [
+      {
+        id: 1,
+        name: "Cameron Murdock",
+        role: "Coach",
+        location: "Shambala Center - Boulder, CO",
+        avatar: "https://via.placeholder.com/150",
+        rating: "97.5%",
+      },
+      {
+        id: 2,
+        name: "Teresa Grant",
+        role: "Queen Priestess",
+        location: "Shambala Center - Boulder, CO",
+        avatar: "https://via.placeholder.com/150",
+        rating: "95.0%",
+      },
+      {
+        id: 3,
+        name: "Rob Jones",
+        role: "Busker",
+        location: "Shambala Center - Boulder, CO",
+        avatar: "https://via.placeholder.com/150",
+        rating: "92.0%",
+      },
+    ];
+
+    function TopBar() {
+      return (
+        <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              ONE Local
+            </Typography>
+            <IconButton color="inherit">
+              <span className="material-icons">search</span>
+            </IconButton>
+            <IconButton color="inherit">
+              <span className="material-icons">account_circle</span>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    function AvatarGrid() {
+      return (
+        <Grid container spacing={2} sx={{ p: 2 }}>
+          {people.map(person => (
+            <Grid item xs={4} key={person.id}>
+              <Avatar
+                src={person.avatar}
+                alt={person.name}
+                sx={{ width: 80, height: 80, m: "auto", border: '2px solid #ffffff' }}
+              />
+              <Typography align="center" color="#ffffff">{person.name}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    function ListView() {
+      return (
+        <List sx={{ width: '100%', bgcolor: '#333', color: '#fff', p: 2 }}>
+          {people.map(person => (
+            <ListItem key={person.id} sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
+              <ListItemAvatar>
+                <Avatar src={person.avatar} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={person.name}
+                secondary={`${person.role} • ${person.location}`}
+                primaryTypographyProps={{ color: '#fff', fontWeight: 'bold' }}
+                secondaryTypographyProps={{ color: '#bbb' }}
+              />
+              <Button variant="outlined" color="primary">View Profile</Button>
+            </ListItem>
+          ))}
+        </List>
+      );
+    }
+
+    function ProfileCardView() {
+      return (
+        <Grid container spacing={2} sx={{ p: 2 }}>
+          {people.map(person => (
+            <Grid item xs={12} key={person.id}>
+              <Card sx={{ borderRadius: 2, boxShadow: 3, bgcolor: '#2e2e2e', color: '#fff' }}>
+                <CardContent>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <Avatar
+                        src={person.avatar}
+                        alt={person.name}
+                        sx={{ width: 100, height: 100, border: '2px solid #ffffff' }}
+                      />
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography variant="h5">{person.name}</Typography>
+                      <Typography variant="body1">{person.role}</Typography>
+                      <Typography variant="body2" color="#bbb">{person.location}</Typography>
+                      <Typography variant="h6" color="primary">Rating: {person.rating}</Typography>
+                      <Box sx={{ mt: 2 }}>
+                        <Button variant="contained" color="success" sx={{ mr: 1 }}>Give</Button>
+                        <Button variant="outlined" color="primary">Message</Button>
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    function PeopleFeed() {
+      const [view, setView] = React.useState(0);
+
+      const renderView = () => {
+        switch (view) {
+          case 0:
+            return <AvatarGrid />;
+          case 1:
+            return <ListView />;
+          case 2:
+            return <ProfileCardView />;
+          default:
+            return <AvatarGrid />;
+        }
+      };
+
+      return (
+        <>
+          <Tabs value={view} onChange={(e, newValue) => setView(newValue)} centered sx={{ bgcolor: '#333', color: '#fff' }}>
+            <Tab label="Grid View" />
+            <Tab label="List View" />
+            <Tab label="Profile Card View" />
+          </Tabs>
+          {renderView()}
+        </>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <TopBar />
+          <PeopleFeed />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
