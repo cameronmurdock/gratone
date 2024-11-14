@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local Complete Dashboard</title>
+  <title>ONE Local - Complete Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -27,18 +27,20 @@
       Toolbar,
       Typography,
       IconButton,
+      Box,
       Tabs,
       Tab,
-      Box,
       Grid,
       Card,
       CardContent,
+      CardMedia,
       Avatar,
       List,
       ListItem,
       ListItemText,
-      Paper,
       Button,
+      Divider,
+      Paper,
     } = MaterialUI;
 
     // Sample Data
@@ -65,11 +67,11 @@
     // Side Panel - Chats
     function ChatsPanel() {
       return (
-        <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', height: '100vh', p: 2 }}>
+        <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', height: '100vh', overflowY: 'auto', p: 2 }}>
           <Typography variant="h6">Chats</Typography>
           <List>
             {chats.map(chat => (
-              <ListItem key={chat.id}>
+              <ListItem key={chat.id} button>
                 <ListItemText primary={chat.name} secondary={chat.message} />
               </ListItem>
             ))}
@@ -81,10 +83,12 @@
     // Side Panel - Map
     function MapPanel() {
       return (
-        <Paper sx={{ width: 300, height: '100vh', p: 2, textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff' }}>
+        <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', height: '100vh', p: 2 }}>
           <Typography variant="h6">Map View</Typography>
-          <Typography>Map Placeholder</Typography>
-        </Paper>
+          <Paper sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Typography>Map Placeholder</Typography>
+          </Paper>
+        </Box>
       );
     }
 
