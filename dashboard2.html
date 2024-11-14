@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - People Module</title>
+  <title>ONE Local Complete Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -17,77 +17,122 @@
   <!-- Material-UI Components -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- React Router for Navigation -->
+  <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 
   <script type="text/babel">
+    const { BrowserRouter, Routes, Route, Link } = ReactRouterDOM;
     const {
+      AppBar,
+      Toolbar,
+      Typography,
+      IconButton,
+      Tabs,
+      Tab,
       Box,
+      Grid,
       Card,
       CardContent,
-      CardMedia,
       Avatar,
-      Typography,
+      List,
+      ListItem,
+      ListItemText,
+      Paper,
       Button,
-      Grid,
-      Divider,
     } = MaterialUI;
 
-    const people = [
-      {
-        id: 1,
-        name: "Cameron Murdock",
-        role: "Coach",
-        avatar: "https://via.placeholder.com/400",
-        reputation: "97.5%",
-        skills: ["Designing", "Art Making"],
-        sharing: "Painting - OFFER",
-      },
-      {
-        id: 2,
-        name: "Teresa Grant",
-        role: "Queen Priestess",
-        avatar: "https://via.placeholder.com/400",
-        reputation: "95.0%",
-        skills: ["Healing", "Spiritual Guidance"],
-        sharing: "Tarot Reading - OFFER",
-      },
+    // Sample Data
+    const posts = [
+      { id: 1, user: "Cameron Murdock", content: "Offering free yoga class tomorrow!" },
+      { id: 2, user: "Emily Clark", content: "Looking for help with community garden." },
     ];
 
-    function ProfileCardView() {
+    const chats = [
+      { id: 1, name: "Working Group", message: "Strategy discussion" },
+      { id: 2, name: "Sales", message: "New idea proposal" },
+    ];
+
+    const events = [
+      { id: 1, name: "Meditation Training", date: "Aug 10", location: "Shambala Center" },
+      { id: 2, name: "Community Gardening", date: "Aug 11", location: "Oakland Lot" },
+    ];
+
+    const people = [
+      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150" },
+      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150" },
+    ];
+
+    // Side Panel - Chats
+    function ChatsPanel() {
+      return (
+        <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', height: '100vh', p: 2 }}>
+          <Typography variant="h6">Chats</Typography>
+          <List>
+            {chats.map(chat => (
+              <ListItem key={chat.id}>
+                <ListItemText primary={chat.name} secondary={chat.message} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      );
+    }
+
+    // Side Panel - Map
+    function MapPanel() {
+      return (
+        <Paper sx={{ width: 300, height: '100vh', p: 2, textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff' }}>
+          <Typography variant="h6">Map View</Typography>
+          <Typography>Map Placeholder</Typography>
+        </Paper>
+      );
+    }
+
+    // Main Feed Module
+    function FeedModule() {
+      return (
+        <Box sx={{ p: 2 }}>
+          {posts.map(post => (
+            <Card key={post.id} sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6">{post.user}</Typography>
+                <Typography>{post.content}</Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      );
+    }
+
+    // Calendar Module
+    function CalendarModule() {
+      return (
+        <List sx={{ p: 2 }}>
+          {events.map(event => (
+            <ListItem key={event.id}>
+              <ListItemText primary={event.name} secondary={`${event.date} • ${event.location}`} />
+            </ListItem>
+          ))}
+        </List>
+      );
+    }
+
+    // People Module
+    function PeopleModule() {
       return (
         <Grid container spacing={2} sx={{ p: 2 }}>
           {people.map(person => (
             <Grid item xs={12} key={person.id}>
-              <Card sx={{ borderRadius: 2, boxShadow: 3, bgcolor: '#2e2e2e', color: '#fff' }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={person.avatar}
-                  alt={person.name}
-                />
-                <CardContent>
-                  <Typography variant="h5" align="center">{person.name}</Typography>
-                  <Typography variant="subtitle1" align="center" color="textSecondary">
-                    {person.role}
-                  </Typography>
-                  <Divider sx={{ my: 2 }} />
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Reputation Score</Typography>
-                    <Typography variant="body1" color="primary">{person.reputation}</Typography>
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Skills</Typography>
-                    <Typography variant="body1">{person.skills.join(", ")}</Typography>
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Sharing</Typography>
-                    <Typography variant="body1">{person.sharing}</Typography>
-                  </Box>
-                  <Divider sx={{ my: 2 }} />
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="contained" color="success">Give</Button>
-                    <Button variant="outlined" color="primary">Message</Button>
-                  </Box>
-                </CardContent>
+              <Card sx={{ p: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
+                  </Grid>
+                  <Grid item xs>
+                    <Typography variant="h6">{person.name}</Typography>
+                    <Typography>{person.role}</Typography>
+                  </Grid>
+                </Grid>
               </Card>
             </Grid>
           ))}
@@ -95,14 +140,54 @@
       );
     }
 
+    // Main Content with Tabs
+    function MainContent() {
+      const [tabIndex, setTabIndex] = React.useState(0);
+
+      const renderContent = () => {
+        switch (tabIndex) {
+          case 0:
+            return <FeedModule />;
+          case 1:
+            return <CalendarModule />;
+          case 2:
+            return <PeopleModule />;
+          default:
+            return <FeedModule />;
+        }
+      };
+
+      return (
+        <Box sx={{ flexGrow: 1 }}>
+          <Tabs value={tabIndex} onChange={(e, newIndex) => setTabIndex(newIndex)} centered>
+            <Tab label="Feed" />
+            <Tab label="Calendar" />
+            <Tab label="People" />
+          </Tabs>
+          {renderContent()}
+        </Box>
+      );
+    }
+
+    // Main Dashboard Layout
+    function Dashboard() {
+      return (
+        <Box sx={{ display: 'flex' }}>
+          <ChatsPanel />
+          <MainContent />
+          <MapPanel />
+        </Box>
+      );
+    }
+
+    // App Component
     function App() {
       return (
-        <Box sx={{ p: 4 }}>
-          <Typography variant="h4" align="center" color="#fff" sx={{ mb: 4 }}>
-            People - Profile Card View
-          </Typography>
-          <ProfileCardView />
-        </Box>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+          </Routes>
+        </BrowserRouter>
       );
     }
 
