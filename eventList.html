@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event List - ONE Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+<body style="background-color: #f5f5f5;">
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const { AppBar, Toolbar, Typography, Card, CardContent, CardMedia, Button, IconButton, List, ListItem, ListItemAvatar, Avatar, ListItemText, Box, Divider } = MaterialUI;
+
+    // Dummy Data
+    const events = [
+      {
+        id: 1,
+        title: "Default Image",
+        date: "Nov 13, 2024",
+        time: "8:00 PM",
+        location: "Jersey Mike's Subs",
+        image: "https://via.placeholder.com/150",
+      },
+      {
+        id: 2,
+        title: "Living Your Design",
+        date: "Nov 28, 2024",
+        time: "6:00 PM",
+        location: "Casa de Luz Village",
+        image: "https://via.placeholder.com/150",
+      },
+      {
+        id: 3,
+        title: "Monthly Human Design Meetup",
+        date: "Dec 6, 2024",
+        time: "5:00 PM",
+        location: "Casa de Luz Village",
+        image: "https://via.placeholder.com/150",
+      },
+    ];
+
+    function EventCard({ event }) {
+      return (
+        <Card sx={{ display: 'flex', mb: 2, borderRadius: 2, boxShadow: 3 }}>
+          <CardMedia
+            component="img"
+            sx={{ width: 150 }}
+            image={event.image}
+            alt={event.title}
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <CardContent>
+              <Typography variant="subtitle2" color="textSecondary">
+                {event.date} • {event.time}
+              </Typography>
+              <Typography variant="h6" component="div">
+                {event.title}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                {event.location}
+              </Typography>
+            </CardContent>
+            <Box sx={{ textAlign: 'right', pr: 2, pb: 1 }}>
+              <Button variant="text" color="primary">View Details</Button>
+            </Box>
+          </Box>
+        </Card>
+      );
+    }
+
+    function EventList() {
+      return (
+        <Box sx={{ p: 2 }}>
+          {events.map(event => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </Box>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+            <Toolbar>
+              <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                ONE Local
+              </Typography>
+              <IconButton color="inherit">
+                <span className="material-icons">account_circle</span>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <EventList />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
