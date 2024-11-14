@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Main Feed - ONE Local</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
+    }
+    #root {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      AppBar,
+      Toolbar,
+      Typography,
+      Card,
+      CardContent,
+      CardActions,
+      Avatar,
+      IconButton,
+      Button,
+      Divider,
+      Box,
+      Grid,
+      Chip,
+      Tooltip,
+    } = MaterialUI;
+
+    // Dummy Data
+    const posts = [
+      {
+        id: 1,
+        type: "Offer",
+        user: "Cameron Ely-Murdock",
+        date: "Nov 13, 2024",
+        avatar: "https://via.placeholder.com/50",
+        content: "4eva",
+        image: "https://via.placeholder.com/150",
+      },
+      {
+        id: 2,
+        type: "Request",
+        user: "Emily Clark",
+        date: "Nov 14, 2024",
+        avatar: "https://via.placeholder.com/50",
+        content: "Looking for help with garden setup this weekend. Volunteers welcome!",
+        image: "",
+      },
+      {
+        id: 3,
+        type: "Update",
+        user: "John Smith",
+        date: "Nov 15, 2024",
+        avatar: "https://via.placeholder.com/50",
+        content: "Exciting news! The community garden project is making great progress.",
+        image: "https://via.placeholder.com/150",
+      },
+    ];
+
+    // Post Card Component
+    function PostCard({ post }) {
+      return (
+        <Card sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
+          <CardContent>
+            <Grid container alignItems="center">
+              <Grid item>
+                <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
+              </Grid>
+              <Grid item xs>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {post.user}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {post.date}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Chip
+                  label={post.type}
+                  color={post.type === "Offer" ? "success" : post.type === "Request" ? "warning" : "info"}
+                  size="small"
+                  sx={{ fontWeight: 'bold' }}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              {post.content}
+            </Typography>
+            {post.image && (
+              <Box
+                component="img"
+                src={post.image}
+                alt="Post Image"
+                sx={{
+                  width: '100%',
+                  height: '200px',
+                  objectFit: 'cover',
+                  borderRadius: 2,
+                  mt: 2,
+                }}
+              />
+            )}
+          </CardContent>
+          <Divider />
+          <CardActions>
+            <Tooltip title="Like">
+              <IconButton>
+                <span className="material-icons">thumb_up</span>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Comment">
+              <IconButton>
+                <span className="material-icons">comment</span>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Share">
+              <IconButton>
+                <span className="material-icons">share</span>
+              </IconButton>
+            </Tooltip>
+          </CardActions>
+        </Card>
+      );
+    }
+
+    // Main Feed Component
+    function MainFeed() {
+      return (
+        <Box sx={{ p: 2 }}>
+          {posts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </Box>
+      );
+    }
+
+    // App Component
+    function App() {
+      return (
+        <>
+          <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+            <Toolbar>
+              <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                ONE Local Feed
+              </Typography>
+              <IconButton color="inherit">
+                <span className="material-icons">account_circle</span>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <MainFeed />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
