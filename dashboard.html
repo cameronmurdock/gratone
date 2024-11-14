@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+<body style="background-color: #002b36;">
+  <div id="root"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Material-UI Components -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      AppBar,
+      Toolbar,
+      Typography,
+      IconButton,
+      TextField,
+      Avatar,
+      Box,
+      Tabs,
+      Tab,
+      Grid,
+      Card,
+      CardContent,
+      Button,
+      List,
+      ListItem,
+      ListItemAvatar,
+      ListItemText,
+      Paper,
+      Divider,
+    } = MaterialUI;
+
+    const avatars = [
+      "https://via.placeholder.com/40",
+      "https://via.placeholder.com/40",
+      "https://via.placeholder.com/40",
+      "https://via.placeholder.com/40",
+      "https://via.placeholder.com/40",
+    ];
+
+    const posts = [
+      {
+        id: 1,
+        user: "Cameron Ely-Murdock",
+        date: "Nov 13, 2024",
+        content: "Offering a free yoga class tomorrow morning!",
+        type: "Offer",
+        avatar: "https://via.placeholder.com/50",
+      },
+      {
+        id: 2,
+        user: "Emily Clark",
+        date: "Nov 14, 2024",
+        content: "Looking for help setting up a community garden this weekend.",
+        type: "Request",
+        avatar: "https://via.placeholder.com/50",
+      },
+    ];
+
+    function TopBar() {
+      return (
+        <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              ONE Global
+            </Typography>
+            <TextField
+              variant="outlined"
+              placeholder="Search"
+              size="small"
+              sx={{ backgroundColor: 'white', borderRadius: 1, width: '200px' }}
+            />
+            <IconButton color="inherit">
+              <span className="material-icons">account_circle</span>
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    function AvatarRow() {
+      return (
+        <Box sx={{ display: 'flex', overflowX: 'scroll', p: 1 }}>
+          {avatars.map((src, index) => (
+            <Avatar key={index} src={src} sx={{ m: 1 }} />
+          ))}
+        </Box>
+      );
+    }
+
+    function FeedCard({ post }) {
+      return (
+        <Card sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
+          <CardContent>
+            <Grid container alignItems="center">
+              <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
+              <Box>
+                <Typography variant="subtitle1">{post.user}</Typography>
+                <Typography variant="body2" color="textSecondary">{post.date}</Typography>
+              </Box>
+            </Grid>
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              {post.content}
+            </Typography>
+          </CardContent>
+          <Divider />
+          <Button size="small" color="primary">Like</Button>
+          <Button size="small" color="primary">Comment</Button>
+          <Button size="small" color="primary">Share</Button>
+        </Card>
+      );
+    }
+
+    function MainFeed() {
+      return (
+        <Box sx={{ p: 2 }}>
+          {posts.map(post => (
+            <FeedCard key={post.id} post={post} />
+          ))}
+        </Box>
+      );
+    }
+
+    function Dashboard() {
+      return (
+        <Grid container spacing={2} sx={{ p: 2 }}>
+          <Grid item xs={3}>
+            <Paper sx={{ p: 2, height: '100%' }}>
+              <Typography variant="h6">Chats</Typography>
+              <List>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar src="https://via.placeholder.com/40" />
+                  </ListItemAvatar>
+                  <ListItemText primary="Working Group" secondary="Last message..." />
+                </ListItem>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar src="https://via.placeholder.com/40" />
+                  </ListItemAvatar>
+                  <ListItemText primary="Sales" secondary="Hey, I have an idea!" />
+                </ListItem>
+              </List>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <MainFeed />
+          </Grid>
+          <Grid item xs={3}>
+            <Paper sx={{ p: 2, height: '100%' }}>
+              <Typography variant="h6">Map</Typography>
+              <Box sx={{ height: '200px', backgroundColor: '#e0e0e0' }}>
+                <Typography variant="body2" align="center" sx={{ p: 2 }}>Map Placeholder</Typography>
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <TopBar />
+          <AvatarRow />
+          <Tabs centered>
+            <Tab label="Events" />
+            <Tab label="Orgs" />
+            <Tab label="Groups" />
+            <Tab label="Sharing" />
+            <Tab label="Services" />
+          </Tabs>
+          <Dashboard />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
