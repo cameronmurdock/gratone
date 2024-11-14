@@ -491,76 +491,86 @@
     // Main Content Component with Tabs to switch between modules
     function MainContent({ mainTab }) {
       switch (mainTab) {
-        case 0:
+        case 0: // Chats
           return (
             <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
-              {/* Chats, Feed, Map */}
+              {/* Chats Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <ChatsModule />
               </Box>
+              {/* Feed Panel */}
               <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
                 <FeedModule />
               </Box>
+              {/* Map Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
             </Box>
           );
-        case 1:
+        case 1: // Feed
           return (
             <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
-              {/* Feed Focused */}
+              {/* Chats Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <ChatsModule />
               </Box>
+              {/* Feed Panel */}
               <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
                 <FeedModule />
               </Box>
+              {/* Map Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
             </Box>
           );
-        case 2:
+        case 2: // Calendar
           return (
             <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
-              {/* Calendar Focused */}
+              {/* Chats Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <ChatsModule />
               </Box>
+              {/* Calendar Panel */}
               <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
                 <CalendarModule />
               </Box>
+              {/* Map Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
             </Box>
           );
-        case 3:
+        case 3: // Map
           return (
             <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
-              {/* Map Focused */}
+              {/* Chats Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <ChatsModule />
               </Box>
+              {/* Map Panel */}
               <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
+              {/* Additional Map Panel or Placeholder */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
             </Box>
           );
-        case 4:
+        case 4: // People
           return (
             <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
-              {/* People Focused */}
+              {/* Chats Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <ChatsModule />
               </Box>
+              {/* People Module */}
               <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
                 <PeopleModule />
               </Box>
+              {/* Map Panel */}
               <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
                 <MapModule />
               </Box>
