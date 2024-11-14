@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - People Module</title>
+  <title>ONE Local - Updated People Card</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -29,6 +29,7 @@
       Button,
       Grid,
       Divider,
+      Chip,
     } = MaterialUI;
 
     const people = [
@@ -38,70 +39,101 @@
         role: "Coach",
         avatar: "https://via.placeholder.com/400",
         reputation: "97.5%",
+        given: "19.5k",
+        received: "20k",
         skills: ["Designing", "Art Making"],
         sharing: "Painting - OFFER",
       },
-      {
-        id: 2,
-        name: "Teresa Grant",
-        role: "Queen Priestess",
-        avatar: "https://via.placeholder.com/400",
-        reputation: "95.0%",
-        skills: ["Healing", "Spiritual Guidance"],
-        sharing: "Tarot Reading - OFFER",
-      },
     ];
 
-    function ProfileCardView() {
+    function PeopleCard({ person }) {
       return (
-        <Grid container spacing={2} sx={{ p: 2 }}>
-          {people.map(person => (
-            <Grid item xs={12} key={person.id}>
-              <Card sx={{ borderRadius: 2, boxShadow: 3, bgcolor: '#2e2e2e', color: '#fff' }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={person.avatar}
-                  alt={person.name}
-                />
-                <CardContent>
-                  <Typography variant="h5" align="center">{person.name}</Typography>
-                  <Typography variant="subtitle1" align="center" color="textSecondary">
-                    {person.role}
-                  </Typography>
-                  <Divider sx={{ my: 2 }} />
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Reputation Score</Typography>
-                    <Typography variant="body1" color="primary">{person.reputation}</Typography>
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Skills</Typography>
-                    <Typography variant="body1">{person.skills.join(", ")}</Typography>
-                  </Box>
-                  <Box sx={{ mb: 2 }}>
-                    <Typography variant="h6">Sharing</Typography>
-                    <Typography variant="body1">{person.sharing}</Typography>
-                  </Box>
-                  <Divider sx={{ my: 2 }} />
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="contained" color="success">Give</Button>
-                    <Button variant="outlined" color="primary">Message</Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+        <Card sx={{ maxWidth: 400, m: 'auto', borderRadius: 4, boxShadow: 5, bgcolor: '#2e2e2e', color: '#fff' }}>
+          {/* Top Section with Profile Image */}
+          <Box sx={{ position: 'relative' }}>
+            <CardMedia
+              component="img"
+              height="300"
+              image={person.avatar}
+              alt={person.name}
+              sx={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+            />
+            <Avatar
+              src={person.avatar}
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: 16,
+                width: 60,
+                height: 60,
+                border: '3px solid #1a1a1a',
+              }}
+            />
+          </Box>
+
+          {/* Name and Role */}
+          <CardContent sx={{ textAlign: 'center', pb: 0 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{person.name}</Typography>
+            <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
+
+            {/* Statistics Section */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Given</Typography>
+                <Typography variant="h6" color="primary">{person.given}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Received</Typography>
+                <Typography variant="h6" color="primary">{person.received}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Reputation</Typography>
+                <Typography variant="h6" color="primary">{person.reputation}</Typography>
+              </Box>
+            </Box>
+
+            {/* Action Buttons */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-evenly', mb: 2 }}>
+              <Button variant="contained" color="success" sx={{ borderRadius: 20 }}>
+                Give
+              </Button>
+              <Button variant="outlined" color="primary" sx={{ borderRadius: 20 }}>
+                Message
+              </Button>
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Skills Section */}
+            <Typography variant="h6">Skills</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+              {person.skills.map(skill => (
+                <Chip key={skill} label={skill} sx={{ bgcolor: '#4caf50', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Sharing Section */}
+            <Typography variant="h6">Sharing</Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              {person.sharing}
+            </Typography>
+
+            {/* Custom Section (e.g., Human Design) */}
+            <Typography variant="h6">Human Design</Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              Additional information about Human Design can go here.
+            </Typography>
+          </CardContent>
+        </Card>
       );
     }
 
     function App() {
       return (
-        <Box sx={{ p: 4 }}>
-          <Typography variant="h4" align="center" color="#fff" sx={{ mb: 4 }}>
-            People - Profile Card View
-          </Typography>
-          <ProfileCardView />
+        <Box sx={{ p: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+          {people.map(person => (
+            <PeopleCard key={person.id} person={person} />
+          ))}
         </Box>
       );
     }
