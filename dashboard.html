@@ -4,10 +4,25 @@
   <meta charset="UTF-8">
   <title>ONE Local Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #002b36;
+      color: #fff;
+    }
+    #root {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 </head>
-<body style="background-color: #002b36;">
+<body>
   <div id="root"></div>
 
   <!-- React and ReactDOM -->
@@ -39,92 +54,130 @@
       ListItemText,
       Paper,
       Divider,
+      Chip,
     } = MaterialUI;
+    const { Chat, Favorite, CalendarToday, LocationOn, People, AccountCircle } = MaterialUIIcons;
 
-    const avatars = [
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
-      "https://via.placeholder.com/40",
+    // Sample Data
+    const chats = [
+      { id: 1, name: "Working Group", message: "What kind of strategy is better?" },
+      { id: 2, name: "Sales", message: "Hey, I have a good idea!" },
+      { id: 3, name: "Marketing", message: "Let's discuss the new campaign." },
     ];
 
     const posts = [
-      {
-        id: 1,
-        user: "Cameron Ely-Murdock",
-        date: "Nov 13, 2024",
-        content: "Offering a free yoga class tomorrow morning!",
-        type: "Offer",
-        avatar: "https://via.placeholder.com/50",
-      },
-      {
-        id: 2,
-        user: "Emily Clark",
-        date: "Nov 14, 2024",
-        content: "Looking for help setting up a community garden this weekend.",
-        type: "Request",
-        avatar: "https://via.placeholder.com/50",
-      },
+      { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Offering a free yoga class tomorrow morning!", type: "Offer", avatar: "https://via.placeholder.com/50" },
+      { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Looking for help setting up a community garden this weekend.", type: "Request", avatar: "https://via.placeholder.com/50" },
+      { id: 3, user: "John Smith", date: "Nov 15, 2024", content: "Excited about the upcoming art workshop!", type: "Update", avatar: "https://via.placeholder.com/50" },
     ];
 
+    const events = [
+      { id: 1, name: "Meditation Training", date: "Aug 10", location: "Shambala Center" },
+      { id: 2, name: "Community Gardening", date: "Aug 11", location: "Oakland Lot" },
+      { id: 3, name: "Art Workshop", date: "Aug 12", location: "Downtown Gallery" },
+    ];
+
+    const people = [
+      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150", reputation: "97.5%", skills: ["Designing", "Art Making"], offers: ["Yoga Classes", "Art Workshops"], groups: ["Boulder Farmers Co-op"], tagline: "Building resilient communities through shared resources.", testimonials: ["Great collaborator on community projects!", "Expert in strategic planning."] },
+      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150", reputation: "96%", skills: ["Meditation", "Leadership"], offers: ["Tarot Reading"], groups: ["ONE Local Community"], tagline: "Empowering individuals through spiritual guidance.", testimonials: ["Insightful and compassionate!", "A true leader in our community."] },
+      { id: 3, name: "Rob Jones", role: "Builder", avatar: "https://via.placeholder.com/150", reputation: "95%", skills: ["Construction", "Community Work"], offers: ["Tool Sharing", "Free Tutoring"], groups: ["Community Builders"], tagline: "Constructing a better tomorrow together.", testimonials: ["Reliable and hardworking!", "Great at organizing community projects."] },
+    ];
+
+    // Top Bar Component
     function TopBar() {
       return (
         <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              ONE Global
+              ONE Local
             </Typography>
             <TextField
               variant="outlined"
               placeholder="Search"
               size="small"
-              sx={{ backgroundColor: 'white', borderRadius: 1, width: '200px' }}
+              sx={{ backgroundColor: '#fff', borderRadius: 1, width: '200px', mr: 2 }}
+              InputProps={{
+                style: { borderRadius: 8 },
+              }}
             />
             <IconButton color="inherit">
-              <span className="material-icons">account_circle</span>
+              <AccountCircle />
             </IconButton>
           </Toolbar>
         </AppBar>
       );
     }
 
+    // Avatar Row Component (Scrollable)
     function AvatarRow() {
+      const avatars = [
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+      ];
+
       return (
-        <Box sx={{ display: 'flex', overflowX: 'scroll', p: 1 }}>
+        <Box sx={{ display: 'flex', overflowX: 'auto', p: 1, bgcolor: '#002b36' }}>
           {avatars.map((src, index) => (
-            <Avatar key={index} src={src} sx={{ m: 1 }} />
+            <Avatar key={index} src={src} sx={{ m: 1, border: '2px solid #fff' }} />
           ))}
         </Box>
       );
     }
 
+    // Chats Module Component
+    function ChatsModule() {
+      return (
+        <List sx={{ p: 2, bgcolor: '#333', color: '#fff', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+          {chats.map(chat => (
+            <ListItem button key={chat.id}>
+              <ListItemAvatar>
+                <Avatar src="https://via.placeholder.com/40" />
+              </ListItemAvatar>
+              <ListItemText primary={chat.name} secondary={chat.message} />
+            </ListItem>
+          ))}
+        </List>
+      );
+    }
+
+    // Feed Card Component
     function FeedCard({ post }) {
       return (
-        <Card sx={{ mb: 2, borderRadius: 2, boxShadow: 3 }}>
+        <Card sx={{ mb: 2, borderRadius: 2, boxShadow: 3, bgcolor: '#2e2e2e', color: '#fff' }}>
           <CardContent>
             <Grid container alignItems="center">
-              <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
-              <Box>
+              <Grid item>
+                <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
+              </Grid>
+              <Grid item xs>
                 <Typography variant="subtitle1">{post.user}</Typography>
                 <Typography variant="body2" color="textSecondary">{post.date}</Typography>
-              </Box>
+              </Grid>
             </Grid>
             <Typography variant="body1" sx={{ mt: 2 }}>
               {post.content}
             </Typography>
+            <Box sx={{ mt: 1 }}>
+              <Chip label={post.type} color={post.type === "Offer" ? "success" : post.type === "Request" ? "warning" : "info"} />
+            </Box>
           </CardContent>
           <Divider />
-          <Button size="small" color="primary">Like</Button>
-          <Button size="small" color="primary">Comment</Button>
-          <Button size="small" color="primary">Share</Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', p: 1 }}>
+            <Button size="small" color="primary">Like</Button>
+            <Button size="small" color="primary">Comment</Button>
+            <Button size="small" color="primary">Share</Button>
+          </Box>
         </Card>
       );
     }
 
-    function MainFeed() {
+    // Feed Module Component
+    function FeedModule() {
       return (
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, bgcolor: '#002b36', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
           {posts.map(post => (
             <FeedCard key={post.id} post={post} />
           ))}
@@ -132,61 +185,1002 @@
       );
     }
 
-    function Dashboard() {
+    // Calendar Module Component
+    function CalendarModule() {
       return (
-        <Grid container spacing={2} sx={{ p: 2 }}>
-          <Grid item xs={3}>
-            <Paper sx={{ p: 2, height: '100%' }}>
-              <Typography variant="h6">Chats</Typography>
-              <List>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar src="https://via.placeholder.com/40" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Working Group" secondary="Last message..." />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar src="https://via.placeholder.com/40" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Sales" secondary="Hey, I have an idea!" />
-                </ListItem>
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <MainFeed />
-          </Grid>
-          <Grid item xs={3}>
-            <Paper sx={{ p: 2, height: '100%' }}>
-              <Typography variant="h6">Map</Typography>
-              <Box sx={{ height: '200px', backgroundColor: '#e0e0e0' }}>
-                <Typography variant="body2" align="center" sx={{ p: 2 }}>Map Placeholder</Typography>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
+        <List sx={{ p: 2, bgcolor: '#333', color: '#fff', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+          {events.map(event => (
+            <ListItem key={event.id}>
+              <ListItemText primary={event.name} secondary={`${event.date} • ${event.location}`} />
+            </ListItem>
+          ))}
+        </List>
       );
     }
 
-    function App() {
+    // People Card Component (Card View)
+    function PeopleCard({ person }) {
       return (
-        <>
+        <Card sx={{ maxWidth: 450, m: 'auto', mb: 4, bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+          {/* Top Section with Profile Image */}
+          <Box sx={{ position: 'relative' }}>
+            <CardMedia
+              component="img"
+              height="300"
+              image={person.avatar}
+              alt={person.name}
+              sx={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+            />
+            <Avatar
+              src={person.avatar}
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: 16,
+                width: 80,
+                height: 80,
+                border: '4px solid #1a1a1a',
+              }}
+            />
+          </Box>
+
+          {/* Name and Role */}
+          <CardContent sx={{ textAlign: 'center', pb: 0 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{person.name}</Typography>
+            <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
+
+            {/* Reputation and Stats */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Given</Typography>
+                <Typography variant="h6" color="primary">{person.given}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Received</Typography>
+                <Typography variant="h6" color="primary">{person.received}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Reputation</Typography>
+                <Typography variant="h6" color="primary">{person.reputation}</Typography>
+              </Box>
+            </Box>
+
+            {/* Action Buttons */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
+              <Button variant="contained" color="success" sx={{ borderRadius: 20 }}>
+                Give
+              </Button>
+              <Button variant="outlined" color="primary" sx={{ borderRadius: 20 }}>
+                Message
+              </Button>
+              <Button variant="outlined" color="secondary" sx={{ borderRadius: 20 }}>
+                Connect
+              </Button>
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Skills Section */}
+            <Typography variant="h6">Skills</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2, justifyContent: 'center' }}>
+              {person.skills.map(skill => (
+                <Chip key={skill} label={skill} sx={{ bgcolor: '#4caf50', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Offers Section */}
+            <Typography variant="h6">Active Offers</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.offers.map(offer => (
+                <Chip key={offer} label={offer} sx={{ bgcolor: '#2196f3', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Community Involvement */}
+            <Typography variant="h6">Affiliated Groups</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.groups.map(group => (
+                <Chip key={group} label={group} sx={{ bgcolor: '#ff9800', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Testimonials */}
+            <Typography variant="h6">Testimonials</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.testimonials.map((testimonial, index) => (
+                <Typography key={index} variant="body2" color="textSecondary">“{testimonial}”</Typography>
+              ))}
+            </Box>
+
+            {/* Tagline */}
+            <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+              {person.tagline}
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // People List Component (Grid, List, Card Views)
+    function PeopleModule() {
+      const [tabIndex, setTabIndex] = React.useState(0);
+
+      const renderView = () => {
+        switch (tabIndex) {
+          case 0:
+            return (
+              <Grid container spacing={2} sx={{ p: 2 }}>
+                {people.map(person => (
+                  <Grid item xs={12} sm={6} md={4} key={person.id}>
+                    <Card sx={{ textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+                      <CardMedia
+                        component="img"
+                        height="150"
+                        image={person.avatar}
+                        alt={person.name}
+                      />
+                      <CardContent>
+                        <Typography variant="h6">{person.name}</Typography>
+                        <Typography variant="subtitle2" color="textSecondary">{person.role}</Typography>
+                        <Chip label={`Reputation: ${person.reputation}`} sx={{ mt: 1, bgcolor: '#444', color: '#fff' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 1:
+            return (
+              <List sx={{ p: 2, bgcolor: '#333', color: '#fff', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+                {people.map(person => (
+                  <ListItem key={person.id} sx={{ borderBottom: '1px solid #444' }}>
+                    <ListItemAvatar>
+                      <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={person.name}
+                      secondary={`${person.role} • Reputation: ${person.reputation}`}
+                    />
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      {person.skills.map(skill => (
+                        <Chip key={skill} label={skill} sx={{ bgcolor: '#444', color: '#fff' }} />
+                      ))}
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            );
+          case 2:
+            return (
+              <Box sx={{ p: 4, bgcolor: '#002b36', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+                {people.map(person => (
+                  <PeopleCard key={person.id} person={person} />
+                ))}
+              </Box>
+            );
+          default:
+            return <GridView />;
+        }
+      };
+
+      return (
+        <Box sx={{ flexGrow: 1 }}>
+          <Tabs
+            value={tabIndex}
+            onChange={(e, newIndex) => setTabIndex(newIndex)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Grid View" />
+            <Tab label="List View" />
+            <Tab label="Card View" />
+          </Tabs>
+          {renderView()}
+        </Box>
+      );
+    }
+
+    // Main Content Component
+    function MainContent({ tabIndex }) {
+      switch (tabIndex) {
+        case 0:
+          return <ChatsModule />;
+        case 1:
+          return <FeedModule />;
+        case 2:
+          return <CalendarModule />;
+        case 3:
+          return <MapModule />;
+        case 4:
+          return <PeopleModule />;
+        default:
+          return <FeedModule />;
+      }
+    }
+
+    // Dashboard Component with Tabs
+    function Dashboard() {
+      const [tabIndex, setTabIndex] = React.useState(1); // Default to Feed
+
+      return (
+        <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+          {/* Left Panel - Chats */}
+          <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+            <ChatsModule />
+          </Box>
+
+          {/* Central Panel - Main Content */}
+          <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+            <FeedModule />
+          </Box>
+
+          {/* Right Panel - Map */}
+          <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+            <MapModule />
+          </Box>
+        </Box>
+      );
+    }
+
+    // App Component with Tabs to switch main modules
+    function App() {
+      const [mainTab, setMainTab] = React.useState(1); // Default to Feed
+
+      const renderMainContent = () => {
+        switch (mainTab) {
+          case 0:
+            return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+              {/* Chats and Feed and Map */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <FeedModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>;
+          case 1:
+            return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+              {/* Feed Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <FeedModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>;
+          case 2:
+            return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+              {/* Calendar Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <CalendarModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>;
+          case 3:
+            return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+              {/* Map Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>;
+          case 4:
+            return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 64px)' }}>
+              {/* People Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <PeopleModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>;
+          default:
+            return <FeedModule />;
+        }
+      };
+
+      return (
+        <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
           <TopBar />
           <AvatarRow />
-          <Tabs centered>
-            <Tab label="Events" />
-            <Tab label="Orgs" />
-            <Tab label="Groups" />
-            <Tab label="Sharing" />
-            <Tab label="Services" />
+          <Tabs
+            value={mainTab}
+            onChange={(e, newValue) => setMainTab(newValue)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Chats" icon={<Chat />} />
+            <Tab label="Feed" icon={<Favorite />} />
+            <Tab label="Calendar" icon={<CalendarToday />} />
+            <Tab label="Map" icon={<LocationOn />} />
+            <Tab label="People" icon={<People />} />
           </Tabs>
-          <Dashboard />
-        </>
+          {renderMainContent()}
+        </Box>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    // People Card Component (Detailed Card View)
+    function PeopleCard({ person }) {
+      return (
+        <Card sx={{ maxWidth: 450, m: 'auto', mb: 4, bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+          {/* Top Section with Profile Image */}
+          <Box sx={{ position: 'relative' }}>
+            <CardMedia
+              component="img"
+              height="300"
+              image={person.avatar}
+              alt={person.name}
+              sx={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+            />
+            <Avatar
+              src={person.avatar}
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: 16,
+                width: 80,
+                height: 80,
+                border: '4px solid #1a1a1a',
+              }}
+            />
+          </Box>
+
+          {/* Name and Role */}
+          <CardContent sx={{ textAlign: 'center', pb: 0 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{person.name}</Typography>
+            <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
+
+            {/* Reputation and Stats */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Given</Typography>
+                <Typography variant="h6" color="primary">{person.given}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Received</Typography>
+                <Typography variant="h6" color="primary">{person.received}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Reputation</Typography>
+                <Typography variant="h6" color="primary">{person.reputation}</Typography>
+              </Box>
+            </Box>
+
+            {/* Action Buttons */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
+              <Button variant="contained" color="success" sx={{ borderRadius: 20 }}>
+                Give
+              </Button>
+              <Button variant="outlined" color="primary" sx={{ borderRadius: 20 }}>
+                Message
+              </Button>
+              <Button variant="outlined" color="secondary" sx={{ borderRadius: 20 }}>
+                Connect
+              </Button>
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Skills Section */}
+            <Typography variant="h6">Skills</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2, justifyContent: 'center' }}>
+              {person.skills.map(skill => (
+                <Chip key={skill} label={skill} sx={{ bgcolor: '#4caf50', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Offers Section */}
+            <Typography variant="h6">Active Offers</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.offers.map(offer => (
+                <Chip key={offer} label={offer} sx={{ bgcolor: '#2196f3', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Community Involvement */}
+            <Typography variant="h6">Affiliated Groups</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.groups.map(group => (
+                <Chip key={group} label={group} sx={{ bgcolor: '#ff9800', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Testimonials */}
+            <Typography variant="h6">Testimonials</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.testimonials.map((testimonial, index) => (
+                <Typography key={index} variant="body2" color="textSecondary">“{testimonial}”</Typography>
+              ))}
+            </Box>
+
+            {/* Tagline */}
+            <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+              {person.tagline}
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // People List with Three Views (Grid, List, Card)
+    function PeopleModule() {
+      const [tabIndex, setTabIndex] = React.useState(0);
+
+      const renderView = () => {
+        switch (tabIndex) {
+          case 0:
+            return (
+              <Grid container spacing={2} sx={{ p: 2 }}>
+                {people.map(person => (
+                  <Grid item xs={12} sm={6} md={4} key={person.id}>
+                    <Card sx={{ textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+                      <CardMedia
+                        component="img"
+                        height="150"
+                        image={person.avatar}
+                        alt={person.name}
+                      />
+                      <CardContent>
+                        <Typography variant="h6">{person.name}</Typography>
+                        <Typography variant="subtitle2" color="textSecondary">{person.role}</Typography>
+                        <Chip label={`Reputation: ${person.reputation}`} sx={{ mt: 1, bgcolor: '#444', color: '#fff' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 1:
+            return (
+              <List sx={{ p: 2, bgcolor: '#333', color: '#fff', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+                {people.map(person => (
+                  <ListItem key={person.id} sx={{ borderBottom: '1px solid #444' }}>
+                    <ListItemAvatar>
+                      <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={person.name}
+                      secondary={`${person.role} • Reputation: ${person.reputation}`}
+                    />
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      {person.skills.map(skill => (
+                        <Chip key={skill} label={skill} sx={{ bgcolor: '#444', color: '#fff' }} />
+                      ))}
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            );
+          case 2:
+            return (
+              <Box sx={{ p: 4, bgcolor: '#002b36', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+                {people.map(person => (
+                  <PeopleCard key={person.id} person={person} />
+                ))}
+              </Box>
+            );
+          default:
+            return <GridView />;
+        }
+      };
+
+      return (
+        <Box>
+          <Tabs
+            value={tabIndex}
+            onChange={(e, newIndex) => setTabIndex(newIndex)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Grid View" />
+            <Tab label="List View" />
+            <Tab label="Card View" />
+          </Tabs>
+          {renderView()}
+        </Box>
+      );
+    }
+
+    // Main Content Component with Tabs to switch between modules
+    function MainContent({ mainTab }) {
+      switch (mainTab) {
+        case 0:
+          return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+            {/* Chats, Feed, Map */}
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <ChatsModule />
+            </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+              <FeedModule />
+            </Box>
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+          </Box>;
+        case 1:
+          return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+            {/* Feed Focused */}
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <ChatsModule />
+            </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+              <FeedModule />
+            </Box>
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+          </Box>;
+        case 2:
+          return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+            {/* Calendar Focused */}
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <ChatsModule />
+            </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+              <CalendarModule />
+            </Box>
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+          </Box>;
+        case 3:
+          return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+            {/* Map Focused */}
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <ChatsModule />
+            </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+          </Box>;
+        case 4:
+          return <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+            {/* People Focused */}
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <ChatsModule />
+            </Box>
+            <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+              <PeopleModule />
+            </Box>
+            <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+              <MapModule />
+            </Box>
+          </Box>;
+        default:
+          return <FeedModule />;
+      }
+    }
+
+    // Dashboard Component with Main Tabs
+    function Dashboard() {
+      const [mainTab, setMainTab] = React.useState(1); // Default to Feed
+
+      return (
+        <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', height: '100vh' }}>
+          <TopBar />
+          <AvatarRow />
+          <Tabs
+            value={mainTab}
+            onChange={(e, newIndex) => setMainTab(newIndex)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Chats" icon={<Chat />} />
+            <Tab label="Feed" icon={<Favorite />} />
+            <Tab label="Calendar" icon={<CalendarToday />} />
+            <Tab label="Map" icon={<LocationOn />} />
+            <Tab label="People" icon={<People />} />
+          </Tabs>
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            <MainContent mainTab={mainTab} />
+          </Box>
+        </Box>
+      );
+    }
+
+    // People Card Component (Detailed Card View)
+    function PeopleCard({ person }) {
+      return (
+        <Card sx={{ maxWidth: 450, m: 'auto', mb: 4, bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+          {/* Top Section with Profile Image */}
+          <Box sx={{ position: 'relative' }}>
+            <CardMedia
+              component="img"
+              height="300"
+              image={person.avatar}
+              alt={person.name}
+              sx={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
+            />
+            <Avatar
+              src={person.avatar}
+              sx={{
+                position: 'absolute',
+                top: 16,
+                left: 16,
+                width: 80,
+                height: 80,
+                border: '4px solid #1a1a1a',
+              }}
+            />
+          </Box>
+
+          {/* Name and Role */}
+          <CardContent sx={{ textAlign: 'center', pb: 0 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{person.name}</Typography>
+            <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
+
+            {/* Reputation and Stats */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Given</Typography>
+                <Typography variant="h6" color="primary">{person.given}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Received</Typography>
+                <Typography variant="h6" color="primary">{person.received}</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">Reputation</Typography>
+                <Typography variant="h6" color="primary">{person.reputation}</Typography>
+              </Box>
+            </Box>
+
+            {/* Action Buttons */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
+              <Button variant="contained" color="success" sx={{ borderRadius: 20 }}>
+                Give
+              </Button>
+              <Button variant="outlined" color="primary" sx={{ borderRadius: 20 }}>
+                Message
+              </Button>
+              <Button variant="outlined" color="secondary" sx={{ borderRadius: 20 }}>
+                Connect
+              </Button>
+            </Box>
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Skills Section */}
+            <Typography variant="h6">Skills</Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2, justifyContent: 'center' }}>
+              {person.skills.map(skill => (
+                <Chip key={skill} label={skill} sx={{ bgcolor: '#4caf50', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Offers Section */}
+            <Typography variant="h6">Active Offers</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.offers.map(offer => (
+                <Chip key={offer} label={offer} sx={{ bgcolor: '#2196f3', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Community Involvement */}
+            <Typography variant="h6">Affiliated Groups</Typography>
+            <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
+              {person.groups.map(group => (
+                <Chip key={group} label={group} sx={{ bgcolor: '#ff9800', color: '#fff' }} />
+              ))}
+            </Box>
+
+            {/* Testimonials */}
+            <Typography variant="h6">Testimonials</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.testimonials.map((testimonial, index) => (
+                <Typography key={index} variant="body2" color="textSecondary">“{testimonial}”</Typography>
+              ))}
+            </Box>
+
+            {/* Tagline */}
+            <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+              {person.tagline}
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    // People Card View Component
+    function PeopleCardView() {
+      return (
+        <Box sx={{ p: 4, bgcolor: '#002b36', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+          {people.map(person => (
+            <PeopleCard key={person.id} person={person} />
+          ))}
+        </Box>
+      );
+    }
+
+    // People Module with Three Views
+    function PeopleModule() {
+      const [tabIndex, setTabIndex] = React.useState(0);
+
+      const renderView = () => {
+        switch (tabIndex) {
+          case 0:
+            return (
+              <Grid container spacing={2} sx={{ p: 2 }}>
+                {people.map(person => (
+                  <Grid item xs={12} sm={6} md={4} key={person.id}>
+                    <Card sx={{ textAlign: 'center', bgcolor: '#2e2e2e', color: '#fff', borderRadius: 4 }}>
+                      <CardMedia
+                        component="img"
+                        height="150"
+                        image={person.avatar}
+                        alt={person.name}
+                      />
+                      <CardContent>
+                        <Typography variant="h6">{person.name}</Typography>
+                        <Typography variant="subtitle2" color="textSecondary">{person.role}</Typography>
+                        <Chip label={`Reputation: ${person.reputation}`} sx={{ mt: 1, bgcolor: '#444', color: '#fff' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 1:
+            return (
+              <List sx={{ p: 2, bgcolor: '#333', color: '#fff', height: 'calc(100vh - 160px)', overflowY: 'auto' }}>
+                {people.map(person => (
+                  <ListItem key={person.id} sx={{ borderBottom: '1px solid #444' }}>
+                    <ListItemAvatar>
+                      <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={person.name}
+                      secondary={`${person.role} • Reputation: ${person.reputation}`}
+                    />
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      {person.skills.map(skill => (
+                        <Chip key={skill} label={skill} sx={{ bgcolor: '#444', color: '#fff' }} />
+                      ))}
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            );
+          case 2:
+            return (
+              <PeopleCardView />
+            );
+          default:
+            return <GridView />;
+        }
+      };
+
+      return (
+        <Box>
+          <Tabs
+            value={tabIndex}
+            onChange={(e, newIndex) => setTabIndex(newIndex)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Grid View" />
+            <Tab label="List View" />
+            <Tab label="Card View" />
+          </Tabs>
+          {renderView()}
+        </Box>
+      );
+    }
+
+    // Main Content Component with Tabs to switch between modules
+    function MainContent({ mainTab }) {
+      switch (mainTab) {
+        case 0:
+          return (
+            <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+              {/* Chats, Feed, Map */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <FeedModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>
+          );
+        case 1:
+          return (
+            <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+              {/* Feed Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <FeedModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>
+          );
+        case 2:
+          return (
+            <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+              {/* Calendar Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <CalendarModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>
+          );
+        case 3:
+          return (
+            <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+              {/* Map Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>
+          );
+        case 4:
+          return (
+            <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+              {/* People Focused */}
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <ChatsModule />
+              </Box>
+              <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                <PeopleModule />
+              </Box>
+              <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                <MapModule />
+              </Box>
+            </Box>
+          );
+        default:
+          return <FeedModule />;
+      }
+    }
+
+    // Dashboard Component with Main Tabs
+    function Dashboard() {
+      const [mainTab, setMainTab] = React.useState(1); // Default to Feed
+
+      const renderMainContent = () => {
+        switch (mainTab) {
+          case 0:
+            return (
+              <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+                {/* Chats, Feed, Map */}
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <ChatsModule />
+                </Box>
+                <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                  <FeedModule />
+                </Box>
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+              </Box>
+            );
+          case 1:
+            return (
+              <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+                {/* Feed Focused */}
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <ChatsModule />
+                </Box>
+                <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                  <FeedModule />
+                </Box>
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+              </Box>
+            );
+          case 2:
+            return (
+              <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+                {/* Calendar Focused */}
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <ChatsModule />
+                </Box>
+                <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                  <CalendarModule />
+                </Box>
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+              </Box>
+            );
+          case 3:
+            return (
+              <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+                {/* Map Focused */}
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <ChatsModule />
+                </Box>
+                <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+              </Box>
+            );
+          case 4:
+            return (
+              <Box sx={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 160px)' }}>
+                {/* People Focused */}
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <ChatsModule />
+                </Box>
+                <Box sx={{ flexGrow: 1, bgcolor: '#002b36', overflowY: 'auto' }}>
+                  <PeopleModule />
+                </Box>
+                <Box sx={{ width: 300, bgcolor: '#2e2e2e', color: '#fff', overflowY: 'auto' }}>
+                  <MapModule />
+                </Box>
+              </Box>
+            );
+          default:
+            return <FeedModule />;
+        }
+      };
+
+      return (
+        <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+          <TopBar />
+          <AvatarRow />
+          <Tabs
+            value={mainTab}
+            onChange={(e, newIndex) => setMainTab(newIndex)}
+            centered
+            sx={{ bgcolor: '#333', color: '#fff' }}
+          >
+            <Tab label="Chats" icon={<Chat />} />
+            <Tab label="Feed" icon={<Favorite />} />
+            <Tab label="Calendar" icon={<CalendarToday />} />
+            <Tab label="Map" icon={<LocationOn />} />
+            <Tab label="People" icon={<People />} />
+          </Tabs>
+          {renderMainContent()}
+        </Box>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
   </script>
 </body>
 </html>
