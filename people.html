@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Updated People Card</title>
+  <title>ONE Local - People Card</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -30,25 +30,28 @@
       Grid,
       Divider,
       Chip,
+      IconButton,
     } = MaterialUI;
+    const { Favorite, Chat, Add } = MaterialUIIcons;
 
-    const people = [
-      {
-        id: 1,
-        name: "Cameron Murdock",
-        role: "Coach",
-        avatar: "https://via.placeholder.com/400",
-        reputation: "97.5%",
-        given: "19.5k",
-        received: "20k",
-        skills: ["Designing", "Art Making"],
-        sharing: "Painting - OFFER",
-      },
-    ];
+    // Sample User Data
+    const person = {
+      name: "Cameron Murdock",
+      role: "Coach",
+      avatar: "https://via.placeholder.com/400",
+      reputation: "97.5%",
+      given: "19.5k",
+      received: "20k",
+      skills: ["Gardening", "Strategic Planning", "Community Building"],
+      offers: ["Tool Sharing", "Free Tutoring"],
+      groups: ["Boulder Farmers Co-op", "ONE Local Community"],
+      tagline: "Building resilient communities through shared resources.",
+      testimonials: ["Great collaborator on community projects!", "Expert in strategic planning."],
+    };
 
     function PeopleCard({ person }) {
       return (
-        <Card sx={{ maxWidth: 400, m: 'auto', borderRadius: 4, boxShadow: 5, bgcolor: '#2e2e2e', color: '#fff' }}>
+        <Card sx={{ maxWidth: 450, m: 'auto', borderRadius: 4, boxShadow: 5, bgcolor: '#2e2e2e', color: '#fff' }}>
           {/* Top Section with Profile Image */}
           <Box sx={{ position: 'relative' }}>
             <CardMedia
@@ -76,7 +79,7 @@
             <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{person.name}</Typography>
             <Typography variant="subtitle1" color="textSecondary">{person.role}</Typography>
 
-            {/* Statistics Section */}
+            {/* Reputation and Stats */}
             <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 2 }}>
               <Box sx={{ textAlign: 'center' }}>
                 <Typography variant="body2" color="textSecondary">Given</Typography>
@@ -100,6 +103,9 @@
               <Button variant="outlined" color="primary" sx={{ borderRadius: 20 }}>
                 Message
               </Button>
+              <Button variant="outlined" color="secondary" sx={{ borderRadius: 20 }}>
+                Connect
+              </Button>
             </Box>
 
             <Divider sx={{ my: 2 }} />
@@ -112,16 +118,33 @@
               ))}
             </Box>
 
-            {/* Sharing Section */}
-            <Typography variant="h6">Sharing</Typography>
-            <Typography variant="body1" sx={{ mb: 2 }}>
-              {person.sharing}
-            </Typography>
+            {/* Offers Section */}
+            <Typography variant="h6">Active Offers</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.offers.map(offer => (
+                <Typography key={offer} variant="body1">• {offer}</Typography>
+              ))}
+            </Box>
 
-            {/* Custom Section (e.g., Human Design) */}
-            <Typography variant="h6">Human Design</Typography>
-            <Typography variant="body1" sx={{ mb: 2 }}>
-              Additional information about Human Design can go here.
+            {/* Community Involvement */}
+            <Typography variant="h6">Affiliated Groups</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.groups.map(group => (
+                <Typography key={group} variant="body1">• {group}</Typography>
+              ))}
+            </Box>
+
+            {/* Testimonials */}
+            <Typography variant="h6">Testimonials</Typography>
+            <Box sx={{ mb: 2 }}>
+              {person.testimonials.map(testimonial => (
+                <Typography key={testimonial} variant="body2" color="textSecondary">“{testimonial}”</Typography>
+              ))}
+            </Box>
+
+            {/* Tagline */}
+            <Typography variant="body1" sx={{ fontStyle: 'italic', mb: 2 }}>
+              {person.tagline}
             </Typography>
           </CardContent>
         </Card>
@@ -131,9 +154,7 @@
     function App() {
       return (
         <Box sx={{ p: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-          {people.map(person => (
-            <PeopleCard key={person.id} person={person} />
-          ))}
+          <PeopleCard person={person} />
         </Box>
       );
     }
