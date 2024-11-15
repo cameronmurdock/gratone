@@ -10,7 +10,325 @@
   <style>
     body, html {
       margin: 0;
+      padding: 0;<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    /* Previous styles remain the same */
+    body, html {
+      margin: 0;
       padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #002b36;
+    }
+    .app-container { min-height: 100vh; }
+    .top-bar {
+      background-color: #004d40;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .search-bar {
+      background-color: white;
+      border-radius: 4px;
+      padding: 0.5rem;
+      width: 200px;
+      border: none;
+    }
+    .avatar-row {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      background-color: #003642;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 0.5rem;
+    }
+    .tabs {
+      background-color: #003642;
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      gap: 2rem;
+    }
+    .tab {
+      color: #93a1a1;
+      border: none;
+      background: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+    .tab.active {
+      color: white;
+      border-bottom: 2px solid white;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .panel {
+      background-color: #003642;
+      color: white;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    .post-card {
+      background-color: #003642;
+      color: white;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .post-content { margin-bottom: 1rem; }
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+      color: #93a1a1;
+    }
+    .action-button {
+      background: none;
+      border: none;
+      color: #93a1a1;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .chat-text { margin-left: 1rem; }
+    .chat-name { color: white; }
+    .chat-preview {
+      color: #93a1a1;
+      font-size: 0.9rem;
+    }
+    .map-placeholder {
+      background-color: #073642;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .badge {
+      background-color: #004d40;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function App() {
+      const avatars = [
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+        "https://via.placeholder.com/40",
+      ];
+
+      const allPosts = {
+        Events: [
+          {
+            id: 1,
+            user: "Cameron Ely-Murdock",
+            date: "Nov 13, 2024",
+            content: "Offering a free yoga class tomorrow morning!",
+            avatar: "https://via.placeholder.com/50",
+            type: "Event"
+          },
+          {
+            id: 2,
+            user: "Emily Clark",
+            date: "Nov 14, 2024",
+            content: "Community meetup this weekend at Central Park",
+            avatar: "https://via.placeholder.com/50",
+            type: "Event"
+          },
+        ],
+        Orgs: [
+          {
+            id: 3,
+            user: "Local Food Bank",
+            date: "Nov 14, 2024",
+            content: "Looking for volunteers this weekend",
+            avatar: "https://via.placeholder.com/50",
+            type: "Organization"
+          },
+        ],
+        Groups: [
+          {
+            id: 4,
+            user: "Neighborhood Watch",
+            date: "Nov 13, 2024",
+            content: "Monthly meeting this Thursday at 7 PM",
+            avatar: "https://via.placeholder.com/50",
+            type: "Group"
+          },
+        ],
+        Sharing: [
+          {
+            id: 5,
+            user: "Sarah Johnson",
+            date: "Nov 14, 2024",
+            content: "Have extra gardening tools to share",
+            avatar: "https://via.placeholder.com/50",
+            type: "Share"
+          },
+        ],
+        Services: [
+          {
+            id: 6,
+            user: "Mike's Repair Shop",
+            date: "Nov 13, 2024",
+            content: "Offering free bike maintenance workshop",
+            avatar: "https://via.placeholder.com/50",
+            type: "Service"
+          },
+        ],
+      };
+
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
+
+      const filteredPosts = React.useMemo(() => {
+        const posts = allPosts[activeTab] || [];
+        if (!searchText) return posts;
+        return posts.filter(post => 
+          post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+          post.user.toLowerCase().includes(searchText.toLowerCase())
+        );
+      }, [activeTab, searchText]);
+
+      return (
+        <div className="app-container">
+          {/* Top Bar */}
+          <div className="top-bar">
+            <h1>ONE Global</h1>
+            <input 
+              className="search-bar" 
+              placeholder="Search" 
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <span className="material-icons">account_circle</span>
+          </div>
+
+          {/* Avatar Row */}
+          <div className="avatar-row">
+            {avatars.map((src, index) => (
+              <img key={index} src={src} className="avatar" alt="User avatar" />
+            ))}
+          </div>
+
+          {/* Tabs */}
+          <div className="tabs">
+            {Object.keys(allPosts).map(tab => (
+              <button
+                key={tab}
+                className={`tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Dashboard Grid */}
+          <div className="dashboard">
+            {/* Left Panel - Chats */}
+            <div className="panel">
+              <h2>Chats</h2>
+              <div className="chat-item">
+                <img src="https://via.placeholder.com/40" className="avatar" alt="Chat avatar" />
+                <div className="chat-text">
+                  <div className="chat-name">Working Group</div>
+                  <div className="chat-preview">Last message...</div>
+                </div>
+              </div>
+              <div className="chat-item">
+                <img src="https://via.placeholder.com/40" className="avatar" alt="Chat avatar" />
+                <div className="chat-text">
+                  <div className="chat-name">Sales</div>
+                  <div className="chat-preview">Hey, I have an idea!</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Middle Panel - Feed */}
+            <div>
+              {filteredPosts.map(post => (
+                <div key={post.id} className="post-card">
+                  <div className="post-header">
+                    <img src={post.avatar} className="avatar" alt="Post avatar" />
+                    <div>
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                        {post.user}
+                        <span className="badge">{post.type}</span>
+                      </div>
+                      <div style={{color: '#93a1a1'}}>{post.date}</div>
+                    </div>
+                  </div>
+                  <div className="post-content">{post.content}</div>
+                  <hr style={{borderColor: '#073642'}} />
+                  <div className="post-actions">
+                    <button className="action-button">Like</button>
+                    <button className="action-button">Comment</button>
+                    <button className="action-button">Share</button>
+                  </div>
+                </div>
+              ))}
+              {filteredPosts.length === 0 && (
+                <div className="post-card" style={{textAlign: 'center'}}>
+                  No posts found in this category
+                </div>
+              )}
+            </div>
+
+            {/* Right Panel - Map */}
+            <div className="panel">
+              <h2>Map</h2>
+              <div className="map-placeholder">
+                Map Placeholder
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
       height: 100%;
       font-family: 'Roboto', sans-serif;
     }
