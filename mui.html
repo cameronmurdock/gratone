@@ -41,23 +41,18 @@
       border-radius: 4px;
     }
     /* Animated Gradient Background */
-    @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .animatedBackground {
-      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 400% 400%;
-      animation: gradientAnimation 60s ease infinite;
+      animation: gradientBG 15s ease infinite;
       min-height: 100vh;
       color: #333333;
+      position: relative; /* Ensure proper stacking context */
     }
     /* Carousel Styling */
     .carousel {
@@ -503,30 +498,97 @@
     }
 
     function TeamPage() {
-      const teamMembers = [
+      const teamGroupsData = [
         {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
+          groupName: 'Admin + Org Structure',
+          members: [
+            {
+              name: 'Alice Johnson',
+              role: 'Founder & CEO',
+              bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+              image: 'https://i.pravatar.cc/300?img=5',
+            },
+            {
+              name: 'Bob Smith',
+              role: 'COO',
+              bio: 'Bob ensures that our operations run smoothly, managing daily tasks and long-term strategies.',
+              image: 'https://i.pravatar.cc/300?img=6',
+            },
+          ],
         },
         {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
+          groupName: 'Community Outreach (Product and Marketing)',
+          members: [
+            {
+              name: 'Carol Williams',
+              role: 'Head of Community Outreach',
+              bio: 'Carol works closely with local groups to foster engagement and growth.',
+              image: 'https://i.pravatar.cc/300?img=7',
+            },
+            {
+              name: 'David Lee',
+              role: 'Marketing Director',
+              bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+              image: 'https://i.pravatar.cc/300?img=8',
+            },
+          ],
         },
         {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
+          groupName: 'Directors',
+          members: [
+            {
+              name: 'Evelyn Turner',
+              role: 'Director of Operations',
+              bio: 'Evelyn oversees operational processes and ensures efficiency across all departments.',
+              image: 'https://i.pravatar.cc/300?img=9',
+            },
+            {
+              name: 'Frank Harris',
+              role: 'Director of Community Engagement',
+              bio: 'Frank leads initiatives to boost community participation and collaboration.',
+              image: 'https://i.pravatar.cc/300?img=10',
+            },
+          ],
         },
         {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
+          groupName: 'Funding and Finance',
+          members: [
+            {
+              name: 'Grace Kim',
+              role: 'Chief Financial Officer',
+              bio: 'Grace manages our finances, ensuring sustainable growth and resource allocation.',
+              image: 'https://i.pravatar.cc/300?img=11',
+            },
+            {
+              name: 'Henry Adams',
+              role: 'Finance Manager',
+              bio: 'Henry oversees budgeting, financial planning, and reporting.',
+              image: 'https://i.pravatar.cc/300?img=12',
+            },
+          ],
+        },
+        {
+          groupName: 'Tech Development',
+          members: [
+            {
+              name: 'Isabella Martinez',
+              role: 'Lead Developer',
+              bio: 'Isabella leads our tech team, developing and maintaining the platform.',
+              image: 'https://i.pravatar.cc/300?img=13',
+            },
+            {
+              name: 'Jack Brown',
+              role: 'Software Engineer',
+              bio: 'Jack specializes in frontend development, ensuring a seamless user experience.',
+              image: 'https://i.pravatar.cc/300?img=14',
+            },
+            {
+              name: 'Karen Davis',
+              role: 'Backend Developer',
+              bio: 'Karen manages server-side logic and database management.',
+              image: 'https://i.pravatar.cc/300?img=15',
+            },
+          ],
         },
       ];
 
@@ -549,26 +611,33 @@
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Meet the Team
           </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
+          {teamGroupsData.map((group, index) => (
+            <Box key={index} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {group.groupName}
+              </Typography>
+              <Grid container spacing={6}>
+                {group.members.map((member, idx) => (
+                  <Grid item xs={12} sm={6} md={3} key={idx}>
+                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                      <CardContent>
+                        <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                          {member.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {member.role}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {member.bio}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
+            </Box>
+          ))}
 
           {/* Team Member Details Modal */}
           <Modal
@@ -803,16 +872,19 @@
           title: 'Building Sustainable Communities',
           excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
           image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+          content: 'Full content for Building Sustainable Communities. This section can be expanded with detailed information about sustainability initiatives, success stories, and future plans.',
         },
         {
           title: 'The Power of Local Events',
           excerpt: 'Learn how hosting local events can strengthen community bonds and foster collaboration.',
           image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+          content: 'Full content for The Power of Local Events. This section can include tips for organizing successful events, benefits of local gatherings, and testimonials from participants.',
         },
         {
           title: 'Supporting Local Businesses',
           excerpt: 'Explore the benefits of shopping local and how it boosts the economy.',
           image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+          content: 'Full content for Supporting Local Businesses. This section can delve into strategies for local business growth, success stories, and ways the community can support local entrepreneurs.',
         },
       ];
 
@@ -899,7 +971,6 @@
                       {selectedPost.title}
                     </Typography>
                     <Typography id="blog-modal-description" sx={{ mb: 4 }}>
-                      {/* Detailed blog content goes here */}
                       {selectedPost.content}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
@@ -1146,7 +1217,7 @@
     }
 
     function FeaturesSection() {
-      const features = [
+      const featuresData = [
         {
           title: 'Connect',
           description: 'A message away from neighbors you haven’t met yet.',
@@ -1193,7 +1264,7 @@
             Explore What We Offer
           </Typography>
           <Grid container spacing={6}>
-            {features.map((feature) => (
+            {featuresData.map((feature) => (
               <Grid item xs={12} sm={6} md={3} key={feature.title}>
                 <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }} aria-labelledby={`feature-${feature.title}`}>
                   <CardContent>
@@ -1247,7 +1318,7 @@
     }
 
     function MembershipTypes({ setCurrentPage }) {
-      const memberships = [
+      const membershipsData = [
         {
           title: 'Local Members',
           description:
@@ -1302,7 +1373,7 @@
             How Will You Show Up?
           </Typography>
           <Grid container spacing={6}>
-            {memberships.map((membership) => (
+            {membershipsData.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
                 <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
                   <CardContent>
@@ -1361,30 +1432,97 @@
     }
 
     function TeamSection() {
-      const teamMembers = [
+      const teamGroupsData = [
         {
-          name: 'Alice Johnson',
-          role: 'Founder & CEO',
-          bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
-          image: 'https://i.pravatar.cc/300?img=5',
+          groupName: 'Admin + Org Structure',
+          members: [
+            {
+              name: 'Alice Johnson',
+              role: 'Founder & CEO',
+              bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+              image: 'https://i.pravatar.cc/300?img=5',
+            },
+            {
+              name: 'Bob Smith',
+              role: 'COO',
+              bio: 'Bob ensures that our operations run smoothly, managing daily tasks and long-term strategies.',
+              image: 'https://i.pravatar.cc/300?img=6',
+            },
+          ],
         },
         {
-          name: 'Bob Smith',
-          role: 'CTO',
-          bio: 'Bob leads our tech team, ensuring the platform is secure, scalable, and user-friendly.',
-          image: 'https://i.pravatar.cc/300?img=6',
+          groupName: 'Community Outreach (Product and Marketing)',
+          members: [
+            {
+              name: 'Carol Williams',
+              role: 'Head of Community Outreach',
+              bio: 'Carol works closely with local groups to foster engagement and growth.',
+              image: 'https://i.pravatar.cc/300?img=7',
+            },
+            {
+              name: 'David Lee',
+              role: 'Marketing Director',
+              bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
+              image: 'https://i.pravatar.cc/300?img=8',
+            },
+          ],
         },
         {
-          name: 'Carol Williams',
-          role: 'Head of Community',
-          bio: 'Carol works closely with local groups to foster engagement and growth.',
-          image: 'https://i.pravatar.cc/300?img=7',
+          groupName: 'Directors',
+          members: [
+            {
+              name: 'Evelyn Turner',
+              role: 'Director of Operations',
+              bio: 'Evelyn oversees operational processes and ensures efficiency across all departments.',
+              image: 'https://i.pravatar.cc/300?img=9',
+            },
+            {
+              name: 'Frank Harris',
+              role: 'Director of Community Engagement',
+              bio: 'Frank leads initiatives to boost community participation and collaboration.',
+              image: 'https://i.pravatar.cc/300?img=10',
+            },
+          ],
         },
         {
-          name: 'David Lee',
-          role: 'Marketing Director',
-          bio: 'David crafts our message and spreads the word about ONE Local\'s mission.',
-          image: 'https://i.pravatar.cc/300?img=8',
+          groupName: 'Funding and Finance',
+          members: [
+            {
+              name: 'Grace Kim',
+              role: 'Chief Financial Officer',
+              bio: 'Grace manages our finances, ensuring sustainable growth and resource allocation.',
+              image: 'https://i.pravatar.cc/300?img=11',
+            },
+            {
+              name: 'Henry Adams',
+              role: 'Finance Manager',
+              bio: 'Henry oversees budgeting, financial planning, and reporting.',
+              image: 'https://i.pravatar.cc/300?img=12',
+            },
+          ],
+        },
+        {
+          groupName: 'Tech Development',
+          members: [
+            {
+              name: 'Isabella Martinez',
+              role: 'Lead Developer',
+              bio: 'Isabella leads our tech team, developing and maintaining the platform.',
+              image: 'https://i.pravatar.cc/300?img=13',
+            },
+            {
+              name: 'Jack Brown',
+              role: 'Software Engineer',
+              bio: 'Jack specializes in frontend development, ensuring a seamless user experience.',
+              image: 'https://i.pravatar.cc/300?img=14',
+            },
+            {
+              name: 'Karen Davis',
+              role: 'Backend Developer',
+              bio: 'Karen manages server-side logic and database management.',
+              image: 'https://i.pravatar.cc/300?img=15',
+            },
+          ],
         },
       ];
 
@@ -1407,26 +1545,33 @@
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
             Meet the Team
           </Typography>
-          <Grid container spacing={6}>
-            {teamMembers.map((member, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
-                  <CardContent>
-                    <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                      {member.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                      {member.role}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                      {member.bio}
-                    </Typography>
-                  </CardContent>
-                </Card>
+          {teamGroupsData.map((group, index) => (
+            <Box key={index} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {group.groupName}
+              </Typography>
+              <Grid container spacing={6}>
+                {group.members.map((member, idx) => (
+                  <Grid item xs={12} sm={6} md={3} key={idx}>
+                    <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                      <CardContent>
+                        <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                          {member.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                          {member.role}
+                        </Typography>
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          {member.bio}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
+            </Box>
+          ))}
 
           {/* Team Member Details Modal */}
           <Modal
@@ -1738,6 +1883,7 @@
       );
     }
 
+    // ======================= Render App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
