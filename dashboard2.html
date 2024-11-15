@@ -172,3 +172,44 @@
               <button
                 key={tab}
                 className={`tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="dashboard">
+            <div className="panel">
+              <h2>Chats</h2>
+              <div className="chat-item">Working Group: Last message...</div>
+              <div className="chat-item">Sales: New idea...</div>
+            </div>
+            <div>
+              {filteredPosts.length > 0 ? filteredPosts.map(post => (
+                <div key={post.id} className="post-card">
+                  <div className="post-header">
+                    <img src={post.avatar} className="avatar" alt="Post avatar" />
+                    <div>{post.user} - {post.date}</div>
+                  </div>
+                  <div className="post-content">{post.content}</div>
+                  <div className="post-actions">
+                    <button className="action-button">Like</button>
+                    <button className="action-button">Comment</button>
+                    <button className="action-button">Share</button>
+                  </div>
+                </div>
+              )) : <div className="post-card">No posts found.</div>}
+            </div>
+            <div className="panel">
+              <h2>Map</h2>
+              <div className="map-placeholder">Map Placeholder</div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
