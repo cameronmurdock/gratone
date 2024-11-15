@@ -126,24 +126,34 @@
 
   <script type="text/babel">
     function App() {
-      const avatars = Array(5).fill("https://via.placeholder.com/40");
+      const avatars = [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/65.jpg",
+        "https://randomuser.me/api/portraits/men/85.jpg",
+        "https://randomuser.me/api/portraits/women/25.jpg",
+        "https://randomuser.me/api/portraits/men/41.jpg",
+      ];
 
       const allPosts = {
         Events: [
-          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
-          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
         ],
         Orgs: [
-          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "Looking for volunteers this weekend", avatar: "https://via.placeholder.com/50" },
+          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank" },
+          { id: 4, user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter" },
         ],
         Groups: [
-          { id: 4, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Meeting this Thursday", avatar: "https://via.placeholder.com/50" },
+          { id: 5, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Monthly safety meeting on Thursday. All are welcome.", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
+          { id: 6, user: "Book Club", date: "Nov 16, 2024", content: "Join us for a discussion on our latest book choice!", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
         ],
         Sharing: [
-          { id: 5, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
+          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
         ],
         Services: [
-          { id: 6, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Free bike maintenance workshop", avatar: "https://via.placeholder.com/50" },
+          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
+          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
         ],
       };
 
@@ -151,13 +161,10 @@
       const [searchText, setSearchText] = React.useState('');
       const [selectedPost, setSelectedPost] = React.useState(null);
 
-      const filteredPosts = React.useMemo(() => {
-        const posts = allPosts[activeTab] || [];
-        return posts.filter(post =>
-          post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-          post.user.toLowerCase().includes(searchText.toLowerCase())
-        );
-      }, [activeTab, searchText]);
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
 
       const openModal = (post) => setSelectedPost(post);
       const closeModal = () => setSelectedPost(null);
@@ -197,12 +204,12 @@
               <div>Sales: New idea...</div>
             </div>
             <div>
-              {filteredPosts.length > 0 ? filteredPosts.map(post => (
+              {filteredPosts.map(post => (
                 <div key={post.id} className="post-card" onClick={() => openModal(post)}>
                   <div>{post.user} - {post.date}</div>
                   <div>{post.content}</div>
                 </div>
-              )) : <div className="post-card">No posts found.</div>}
+              ))}
             </div>
             <div className="panel">
               <h2>Map</h2>
