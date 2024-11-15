@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .app-container { display: flex; flex-direction: column; height: 100vh; }
+    .top-bar {
+      background-color: #004d40;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .search-bar {
+      background-color: white;
+      border-radius: 4px;
+      padding: 0.5rem;
+      width: 200px;
+      border: none;
+    }
+    .avatar-row {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      background-color: #003642;
+    }
+    .tabs {
+      background-color: #003642;
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .tab {
+      color: #93a1a1;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+    }
+    .tab.active {
+      color: white;
+      border-bottom: 2px solid white;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 300px auto 300px;
+      gap: 1rem;
+      height: calc(100vh - 200px);
+      padding: 1rem;
+    }
+    .panel {
+      background-color: #003642;
+      color: white;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-y: auto;
+      height: 100%;
+    }
+    .post-card {
+      background-color: #003642;
+      color: white;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    .map-placeholder {
+      background-color: #073642;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      border-radius: 4px;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-card {
+      background-color: #003642;
+      color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 90%;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
 
+  <script type="text/babel">
+    function App() {
+      const avatars = Array(5).fill("https://via.placeholder.com/40");
+
+      const allPosts = {
+        Events: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
+        ],
+        Sharing: [
+          { id: 3, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
+        ],
+      };
+
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
+      const [selectedPost, setSelectedPost] = React.useState(null);
+
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
+
+      const openModal = (post) => {
+        setSelectedPost(post);
+      };
+
+      const closeModal = () => {
+        setSelectedPost(null);
+      };
+
+      return (
+        <div className="app-container">
+          <div className="top-bar">
+            <h1>ONE Global</h1>
+            <input
+              className="search-bar"
+              placeholder="Search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <span className="material-icons">account_circle</span>
+          </div>
+          <div className="avatar-row">
+            {avatars.map((src, index) => (
+              <img key={index} src={src} className="avatar" alt="User avatar" />
+            ))}
+          </div>
+          <div className="tabs">
+            {Object.keys(allPosts).map(tab => (
+              <button
+                key={tab}
+                className={`tab ${activeTab === tab ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="dashboard">
+            <div className="panel">
+              <h2>Chats</h2>
+              <div>Working Group: Last message...</div>
+              <div>Sales: New idea...</div>
+              <div>Community: Updates...</div>
+            </div>
+            <div>
+              {filteredPosts.map(post => (
+                <div key={post.id} className="post-card" onClick={() => openModal(post)}>
+                  <div>{post.user} - {post.date}</div>
+                  <div>{post.content}</div>
+                  <div className="post-actions">
+                    <button>Like</button>
+                    <button>Comment</button>
+                    <button>Share</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="panel">
+              <h2>Map</h2>
+              <div className="map-placeholder">Map Placeholder</div>
+            </div>
+          </div>
+          {/* Modal for Post Details */}
+          {selectedPost && (
+            <div className="modal-overlay" onClick={closeModal}>
+              <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+                <span className="material-icons modal-close" onClick={closeModal}>close</span>
+                <h2>{selectedPost.user}</h2>
+                <p><strong>Date:</strong> {selectedPost.date}</p>
+                <p>{selectedPost.content}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
