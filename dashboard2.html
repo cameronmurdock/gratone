@@ -4,202 +4,171 @@
   <meta charset="UTF-8">
   <title>ONE Local Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .app-container { min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar {
+      background-color: #004d40;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .search-bar {
+      background-color: white;
+      border-radius: 4px;
+      padding: 0.5rem;
+      width: 200px;
+      border: none;
+    }
+    .avatar-row {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      background-color: #003642;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 0.5rem;
+    }
+    .tabs {
+      background-color: #003642;
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      gap: 2rem;
+    }
+    .tab {
+      color: #93a1a1;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+    }
+    .tab.active {
+      color: white;
+      border-bottom: 2px solid white;
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .panel {
+      background-color: #003642;
+      color: white;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    .post-card {
+      background-color: #003642;
+      color: white;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .post-content { margin-bottom: 1rem; }
+    .post-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    .action-button {
+      background: none;
+      border: none;
+      color: #93a1a1;
+      cursor: pointer;
+    }
+    .map-placeholder {
+      background-color: #073642;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body style="background-color: #1a1a1a;">
+<body>
   <div id="root"></div>
 
-  <!-- React and ReactDOM -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Material-UI Components -->
-  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-
   <script type="text/babel">
-    const {
-      AppBar,
-      Toolbar,
-      Typography,
-      IconButton,
-      Tabs,
-      Tab,
-      Box,
-      Grid,
-      Card,
-      CardContent,
-      Avatar,
-      Button,
-      List,
-      ListItem,
-      ListItemAvatar,
-      ListItemText,
-      Divider,
-      Paper,
-      Container,
-    } = MaterialUI;
+    function App() {
+      const avatars = Array(5).fill("https://via.placeholder.com/40");
 
-    const { Chat, Favorite, LocationOn, CalendarToday, People } = MaterialUIIcons;
+      const allPosts = {
+        Events: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
+        ],
+        Orgs: [
+          { id: 3, user: "Food Bank", date: "Nov 14, 2024", content: "Volunteers needed this weekend", avatar: "https://via.placeholder.com/50" },
+        ],
+        Groups: [
+          { id: 4, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Meeting this Thursday", avatar: "https://via.placeholder.com/50" },
+        ],
+        Sharing: [
+          { id: 5, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
+        ],
+        Services: [
+          { id: 6, user: "Mike's Repair", date: "Nov 13, 2024", content: "Free bike maintenance workshop", avatar: "https://via.placeholder.com/50" },
+        ],
+      };
 
-    // Sample Data
-    const posts = [
-      { id: 1, user: "Cameron Murdock", content: "Offering free yoga class tomorrow!", avatar: "https://via.placeholder.com/150" },
-      { id: 2, user: "Emily Clark", content: "Looking for help with community garden.", avatar: "https://via.placeholder.com/150" },
-    ];
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
 
-    const chats = [
-      { id: 1, name: "Working Group", message: "What kind of strategy is better?" },
-      { id: 2, name: "Sales", message: "Hey, I have a good idea!" },
-    ];
-
-    const events = [
-      { id: 1, name: "Meditation Training", date: "Aug 10", location: "Shambala Center" },
-      { id: 2, name: "Community Gardening", date: "Aug 11", location: "Oakland Lot" },
-    ];
-
-    const people = [
-      { id: 1, name: "Cameron Murdock", role: "Coach", avatar: "https://via.placeholder.com/150" },
-      { id: 2, name: "Teresa Grant", role: "Queen Priestess", avatar: "https://via.placeholder.com/150" },
-    ];
-
-    function TopBar() {
-      return (
-        <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              ONE Local
-            </Typography>
-            <IconButton color="inherit">
-              <span className="material-icons">account_circle</span>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      );
-    }
-
-    function ChatsModule() {
-      return (
-        <List sx={{ p: 2, bgcolor: '#333', color: '#fff' }}>
-          {chats.map(chat => (
-            <ListItem key={chat.id}>
-              <ListItemAvatar>
-                <Avatar src="https://via.placeholder.com/40" />
-              </ListItemAvatar>
-              <ListItemText primary={chat.name} secondary={chat.message} />
-            </ListItem>
-          ))}
-        </List>
-      );
-    }
-
-    function FeedModule() {
-      return (
-        <Box sx={{ p: 2 }}>
-          {posts.map(post => (
-            <Card key={post.id} sx={{ mb: 2, bgcolor: '#2e2e2e', color: '#fff' }}>
-              <CardContent>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <Avatar src={post.avatar} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="h6">{post.user}</Typography>
-                    <Typography>{post.content}</Typography>
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
-      );
-    }
-
-    function CalendarModule() {
-      return (
-        <List sx={{ p: 2, bgcolor: '#333', color: '#fff' }}>
-          {events.map(event => (
-            <ListItem key={event.id}>
-              <ListItemText primary={event.name} secondary={`${event.date} • ${event.location}`} />
-            </ListItem>
-          ))}
-        </List>
-      );
-    }
-
-    function MapModule() {
-      return (
-        <Paper sx={{ p: 4, textAlign: 'center', color: '#fff', bgcolor: '#444' }}>
-          <Typography variant="h6">Map View</Typography>
-          <Typography>Map Placeholder</Typography>
-        </Paper>
-      );
-    }
-
-    function PeopleModule() {
-      return (
-        <Grid container spacing={2} sx={{ p: 2 }}>
-          {people.map(person => (
-            <Grid item xs={12} key={person.id}>
-              <Card sx={{ p: 2, bgcolor: '#2e2e2e', color: '#fff' }}>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <Avatar src={person.avatar} sx={{ width: 60, height: 60 }} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="h6">{person.name}</Typography>
-                    <Typography>{person.role}</Typography>
-                  </Grid>
-                </Grid>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      );
-    }
-
-    function MainContent({ tabIndex }) {
-      switch (tabIndex) {
-        case 0:
-          return <ChatsModule />;
-        case 1:
-          return <FeedModule />;
-        case 2:
-          return <CalendarModule />;
-        case 3:
-          return <MapModule />;
-        case 4:
-          return <PeopleModule />;
-        default:
-          return <FeedModule />;
-      }
-    }
-
-    function Dashboard() {
-      const [tabIndex, setTabIndex] = React.useState(1);
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
 
       return (
-        <>
-          <TopBar />
-          <Tabs
-            value={tabIndex}
-            onChange={(e, newIndex) => setTabIndex(newIndex)}
-            centered
-            sx={{ bgcolor: '#333', color: '#fff' }}
-          >
-            <Tab label="Chats" icon={<Chat />} />
-            <Tab label="Feed" icon={<Favorite />} />
-            <Tab label="Calendar" icon={<CalendarToday />} />
-            <Tab label="Map" icon={<LocationOn />} />
-            <Tab label="People" icon={<People />} />
-          </Tabs>
-          <MainContent tabIndex={tabIndex} />
-        </>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
-  </script>
-</body>
-</html>
+        <div className="app-container">
+          <div className="top-bar">
+            <h1>ONE Global</h1>
+            <input
+              className="search-bar"
+              placeholder="Search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <span className="material-icons">account_circle</span>
+          </div>
+          <div className="avatar-row">
+            {avatars.map((src, index) => (
+              <img key={index} src={src} className="avatar" alt="User avatar" />
+            ))}
+          </div>
+          <div className="tabs">
+            {Object.keys(allPosts).map(tab => (
+              <button
+                key={tab}
+                className={`tab ${activeTab === tab ? 'active' : ''}`}
