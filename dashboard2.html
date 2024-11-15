@@ -83,10 +83,7 @@
       margin-bottom: 1rem;
       padding: 1rem;
       border-radius: 4px;
-    }
-    .post-actions {
-      display: flex;
-      gap: 1rem;
+      cursor: pointer;
     }
     .map-placeholder {
       background-color: #073642;
@@ -103,6 +100,23 @@
   <div id="root"></div>
 
   <script type="text/babel">
+    const {
+      AppBar,
+      Toolbar,
+      Typography,
+      IconButton,
+      Avatar,
+      Box,
+      Tabs,
+      Tab,
+      Grid,
+      Card,
+      CardContent,
+      Modal,
+      Paper,
+      Button,
+    } = MaterialUI;
+
     function App() {
       const avatars = Array(5).fill("https://via.placeholder.com/40");
 
@@ -118,70 +132,53 @@
 
       const [activeTab, setActiveTab] = React.useState('Events');
       const [searchText, setSearchText] = React.useState('');
+      const [selectedPost, setSelectedPost] = React.useState(null);
 
       const filteredPosts = allPosts[activeTab]?.filter(post =>
         post.content.toLowerCase().includes(searchText.toLowerCase()) ||
         post.user.toLowerCase().includes(searchText.toLowerCase())
       ) || [];
 
+      const handlePostClick = (post) => {
+        setSelectedPost(post);
+      };
+
+      const handleCloseModal = () => {
+        setSelectedPost(null);
+      };
+
       return (
         <div className="app-container">
           <div className="top-bar">
-            <h1>ONE Global</h1>
+            <Typography variant="h6">ONE Global</Typography>
             <input
               className="search-bar"
               placeholder="Search"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <span className="material-icons">account_circle</span>
+            <IconButton color="inherit">
+              <span className="material-icons">account_circle</span>
+            </IconButton>
           </div>
           <div className="avatar-row">
             {avatars.map((src, index) => (
-              <img key={index} src={src} className="avatar" alt="User avatar" />
+              <Avatar key={index} src={src} />
             ))}
           </div>
-          <div className="tabs">
+          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered>
             {Object.keys(allPosts).map(tab => (
-              <button
-                key={tab}
-                className={`tab ${activeTab === tab ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
+              <Tab key={tab} label={tab} value={tab} />
             ))}
-          </div>
+          </Tabs>
           <div className="dashboard">
             <div className="panel">
-              <h2>Chats</h2>
-              <div>Working Group: Last message...</div>
-              <div>Sales: New idea...</div>
-              <div>Community: Updates...</div>
+              <Typography variant="h6">Chats</Typography>
+              <Typography>Working Group: Last message...</Typography>
+              <Typography>Sales: New idea...</Typography>
             </div>
             <div>
               {filteredPosts.map(post => (
-                <div key={post.id} className="post-card">
-                  <div>{post.user} - {post.date}</div>
-                  <div>{post.content}</div>
-                  <div className="post-actions">
-                    <button>Like</button>
-                    <button>Comment</button>
-                    <button>Share</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="panel">
-              <h2>Map</h2>
-              <div className="map-placeholder">Map Placeholder</div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
-</body>
-</html>
+                <Card key={post.id} className="post-card" onClick={() => handlePostClick(post)}>
+                  <CardContent>
+                    <Typography variant="h6">{post
