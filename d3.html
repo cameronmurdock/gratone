@@ -114,7 +114,7 @@
           <h1>ONE Local</h1>
           <input
             className="search-bar"
-            placeholder="Search"
+            placeholder="Search by user, content, or type"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
           />
@@ -151,6 +151,7 @@
                   <div>
                     <h4>{post.user}</h4>
                     <p>{post.content}</p>
+                    <small>Type: {post.type}</small>
                   </div>
                 </div>
               </div>
@@ -168,6 +169,7 @@
         <div className="modalContent">
           <h2>{post.user}</h2>
           <p>{post.content}</p>
+          <small>Type: {post.type}</small>
           <button onClick={onClose}>Close</button>
         </div>
       );
@@ -182,7 +184,8 @@
         return posts.filter(
           (post) =>
             post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-            post.user.toLowerCase().includes(searchText.toLowerCase())
+            post.user.toLowerCase().includes(searchText.toLowerCase()) ||
+            post.type.toLowerCase().includes(searchText.toLowerCase())
         );
       }, [searchText]);
 
