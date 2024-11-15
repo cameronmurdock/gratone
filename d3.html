@@ -218,7 +218,7 @@
           </div>
           {selectedPost && (
             <div className="modal-overlay" onClick={closeModal}>
-              <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-card">
                 <span className="material-icons modal-close" onClick={closeModal}>close</span>
                 <h2>{selectedPost.user}</h2>
                 <p><strong>Date:</strong> {selectedPost.date}</p>
