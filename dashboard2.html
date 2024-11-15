@@ -4,24 +4,19 @@
   <meta charset="UTF-8">
   <title>ONE Local Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
       background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: white;
-      height: 100vh;
-      overflow: hidden;
+      animation: gradientAnimation 60s ease infinite;
+      color: #333333;
     }
-    @keyframes gradientBG {
+    @keyframes gradientAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -29,6 +24,7 @@
     .app-container { display: flex; flex-direction: column; height: 100vh; }
     .top-bar {
       background-color: #004d40;
+      color: white;
       padding: 1rem;
       display: flex;
       justify-content: space-between;
@@ -41,22 +37,18 @@
       width: 200px;
       border: none;
     }
-    .avatar-row {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem;
-      background-color: #003642;
-    }
     .tabs {
-      background-color: #003642;
       display: flex;
       justify-content: center;
-      padding: 1rem;
+      background-color: #003642;
+      padding: 0.5rem;
     }
     .tab {
       color: #93a1a1;
-      cursor: pointer;
+      border: none;
+      background: none;
       padding: 0.5rem 1rem;
+      cursor: pointer;
     }
     .tab.active {
       color: white;
@@ -64,9 +56,8 @@
     }
     .dashboard {
       display: grid;
-      grid-template-columns: 300px auto 300px;
+      grid-template-columns: 1fr 2fr 1fr;
       gap: 1rem;
-      height: calc(100vh - 200px);
       padding: 1rem;
     }
     .panel {
@@ -74,8 +65,6 @@
       color: white;
       padding: 1rem;
       border-radius: 4px;
-      overflow-y: auto;
-      height: 100%;
     }
     .post-card {
       background-color: #003642;
@@ -85,100 +74,135 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .map-placeholder {
-      background-color: #073642;
-      height: 200px;
+    .post-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-top: 1rem;
-      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      outline: none;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <script type="text/babel">
-    const {
-      AppBar,
-      Toolbar,
-      Typography,
-      IconButton,
-      Avatar,
-      Box,
-      Tabs,
-      Tab,
-      Grid,
-      Card,
-      CardContent,
-      Modal,
-      Paper,
-      Button,
-    } = MaterialUI;
+    const { useState } = React;
+    const posts = [
+      { id: 1, user: "Cameron Ely-Murdock", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50", type: "Event" },
+      { id: 2, user: "Emily Clark", content: "Community garden help needed.", avatar: "https://via.placeholder.com/50", type: "Request" },
+    ];
+
+    function TopBar() {
+      return (
+        <div className="top-bar">
+          <h1>ONE Local</h1>
+          <input className="search-bar" placeholder="Search" />
+          <span className="material-icons">account_circle</span>
+        </div>
+      );
+    }
+
+    function Tabs({ activeTab, setActiveTab }) {
+      const tabs = ["Events", "Orgs", "Groups", "Sharing", "Services"];
+      return (
+        <div className="tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`tab ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    function Feed({ posts, openModal }) {
+      return (
+        <div>
+          {posts.map((post) => (
+            <div key={post.id} className="post-card" onClick={() => openModal(post)}>
+              <div className="post-header">
+                <img src={post.avatar} alt={post.user} className="avatar" />
+                <div>
+                  <h4>{post.user}</h4>
+                  <p>{post.content}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function ChatsPanel() {
+      return (
+        <div className="panel">
+          <h2>Chats</h2>
+          <p>Chat content goes here...</p>
+        </div>
+      );
+    }
+
+    function MapPanel() {
+      return (
+        <div className="panel">
+          <h2>Map</h2>
+          <div style={{ height: "200px", backgroundColor: "#073642" }}>Map Placeholder</div>
+        </div>
+      );
+    }
+
+    function Modal({ post, onClose }) {
+      if (!post) return null;
+      return (
+        <div className="modalContent">
+          <h2>{post.user}</h2>
+          <p>{post.content}</p>
+          <button onClick={onClose}>Close</button>
+        </div>
+      );
+    }
 
     function App() {
-      const avatars = Array(5).fill("https://via.placeholder.com/40");
+      const [activeTab, setActiveTab] = useState("Events");
+      const [selectedPost, setSelectedPost] = useState(null);
 
-      const allPosts = {
-        Events: [
-          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
-          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
-        ],
-        Sharing: [
-          { id: 3, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
-        ],
-      };
-
-      const [activeTab, setActiveTab] = React.useState('Events');
-      const [searchText, setSearchText] = React.useState('');
-      const [selectedPost, setSelectedPost] = React.useState(null);
-
-      const filteredPosts = allPosts[activeTab]?.filter(post =>
-        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-        post.user.toLowerCase().includes(searchText.toLowerCase())
-      ) || [];
-
-      const handlePostClick = (post) => {
-        setSelectedPost(post);
-      };
-
-      const handleCloseModal = () => {
-        setSelectedPost(null);
-      };
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
 
       return (
         <div className="app-container">
-          <div className="top-bar">
-            <Typography variant="h6">ONE Global</Typography>
-            <input
-              className="search-bar"
-              placeholder="Search"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <IconButton color="inherit">
-              <span className="material-icons">account_circle</span>
-            </IconButton>
-          </div>
-          <div className="avatar-row">
-            {avatars.map((src, index) => (
-              <Avatar key={index} src={src} />
-            ))}
-          </div>
-          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered>
-            {Object.keys(allPosts).map(tab => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
+          <TopBar />
+          <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
           <div className="dashboard">
-            <div className="panel">
-              <Typography variant="h6">Chats</Typography>
-              <Typography>Working Group: Last message...</Typography>
-              <Typography>Sales: New idea...</Typography>
-            </div>
-            <div>
-              {filteredPosts.map(post => (
-                <Card key={post.id} className="post-card" onClick={() => handlePostClick(post)}>
-                  <CardContent>
-                    <Typography variant="h6">{post
+            <ChatsPanel />
+            <Feed posts={posts} openModal={openModal} />
+            <MapPanel />
+          </div>
+          <Modal post={selectedPost} onClose={closeModal} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
