@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pitch to Color Visualizer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pitchfinder/2.3.2/pitchfinder.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="colorDisplay"></div>
+        <div class="controls">
+            <button id="startButton">Start Microphone</button>
+            <button id="playNote">Play Note (A4 - 440Hz)</button>
+        </div>
+        <div id="noteInfo">Note: - Hz: -</div>
+    </div>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        #colorDisplay {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+            background-color: #ccc;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        #noteInfo {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser;
+        let microphone;
+        let oscillator;
+        
+        // Note frequencies (A4 = 440Hz as reference)
+        const noteFrequencies = {
+            'C': 261.63,
+            'C#': 277.18,
+            'D': 293.66,
+            'D#': 311.13,
+            'E': 329.63,
+            'F': 349.23,
+            'F#': 369.99,
+            'G': 392.00,
+            'G#': 415.30,
+            'A': 440.00,
+            'A#': 466.16,
+            'B': 493.88
+        };
+
+        // Color mapping for notes
+        const noteColors = {
+            'C': '#FF0000',   // Red
+            'C#': '#FF4500',  // Orange-Red
+            'D': '#FFA500',   // Orange
+            'D#': '#FFD700',  // Golden
+            'E': '#FFFF00',   // Yellow
+            'F': '#32CD32',   // Green
+            'F#': '#00FA9A',  // Medium Spring Green
+            'G': '#00CED1',   // Dark Turquoise
+            'G#': '#1E90FF',  // Dodger Blue
+            'A': '#4169E1',   // Royal Blue
+            'A#': '#8A2BE2',  // Blue Violet
+            'B': '#9400D3'    // Dark Violet
+        };
+
+        function getNoteFromFrequency(frequency) {
+            const notes = Object.keys(noteFrequencies);
+            let closestNote = notes[0];
+            let closestDiff = Math.abs(noteFrequencies[notes[0]] - frequency);
+
+            for (let note in noteFrequencies) {
+                const diff = Math.abs(noteFrequencies[note] - frequency);
+                if (diff < closestDiff) {
+                    closestDiff = diff;
+                    closestNote = note;
+                }
+            }
+            return closestNote;
+        }
+
+        function updateDisplay(frequency) {
+            const note = getNoteFromFrequency(frequency);
+            const color = noteColors[note];
+            document.getElementById('colorDisplay').style.backgroundColor = color;
+            document.getElementById('noteInfo').textContent = `Note: ${note} Hz: ${Math.round(frequency)}`;
+        }
+
+        document.getElementById('startButton').addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                microphone = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                microphone.connect(analyser);
+
+                const detectPitch = PitchFinder.YIN({ sampleRate: audioContext.sampleRate });
+                const float32Array = new Float32Array(analyser.fftSize);
+
+                function updatePitch() {
+                    analyser.getFloatTimeDomainData(float32Array);
+                    const pitch = detectPitch(float32Array);
+                    if (pitch) {
+                        updateDisplay(pitch);
+                    }
+                    requestAnimationFrame(updatePitch);
+                }
+
+                updatePitch();
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                alert('Error accessing microphone. Please ensure you have granted microphone permissions.');
+            }
+        });
+
+        document.getElementById('playNote').addEventListener('click', () => {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator = null;
+                return;
+            }
+
+            oscillator = audioContext.createOscillator();
+            oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            updateDisplay(440);
+
+            setTimeout(() => {
+                oscillator.stop();
+                oscillator = null;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
