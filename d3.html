@@ -85,10 +85,6 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .post-actions {
-      display: flex;
-      gap: 1rem;
-    }
     .map-placeholder {
       background-color: #073642;
       height: 200px;
@@ -137,8 +133,17 @@
           { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
           { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
         ],
+        Orgs: [
+          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "Looking for volunteers this weekend", avatar: "https://via.placeholder.com/50" },
+        ],
+        Groups: [
+          { id: 4, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Meeting this Thursday", avatar: "https://via.placeholder.com/50" },
+        ],
         Sharing: [
-          { id: 3, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
+          { id: 5, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
+        ],
+        Services: [
+          { id: 6, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Free bike maintenance workshop", avatar: "https://via.placeholder.com/50" },
         ],
       };
 
@@ -146,18 +151,16 @@
       const [searchText, setSearchText] = React.useState('');
       const [selectedPost, setSelectedPost] = React.useState(null);
 
-      const filteredPosts = allPosts[activeTab]?.filter(post =>
-        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-        post.user.toLowerCase().includes(searchText.toLowerCase())
-      ) || [];
+      const filteredPosts = React.useMemo(() => {
+        const posts = allPosts[activeTab] || [];
+        return posts.filter(post =>
+          post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+          post.user.toLowerCase().includes(searchText.toLowerCase())
+        );
+      }, [activeTab, searchText]);
 
-      const openModal = (post) => {
-        setSelectedPost(post);
-      };
-
-      const closeModal = () => {
-        setSelectedPost(null);
-      };
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
 
       return (
         <div className="app-container">
@@ -192,27 +195,20 @@
               <h2>Chats</h2>
               <div>Working Group: Last message...</div>
               <div>Sales: New idea...</div>
-              <div>Community: Updates...</div>
             </div>
             <div>
-              {filteredPosts.map(post => (
+              {filteredPosts.length > 0 ? filteredPosts.map(post => (
                 <div key={post.id} className="post-card" onClick={() => openModal(post)}>
                   <div>{post.user} - {post.date}</div>
                   <div>{post.content}</div>
-                  <div className="post-actions">
-                    <button>Like</button>
-                    <button>Comment</button>
-                    <button>Share</button>
-                  </div>
                 </div>
-              ))}
+              )) : <div className="post-card">No posts found.</div>}
             </div>
             <div className="panel">
               <h2>Map</h2>
               <div className="map-placeholder">Map Placeholder</div>
             </div>
           </div>
-          {/* Modal for Post Details */}
           {selectedPost && (
             <div className="modal-overlay" onClick={closeModal}>
               <div className="modal-card" onClick={(e) => e.stopPropagation()}>
