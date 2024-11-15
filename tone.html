@@ -2,16 +2,37 @@
 <html>
 <head>
     <title>Pitch to Color Visualizer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pitchfinder/2.3.2/pitchfinder.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div id="colorDisplay"></div>
+        <div class="color-containers">
+            <div class="color-box">
+                <div id="colorDisplay1" class="color-circle"></div>
+                <p>Microphone Input</p>
+            </div>
+            <div class="color-box">
+                <div id="colorDisplay2" class="color-circle"></div>
+                <select id="noteSelect" onchange="updateComparisonNote()">
+                    <option value="C">C (261.63 Hz)</option>
+                    <option value="C#">C# (277.18 Hz)</option>
+                    <option value="D">D (293.66 Hz)</option>
+                    <option value="D#">D# (311.13 Hz)</option>
+                    <option value="E">E (329.63 Hz)</option>
+                    <option value="F">F (349.23 Hz)</option>
+                    <option value="F#">F# (369.99 Hz)</option>
+                    <option value="G">G (392.00 Hz)</option>
+                    <option value="G#">G# (415.30 Hz)</option>
+                    <option value="A">A (440.00 Hz)</option>
+                    <option value="A#">A# (466.16 Hz)</option>
+                    <option value="B">B (493.88 Hz)</option>
+                </select>
+            </div>
+        </div>
         <div class="controls">
             <button id="startButton">Start Microphone</button>
-            <button id="playNote">Play Note (A4 - 440Hz)</button>
+            <button id="playSelectedNote">Play Selected Note</button>
         </div>
-        <div id="noteInfo">Note: - Hz: -</div>
+        <div id="noteInfo">Microphone Note: - Hz: -</div>
     </div>
 
     <style>
@@ -27,9 +48,18 @@
         .container {
             text-align: center;
         }
-        #colorDisplay {
-            width: 300px;
-            height: 300px;
+        .color-containers {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px;
+        }
+        .color-box {
+            text-align: center;
+        }
+        .color-circle {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             margin: 20px auto;
             transition: background-color 0.3s;
@@ -48,6 +78,11 @@
             border: none;
             border-radius: 4px;
         }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
         #noteInfo {
             font-size: 18px;
             margin-top: 20px;
@@ -59,8 +94,7 @@
         let analyser;
         let microphone;
         let oscillator;
-        
-        // Note frequencies (A4 = 440Hz as reference)
+
         const noteFrequencies = {
             'C': 261.63,
             'C#': 277.18,
@@ -76,7 +110,6 @@
             'B': 493.88
         };
 
-        // Color mapping for notes
         const noteColors = {
             'C': '#FF0000',   // Red
             'C#': '#FF4500',  // Orange-Red
@@ -107,11 +140,16 @@
             return closestNote;
         }
 
-        function updateDisplay(frequency) {
+        function updateDisplay(frequency, displayElement) {
             const note = getNoteFromFrequency(frequency);
             const color = noteColors[note];
-            document.getElementById('colorDisplay').style.backgroundColor = color;
-            document.getElementById('noteInfo').textContent = `Note: ${note} Hz: ${Math.round(frequency)}`;
+            displayElement.style.backgroundColor = color;
+            return note;
+        }
+
+        function updateComparisonNote() {
+            const selectedNote = document.getElementById('noteSelect').value;
+            document.getElementById('colorDisplay2').style.backgroundColor = noteColors[selectedNote];
         }
 
         document.getElementById('startButton').addEventListener('click', async () => {
@@ -119,45 +157,69 @@
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 microphone = audioContext.createMediaStreamSource(stream);
                 analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
                 microphone.connect(analyser);
 
-                const detectPitch = PitchFinder.YIN({ sampleRate: audioContext.sampleRate });
-                const float32Array = new Float32Array(analyser.fftSize);
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Float32Array(bufferLength);
 
-                function updatePitch() {
-                    analyser.getFloatTimeDomainData(float32Array);
-                    const pitch = detectPitch(float32Array);
-                    if (pitch) {
-                        updateDisplay(pitch);
+                function detectPitch() {
+                    analyser.getFloatFrequencyData(dataArray);
+                    
+                    let maxIndex = 0;
+                    let maxValue = -Infinity;
+                    
+                    // Look for the frequency with the highest amplitude
+                    for (let i = 0; i < bufferLength; i++) {
+                        if (dataArray[i] > maxValue) {
+                            maxValue = dataArray[i];
+                            maxIndex = i;
+                        }
                     }
-                    requestAnimationFrame(updatePitch);
+
+                    // Convert index to frequency
+                    const frequency = maxIndex * audioContext.sampleRate / analyser.fftSize;
+                    
+                    // Only update if we detect a significant signal
+                    if (maxValue > -50 && frequency > 80 && frequency < 1000) {
+                        const note = updateDisplay(frequency, document.getElementById('colorDisplay1'));
+                        document.getElementById('noteInfo').textContent = 
+                            `Microphone Note: ${note} Hz: ${Math.round(frequency)}`;
+                    }
+                    
+                    requestAnimationFrame(detectPitch);
                 }
 
-                updatePitch();
+                detectPitch();
             } catch (error) {
                 console.error('Error accessing microphone:', error);
                 alert('Error accessing microphone. Please ensure you have granted microphone permissions.');
             }
         });
 
-        document.getElementById('playNote').addEventListener('click', () => {
+        document.getElementById('playSelectedNote').addEventListener('click', () => {
             if (oscillator) {
                 oscillator.stop();
                 oscillator = null;
                 return;
             }
 
+            const selectedNote = document.getElementById('noteSelect').value;
+            const frequency = noteFrequencies[selectedNote];
+
             oscillator = audioContext.createOscillator();
-            oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
             oscillator.connect(audioContext.destination);
             oscillator.start();
-            updateDisplay(440);
 
             setTimeout(() => {
                 oscillator.stop();
                 oscillator = null;
             }, 1000);
         });
+
+        // Initialize comparison note display
+        updateComparisonNote();
     </script>
 </body>
 </html>
