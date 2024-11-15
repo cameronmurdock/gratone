@@ -26,10 +26,9 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .app-container { min-height: 100vh; display: flex; flex-direction: column; }
+    .app-container { display: flex; flex-direction: column; height: 100vh; }
     .top-bar {
       background-color: #004d40;
-      color: white;
       padding: 1rem;
       display: flex;
       justify-content: space-between;
@@ -48,18 +47,11 @@
       padding: 1rem;
       background-color: #003642;
     }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin: 0 0.5rem;
-    }
     .tabs {
       background-color: #003642;
       display: flex;
       justify-content: center;
       padding: 1rem;
-      gap: 2rem;
     }
     .tab {
       color: #93a1a1;
@@ -72,8 +64,9 @@
     }
     .dashboard {
       display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-columns: 300px auto 300px;
       gap: 1rem;
+      height: calc(100vh - 200px);
       padding: 1rem;
     }
     .panel {
@@ -81,6 +74,8 @@
       color: white;
       padding: 1rem;
       border-radius: 4px;
+      overflow-y: auto;
+      height: 100%;
     }
     .post-card {
       background-color: #003642;
@@ -89,21 +84,9 @@
       padding: 1rem;
       border-radius: 4px;
     }
-    .post-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .post-content { margin-bottom: 1rem; }
     .post-actions {
       display: flex;
       gap: 1rem;
-    }
-    .action-button {
-      background: none;
-      border: none;
-      color: #93a1a1;
-      cursor: pointer;
     }
     .map-placeholder {
       background-color: #073642;
@@ -128,17 +111,8 @@
           { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Free yoga class tomorrow!", avatar: "https://via.placeholder.com/50" },
           { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community meetup at Central Park", avatar: "https://via.placeholder.com/50" },
         ],
-        Orgs: [
-          { id: 3, user: "Food Bank", date: "Nov 14, 2024", content: "Volunteers needed this weekend", avatar: "https://via.placeholder.com/50" },
-        ],
-        Groups: [
-          { id: 4, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Meeting this Thursday", avatar: "https://via.placeholder.com/50" },
-        ],
         Sharing: [
-          { id: 5, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
-        ],
-        Services: [
-          { id: 6, user: "Mike's Repair", date: "Nov 13, 2024", content: "Free bike maintenance workshop", avatar: "https://via.placeholder.com/50" },
+          { id: 3, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Extra gardening tools available", avatar: "https://via.placeholder.com/50" },
         ],
       };
 
@@ -181,24 +155,22 @@
           <div className="dashboard">
             <div className="panel">
               <h2>Chats</h2>
-              <div className="chat-item">Working Group: Last message...</div>
-              <div className="chat-item">Sales: New idea...</div>
+              <div>Working Group: Last message...</div>
+              <div>Sales: New idea...</div>
+              <div>Community: Updates...</div>
             </div>
             <div>
-              {filteredPosts.length > 0 ? filteredPosts.map(post => (
+              {filteredPosts.map(post => (
                 <div key={post.id} className="post-card">
-                  <div className="post-header">
-                    <img src={post.avatar} className="avatar" alt="Post avatar" />
-                    <div>{post.user} - {post.date}</div>
-                  </div>
-                  <div className="post-content">{post.content}</div>
+                  <div>{post.user} - {post.date}</div>
+                  <div>{post.content}</div>
                   <div className="post-actions">
-                    <button className="action-button">Like</button>
-                    <button className="action-button">Comment</button>
-                    <button className="action-button">Share</button>
+                    <button>Like</button>
+                    <button>Comment</button>
+                    <button>Share</button>
                   </div>
                 </div>
-              )) : <div className="post-card">No posts found.</div>}
+              ))}
             </div>
             <div className="panel">
               <h2>Map</h2>
