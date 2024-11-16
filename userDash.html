@@ -1,1 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local - Dashboard</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local Dashboard - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- Custom Styles -->
+  <style>
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+      font-family: 'Montserrat', sans-serif;
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
 
+  <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <!-- Main Script -->
+  <script type="text/babel">
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Button,
+      IconButton,
+      Container,
+      Box,
+      Grid,
+      Card,
+      CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Tabs,
+      Tab,
+      InputBase,
+      Paper,
+      ListItemAvatar,
+      Badge,
+      Chip,
+      Tooltip,
+    } = MaterialUI;
+
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#BF820A',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Header Component
+    function Header({ setCurrentPage }) {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const isMenuOpen = Boolean(anchorEl);
+
+      const handleProfileMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+      };
+
+      const menuId = 'primary-search-account-menu';
+      const renderMenu = (
+        <Menu
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          id={menuId}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={() => { setCurrentPage('settings'); handleMenuClose(); }}>Settings</MenuItem>
+          <MenuItem onClick={() => { setCurrentPage('logout'); handleMenuClose(); }}>Logout</MenuItem>
+        </Menu>
+      );
+
+      return (
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <Toolbar>
+            {/* Logo & App Name */}
+            <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }} onClick={() => setCurrentPage('dashboard')}>
+              <img src="https://via.placeholder.com/40" alt="ONE Local Logo" style={{ verticalAlign: 'middle', marginRight: '10px' }} />
+              ONE Local
+            </Typography>
+
+            {/* Search Bar */}
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+              <Paper
+                component="form"
+                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+              >
+                <InputBase
+                  sx={{ ml: 1, flex: 1 }}
+                  placeholder="Search Events, Orgs, Groups, Sharing"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                  <Icon>search</Icon>
+                </IconButton>
+              </Paper>
+            </Box>
+
+            {/* Notifications Icon */}
+            <IconButton size="large" aria-label="show 4 new notifications" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <Icon>notifications</Icon>
+              </Badge>
+            </IconButton>
+
+            {/* Profile Icon & Dropdown */}
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <Avatar src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cameron Murdock" />
+            </IconButton>
+          </Toolbar>
+          {renderMenu}
+        </AppBar>
+      );
+    }
+
+    // Sidebar Component
+    function Sidebar({ setCurrentPage }) {
+      return (
+        <Box sx={{ width: 240, p: 2 }}>
+          {/* Profile Card */}
+          <Box sx={{ textAlign: 'center', mb: 4 }}>
+            <Avatar
+              src="https://randomuser.me/api/portraits/men/32.jpg"
+              sx={{ width: 150, height: 150, mx: 'auto', mb: 2 }}
+              alt="Cameron Murdock"
+            />
+            <Typography variant="h6">Cameron Murdock</Typography>
+            <Typography variant="subtitle1">500 Points</Typography>
+            {/* Trust Score */}
+            <Box sx={{ position: 'relative', display: 'inline-flex', mt: 2 }}>
+              <CircularProgress variant="determinate" value={97.5} size={80} />
+              <Box
+                sx={{
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  position: 'absolute',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography variant="caption" component="div" color="text.secondary">
+                  97.5%
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Action Buttons */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4 }}>
+            <Button variant="contained" color="success" startIcon={<Icon>arrow_upward</Icon>} onClick={() => setCurrentPage('give')}>
+              Give
+            </Button>
+            <Button variant="contained" color="primary" startIcon={<Icon>message</Icon>} onClick={() => setCurrentPage('message')}>
+              Message
+            </Button>
+          </Box>
+
+          {/* Skills Section */}
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>Skills</Typography>
+            <List>
+              <ListItem>
+                <ListItemIcon>
+                  <Icon>brush</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Designing" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <Icon>palette</Icon>
+                </ListItemIcon>
+                <ListItemText primary="Art Making" />
+              </ListItem>
+            </List>
+          </Box>
+
+          {/* Sharing Section */}
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>Sharing</Typography>
+            <Card sx={{ maxWidth: 240, margin: '0 auto' }}>
+              <CardContent>
+                <Typography variant="body1">Painting</Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" color="primary" onClick={() => setCurrentPage('offer')}>
+                  Offer
+                </Button>
+              </CardActions>
+            </Card>
+          </Box>
+
+          {/* Badges Section */}
+          <Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>Badges</Typography>
+            {/* Placeholder for badges */}
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
+              <Avatar src="https://via.placeholder.com/40" alt="Badge 1" />
+              <Avatar src="https://via.placeholder.com/40" alt="Badge 2" />
+              <Avatar src="https://via.placeholder.com/40" alt="Badge 3" />
+            </Box>
+          </Box>
+        </Box>
+      );
+    }
+
+    // Tabs Component
+    function DashboardTabs({ activeTab, setActiveTab }) {
+      const tabs = ['Events', 'Orgs', 'Groups', 'Sharing', 'Services', 'Roles', 'Products', 'Polling', 'Resources'];
+
+      return (
+        <Tabs
+          value={activeTab}
+          onChange={(e, newValue) => setActiveTab(newValue)}
+          variant="scrollable"
+          scrollButtons="auto"
+          aria-label="dashboard tabs"
+          sx={{ mb: 2 }}
+        >
+          {tabs.map((tab) => (
+            <Tab key={tab} label={tab} value={tab} />
+          ))}
+        </Tabs>
+      );
+    }
+
+    // Event Card Component
+    function EventCard({ event, onDetails }) {
+      return (
+        <Card sx={{ display: 'flex', mb: 2 }}>
+          <CardMedia
+            component="img"
+            sx={{ width: 160 }}
+            image={event.image}
+            alt={event.title}
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <CardContent sx={{ flex: '1 0 auto' }}>
+              <Typography component="div" variant="h5">
+                {event.title}
+              </Typography>
+              <Typography variant="subtitle1" color="text.secondary" component="div">
+                {event.date} | {event.time}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {event.location}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <IconButton aria-label="event options" onClick={() => onDetails(event)}>
+                <Icon>more_vert</Icon>
+              </IconButton>
+            </CardActions>
+          </Box>
+        </Card>
+      );
+    }
+
+    // Group Feed Component
+    function GroupFeed() {
+      const [posts, setPosts] = React.useState([
+        {
+          id: 1,
+          user: "Miekie Smith",
+          avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+          timestamp: "in a day",
+          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          image: "https://via.placeholder.com/400x200",
+          reactions: { likes: 10, comments: 2 },
+          comments: [
+            {
+              id: 1,
+              user: "Jane Doe",
+              avatar: "https://randomuser.me/api/portraits/women/66.jpg",
+              text: "Nice post!",
+            },
+            {
+              id: 2,
+              user: "John Smith",
+              avatar: "https://randomuser.me/api/portraits/men/70.jpg",
+              text: "Thanks for sharing.",
+            },
+          ],
+        },
+        // Add more posts as needed
+      ]);
+
+      const [newComment, setNewComment] = React.useState({});
+      const [selectedPost, setSelectedPost] = React.useState(null);
+
+      const handleAddComment = (postId) => {
+        if (!newComment[postId] || newComment[postId].trim() === "") return;
+        const updatedPosts = posts.map(post => {
+          if (post.id === postId) {
+            return {
+              ...post,
+              comments: [...post.comments, {
+                id: post.comments.length + 1,
+                user: "You",
+                avatar: "https://via.placeholder.com/40",
+                text: newComment[postId],
+              }],
+              reactions: { ...post.reactions, comments: post.reactions.comments + 1 },
+            };
+          }
+          return post;
+        });
+        setPosts(updatedPosts);
+        setNewComment({ ...newComment, [postId]: '' });
+      };
+
+      return (
+        <Box>
+          <Typography variant="h6" sx={{ mb: 2 }}>Group Feed</Typography>
+          {posts.map(post => (
+            <Card key={post.id} sx={{ mb: 2 }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
+                  <Box>
+                    <Typography variant="subtitle1">{post.user}</Typography>
+                    <Typography variant="body2" color="text.secondary">{post.timestamp}</Typography>
+                  </Box>
+                </Box>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  {post.content}
+                </Typography>
+                {post.image && (
+                  <Box sx={{ mb: 2 }}>
+                    <img src={post.image} alt="Post" style={{ width: '100%', borderRadius: '10px' }} />
+                  </Box>
+                )}
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <Button startIcon={<Icon>favorite</Icon>} color="primary">
+                    {post.reactions.likes} Likes
+                  </Button>
+                  <Button startIcon={<Icon>comment</Icon>} color="primary" onClick={() => setSelectedPost(post.id)}>
+                    {post.reactions.comments} Comments
+                  </Button>
+                </Box>
+                {/* Comments Modal */}
+                <Modal
+                  open={selectedPost === post.id}
+                  onClose={() => setSelectedPost(null)}
+                  closeAfterTransition
+                  BackdropComponent={Backdrop}
+                  BackdropProps={{
+                    timeout: 500,
+                  }}
+                  aria-labelledby="comment-modal-title"
+                  aria-describedby="comment-modal-description"
+                >
+                  <Fade in={selectedPost === post.id}>
+                    <Box className="modalContent">
+                      <Typography id="comment-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+                        Comments
+                      </Typography>
+                      <List>
+                        {post.comments.map(comment => (
+                          <ListItem key={comment.id} alignItems="flex-start">
+                            <ListItemAvatar>
+                              <Avatar src={comment.avatar} alt={comment.user} />
+                            </ListItemAvatar>
+                            <ListItemText
+                              primary={comment.user}
+                              secondary={comment.text}
+                            />
+                          </ListItem>
+                        ))}
+                      </List>
+                      <Box sx={{ display: 'flex', mt: 2 }}>
+                        <TextField
+                          label="Add a comment"
+                          variant="outlined"
+                          fullWidth
+                          value={newComment[post.id] || ''}
+                          onChange={(e) => setNewComment({ ...newComment, [post.id]: e.target.value })}
+                        />
+                        <Button variant="contained" color="primary" sx={{ ml: 1 }} onClick={() => handleAddComment(post.id)}>
+                          Post
+                        </Button>
+                      </Box>
+                    </Box>
+                  </Fade>
+                </Modal>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      );
+    }
+
+    // Main Content Component
+    function MainContent({ activeTab, setActiveTab, onEventDetails }) {
+      // Sample Events Data
+      const events = [
+        {
+          id: 1,
+          title: "Jo Malone London’s Mother",
+          location: "Radius Gallery - Santa Cruz, CA",
+          date: "March 25, 2023",
+          time: "10:00 AM",
+          image: "https://via.placeholder.com/160x140",
+        },
+        {
+          id: 2,
+          title: "Community Cleanup",
+          location: "Downtown Park - Los Angeles, CA",
+          date: "April 2, 2023",
+          time: "9:00 AM",
+          image: "https://via.placeholder.com/160x140",
+        },
+        // Add more events as needed
+      ];
+
+      // Handle Event Details (e.g., open modal)
+      const handleEventDetails = (event) => {
+        alert(`Event Details:\n\nTitle: ${event.title}\nLocation: ${event.location}\nDate: ${event.date}\nTime: ${event.time}`);
+      };
+
+      return (
+        <Box>
+          {/* Tabs */}
+          <DashboardTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+
+          {/* Search Bar */}
+          <Paper
+            component="form"
+            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%', mb: 2 }}
+          >
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder={`Search ${activeTab}`}
+              inputProps={{ 'aria-label': `search ${activeTab}` }}
+            />
+            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+              <Icon>search</Icon>
+            </IconButton>
+          </Paper>
+
+          {/* Events Cards */}
+          <Grid container spacing={2}>
+            {events.map(event => (
+              <Grid item xs={12} md={6} key={event.id}>
+                <EventCard event={event} onDetails={handleEventDetails} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      );
+    }
+
+    // Footer Component
+    function Footer() {
+      return (
+        <Box sx={{ mt: 4, py: 2, textAlign: 'center', backgroundColor: '#f5f5f5' }}>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Join Us
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Advertise
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Creators
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Terms of Service
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Privacy
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Safety
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                Newsroom
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" underline="hover" sx={{ mx: 1 }}>
+                API
+              </Link>
+            </Grid>
+          </Grid>
+          <Divider sx={{ my: 2, backgroundColor: '#e0e0e0' }} />
+          <Button variant="contained" color="primary" sx={{ position: 'fixed', bottom: 20, right: 20 }}>
+            Support
+          </Button>
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            © 2024 ONE Local. All rights reserved.
+          </Typography>
+        </Box>
+      );
+    }
+
+    // Dashboard Layout Component
+    function DashboardLayout({ children }) {
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+      return (
+        <Box sx={{ display: 'flex' }}>
+          {/* Sidebar */}
+          {!isMobile && <Sidebar setCurrentPage={() => {}} />}
+
+          {/* Main Content */}
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Toolbar />
+            {children}
+          </Box>
+        </Box>
+      );
+    }
+
+    // Dashboard Component
+    function Dashboard() {
+      const [activeTab, setActiveTab] = React.useState('Events');
+
+      return (
+        <DashboardLayout>
+          <MainContent activeTab={activeTab} setActiveTab={setActiveTab} />
+          <GroupFeed />
+        </DashboardLayout>
+      );
+    }
+
+    // Root App Component
+    function App() {
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <Header setCurrentPage={() => {}} />
+            <Container maxWidth="lg" sx={{ mt: 12, mb: 4 }}>
+              <Dashboard />
+            </Container>
+            <Footer />
+          </Box>
+        </ThemeProvider>
+      );
+    }
+
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
