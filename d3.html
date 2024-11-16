@@ -2,42 +2,265 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Profile Dashboard</title>
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/lucide-react@latest/build/lucide-react.css">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+    }
+    /* Scrollbar Styling */
     body {
-      background-color: #134e4a; /* dark teal background */
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- React and ReactDOM libraries -->
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7.14.5/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide-react@latest/dist/index.umd.js"></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
-    const { Gift, MessageCircle, Palette, Search, Calendar, MapPin, Activity, Users, Share, Settings, Book, Package, BarChart, FileText } = lucideReact;
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Button,
+      IconButton,
+      Container,
+      Box,
+      Grid,
+      Card,
+      CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Tabs,
+      Tab,
+      InputBase,
+      Paper,
+      ListItemAvatar,
+      ListItemIcon,
+      Badge,
+      Chip,
+      Tooltip,
+      Drawer,
+    } = MaterialUI;
+
+    // Import MUI Icons
+    const {
+      CardGiftcard,
+      Message,
+      Palette as PaletteIcon,
+      Search as SearchIcon,
+      CalendarToday,
+      Map as MapPinIcon,
+      TrendingUp,
+      Group,
+      Share as ShareIcon,
+      Settings as SettingsIcon,
+      Book as BookIcon,
+      LocalShipping,
+      BarChart as BarChartIcon,
+      Description as FileTextIcon,
+      Close as CloseIcon,
+      Notifications,
+      AccountCircle,
+      Menu as MenuIcon,
+    } = MaterialUIIcons;
+
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#BF820A',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    function App() {
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <ProfileDashboard />
+          </Box>
+        </ThemeProvider>
+      );
+    }
 
     const ProfileDashboard = () => {
       const [activeTab, setActiveTab] = React.useState('My Groups');
       const tabs = ['My Groups', 'Attending', 'Interested'];
       
       const categories = [
-        { name: 'Events', icon: <Calendar className="w-4 h-4" /> },
-        { name: 'Orgs', icon: <Users className="w-4 h-4" /> },
-        { name: 'Groups', icon: <Users className="w-4 h-4" /> },
-        { name: 'Sharing', icon: <Share className="w-4 h-4" /> },
-        { name: 'Services', icon: <Settings className="w-4 h-4" /> },
-        { name: 'Rules', icon: <Book className="w-4 h-4" /> },
-        { name: 'Products', icon: <Package className="w-4 h-4" /> },
-        { name: 'Polling', icon: <BarChart className="w-4 h-4" /> },
-        { name: 'Resources', icon: <FileText className="w-4 h-4" /> }
+        { name: 'Events', icon: <CalendarToday fontSize="small" /> },
+        { name: 'Orgs', icon: <Group fontSize="small" /> },
+        { name: 'Groups', icon: <Group fontSize="small" /> },
+        { name: 'Sharing', icon: <ShareIcon fontSize="small" /> },
+        { name: 'Services', icon: <SettingsIcon fontSize="small" /> },
+        { name: 'Rules', icon: <BookIcon fontSize="small" /> },
+        { name: 'Products', icon: <LocalShipping fontSize="small" /> },
+        { name: 'Polling', icon: <BarChartIcon fontSize="small" /> },
+        { name: 'Resources', icon: <FileTextIcon fontSize="small" /> }
       ];
       
       const events = [
@@ -54,126 +277,350 @@
           image: "https://via.placeholder.com/400x200"
         }
       ];
+    
+      // Sidebar Data
+      const profile = {
+        name: "Cameron Murdock",
+        followers: 500,
+        avatar: "https://via.placeholder.com/128",
+        skills: ["Designing", "Art Making"],
+        sharing: {
+          type: "OFFER",
+          category: "Painting",
+          icon: <PaletteIcon fontSize="small" />
+        }
+      };
+    
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+      // Modal State
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedEvent, setSelectedEvent] = React.useState(null);
+
+      const handleOpenModal = (event) => {
+        setSelectedEvent(event);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setSelectedEvent(null);
+        setOpenModal(false);
+      };
+    
       return (
-        <div className="min-h-screen bg-teal-900/90 flex">
+        <Box sx={{ display: 'flex' }}>
           {/* Left Sidebar */}
-          <div className="fixed left-0 top-0 w-64 h-screen p-4 text-white">
-            <div className="flex flex-col items-center">
-              <div className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
-                    <span className="text-sm">19.9k</span>
-                  </div>
-                  <div className="text-2xl font-bold">97.5%</div>
-                  <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
-                    <span className="text-sm">20k</span>
-                  </div>
-                </div>
-              </div>
+          <Box
+            sx={{
+              width: isMobile ? '100%' : 256,
+              backgroundColor: 'rgba(0, 77, 64, 0.8)',
+              color: '#ffffff',
+              p: 3,
+              position: isMobile ? 'fixed' : 'relative',
+              height: isMobile ? 'auto' : '100vh',
+              zIndex: 1000,
+              overflowY: 'auto'
+            }}
+          >
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {/* Statistics */}
+              <Box sx={{ backgroundColor: 'rgba(0, 77, 64, 0.5)', borderRadius: 2, p: 2, width: '100%', mb: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{profile.followers}</Typography>
+                    <Typography variant="body2">Followers</Typography>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>97.5%</Typography>
+                    <Typography variant="body2">Engagement</Typography>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>20k</Typography>
+                    <Typography variant="body2">Reach</Typography>
+                  </Box>
+                </Box>
+              </Box>
               
-              <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
-                <img src="https://via.placeholder.com/128" alt="Profile" className="w-full h-full object-cover" />
-              </div>
+              {/* Profile Picture */}
+              <Avatar
+                src={profile.avatar}
+                alt={profile.name}
+                sx={{ width: 128, height: 128, mb: 2 }}
+              />
               
-              <h2 className="text-xl font-semibold mb-2">Cameron Murdock</h2>
-              <div className="flex items-center gap-2 mb-4">
-                <Gift className="w-4 h-4" />
-                <span>500</span>
-              </div>
+              {/* Name */}
+              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                {profile.name}
+              </Typography>
               
-              <button className="w-full bg-emerald-800 hover:bg-emerald-700 rounded-lg py-2 px-4 mb-2 flex items-center justify-center gap-2">
-                <Gift className="w-4 h-4" />
+              {/* Followers */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                <CardGiftcard fontSize="small" />
+                <Typography variant="body2">{profile.followers} Followers</Typography>
+              </Box>
+              
+              {/* Action Buttons */}
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                startIcon={<CardGiftcard fontSize="small" />}
+                sx={{ mb: 2 }}
+              >
                 Give
-              </button>
+              </Button>
               
-              <button className="w-full bg-emerald-800 hover:bg-emerald-700 rounded-lg py-2 px-4 mb-4 flex items-center justify-center gap-2">
-                <MessageCircle className="w-4 h-4" />
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                startIcon={<Message fontSize="small" />}
+                sx={{ mb: 4 }}
+              >
                 Message
-              </button>
+              </Button>
               
-              <div className="w-full">
-                <h3 className="text-lg font-semibold mb-2">Skills</h3>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-emerald-800 rounded-full px-3 py-1 text-sm">Designing</span>
-                  <span className="bg-emerald-800 rounded-full px-3 py-1 text-sm">Art Making</span>
-                </div>
-                
-                <h3 className="text-lg font-semibold mb-2">Sharing</h3>
-                <div className="bg-white rounded-lg p-2 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Palette className="w-4 h-4 text-black" />
-                    <span className="text-black">Painting</span>
-                  </div>
-                  <span className="text-emerald-600 font-semibold">OFFER</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
+              {/* Skills */}
+              <Box sx={{ width: '100%', mb: 4 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  Skills
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                  {profile.skills.map((skill, index) => (
+                    <Chip key={index} label={skill} variant="outlined" />
+                  ))}
+                </Box>
+              </Box>
+              
+              {/* Sharing */}
+              <Box sx={{ width: '100%' }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  Sharing
+                </Typography>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {profile.sharing.icon}
+                    <Typography variant="body1">{profile.sharing.category}</Typography>
+                  </Box>
+                  <Chip label={profile.sharing.type} color="success" />
+                </Paper>
+              </Box>
+            </Box>
+          </Box>
+    
           {/* Main Content */}
-          <div className="ml-64 p-4 w-full">
+          <Box
+            sx={{
+              flexGrow: 1,
+              p: 4,
+              marginLeft: isMobile ? 0 : '256px',
+              mt: isMobile ? '64px' : 0,
+            }}
+          >
             {/* Top Navigation */}
-            <div className="bg-yellow-500/20 rounded-lg p-4 mb-4">
-              <div className="flex gap-2 mb-4 flex-wrap">
+            <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
+              {/* Categories */}
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
                 {categories.map((category) => (
-                  <button
+                  <Button
                     key={category.name}
-                    className="bg-white/10 hover:bg-white/20 rounded-full px-4 py-1 text-white flex items-center gap-1"
+                    variant="outlined"
+                    startIcon={category.icon}
+                    sx={{
+                      borderColor: '#ffffff',
+                      color: '#ffffff',
+                      '&:hover': {
+                        borderColor: '#ffffff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                      }
+                    }}
                   >
-                    {category.icon}
                     {category.name}
-                  </button>
+                  </Button>
                 ))}
-              </div>
+              </Box>
               
-              <div className="flex gap-4 mb-4">
-                {tabs.map((tab) => (
-                  <button
-                    key={tab}
-                    className={`px-4 py-2 rounded-full ${
-                      activeTab === tab ? 'bg-yellow-500 text-black' : 'text-white'
-                    }`}
-                    onClick={() => setActiveTab(tab)}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-              
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search"
-                  className="w-full bg-white/10 rounded-full px-4 py-2 text-white placeholder-white/70"
-                />
-                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
-              </div>
-            </div>
-
+              {/* Tabs and Search */}
+              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 2 }}>
+                {/* Tabs */}
+                <Tabs
+                  value={activeTab}
+                  onChange={(e, newValue) => setActiveTab(newValue)}
+                  textColor="inherit"
+                  indicatorColor="secondary"
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  sx={{
+                    flexGrow: 1,
+                    '.MuiTabs-indicator': {
+                      backgroundColor: '#ffffff'
+                    }
+                  }}
+                >
+                  {tabs.map((tab) => (
+                    <Tab
+                      key={tab}
+                      label={tab}
+                      value={tab}
+                      sx={{
+                        textTransform: 'none',
+                        color: '#ffffff',
+                        '&.Mui-selected': {
+                          color: '#000000',
+                          backgroundColor: '#ffffff',
+                          borderRadius: '20px',
+                        }
+                      }}
+                    />
+                  ))}
+                </Tabs>
+                
+                {/* Search */}
+                <Box sx={{ position: 'relative', width: isMobile ? '100%' : '300px' }}>
+                  <InputBase
+                    placeholder="Search"
+                    fullWidth
+                    sx={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      borderRadius: '20px',
+                      padding: '8px 12px',
+                      color: '#ffffff',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                      }
+                    }}
+                  />
+                  <SearchIcon
+                    sx={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: '#ffffff'
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Paper>
+    
             {/* Event Cards */}
-            <div className="grid gap-4">
+            <Grid container spacing={4}>
               {events.map((event, index) => (
-                <div key={index} className="bg-white/10 rounded-lg p-4">
-                  <img src={event.image} alt={event.title} className="w-full h-48 object-cover rounded-lg mb-4" />
-                  <h3 className="text-white text-xl font-semibold mb-2">{event.title}</h3>
-                  <div className="flex items-center gap-2 text-white/70 mb-1">
-                    <Calendar className="w-4 h-4" />
-                    {event.date}
-                  </div>
-                  <div className="flex items-center gap-2 text-white/70">
-                    <MapPin className="w-4 h-4" />
-                    {event.location}
-                  </div>
-                </div>
+                <Grid item xs={12} md={6} key={index}>
+                  <Card
+                    sx={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      color: '#ffffff',
+                      cursor: 'pointer',
+                      transition: 'transform 0.3s',
+                      '&:hover': {
+                        transform: 'scale(1.02)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                      }
+                    }}
+                    onClick={() => handleOpenModal(event)}
+                  >
+                    <CardContent>
+                      <Box sx={{ position: 'relative' }}>
+                        <Avatar
+                          src={event.image}
+                          alt={event.title}
+                          variant="square"
+                          sx={{
+                            width: '100%',
+                            height: 140,
+                            borderRadius: '10px',
+                            objectFit: 'cover',
+                            mb: 2
+                          }}
+                        />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {event.title}
+                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                        <CalendarToday fontSize="small" />
+                        <Typography variant="body2">{event.date}</Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <MapPinIcon fontSize="small" />
+                        <Typography variant="body2">{event.location}</Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
               ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
+            </Grid>
+    
+            {/* Event Details Modal */}
+            <Modal
+              open={Boolean(selectedEvent)}
+              onClose={handleCloseModal}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+              aria-labelledby="event-modal-title"
+              aria-describedby="event-modal-description"
+            >
+              <Fade in={Boolean(selectedEvent)}>
+                <Box className="modalContent">
+                  {selectedEvent && (
+                    <>
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <IconButton onClick={handleCloseModal}>
+                          <CloseIcon />
+                        </IconButton>
+                      </Box>
+                      <Box sx={{ textAlign: 'center' }}>
+                        <Avatar
+                          src={selectedEvent.image}
+                          alt={selectedEvent.title}
+                          variant="square"
+                          sx={{
+                            width: '100%',
+                            height: 200,
+                            borderRadius: '10px',
+                            objectFit: 'cover',
+                            mb: 2
+                          }}
+                        />
+                        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {selectedEvent.title}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
+                          <CalendarToday fontSize="small" />
+                          <Typography variant="body1">{selectedEvent.date}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                          <MapPinIcon fontSize="small" />
+                          <Typography variant="body1">{selectedEvent.location}</Typography>
+                        </Box>
+                        <Typography variant="body1" sx={{ mt: 2 }}>
+                          {/* Add detailed event description here */}
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac venenatis elit. Phasellus sit amet quam ut nisl tincidunt tempus.
+                        </Typography>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </Fade>
+            </Modal>
+          </Box>
+        };
 
-    ReactDOM.render(<ProfileDashboard />, document.getElementById('root'));
+    // ======================= Render App =======================
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
