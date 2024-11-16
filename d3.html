@@ -2,72 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Profile Dashboard</title>
-  <!-- Responsive Meta Tag -->
+  <title>Profile Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/lucide-react@latest/build/lucide-react.css">
   <style>
-    /* Custom scrollbar styling */
     body {
-      scrollbar-color: #a8d5ba #ffffff;
-      scrollbar-width: thin;
-    }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-track {
-      background: #ffffff;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #a8d5ba;
-      border-radius: 4px;
-    }
-    /* Animated Gradient Background */
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .animatedBackground {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
-      color: #333333;
-      position: relative;
-    }
-    /* Modal Content Styling */
-    .modalContent {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 600px;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      outline: none;
-    }
-    /* Enhanced Card Hover Effect */
-    .card-hover:hover {
-      transform: translateY(-5px);
-      transition: transform 0.3s;
+      background-color: #134e4a; /* dark teal background */
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- React and ReactDOM via esm.sh -->
-  <script type="module">
-    import React from 'https://esm.sh/react@18';
-    import ReactDOM from 'https://esm.sh/react-dom@18';
-    import { Gift, MessageCircle, Palette, Search, Calendar, MapPin, Activity, Users, Share, Settings, Book, Package, BarChart, FileText } from 'https://esm.sh/lucide-react@0.299.0';
+  <!-- React and ReactDOM libraries -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.14.5/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide-react@latest/dist/index.umd.js"></script>
+
+  <script type="text/babel">
+    const { Gift, MessageCircle, Palette, Search, Calendar, MapPin, Activity, Users, Share, Settings, Book, Package, BarChart, FileText } = lucideReact;
 
     const ProfileDashboard = () => {
       const [activeTab, setActiveTab] = React.useState('My Groups');
@@ -90,20 +45,20 @@
           title: "Jo Malone London's Mother",
           date: "Fri, Jan 3 • 2:00 PM",
           location: "Radius Gallery • Santa Cruz, CA",
-          image: "https://via.placeholder.com/400x200?text=Event+1"
+          image: "https://via.placeholder.com/400x200"
         },
         {
           title: "Garden Party",
           date: "Sat, Jan 5 • 2:00 PM",
           location: "53 Bush St • San Francisco, CA",
-          image: "https://via.placeholder.com/400x200?text=Event+2"
+          image: "https://via.placeholder.com/400x200"
         }
       ];
-    
+
       return (
-        <div className="min-h-screen bg-teal-900/90 animatedBackground">
+        <div className="min-h-screen bg-teal-900/90 flex">
           {/* Left Sidebar */}
-          <div className="fixed left-0 top-0 w-64 h-screen p-4 text-white overflow-y-auto">
+          <div className="fixed left-0 top-0 w-64 h-screen p-4 text-white">
             <div className="flex flex-col items-center">
               <div className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4">
                 <div className="flex items-center gap-4">
@@ -155,9 +110,9 @@
               </div>
             </div>
           </div>
-    
+
           {/* Main Content */}
-          <div className="ml-64 p-4">
+          <div className="ml-64 p-4 w-full">
             {/* Top Navigation */}
             <div className="bg-yellow-500/20 rounded-lg p-4 mb-4">
               <div className="flex gap-2 mb-4 flex-wrap">
@@ -195,11 +150,11 @@
                 <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
               </div>
             </div>
-    
+
             {/* Event Cards */}
             <div className="grid gap-4">
               {events.map((event, index) => (
-                <div key={index} className="bg-white/10 rounded-lg p-4 card-hover">
+                <div key={index} className="bg-white/10 rounded-lg p-4">
                   <img src={event.image} alt={event.title} className="w-full h-48 object-cover rounded-lg mb-4" />
                   <h3 className="text-white text-xl font-semibold mb-2">{event.title}</h3>
                   <div className="flex items-center gap-2 text-white/70 mb-1">
@@ -216,8 +171,9 @@
           </div>
         </div>
       );
-    
-      ReactDOM.createRoot(document.getElementById('root')).render(<ProfileDashboard />);
+    };
+
+    ReactDOM.render(<ProfileDashboard />, document.getElementById('root'));
   </script>
 </body>
 </html>
