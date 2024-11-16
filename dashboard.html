@@ -2,488 +2,609 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local Dashboard</title>
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
   <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>ONE Local Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <style>
-    /* Previous styles remain the same */
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #002b36;
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
     }
-    .app-container { min-height: 100vh; }
-    .top-bar {
-      background-color: #004d40;
-      color: white;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
     }
-    .search-bar {
-      background-color: white;
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
       border-radius: 4px;
-      padding: 0.5rem;
-      width: 200px;
-      border: none;
-    }
-    .avatar-row {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem;
-      background-color: #003642;
-    }
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin: 0 0.5rem;
-    }
-    .tabs {
-      background-color: #003642;
-      display: flex;
-      justify-content: center;
-      padding: 1rem;
-      gap: 2rem;
-    }
-    .tab {
-      color: #93a1a1;
-      border: none;
-      background: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-    }
-    .tab.active {
-      color: white;
-      border-bottom: 2px solid white;
-    }
-    .dashboard {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .panel {
-      background-color: #003642;
-      color: white;
-      padding: 1rem;
-      border-radius: 4px;
-    }
-    .post-card {
-      background-color: #003642;
-      color: white;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-radius: 4px;
-    }
-    .post-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .post-content { margin-bottom: 1rem; }
-    .post-actions {
-      display: flex;
-      gap: 1rem;
-      color: #93a1a1;
-    }
-    .action-button {
-      background: none;
-      border: none;
-      color: #93a1a1;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-    .chat-item {
-      display: flex;
-      align-items: center;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .chat-text { margin-left: 1rem; }
-    .chat-name { color: white; }
-    .chat-preview {
-      color: #93a1a1;
-      font-size: 0.9rem;
-    }
-    .map-placeholder {
-      background-color: #073642;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-    .badge {
-      background-color: #004d40;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      margin-left: 8px;
-    }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-
-  <script type="text/babel">
-    function App() {
-      const avatars = [
-        "https://via.placeholder.com/40",
-        "https://via.placeholder.com/40",
-        "https://via.placeholder.com/40",
-        "https://via.placeholder.com/40",
-        "https://via.placeholder.com/40",
-      ];
-
-      const allPosts = {
-        Events: [
-          {
-            id: 1,
-            user: "Cameron Ely-Murdock",
-            date: "Nov 13, 2024",
-            content: "Offering a free yoga class tomorrow morning!",
-            avatar: "https://via.placeholder.com/50",
-            type: "Event"
-          },
-          {
-            id: 2,
-            user: "Emily Clark",
-            date: "Nov 14, 2024",
-            content: "Community meetup this weekend at Central Park",
-            avatar: "https://via.placeholder.com/50",
-            type: "Event"
-          },
-        ],
-        Orgs: [
-          {
-            id: 3,
-            user: "Local Food Bank",
-            date: "Nov 14, 2024",
-            content: "Looking for volunteers this weekend",
-            avatar: "https://via.placeholder.com/50",
-            type: "Organization"
-          },
-        ],
-        Groups: [
-          {
-            id: 4,
-            user: "Neighborhood Watch",
-            date: "Nov 13, 2024",
-            content: "Monthly meeting this Thursday at 7 PM",
-            avatar: "https://via.placeholder.com/50",
-            type: "Group"
-          },
-        ],
-        Sharing: [
-          {
-            id: 5,
-            user: "Sarah Johnson",
-            date: "Nov 14, 2024",
-            content: "Have extra gardening tools to share",
-            avatar: "https://via.placeholder.com/50",
-            type: "Share"
-          },
-        ],
-        Services: [
-          {
-            id: 6,
-            user: "Mike's Repair Shop",
-            date: "Nov 13, 2024",
-            content: "Offering free bike maintenance workshop",
-            avatar: "https://via.placeholder.com/50",
-            type: "Service"
-          },
-        ],
-      };
-
-      const [activeTab, setActiveTab] = React.useState('Events');
-      const [searchText, setSearchText] = React.useState('');
-
-      const filteredPosts = React.useMemo(() => {
-        const posts = allPosts[activeTab] || [];
-        if (!searchText) return posts;
-        return posts.filter(post => 
-          post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-          post.user.toLowerCase().includes(searchText.toLowerCase())
-        );
-      }, [activeTab, searchText]);
-
-      return (
-        <div className="app-container">
-          {/* Top Bar */}
-          <div className="top-bar">
-            <h1>ONE Global</h1>
-            <input 
-              className="search-bar" 
-              placeholder="Search" 
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <span className="material-icons">account_circle</span>
-          </div>
-
-          {/* Avatar Row */}
-          <div className="avatar-row">
-            {avatars.map((src, index) => (
-              <img key={index} src={src} className="avatar" alt="User avatar" />
-            ))}
-          </div>
-
-          {/* Tabs */}
-          <div className="tabs">
-            {Object.keys(allPosts).map(tab => (
-              <button
-                key={tab}
-                className={`tab ${activeTab === tab ? 'active' : ''}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Dashboard Grid */}
-          <div className="dashboard">
-            {/* Left Panel - Chats */}
-            <div className="panel">
-              <h2>Chats</h2>
-              <div className="chat-item">
-                <img src="https://via.placeholder.com/40" className="avatar" alt="Chat avatar" />
-                <div className="chat-text">
-                  <div className="chat-name">Working Group</div>
-                  <div className="chat-preview">Last message...</div>
-                </div>
-              </div>
-              <div className="chat-item">
-                <img src="https://via.placeholder.com/40" className="avatar" alt="Chat avatar" />
-                <div className="chat-text">
-                  <div className="chat-name">Sales</div>
-                  <div className="chat-preview">Hey, I have an idea!</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Middle Panel - Feed */}
-            <div>
-              {filteredPosts.map(post => (
-                <div key={post.id} className="post-card">
-                  <div className="post-header">
-                    <img src={post.avatar} className="avatar" alt="Post avatar" />
-                    <div>
-                      <div style={{display: 'flex', alignItems: 'center'}}>
-                        {post.user}
-                        <span className="badge">{post.type}</span>
-                      </div>
-                      <div style={{color: '#93a1a1'}}>{post.date}</div>
-                    </div>
-                  </div>
-                  <div className="post-content">{post.content}</div>
-                  <hr style={{borderColor: '#073642'}} />
-                  <div className="post-actions">
-                    <button className="action-button">Like</button>
-                    <button className="action-button">Comment</button>
-                    <button className="action-button">Share</button>
-                  </div>
-                </div>
-              ))}
-              {filteredPosts.length === 0 && (
-                <div className="post-card" style={{textAlign: 'center'}}>
-                  No posts found in this category
-                </div>
-              )}
-            </div>
-
-            {/* Right Panel - Map */}
-            <div className="panel">
-              <h2>Map</h2>
-              <div className="map-placeholder">
-                Map Placeholder
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
-</body>
-</html>
-      height: 100%;
-      font-family: 'Roboto', sans-serif;
     }
     /* Animated Gradient Background */
-    body {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      height: 100vh;
-      color: #fff;
-      overflow: hidden;
-    }
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+    }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
+      padding: 20px;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
   </style>
 </head>
-<body>
+<body style="margin: 0;">
   <div id="root"></div>
 
-  <!-- React and ReactDOM -->
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <!-- Babel for JSX -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Material-UI Components -->
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
       AppBar,
       Toolbar,
       Typography,
+      Button,
       IconButton,
-      Avatar,
+      Container,
       Box,
-      Tabs,
-      Tab,
       Grid,
       Card,
       CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
       List,
       ListItem,
-      ListItemAvatar,
       ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Tabs,
+      Tab,
+      InputBase,
       Paper,
+      ListItemAvatar,
+      ListItemIcon,
+      Badge,
+      Chip,
+      Tooltip,
+      Drawer,
     } = MaterialUI;
 
-    const { Chat, Favorite, CalendarToday, LocationOn, People, AccountCircle } = MaterialUIIcons;
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#BF820A',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
 
-    const posts = [
-      { id: 1, user: "Cameron Ely-Murdock", content: "Offering a free yoga class!", avatar: "https://via.placeholder.com/50" },
-      { id: 2, user: "Emily Clark", content: "Looking for help with community garden.", avatar: "https://via.placeholder.com/50" },
-    ];
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('dashboard');
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    function TopBar() {
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'dashboard':
+            return <DashboardPage />;
+          // Include other pages here...
+          default:
+            return <DashboardPage />;
+        }
+      };
+
       return (
-        <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
+            {renderPage()}
+          </Box>
+        </ThemeProvider>
+      );
+    }
+
+    function NavigationBar({ setCurrentPage, isMobile }) {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+
+      const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
+      };
+
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>ONE Local</Typography>
-            <IconButton color="inherit">
-              <AccountCircle />
-            </IconButton>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('dashboard')}>
+              ONE Local
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')} aria-label="menu">
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  <MenuItem onClick={() => { setCurrentPage('dashboard'); handleMenuClose(); }}>Dashboard</MenuItem>
+                  {/* Add other menu items here */}
+                </Menu>
+              </>
+            ) : (
+              <div className="desktopMenu">
+                <Button color="primary" onClick={() => setCurrentPage('dashboard')}>Dashboard</Button>
+                {/* Add other buttons here */}
+              </div>
+            )}
+            {/* Add menus for other options if needed */}
           </Toolbar>
         </AppBar>
       );
     }
 
-    function FeedCard({ post }) {
-      return (
-        <Card sx={{ mb: 2, bgcolor: '#333', color: '#fff' }}>
-          <CardContent>
-            <Grid container alignItems="center">
-              <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
-              <Box>
-                <Typography variant="subtitle1">{post.user}</Typography>
-                <Typography variant="body2">{post.content}</Typography>
-              </Box>
-            </Grid>
-          </CardContent>
-        </Card>
-      );
-    }
+    function DashboardPage() {
+      const avatars = [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/65.jpg",
+        "https://randomuser.me/api/portraits/men/85.jpg",
+        "https://randomuser.me/api/portraits/women/25.jpg",
+        "https://randomuser.me/api/portraits/men/41.jpg",
+      ];
 
-    function FeedModule() {
-      return (
-        <Box sx={{ p: 2 }}>
-          {posts.map(post => (
-            <FeedCard key={post.id} post={post} />
-          ))}
-        </Box>
-      );
-    }
-
-    function ChatsModule() {
-      return (
-        <List sx={{ p: 2 }}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar src="https://via.placeholder.com/40" />
-            </ListItemAvatar>
-            <ListItemText primary="Working Group" secondary="New strategy discussion" />
-          </ListItem>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar src="https://via.placeholder.com/40" />
-            </ListItemAvatar>
-            <ListItemText primary="Sales" secondary="Hey, I have a good idea!" />
-          </ListItem>
-        </List>
-      );
-    }
-
-    function MapModule() {
-      return (
-        <Paper sx={{ p: 2, textAlign: 'center', color: '#fff', bgcolor: '#333' }}>
-          <Typography variant="h6">Map View</Typography>
-          <Typography>Map Placeholder</Typography>
-        </Paper>
-      );
-    }
-
-    function MainContent({ tabIndex }) {
-      switch (tabIndex) {
-        case 0: return <ChatsModule />;
-        case 1: return <FeedModule />;
-        case 2: return <MapModule />;
-        default: return <FeedModule />;
-      }
-    }
-
-    function Dashboard() {
-      const [tabIndex, setTabIndex] = React.useState(1);
-
-      const handleTabChange = (event, newIndex) => {
-        setTabIndex(newIndex);
+      const allPosts = {
+        Events: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+        ],
+        Orgs: [
+          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank" },
+          { id: 4, user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter" },
+        ],
+        Groups: [
+          { id: 5, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Monthly safety meeting on Thursday. All are welcome.", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
+          { id: 6, user: "Book Club", date: "Nov 16, 2024", content: "Join us for a discussion on our latest book choice!", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+        ],
+        Sharing: [
+          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
+        ],
+        Services: [
+          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
+          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+        ],
       };
 
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
+      const [selectedPost, setSelectedPost] = React.useState(null);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
+
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
+
       return (
-        <Box>
-          <TopBar />
-          <Tabs value={tabIndex} onChange={handleTabChange} centered sx={{ bgcolor: '#004d40', color: '#fff' }}>
-            <Tab icon={<Chat />} label="Chats" />
-            <Tab icon={<Favorite />} label="Feed" />
-            <Tab icon={<LocationOn />} label="Map" />
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
+          <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  Dashboard
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <InputBase
+                  fullWidth
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  startAdornment={<Icon sx={{ mr: 1 }}>search</Icon>}
+                  sx={{ backgroundColor: '#f0f0f0', px: 2, borderRadius: '20px' }}
+                />
+              </Grid>
+              <Grid item>
+                <IconButton>
+                  <Badge badgeContent={4} color="secondary">
+                    <Icon>notifications</Icon>
+                  </Badge>
+                </IconButton>
+                <IconButton>
+                  <Avatar>
+                    <Icon>account_circle</Icon>
+                  </Avatar>
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Box sx={{ overflowX: 'auto', mb: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {avatars.map((src, index) => (
+                <Avatar key={index} src={src} />
+              ))}
+            </Box>
+          </Box>
+
+          <Tabs
+            value={activeTab}
+            onChange={(e, newValue) => setActiveTab(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2 }}
+          >
+            {Object.keys(allPosts).map((tab) => (
+              <Tab key={tab} label={tab} value={tab} />
+            ))}
           </Tabs>
-          <MainContent tabIndex={tabIndex} />
-        </Box>
+
+          <Grid container spacing={2}>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Chats
+                  </Typography>
+                  <List>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Working Group" secondary="Last message..." />
+                    </ListItem>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Sales" secondary="New idea..." />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+            )}
+            <Grid item xs={12} md={isMobile ? 12 : 6}>
+              {filteredPosts.map(post => (
+                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item>
+                        <Avatar src={post.avatar} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {post.user}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {post.date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                      {post.content}
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
+                      <Chip icon={<Icon>comment</Icon>} label="Comment" />
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Grid>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Map
+                  </Typography>
+                  <Box sx={{ height: 200, backgroundColor: '#e0e0e0', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+                      Map Placeholder
+                    </Typography>
+                  </Box>
+                </Paper>
+              </Grid>
+            )}
+          </Grid>
+
+          {/* Post Details Modal */}
+          <Modal
+            open={Boolean(selectedPost)}
+            onClose={closeModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="post-modal-title"
+            aria-describedby="post-modal-description"
+          >
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Grid container spacing={2} sx={{ mb: 2 }}>
+                      <Grid item>
+                        <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="h6" component="h2">
+                          {selectedPost.user}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {selectedPost.date}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton onClick={closeModal}>
+                          <Icon>close</Icon>
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mb: 4 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={closeModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard />);
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
