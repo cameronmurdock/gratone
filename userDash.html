@@ -147,7 +147,7 @@
       Badge,
       Chip,
       Tooltip,
-      Drawer,
+      CircularProgress,
     } = MaterialUI;
 
     // Custom Theme
@@ -358,6 +358,7 @@
       const skills = ["Designing", "Art Making"];
       const sharingOffers = [
         { id: 1, title: "Painting", image: "https://via.placeholder.com/150", offered: true },
+        { id: 2, title: "Photography", image: "https://via.placeholder.com/150", offered: false },
       ];
 
       return (
@@ -473,33 +474,196 @@
     // Main Content Component
     function MainContent({ activeTab, setActiveTab }) {
       const [searchWithinTab, setSearchWithinTab] = React.useState('');
-      const [selectedEvent, setSelectedEvent] = React.useState(null);
+      const [selectedItem, setSelectedItem] = React.useState(null);
 
-      const events = [
-        {
-          id: 1,
-          title: "Jo Malone London’s Mother",
-          date: "Dec 01, 2024",
-          time: "10:00 AM - 2:00 PM",
-          location: "Radius Gallery - Santa Cruz, CA",
-          thumbnail: "https://via.placeholder.com/300x200",
-        },
-        {
-          id: 2,
-          title: "Community Cleanup",
-          date: "Dec 05, 2024",
-          time: "8:00 AM - 12:00 PM",
-          location: "Central Park - New York, NY",
-          thumbnail: "https://via.placeholder.com/300x200",
-        },
+      // Sample Data
+      const sharingData = {
+        offers: [
+          { id: 1, title: "Painting Supplies", description: "Offering a set of brushes and paints." },
+          { id: 2, title: "Photography Session", description: "Free photography session for events." },
+        ],
+        requests: [
+          { id: 3, title: "Art Lessons", description: "Looking for someone to teach me painting." },
+          { id: 4, title: "Event Hosting", description: "Need assistance in hosting a community event." },
+        ],
+        gratitudes: [
+          { id: 5, title: "Thank You for Helping", description: "Grateful for the support during our event." },
+          { id: 6, title: "Appreciation for Volunteers", description: "Thank you to all the volunteers who made it possible." },
+        ],
+      };
+
+      const eventsData = {
+        events: [
+          {
+            id: 1,
+            title: "Community Yoga Session",
+            date: "Dec 01, 2024",
+            time: "10:00 AM - 2:00 PM",
+            location: "Radius Gallery - Santa Cruz, CA",
+            thumbnail: "https://via.placeholder.com/300x200",
+            projects: [
+              { id: 1, title: "Set Up Yoga Mats", description: "Arrange yoga mats in the designated area." },
+              { id: 2, title: "Music Coordination", description: "Coordinate with the musician for background music." },
+            ],
+          },
+          {
+            id: 2,
+            title: "Art Fair",
+            date: "Dec 05, 2024",
+            time: "8:00 AM - 6:00 PM",
+            location: "Central Park - New York, NY",
+            thumbnail: "https://via.placeholder.com/300x200",
+            projects: [
+              { id: 3, title: "Vendor Coordination", description: "Manage and coordinate with art vendors." },
+              { id: 4, title: "Marketing Materials", description: "Prepare and distribute marketing materials." },
+            ],
+          },
+        ]
+      };
+
+      const groupsData = {
+        groups: [
+          {
+            id: 1,
+            name: "Neighborhood Watch",
+            orgs: [
+              { id: 1, name: "Safety Committee" },
+              { id: 2, name: "Patrol Team" },
+            ],
+          },
+          {
+            id: 2,
+            name: "Book Club",
+            orgs: [
+              { id: 3, name: "Monthly Readers" },
+              { id: 4, name: "Discussion Leaders" },
+            ],
+          },
+        ]
+      };
+
+      const peopleData = [
+        { id: 1, name: "Emily Clark", role: "Artist", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+        { id: 2, name: "Tom Baker", role: "Event Organizer", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
+        { id: 3, name: "Sarah Johnson", role: "Photographer", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+        { id: 4, name: "Michael Lee", role: "Volunteer", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
       ];
 
-      const handleEventClick = (event) => {
-        setSelectedEvent(event);
+      const handleItemClick = (item) => {
+        setSelectedItem(item);
       };
 
       const handleCloseModal = () => {
-        setSelectedEvent(null);
+        setSelectedItem(null);
+      };
+
+      // Render Content Based on Active Tab
+      const renderContent = () => {
+        switch (activeTab) {
+          case 'Sharing':
+            return (
+              <Box>
+                <Typography variant="h5" sx={{ mb: 2 }}>Sharing</Typography>
+                {/* Subsections: Offers, Requests, Gratitudes */}
+                {['offers', 'requests', 'gratitudes'].map(section => (
+                  <Box key={section} sx={{ mb: 4 }}>
+                    <Typography variant="h6" sx={{ mb: 1, textTransform: 'capitalize' }}>{section}</Typography>
+                    <Grid container spacing={2}>
+                      {sharingData[section].map(item => (
+                        <Grid item xs={12} sm={6} md={4} key={item.id}>
+                          <Card onClick={() => handleItemClick({ ...item, type: section })} sx={{ cursor: 'pointer' }}>
+                            <CardContent>
+                              <Typography variant="h6">{item.title}</Typography>
+                              <Typography variant="body2" color="text.secondary">{item.description}</Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                ))}
+              </Box>
+            );
+          case 'Events':
+            return (
+              <Box>
+                <Typography variant="h5" sx={{ mb: 2 }}>Events</Typography>
+                <Grid container spacing={2}>
+                  {eventsData.events.map(event => (
+                    <Grid item xs={12} sm={6} md={4} key={event.id}>
+                      <Card onClick={() => handleItemClick(event)} sx={{ cursor: 'pointer' }}>
+                        <CardContent>
+                          <Box sx={{ position: 'relative' }}>
+                            <img src={event.thumbnail} alt={event.title} style={{ width: '100%', borderRadius: '10px' }} />
+                            <IconButton
+                              sx={{ position: 'absolute', top: 10, right: 10, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}
+                              onClick={(e) => { e.stopPropagation(); /* Handle options */ }}
+                            >
+                              <Icon>more_vert</Icon>
+                            </IconButton>
+                          </Box>
+                          <Typography variant="h6" sx={{ mt: 2 }}>
+                            {event.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {event.date} | {event.time}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {event.location}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            );
+          case 'Groups':
+            return (
+              <Box>
+                <Typography variant="h5" sx={{ mb: 2 }}>Groups</Typography>
+                {groupsData.groups.map(group => (
+                  <Box key={group.id} sx={{ mb: 4 }}>
+                    <Typography variant="h6">{group.name}</Typography>
+                    <Grid container spacing={2} sx={{ mt: 1 }}>
+                      {group.orgs.map(org => (
+                        <Grid item xs={12} sm={6} md={4} key={org.id}>
+                          <Card onClick={() => handleItemClick({ ...org, type: 'org' })} sx={{ cursor: 'pointer' }}>
+                            <CardContent>
+                              <Typography variant="h6">{org.name}</Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
+                ))}
+              </Box>
+            );
+          case 'People':
+            return (
+              <Box>
+                <Typography variant="h5" sx={{ mb: 2 }}>People</Typography>
+                <Grid container spacing={2}>
+                  {peopleData.map(person => (
+                    <Grid item xs={12} sm={6} md={4} key={person.id}>
+                      <Card onClick={() => handleItemClick(person)} sx={{ cursor: 'pointer' }}>
+                        <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                          <Avatar src={person.avatar} alt={person.name} sx={{ width: 56, height: 56 }} />
+                          <Box>
+                            <Typography variant="h6">{person.name}</Typography>
+                            <Typography variant="body2" color="text.secondary">{person.role}</Typography>
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            );
+          default:
+            return null;
+        }
       };
 
       return (
@@ -511,8 +675,9 @@
             variant="scrollable"
             scrollButtons="auto"
             sx={{ mb: 2 }}
+            aria-label="main tabs"
           >
-            {['Events', 'Orgs', 'Groups', 'Sharing', 'Services', 'Roles', 'Products', 'Polling', 'Resources'].map((tab) => (
+            {['Sharing', 'Events', 'Groups', 'People'].map(tab => (
               <Tab key={tab} label={tab} value={tab} />
             ))}
           </Tabs>
@@ -522,6 +687,7 @@
             <Paper
               component="form"
               sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300 }}
+              onSubmit={(e) => { e.preventDefault(); /* Handle search */ }}
             >
               <InputBase
                 sx={{ ml: 1, flex: 1 }}
@@ -536,258 +702,249 @@
             </Paper>
           </Box>
 
-          {/* Events Cards */}
-          <Grid container spacing={2}>
-            {events.filter(event => 
-              event.title.toLowerCase().includes(searchWithinTab.toLowerCase()) ||
-              event.location.toLowerCase().includes(searchWithinTab.toLowerCase())
-            ).map(event => (
-              <Grid item xs={12} sm={6} md={4} key={event.id}>
-                <Card onClick={() => handleEventClick(event)} sx={{ cursor: 'pointer' }}>
-                  <CardContent>
-                    <Box sx={{ position: 'relative' }}>
-                      <img src={event.thumbnail} alt={event.title} style={{ width: '100%', borderRadius: '10px' }} />
-                      <IconButton
-                        sx={{ position: 'absolute', top: 10, right: 10, backgroundColor: 'rgba(255, 255, 255, 0.7)' }}
-                        onClick={(e) => { e.stopPropagation(); /* Handle options */ }}
-                      >
-                        <Icon>more_vert</Icon>
-                      </IconButton>
-                    </Box>
-                    <Typography variant="h6" sx={{ mt: 2 }}>
-                      {event.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {event.date} | {event.time}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {event.location}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          {/* Render Content Based on Active Tab */}
+          {renderContent()}
 
-          {/* Event Details Modal */}
+          {/* Item Details Modal */}
           <Modal
-            open={Boolean(selectedEvent)}
+            open={Boolean(selectedItem)}
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
               timeout: 500,
             }}
-            aria-labelledby="event-modal-title"
-            aria-describedby="event-modal-description"
+            aria-labelledby="item-modal-title"
+            aria-describedby="item-modal-description"
           >
-            <Fade in={Boolean(selectedEvent)}>
+            <Fade in={Boolean(selectedItem)}>
               <Box className="modalContent">
-                {selectedEvent && (
+                {selectedItem && (
                   <>
                     <IconButton className="modalCloseButton" onClick={handleCloseModal}>
                       <Icon>close</Icon>
                     </IconButton>
-                    <Typography id="event-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      {selectedEvent.title}
-                    </Typography>
-                    <img src={selectedEvent.thumbnail} alt={selectedEvent.title} style={{ width: '100%', borderRadius: '10px', marginBottom: '20px' }} />
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      <strong>Date:</strong> {selectedEvent.date}
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      <strong>Time:</strong> {selectedEvent.time}
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                      <strong>Location:</strong> {selectedEvent.location}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
+                    {/* Conditional Rendering Based on Item Type */}
+                    {selectedItem.type === 'offers' || selectedItem.type === 'requests' || selectedItem.type === 'gratitudes' ? (
+                      <Box>
+                        <Typography id="item-modal-title" variant="h5" component="h2" sx={{ mb: 2, textTransform: 'capitalize' }}>
+                          {selectedItem.title}
+                        </Typography>
+                        <Typography id="item-modal-description" variant="body1" sx={{ mb: 2 }}>
+                          {selectedItem.description}
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </Box>
+                    ) : selectedItem.type === 'org' ? (
+                      <Box>
+                        <Typography id="item-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedItem.name}
+                        </Typography>
+                        <Typography id="item-modal-description" variant="body1" sx={{ mb: 2 }}>
+                          Details about the organization.
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </Box>
+                    ) : (
+                      <Box>
+                        <Typography id="item-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                          {selectedItem.title || selectedItem.name}
+                        </Typography>
+                        <Typography id="item-modal-description" variant="body1" sx={{ mb: 2 }}>
+                          Details about the event, project, or person.
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </Box>
+                    )}
                   </>
                 )}
               </Box>
             </Fade>
           </Modal>
-        }
+        </Box>
+      );
 
-        // Right Pane - Group Feed Section
-        function RightPane() {
-          const [selectedPost, setSelectedPost] = React.useState(null);
-          const [commentText, setCommentText] = React.useState('');
+    // Right Pane - Group Feed Section
+    function RightPane() {
+      const [selectedPost, setSelectedPost] = React.useState(null);
+      const [commentText, setCommentText] = React.useState('');
 
-          const posts = [
+      const posts = [
+        {
+          id: 1,
+          avatar: "https://randomuser.me/api/portraits/women/25.jpg",
+          name: "Miekie Smith",
+          timestamp: "in a day",
+          content: "This is a placeholder post content. Excited about the upcoming events!",
+          image: "https://via.placeholder.com/300x200",
+          reactions: { likes: 10, comments: 2 },
+          comments: [
             {
               id: 1,
-              avatar: "https://randomuser.me/api/portraits/women/25.jpg",
-              name: "Miekie Smith",
-              timestamp: "in a day",
-              content: "This is a placeholder post content. Excited about the upcoming events!",
-              image: "https://via.placeholder.com/300x200",
-              reactions: { likes: 10, comments: 2 },
-              comments: [
-                {
-                  id: 1,
-                  avatar: "https://randomuser.me/api/portraits/men/41.jpg",
-                  name: "Tom Baker",
-                  text: "Looking forward to it!",
-                },
-                {
-                  id: 2,
-                  avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-                  name: "Emily Clark",
-                  text: "Me too!",
-                },
-              ],
+              avatar: "https://randomuser.me/api/portraits/men/41.jpg",
+              name: "Tom Baker",
+              text: "Looking forward to it!",
             },
-            // Add more posts as needed
-          ];
+            {
+              id: 2,
+              avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+              name: "Emily Clark",
+              text: "Me too!",
+            },
+          ],
+        },
+        // Add more posts as needed
+      ];
 
-          const handlePostClick = (post) => {
-            setSelectedPost(post);
-          };
+      const handlePostClick = (post) => {
+        setSelectedPost(post);
+      };
 
-          const handleCloseModal = () => {
-            setSelectedPost(null);
-            setCommentText('');
-          };
+      const handleCloseModal = () => {
+        setSelectedPost(null);
+        setCommentText('');
+      };
 
-          const handleAddComment = () => {
-            if (commentText.trim() === '') return;
-            // Here you would typically update the state or make an API call
-            alert(`Comment added: ${commentText}`);
-            setCommentText('');
-          };
+      const handleAddComment = () => {
+        if (commentText.trim() === '') return;
+        // Here you would typically update the state or make an API call
+        alert(`Comment added: ${commentText}`);
+        setCommentText('');
+      };
 
-          return (
-            <Box className="right-pane" sx={{ width: 300, p: 2, backgroundColor: '#ffffff', height: '100vh', position: 'fixed', top: 64, right: 0, overflowY: 'auto' }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>Group Feed</Typography>
-              <List>
-                {posts.map(post => (
-                  <ListItem key={post.id} alignItems="flex-start" sx={{ mb: 2, cursor: 'pointer' }} onClick={() => handlePostClick(post)}>
-                    <ListItemAvatar>
-                      <Avatar src={post.avatar} alt={post.name} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <Box display="flex" alignItems="center" justifyContent="space-between">
-                          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                            {post.name}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {post.timestamp}
-                          </Typography>
-                        </Box>
-                      }
-                      secondary={
-                        <>
-                          <Typography variant="body2" color="text.primary">
-                            {post.content}
-                          </Typography>
-                          {post.image && <img src={post.image} alt="Post Image" style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} />}
-                          <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
-                            <IconButton size="small">
-                              <Icon>favorite</Icon>
-                            </IconButton>
-                            <Typography variant="caption" sx={{ mr: 2 }}>
-                              {post.reactions.likes}
-                            </Typography>
-                            <IconButton size="small">
-                              <Icon>comment</Icon>
-                            </IconButton>
-                            <Typography variant="caption">
-                              {post.reactions.comments}
-                            </Typography>
-                          </Box>
-                        </>
-                      }
-                    />
-                  </ListItem>
-                ))}
-              </List>
-
-              {/* Post Details Modal */}
-              <Modal
-                open={Boolean(selectedPost)}
-                onClose={handleCloseModal}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-                aria-labelledby="post-modal-title"
-                aria-describedby="post-modal-description"
-              >
-                <Fade in={Boolean(selectedPost)}>
-                  <Box className="modalContent">
-                    {selectedPost && (
-                      <>
-                        <IconButton className="modalCloseButton" onClick={handleCloseModal}>
-                          <Icon>close</Icon>
+      return (
+        <Box className="right-pane" sx={{ width: 300, p: 2, backgroundColor: '#ffffff', height: '100vh', position: 'fixed', top: 64, right: 0, overflowY: 'auto' }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>Group Feed</Typography>
+          <List>
+            {posts.map(post => (
+              <ListItem key={post.id} alignItems="flex-start" sx={{ mb: 2, cursor: 'pointer' }} onClick={() => handlePostClick(post)}>
+                <ListItemAvatar>
+                  <Avatar src={post.avatar} alt={post.name} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                        {post.name}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {post.timestamp}
+                      </Typography>
+                    </Box>
+                  }
+                  secondary={
+                    <>
+                      <Typography variant="body2" color="text.primary">
+                        {post.content}
+                      </Typography>
+                      {post.image && <img src={post.image} alt="Post Image" style={{ width: '100%', borderRadius: '10px', marginTop: '10px' }} />}
+                      <Box display="flex" alignItems="center" sx={{ mt: 1 }}>
+                        <IconButton size="small">
+                          <Icon>favorite</Icon>
                         </IconButton>
-                        <Grid container spacing={2} sx={{ mb: 2 }}>
-                          <Grid item>
-                            <Avatar src={selectedPost.avatar} alt={selectedPost.name} sx={{ width: 56, height: 56 }} />
-                          </Grid>
-                          <Grid item xs>
-                            <Typography variant="h6" component="h2">
-                              {selectedPost.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {selectedPost.timestamp}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          {selectedPost.content}
+                        <Typography variant="caption" sx={{ mr: 2 }}>
+                          {post.reactions.likes}
                         </Typography>
-                        {selectedPost.image && <img src={selectedPost.image} alt="Post Image" style={{ width: '100%', borderRadius: '10px', marginBottom: '20px' }} />}
-                        <Box display="flex" alignItems="center" sx={{ mb: 2 }}>
-                          <IconButton>
-                            <Icon>favorite</Icon>
-                          </IconButton>
-                          <Typography variant="body2" sx={{ mr: 2 }}>
-                            {selectedPost.reactions.likes} Likes
-                          </Typography>
-                          <IconButton>
-                            <Icon>comment</Icon>
-                          </IconButton>
-                          <Typography variant="body2">
-                            {selectedPost.reactions.comments} Comments
-                          </Typography>
+                        <IconButton size="small">
+                          <Icon>comment</Icon>
+                        </IconButton>
+                        <Typography variant="caption">
+                          {post.reactions.comments}
+                        </Typography>
+                      </Box>
+                    </>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
+
+          {/* Post Details Modal */}
+          <Modal
+            open={Boolean(selectedPost)}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="post-modal-title"
+            aria-describedby="post-modal-description"
+          >
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <IconButton className="modalCloseButton" onClick={handleCloseModal}>
+                      <Icon>close</Icon>
+                    </IconButton>
+                    <Grid container spacing={2} sx={{ mb: 2 }}>
+                      <Grid item>
+                        <Avatar src={selectedPost.avatar} alt={selectedPost.name} sx={{ width: 56, height: 56 }} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="h6" component="h2">
+                          {selectedPost.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {selectedPost.timestamp}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mb: 2 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    {selectedPost.image && <img src={selectedPost.image} alt="Post Image" style={{ width: '100%', borderRadius: '10px', marginBottom: '20px' }} />}
+                    <Box display="flex" alignItems="center" sx={{ mb: 2 }}>
+                      <IconButton>
+                        <Icon>favorite</Icon>
+                      </IconButton>
+                      <Typography variant="body2" sx={{ mr: 2 }}>
+                        {selectedPost.reactions.likes} Likes
+                      </Typography>
+                      <IconButton>
+                        <Icon>comment</Icon>
+                      </IconButton>
+                      <Typography variant="body2">
+                        {selectedPost.reactions.comments} Comments
+                      </Typography>
+                    </Box>
+                    {/* Comments Section */}
+                    <Box sx={{ maxHeight: '200px', overflowY: 'auto', mb: 2 }}>
+                      {selectedPost.comments.map(comment => (
+                        <Box key={comment.id} display="flex" alignItems="center" sx={{ mb: 1 }}>
+                          <Avatar src={comment.avatar} alt={comment.name} sx={{ width: 30, height: 30, mr: 1 }} />
+                          <Box>
+                            <Typography variant="subtitle2">{comment.name}</Typography>
+                            <Typography variant="body2">{comment.text}</Typography>
+                          </Box>
                         </Box>
-                        {/* Comments Section */}
-                        <Box sx={{ maxHeight: '200px', overflowY: 'auto', mb: 2 }}>
-                          {selectedPost.comments.map(comment => (
-                            <Box key={comment.id} display="flex" alignItems="center" sx={{ mb: 1 }}>
-                              <Avatar src={comment.avatar} alt={comment.name} sx={{ width: 30, height: 30, mr: 1 }} />
-                              <Box>
-                                <Typography variant="subtitle2">{comment.name}</Typography>
-                                <Typography variant="body2">{comment.text}</Typography>
-                              </Box>
-                            </Box>
-                          ))}
-                        </Box>
-                        {/* Add Comment */}
-                        <Box display="flex" alignItems="center">
-                          <Avatar src="https://randomuser.me/api/portraits/men/41.jpg" alt="User" sx={{ width: 30, height: 30, mr: 1 }} />
-                          <TextField
-                            variant="outlined"
-                            placeholder="Add a comment..."
-                            size="small"
-                            fullWidth
-                            value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
-                          />
-                          <Button onClick={handleAddComment} sx={{ ml: 1 }}>Post</Button>
-                        </Box>
-                      </>
-                    )}
-                  </Box>
-                </Fade>
-              </Modal>
-            </Box>
-          );
+                      ))}
+                    </Box>
+                    {/* Add Comment */}
+                    <Box display="flex" alignItems="center">
+                      <Avatar src="https://randomuser.me/api/portraits/men/41.jpg" alt="User" sx={{ width: 30, height: 30, mr: 1 }} />
+                      <TextField
+                        variant="outlined"
+                        placeholder="Add a comment..."
+                        size="small"
+                        fullWidth
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                      />
+                      <Button onClick={handleAddComment} sx={{ ml: 1 }}>Post</Button>
+                    </Box>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         }
 
         // Footer Component
@@ -844,16 +1001,16 @@
                   <Grid item xs={12} md={4}>
                     <Typography variant="h6" sx={{ mb: 2 }}>Follow Us</Typography>
                     <Box display="flex" gap={1}>
-                      <IconButton href="#" color="primary">
+                      <IconButton href="#" color="primary" aria-label="Facebook">
                         <Icon>facebook</Icon>
                       </IconButton>
-                      <IconButton href="#" color="primary">
+                      <IconButton href="#" color="primary" aria-label="Twitter">
                         <Icon>twitter</Icon>
                       </IconButton>
-                      <IconButton href="#" color="primary">
+                      <IconButton href="#" color="primary" aria-label="Instagram">
                         <Icon>instagram</Icon>
                       </IconButton>
-                      <IconButton href="#" color="primary">
+                      <IconButton href="#" color="primary" aria-label="LinkedIn">
                         <Icon>linkedin</Icon>
                       </IconButton>
                     </Box>
@@ -887,7 +1044,7 @@
 
         // Dashboard Component integrating Header, Sidebar, MainContent, RightPane, and Footer
         function Dashboard() {
-          const [activeTab, setActiveTab] = React.useState('Events');
+          const [activeTab, setActiveTab] = React.useState('Sharing');
           const [searchText, setSearchText] = React.useState('');
 
           return (
