@@ -50,7 +50,7 @@
     }
     /* Custom Styles for Profile Dashboard */
     .sidebar {
-      background-color: rgba(0, 128, 128, 0.8); /* Teal background */
+      background-color: rgba(34, 197, 94, 0.9); /* Emerald background */
       color: white;
       padding: 16px;
       height: 100vh;
@@ -59,6 +59,7 @@
       top: 0;
       width: 256px;
       overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
     .main-content {
       margin-left: 256px;
@@ -81,8 +82,6 @@
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-  <!-- Lucide-React Icons -->
-  <script src="https://unpkg.com/lucide-react/dist/lucide-react.min.js"></script>
 
   <script type="text/babel">
     const {
@@ -131,17 +130,17 @@
       MessageCircle,
       Palette,
       Search,
-      Calendar,
-      MapPin,
-      Activity,
-      Users,
-      Share,
-      Settings,
-      Book,
-      Package,
-      BarChart,
-      FileText
-    } = lucideReact;
+      CalendarToday,
+      LocationOn,
+      TrendingUp,
+      People,
+      Share as ShareIcon,
+      Settings as SettingsIcon,
+      Book as BookIcon,
+      Inventory as InventoryIcon,
+      BarChart as BarChartIcon,
+      Description as DescriptionIcon
+    } = MaterialUIIcons;
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
@@ -259,15 +258,15 @@
       const tabs = ['My Groups', 'Attending', 'Interested'];
       
       const categories = [
-        { name: 'Events', icon: <Calendar className="w-4 h-4" /> },
-        { name: 'Orgs', icon: <Users className="w-4 h-4" /> },
-        { name: 'Groups', icon: <Users className="w-4 h-4" /> },
-        { name: 'Sharing', icon: <Share className="w-4 h-4" /> },
-        { name: 'Services', icon: <Settings className="w-4 h-4" /> },
-        { name: 'Rules', icon: <Book className="w-4 h-4" /> },
-        { name: 'Products', icon: <Package className="w-4 h-4" /> },
-        { name: 'Polling', icon: <BarChart className="w-4 h-4" /> },
-        { name: 'Resources', icon: <FileText className="w-4 h-4" /> }
+        { name: 'Events', icon: <CalendarToday /> },
+        { name: 'Orgs', icon: <People /> },
+        { name: 'Groups', icon: <People /> },
+        { name: 'Sharing', icon: <ShareIcon /> },
+        { name: 'Services', icon: <SettingsIcon /> },
+        { name: 'Rules', icon: <BookIcon /> },
+        { name: 'Products', icon: <InventoryIcon /> },
+        { name: 'Polling', icon: <BarChartIcon /> },
+        { name: 'Resources', icon: <DescriptionIcon /> }
       ];
       
       const events = [
@@ -285,8 +284,20 @@
         }
       ];
 
+      // Modal State
+      const [selectedEvent, setSelectedEvent] = React.useState(null);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+      const handleOpenModal = (event) => {
+        setSelectedEvent(event);
+      };
+
+      const handleCloseModal = () => {
+        setSelectedEvent(null);
+      };
+
       return (
-        <Box className="min-h-screen bg-teal-900/90" sx={{ backgroundColor: 'teal.900', opacity: 0.9 }}>
+        <Box className="min-h-screen bg-teal-900/90" sx={{ backgroundColor: 'teal.900', opacity: 0.9, display: 'flex' }}>
           {/* Left Sidebar */}
           <Box className="sidebar">
             <Box className="flex flex-col items-center">
@@ -308,17 +319,17 @@
               
               <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>Cameron Murdock</Typography>
               <Box className="flex items-center gap-2 mb-4" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <Gift className="w-4 h-4" />
+                <Gift />
                 <Typography variant="body2">500</Typography>
               </Box>
               
               <Button variant="contained" color="primary" fullWidth sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                <Gift className="w-4 h-4" />
+                <Gift />
                 Give
               </Button>
               
               <Button variant="contained" color="primary" fullWidth sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle />
                 Message
               </Button>
               
@@ -332,7 +343,7 @@
                 <Typography variant="h6" sx={{ mb: 1 }}>Sharing</Typography>
                 <Box className="bg-white rounded-lg p-2 flex items-center justify-between" sx={{ backgroundColor: 'white', borderRadius: 2, p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Box className="flex items-center gap-2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Palette className="w-4 h-4 text-black" />
+                    <Palette sx={{ color: 'black' }} />
                     <Typography variant="body2" sx={{ color: 'black' }}>Painting</Typography>
                   </Box>
                   <Typography variant="body2" sx={{ color: 'emerald.600', fontWeight: 'bold' }}>OFFER</Typography>
@@ -341,7 +352,7 @@
             </Box>
 
             {/* Main Content */}
-            <Box className="main-content">
+            <Box className="main-content" sx={{ flexGrow: 1, backgroundColor: 'transparent' }}>
               {/* Top Navigation */}
               <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'yellow.500', opacity: 0.2, borderRadius: 2 }}>
                 <Box className="flex gap-2 mb-4 flex-wrap" sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
@@ -394,7 +405,7 @@
               <Grid container spacing={4}>
                 {events.map((event, index) => (
                   <Grid item xs={12} md={6} key={index}>
-                    <Card sx={{ backgroundColor: 'white/10', color: 'white' }}>
+                    <Card sx={{ backgroundColor: 'white/10', color: 'white', cursor: 'pointer' }} onClick={() => handleOpenModal(event)}>
                       <CardContent>
                         <Box sx={{ position: 'relative' }}>
                           <img src={event.image} alt={event.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
@@ -403,11 +414,11 @@
                           {event.title}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                          <Calendar />
+                          <CalendarToday fontSize="small" />
                           <Typography variant="body2">{event.date}</Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <MapPin />
+                          <LocationOn fontSize="small" />
                           <Typography variant="body2">{event.location}</Typography>
                         </Box>
                       </CardContent>
@@ -415,17 +426,71 @@
                   </Grid>
                 ))}
               </Grid>
+
+              {/* Event Details Modal */}
+              <Modal
+                open={Boolean(selectedEvent)}
+                onClose={handleCloseModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+                aria-labelledby="event-modal-title"
+                aria-describedby="event-modal-description"
+              >
+                <Fade in={Boolean(selectedEvent)}>
+                  <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: isMobile ? '90%' : 600,
+                    bgcolor: 'background.paper',
+                    borderRadius: '10px',
+                    boxShadow: 24,
+                    p: 4,
+                  }}>
+                    {selectedEvent && (
+                      <>
+                        <Box sx={{ position: 'relative' }}>
+                          <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
+                        </Box>
+                        <Typography id="event-modal-title" variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+                          {selectedEvent.title}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                          <CalendarToday fontSize="small" />
+                          <Typography variant="body2">{selectedEvent.date}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                          <LocationOn fontSize="small" />
+                          <Typography variant="body2">{selectedEvent.location}</Typography>
+                        </Box>
+                        <Typography id="event-modal-description" variant="body1" sx={{ mb: 4 }}>
+                          {/* Placeholder for event description */}
+                          This is a detailed description of the event. You can add more information about the event here.
+                        </Typography>
+                        <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                      </>
+                    )}
+                  </Box>
+                </Fade>
+              </Modal>
             </Box>
         </Box>
       );
-      
-      // ======================= Render App =======================
-      ReactDOM.createRoot(document.getElementById('root')).render(
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ProfileDashboard />
-        </ThemeProvider>
-      );
+    };
+
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ProfileDashboard />
+      </ThemeProvider>
+    );
   </script>
 </body>
 </html>
