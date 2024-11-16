@@ -4,161 +4,106 @@
   <meta charset="UTF-8">
   <title>ONE Local Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <!-- React, ReactDOM, Babel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <!-- Material UI (if needed - uncomment) -->
+  <!--<script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>-->
+  <!--<script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
+    /* ... (All styles from BOTH code blocks – remove duplicates) */
+    .avatar {  /* Ensure avatar styles are present */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+   /* Override animated background from second snippet to apply it only where needed */
+    .animatedBackground { /* From second snippet - more specific application */
       background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      color: #333; /* Consistent text color */
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
     }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+     #root { /* So the gradient doesn't affect everything */
+      background-color: white; /* Or another desired background for the app */
+      min-height: 100vh; /* Ensure it takes up full viewport height */
     }
+
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel">
-    const {
-      ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
-      InputBase, IconButton, Avatar, Tabs, Tab, Box, Grid, Paper,
-      List, ListItem, ListItemAvatar, ListItemText, Divider, Modal, Fade, Backdrop
-    } = MaterialUI;
 
-    const theme = createTheme({ /* ... your theme from the org page ... */ });
+  <script type="text/babel">
+    // ... (Material UI imports – if used) 
+    // ... (theme definition – if using Material UI)
 
     function App() {
-      // ... (rest of your component code)
+       // ... (State, avatars, allPosts, filteredPosts, openModal, closeModal)
+
+       const [currentPage, setCurrentPage] = React.useState('dashboard'); // Start on the dashboard
+
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'dashboard':
+            return <DashboardContent 
+                      activeTab={activeTab}
+                      setActiveTab={setActiveTab}
+                      searchText={searchText}
+                      setSearchText={setSearchText}
+                      filteredPosts={filteredPosts}
+                      openModal={openModal}
+                   />;  // Pass necessary props to DashboardContent
+          // ... (Other pages - ManifestoPage, TeamPage, etc. from the second snippet)
+          default:
+            return <DashboardContent />;
+        }
+      };
+
+
       return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <div className="app-container">
-            <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
-              <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  ONE Global
-                </Typography>
-                <InputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                  sx={{ backgroundColor: 'white', borderRadius: 2, px: 1 }}
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                />
-                <IconButton color="inherit" sx={{ ml: 1 }}>
-                  <Avatar alt="User Avatar" src={avatars[0]} /> {/* Use a default avatar */}
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-            {/* Avatar Row (using horizontal scroll with MUI components) */}
-            <Box sx={{ overflowX: 'auto', backgroundColor: '#003642', p: 2, display: 'flex' }}>
-              {avatars.map((src, index) => (
-                <Avatar key={index} alt={`Avatar ${index + 1}`} src={src} sx={{ mr: 1 }} />
-              ))}
-            </Box>
-
-            <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered sx={{ backgroundColor: '#003642' }}>
-              {Object.keys(allPosts).map(tab => (
-                <Tab key={tab} label={tab} value={tab} sx={{ color: '#93a1a1', '&.Mui-selected': { color: 'white' } }} />
-              ))}
-            </Tabs>
-
-            <Grid container spacing={2} sx={{ p: 2, height: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-              <Grid item xs={12} md={3}>
-                <Paper sx={{ p: 2, backgroundColor: '#003642', color: 'white', height: '100%' }}>
-                  <h2>Chats</h2>
-                   <List>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                           <Icon>group</Icon>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary="Working Group" secondary="Last message..." />
-                    </ListItem>
-                   <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <Icon>storefront</Icon>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary="Sales" secondary="New idea..." />
-                    </ListItem>
-                  </List>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                 {filteredPosts.map(post => (
-                  <Paper key={post.id} className="post-card" onClick={() => openModal(post)} sx={{ mb: 2, p: 2, backgroundColor: '#003642', color: 'white', cursor: 'pointer' }}>
-                    <Box display="flex" alignItems="center">
-                       <ListItemAvatar>
-                           <Avatar alt={post.user} src={post.avatar} />
-                       </ListItemAvatar>
-                      <Box ml={2}>
-                      <Typography variant="subtitle1">{post.user}</Typography>
-                      <Typography variant="caption" color="textSecondary">{post.date}</Typography>
-                    </Box>
-                    </Box>
-                    <Typography variant="body2" sx={{ mt: 1 }}>{post.content}</Typography>
-                  </Paper>
-                ))}
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Paper sx={{ p: 2, backgroundColor: '#003642', color: 'white', height: '100%' }}>
-                  <h2>Map</h2>
-                  <Box sx={{ backgroundColor: '#073642', height: 200, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                    Map Placeholder
-                  </Box>
-                </Paper>
-              </Grid>
-            </Grid>
-
-            <Modal
-            open={selectedPost !== null}  // Use boolean directly
-            onClose={closeModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
-          >
-            <Fade in={selectedPost !== null}>
-               <Box className="modal-card" sx={{ bgcolor: '#003642', color: 'white', p: 4, borderRadius: 2, width: 400, maxWidth: '90%', position: 'relative' }}>
-                {selectedPost && (
-                  <>
-                    <IconButton
-                      aria-label="close"
-                      onClick={closeModal}
-                      sx={{ position: 'absolute', top: 8, right: 8 }}
-                    >
-                      <Icon>close</Icon>
-                    </IconButton>
-                  <Typography variant="h6" component="h2">{selectedPost.user}</Typography>
-                  <Typography variant="body2" color="text.secondary">Date: {selectedPost.date}</Typography>
-                  <Typography variant="body1">{selectedPost.content}</Typography>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-          </div>
-        </ThemeProvider>
+        <div> {/* Main container */}
+           <NavigationBar setCurrentPage={setCurrentPage} />
+           {renderPage()}
+           <Footer setCurrentPage={setCurrentPage} />
+        </div>
       );
+
+    }
+
+    function DashboardContent(props) {  // Dashboard component receives props
+     return (
+       <div className="animatedBackground" style={{ minHeight: 'calc(100vh - 100px)', paddingTop: '60px'}}>
+         <div className="app-container" style={{ backgroundColor: 'transparent' }}> {/* Adjust background */}
+         <div className="top-bar">
+            <h1>ONE Local</h1>
+            {/* ... rest of your components */}
+         </div>
+
+
+          {/* ... rest of dashboard HTML  */}
+          {props.selectedPost && ( // Check if a post is selected
+           <div className="modal-overlay" onClick={props.closeModal}>
+            <div className="modal-card"> {/* Modal content */}
+              {/* ... modal content ... */}
+            </div>
+           </div>
+         )}
+
+        </div>
+       </div>
+     )
     }
 
 
+
+    // ... (NavigationBar, Footer, and other page components from the second snippet)
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
