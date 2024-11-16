@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pitch to Color Visualizer</title>
+</head>
+<body>
+    <div class="container">
+        <div class="visualization-container">
+            <button class="arrow-btn left" onclick="changeNote(-1)">←</button>
+            <div class="circles-container">
+                <div class="color-box">
+                    <div id="colorDisplay1" class="color-circle">
+                        <div class="match-ring"></div>
+                    </div>
+                    <p>Your Voice</p>
+                </div>
+                <div class="note-grid">
+                    <div id="noteCircles"></div>
+                </div>
+            </div>
+            <button class="arrow-btn right" onclick="changeNote(1)">→</button>
+        </div>
+        <div class="controls">
+            <button id="startButton">Start Microphone</button>
+            <button id="playNote">Play Target Note</button>
+        </div>
+        <div id="noteInfo">Current Note: - Hz: -</div>
+        <div id="targetNote">Target Note: C4 (261.63 Hz)</div>
+    </div>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .visualization-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .circles-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .note-grid {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .color-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 20px auto;
+            transition: background-color 0.2s;
+            background-color: #ccc;
+            position: relative;
+        }
+        .match-ring {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 5px solid black;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .mini-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .mini-circle.selected {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .arrow-btn {
+            padding: 10px 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            height: 50px;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        #noteInfo, #targetNote {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser;
+        let microphone;
+        let oscillator;
+
+        const notes = [
+            { name: 'C4', freq: 261.63 },
+            { name: 'C#4', freq: 277.18 },
+            { name: 'D4', freq: 293.66 },
+            { name: 'D#4', freq: 311.13 },
+            { name: 'E4', freq: 329.63 },
+            { name: 'F4', freq: 349.23 },
+            { name: 'F#4', freq: 369.99 },
+            { name: 'G4', freq: 392.00 },
+            { name: 'G#4', freq: 415.30 },
+            { name: 'A4', freq: 440.00 },
+            { name: 'A#4', freq: 466.16 },
+            { name: 'B4', freq: 493.88 }
+        ];
+
+        const noteColors = {
+            'C4': '#FF0000',
+            'C#4': '#FF4500',
+            'D4': '#FFA500',
+            'D#4': '#FFD700',
+            'E4': '#FFFF00',
+            'F4': '#32CD32',
+            'F#4': '#00FA9A',
+            'G4': '#00CED1',
+            'G#4': '#1E90FF',
+            'A4': '#4169E1',
+            'A#4': '#8A2BE2',
+            'B4': '#9400D3'
+        };
+
+        let currentNoteIndex = 0;
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getColorForFrequency(frequency) {
+            let lowNote = notes[0];
+            let highNote = notes[notes.length - 1];
+            let lowColor = hexToRgb(noteColors[lowNote.name]);
+            let highColor = hexToRgb(noteColors[highNote.name]);
+            
+            for (let i = 0; i < notes.length - 1; i++) {
+                if (frequency >= notes[i].freq && frequency < notes[i + 1].freq) {
+                    lowNote = notes[i];
+                    highNote = notes[i + 1];
+                    lowColor = hexToRgb(noteColors[lowNote.name]);
+                    highColor = hexToRgb(noteColors[highNote.name]);
+                    break;
+                }
+            }
+
+            const ratio = (frequency - lowNote.freq) / (highNote.freq - lowNote.freq);
+            const r = Math.round(lowColor.r + (highColor.r - lowColor.r) * ratio);
+            const g = Math.round(lowColor.g + (highColor.g - lowColor.g) * ratio);
+            const b = Math.round(lowColor.b + (highColor.b - lowColor.b) * ratio);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function updateDisplay(frequency) {
+            const colorDisplay = document.getElementById('colorDisplay1');
+            const matchRing = colorDisplay.querySelector('.match-ring');
+            const targetFreq = notes[currentNoteIndex].freq;
+            const color = getColorForFrequency(frequency);
+            
+            colorDisplay.style.backgroundColor = color;
+            
+            // Show match ring if within 2Hz of target frequency
+            const freqDifference = Math.abs(frequency - targetFreq);
+            matchRing.style.opacity = freqDifference < 2 ? '1' : '0';
+
+            document.getElementById('noteInfo').textContent = 
+                `Current Note: ${getNearestNote(frequency).name} Hz: ${Math.round(frequency)}`;
+        }
+
+        function getNearestNote(frequency) {
+            return notes.reduce((prev, curr) => {
+                return (Math.abs(curr.freq - frequency) < Math.abs(prev.freq - frequency) ? curr : prev);
+            });
+        }
+
+        function createNoteCircles() {
+            const container = document.getElementById('noteCircles');
+            notes.forEach((note, index) => {
+                const circle = document.createElement('div');
+                circle.className = 'mini-circle';
+                circle.style.backgroundColor = noteColors[note.name];
+                circle.onclick = () => selectNote(index);
+                container.appendChild(circle);
+            });
+            updateSelectedNote();
+        }
+
+        function selectNote(index) {
+            currentNoteIndex = index;
+            updateSelectedNote();
+        }
+
+        function changeNote(direction) {
+            currentNoteIndex = (currentNoteIndex + direction + notes.length) % notes.length;
+            updateSelectedNote();
+        }
+
+        function updateSelectedNote() {
+            const circles = document.querySelectorAll('.mini-circle');
+            circles.forEach((circle, index) => {
+                circle.classList.toggle('selected', index === currentNoteIndex);
+            });
+            const currentNote = notes[currentNoteIndex];
+            document.getElementById('targetNote').textContent = 
+                `Target Note: ${currentNote.name} (${currentNote.freq.toFixed(2)} Hz)`;
+        }
+
+        document.getElementById('startButton').addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                microphone = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                microphone.connect(analyser);
+
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Float32Array(bufferLength);
+
+                function detectPitch() {
+                    analyser.getFloatFrequencyData(dataArray);
+                    
+                    let maxIndex = 0;
+                    let maxValue = -Infinity;
+                    
+                    for (let i = 0; i < bufferLength; i++) {
+                        if (dataArray[i] > maxValue) {
+                            maxValue = dataArray[i];
+                            maxIndex = i;
+                        }
+                    }
+
+                    const frequency = maxIndex * audioContext.sampleRate / analyser.fftSize;
+                    
+                    if (maxValue > -50 && frequency > 200 && frequency < 1000) {
+                        updateDisplay(frequency);
+                    }
+                    
+                    requestAnimationFrame(detectPitch);
+                }
+
+                detectPitch();
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                alert('Error accessing microphone. Please ensure you have granted microphone permissions.');
+            }
+        });
+
+        document.getElementById('playNote').addEventListener('click', () => {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator = null;
+                return;
+            }
+
+            const frequency = notes[currentNoteIndex].freq;
+            oscillator = audioContext.createOscillator();
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+
+            setTimeout(() => {
+                oscillator.stop();
+                oscillator = null;
+            }, 1000);
+        });
+
+        // Initialize the note circles
+        createNoteCircles();
+    </script>
+</body>
+</html>
