@@ -150,7 +150,7 @@
     .MuiCard-root:hover {
       transform: translateY(-5px);
       transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
     /* Additional Styles */
     .testimonial-carousel-buttons {
@@ -243,7 +243,7 @@
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '3.5rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '2.5rem',
           },
         },
@@ -251,7 +251,7 @@
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '3rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '2rem',
           },
         },
@@ -259,7 +259,7 @@
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '2.5rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '1.8rem',
           },
         },
@@ -267,19 +267,19 @@
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '2.5rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '1.8rem',
           },
         },
         h5: {
           fontSize: '2rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '1.5rem',
           },
         },
         body1: {
           fontSize: '1.2rem',
-          [theme.breakpoints.down('sm')]: {
+          '@media (max-width:600px)': {
             fontSize: '1rem',
           },
         },
@@ -1326,8 +1326,98 @@
           );
         }
 
-        // Additional Pages (e.g., Manifesto, Whitepaper, Investors, etc.) follow similar styling principles.
+        // Other Pages (e.g., Manifesto, Whitepaper, Investors, etc.)
+        // For brevity, I'll provide one example. You can replicate similar structures for other pages.
 
+        function ManifestoPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Manifesto
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.5rem', mb: 6 }}>
+                Our pledge, our promise: A declaration of what we’re building together.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                At ONE Local, we believe in the power of community. We are committed to fostering connections, sharing resources, and empowering individuals to enrich their local environment. Together, we can create a sustainable, inclusive, and vibrant community where everyone has the opportunity to thrive.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 4 }}>
+                Our mission is to bridge the gap between needs and resources, talents and opportunities, and individuals and their communities. We are dedicated to building a platform that not only connects people but also amplifies their collective impact.
+              </Typography>
+              <Typography variant="body1">
+                Join us in reshaping the future of local communities. Together, we are stronger.
+              </Typography>
+            </Container>
+          );
+        }
+
+        // Similarly, define other pages like TeamPage, WhitepaperPage, InvestorsPage, etc.
+        // Ensure each page follows consistent styling patterns.
+
+        // Example: WhitepaperPage
+        function WhitepaperPage() {
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Whitepaper
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                For those who seek the blueprint, the nuts and bolts — here’s our technical roadmap.
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 6 }}>
+                Our whitepaper outlines the technical architecture, security measures, and future developments planned for the ONE Local platform. It delves into how we ensure data privacy, scalability, and a seamless user experience.
+              </Typography>
+              <Button variant="contained" color="primary" size="large" href="#" target="_blank">
+                Download Whitepaper
+              </Button>
+            </Container>
+          );
+        }
+
+        // Continue defining other pages...
+
+        // FAQ Page Example
+        function FAQPage() {
+          const faqs = [
+            {
+              question: 'What is ONE Local?',
+              answer: 'ONE Local is a platform that empowers communities by connecting local members, event hosts, sellers, and organizations in one place.',
+            },
+            {
+              question: 'How do I join as a member?',
+              answer: 'Simply download our app, create a free account, and start connecting with your local community.',
+            },
+            // Add more FAQs as needed
+          ];
+
+          return (
+            <Container sx={{ py: 12, minHeight: '100vh' }}>
+              <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+                Frequently Asked Questions
+              </Typography>
+              <Box mt={4}>
+                {faqs.map((faq, index) => (
+                  <Accordion key={index}>
+                    <AccordionSummary expandIcon={<Icon>expand_more</Icon>}>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        {faq.question}
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                        {faq.answer}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                ))}
+              </Box>
+            </Container>
+          );
+        }
+
+        // Similarly, define other pages like ContactUsPage, PrivacyPolicyPage, etc.
+
+        // ======================= Render App =======================
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
       </script>
 </body>
