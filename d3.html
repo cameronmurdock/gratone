@@ -54,6 +54,37 @@
       color: #333333;
       position: relative; /* Ensure proper stacking context */
     }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
     /* Button Hover Effect */
     .MuiButton-containedPrimary:hover {
       background-color: #5a9e5a;
@@ -64,10 +95,20 @@
     .MuiButton-outlinedPrimary:hover {
       background-color: rgba(109, 76, 65, 0.1);
     }
-    /* Enhanced Card Hover Effect */
-    .MuiCard-root:hover {
-      transform: translateY(-5px);
-      transition: transform 0.3s;
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
+      padding: 20px;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
     }
     /* Modal Content Styling */
     .modalContent {
@@ -83,10 +124,21 @@
       padding: 20px;
       outline: none;
     }
-    /* Adjust Dashboard Styles */
-    .dashboardContent {
-      flex-grow: 1;
-      padding: 16px;
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
     }
   </style>
 </head>
@@ -138,10 +190,14 @@
       Backdrop,
       Tabs,
       Tab,
-      Paper,
       InputBase,
-      CardMedia,
+      Paper,
+      ListItemAvatar,
+      ListItemIcon,
       Badge,
+      Chip,
+      Tooltip,
+      Drawer,
     } = MaterialUI;
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
@@ -170,12 +226,12 @@
         fontFamily: 'Montserrat, sans-serif',
         fontWeightBold: 700,
         h2: {
-          fontFamily: 'Playfair Display, serif',
+          fontFamily: 'Playfair Display', serif',
           fontWeight: 700,
           fontSize: '3rem',
         },
         h4: {
-          fontFamily: 'Playfair Display, serif',
+          fontFamily: 'Playfair Display', serif',
           fontWeight: 700,
           fontSize: '2.5rem',
         },
@@ -256,15 +312,15 @@
     });
 
     function App() {
-      const [currentPage, setCurrentPage] = React.useState('home');
+      const [currentPage, setCurrentPage] = React.useState('dashboard');
       const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
       const renderPage = () => {
         switch (currentPage) {
+          case 'dashboard':
+            return <DashboardPage />;
           case 'home':
             return <LandingPage setCurrentPage={setCurrentPage} />;
-          case 'dashboard':
-            return <DashboardPage setCurrentPage={setCurrentPage} />;
           case 'manifesto':
             return <ManifestoPage />;
           case 'team':
@@ -416,24 +472,8 @@
       );
     }
 
-    // Landing Page
-    function LandingPage({ setCurrentPage }) {
-      return (
-        <Container maxWidth="lg" sx={{ mt: 16 }}>
-          <HeroSection setCurrentPage={setCurrentPage} />
-          <LogoCollection />
-          <FeaturesSection />
-          <MembershipTypes setCurrentPage={setCurrentPage} />
-          <TeamSection />
-          <CommunityImpact />
-          <TestimonialsCarousel />
-          <CallToAction setCurrentPage={setCurrentPage} />
-        </Container>
-      );
-    }
-
     // Dashboard Page
-    function DashboardPage({ setCurrentPage }) {
+    function DashboardPage() {
       const avatars = [
         "https://randomuser.me/api/portraits/men/32.jpg",
         "https://randomuser.me/api/portraits/women/65.jpg",
@@ -468,164 +508,192 @@
       const [activeTab, setActiveTab] = React.useState('Events');
       const [searchText, setSearchText] = React.useState('');
       const [selectedPost, setSelectedPost] = React.useState(null);
-      const [openModal, setOpenModal] = React.useState(false);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
       const filteredPosts = allPosts[activeTab]?.filter(post =>
         post.content.toLowerCase().includes(searchText.toLowerCase()) ||
         post.user.toLowerCase().includes(searchText.toLowerCase())
       ) || [];
 
-      const handleOpenModal = (post) => {
-        setSelectedPost(post);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setSelectedPost(null);
-        setOpenModal(false);
-      };
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
 
       return (
-        <Box sx={{ mt: 12, minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          {/* Top Bar */}
-          <AppBar position="static">
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                ONE Global Dashboard
-              </Typography>
-              <TextField
-                variant="outlined"
-                placeholder="Search"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                size="small"
-                sx={{ bgcolor: 'background.paper', borderRadius: 1, mr: 2 }}
-              />
-              <IconButton color="inherit">
-                <Icon>account_circle</Icon>
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          {/* Avatar Row */}
-          <Box sx={{ display: 'flex', overflowX: 'auto', p: 1, bgcolor: 'background.paper' }}>
-            {avatars.map((src, index) => (
-              <Avatar key={index} src={src} alt="User avatar" sx={{ mx: 0.5 }} />
-            ))}
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
+          <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  ONE Global Dashboard
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <InputBase
+                  fullWidth
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  startAdornment={<Icon sx={{ mr: 1 }}>search</Icon>}
+                  sx={{ backgroundColor: '#f0f0f0', px: 2, borderRadius: '20px' }}
+                />
+              </Grid>
+              <Grid item>
+                <IconButton>
+                  <Badge badgeContent={4} color="secondary">
+                    <Icon>notifications</Icon>
+                  </Badge>
+                </IconButton>
+                <IconButton>
+                  <Avatar>
+                    <Icon>account_circle</Icon>
+                  </Avatar>
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Box sx={{ overflowX: 'auto', mb: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {avatars.map((src, index) => (
+                <Avatar key={index} src={src} />
+              ))}
+            </Box>
           </Box>
-          {/* Tabs */}
+
           <Tabs
             value={activeTab}
-            onChange={(event, newValue) => setActiveTab(newValue)}
-            indicatorColor="primary"
-            textColor="primary"
+            onChange={(e, newValue) => setActiveTab(newValue)}
             variant="scrollable"
             scrollButtons="auto"
-            sx={{ bgcolor: 'background.paper' }}
+            sx={{ mb: 2 }}
           >
-            {Object.keys(allPosts).map(tab => (
-              <Tab
-                key={tab}
-                label={tab}
-                value={tab}
-              />
+            {Object.keys(allPosts).map((tab) => (
+              <Tab key={tab} label={tab} value={tab} />
             ))}
           </Tabs>
-          {/* Dashboard Content */}
-          <Box className="dashboardContent">
-            <Grid container spacing={2}>
-              {/* Left Panel */}
+
+          <Grid container spacing={2}>
+            {!isMobile && (
               <Grid item xs={12} md={3}>
-                <Paper sx={{ p: 2, height: '100%' }}>
-                  <Typography variant="h6" sx={{ mb: 2 }}>
+                <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                     Chats
                   </Typography>
                   <List>
-                    <ListItem>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
                       <ListItemText primary="Working Group" secondary="Last message..." />
                     </ListItem>
-                    <ListItem>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
                       <ListItemText primary="Sales" secondary="New idea..." />
                     </ListItem>
                   </List>
                 </Paper>
               </Grid>
-              {/* Main Content */}
-              <Grid item xs={12} md={6}>
-                {filteredPosts.map(post => (
-                  <Card key={post.id} sx={{ mb: 2 }} onClick={() => handleOpenModal(post)}>
-                    <CardContent>
-                      <Box display="flex" alignItems="center">
-                        <Avatar src={post.avatar} alt={post.user} sx={{ mr: 2 }} />
-                        <Box>
-                          <Typography variant="subtitle1">{post.user}</Typography>
-                          <Typography variant="caption" color="text.secondary">{post.date}</Typography>
-                        </Box>
-                      </Box>
-                      <Typography variant="body1" sx={{ mt: 2 }}>
-                        {post.content}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Grid>
-              {/* Right Panel */}
+            )}
+            <Grid item xs={12} md={isMobile ? 12 : 6}>
+              {filteredPosts.map(post => (
+                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item>
+                        <Avatar src={post.avatar} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {post.user}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {post.date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                      {post.content}
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
+                      <Chip icon={<Icon>comment</Icon>} label="Comment" />
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Grid>
+            {!isMobile && (
               <Grid item xs={12} md={3}>
-                <Paper sx={{ p: 2, height: '100%' }}>
-                  <Typography variant="h6" sx={{ mb: 2 }}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                     Map
                   </Typography>
-                  <Box sx={{ bgcolor: 'grey.200', height: 200, mt: 2, borderRadius: 2 }}>
-                    <Typography variant="body1" align="center" sx={{ pt: 8 }}>
+                  <Box sx={{ height: 200, backgroundColor: '#e0e0e0', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h6" sx={{ color: 'text.secondary' }}>
                       Map Placeholder
                     </Typography>
                   </Box>
                 </Paper>
               </Grid>
-            </Grid>
-          </Box>
+            )}
+          </Grid>
+
           {/* Post Details Modal */}
           <Modal
-            open={openModal}
-            onClose={handleCloseModal}
+            open={Boolean(selectedPost)}
+            onClose={closeModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
               timeout: 500,
             }}
+            aria-labelledby="post-modal-title"
+            aria-describedby="post-modal-description"
           >
-            <Fade in={openModal}>
-              <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                borderRadius: 2,
-                boxShadow: 24,
-                p: 4,
-              }}>
-                <IconButton
-                  aria-label="close"
-                  onClick={handleCloseModal}
-                  sx={{ position: 'absolute', right: 8, top: 8 }}
-                >
-                  <Icon>close</Icon>
-                </IconButton>
-                <Box display="flex" alignItems="center" mb={2}>
-                  <Avatar src={selectedPost?.avatar} alt={selectedPost?.user} sx={{ mr: 2 }} />
-                  <Typography variant="h6">{selectedPost?.user}</Typography>
-                </Box>
-                <Typography variant="subtitle1"><strong>Date:</strong> {selectedPost?.date}</Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>{selectedPost?.content}</Typography>
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Grid container spacing={2} sx={{ mb: 2 }}>
+                      <Grid item>
+                        <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="h6" component="h2">
+                          {selectedPost.user}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {selectedPost.date}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton onClick={closeModal}>
+                          <Icon>close</Icon>
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mb: 4 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={closeModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
               </Box>
             </Fade>
           </Modal>
-        </Box>
+        </Container>
       );
     }
 
-    // Rest of the pages (ManifestoPage, TeamPage, etc.) remain the same as provided earlier.
+    // Other Pages (reuse your existing code for other pages)
 
     // ======================= Render App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
