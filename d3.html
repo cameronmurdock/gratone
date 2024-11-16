@@ -2,23 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Empower Your Community</title>
+  <title>ONE Local - Profile Dashboard</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Meta Descriptions for SEO -->
-  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
-  <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Scrollbar Styling */
+    /* Custom scrollbar styling */
     body {
-      overflow-x: hidden;
       scrollbar-color: #a8d5ba #ffffff;
       scrollbar-width: thin;
-      font-family: 'Montserrat', sans-serif;
     }
     body::-webkit-scrollbar {
       width: 8px;
@@ -59,511 +54,170 @@
       outline: none;
     }
     /* Enhanced Card Hover Effect */
-    .MuiCard-root:hover {
+    .card-hover:hover {
       transform: translateY(-5px);
       transition: transform 0.3s;
-    }
-    /* Sidebar Styling */
-    .sidebar {
-      background-color: rgba(0, 77, 64, 0.9);
-      color: white;
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 256px;
-      padding: 16px;
-      box-sizing: border-box;
-      overflow-y: auto;
-    }
-    .sidebar .profile-section {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .sidebar .profile-section img {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 16px;
-    }
-    .sidebar .profile-section h2 {
-      margin: 8px 0;
-      font-size: 1.25rem;
-      font-weight: 700;
-    }
-    .sidebar .profile-section .stats {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .sidebar .profile-section .stats div {
-      background-color: rgba(0, 128, 128, 0.8);
-      padding: 8px 12px;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .sidebar .profile-section .actions button {
-      width: 100%;
-      margin-bottom: 8px;
-    }
-    .sidebar .profile-section .skills, .sidebar .profile-section .sharing {
-      text-align: left;
-      margin-top: 16px;
-    }
-    .sidebar .profile-section .skills .skill, .sidebar .profile-section .sharing .share-item {
-      display: inline-block;
-      background-color: rgba(0, 128, 128, 0.8);
-      padding: 4px 12px;
-      border-radius: 9999px;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      font-size: 0.875rem;
-    }
-    /* Main Content Styling */
-    .main-content {
-      margin-left: 256px;
-      padding: 24px;
-      box-sizing: border-box;
-    }
-    /* Top Navigation Styling */
-    .top-nav {
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin-bottom: 24px;
-    }
-    .top-nav .categories, .top-nav .tabs, .top-nav .search {
-      margin-bottom: 16px;
-    }
-    .top-nav .categories button, .top-nav .tabs button {
-      margin-right: 8px;
-    }
-    .events-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-    }
-    .event-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 12px;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- React 18 and ReactDOM 18 -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <!-- Babel for JSX transformation -->
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <!-- Material UI v5 -->
-  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
-  <!-- Material UI Icons -->
-  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- React and ReactDOM via esm.sh -->
+  <script type="module">
+    import React from 'https://esm.sh/react@18';
+    import ReactDOM from 'https://esm.sh/react-dom@18';
+    import { Gift, MessageCircle, Palette, Search, Calendar, MapPin, Activity, Users, Share, Settings, Book, Package, BarChart, FileText } from 'https://esm.sh/lucide-react@0.299.0';
 
-  <script type="text/babel">
-    const {
-      ThemeProvider,
-      createTheme,
-      CssBaseline,
-      AppBar,
-      Toolbar,
-      Typography,
-      Button,
-      IconButton,
-      Container,
-      Box,
-      Grid,
-      Card,
-      CardContent,
-      CardActions,
-      Icon,
-      Menu,
-      MenuItem,
-      Link,
-      Divider,
-      Avatar,
-      List,
-      ListItem,
-      ListItemText,
-      Accordion,
-      AccordionSummary,
-      AccordionDetails,
-      TextField,
-      useMediaQuery,
-      Modal,
-      Fade,
-      Backdrop,
-      Tabs,
-      Tab,
-      InputBase,
-      Paper,
-      ListItemAvatar,
-      Badge,
-      Chip,
-      Tooltip,
-      Drawer,
-    } = MaterialUI;
-
-    const { Search, Gift, MessageCircle, Palette, Calendar, MapPin, Activity, Users, Share, Settings, Book, Package, BarChart, FileText } = MaterialUIIcons;
-
-    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
-    const theme = createTheme({
-      palette: {
-        mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        error: {
-          main: '#e57373', // Soft Red
-        },
-        background: {
-          default: '#f5f5f5', // Light Gray
-          paper: '#ffffff', // White
-        },
-        text: {
-          primary: '#333333', // Dark Gray
-          secondary: '#555555', // Medium Gray
-        },
-      },
-      typography: {
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeightBold: 700,
-        h2: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '3rem',
-        },
-        h4: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '2.5rem',
-        },
-        h5: {
-          fontSize: '2rem',
-        },
-        body1: {
-          fontSize: '1.2rem',
-        },
-        body2: {
-          fontSize: '1rem',
-        },
-      },
-      shape: {
-        borderRadius: 10,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-            },
-            containedPrimary: {
-              backgroundColor: '#6d4c41',
-              '&:hover': {
-                backgroundColor: '#BF820A',
-              },
-            },
-            containedSecondary: {
-              backgroundColor: '#8d6e63',
-              '&:hover': {
-                backgroundColor: '#7a5e55',
-              },
-            },
-            outlinedPrimary: {
-              borderColor: '#6d4c41',
-              color: '#6d4c41',
-              '&:hover': {
-                backgroundColor: 'rgba(109, 76, 65, 0.1)',
-              },
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-              },
-            },
-          },
-        },
-        MuiAccordion: {
-          styleOverrides: {
-            root: {
-              boxShadow: 'none',
-              '&::before': {
-                display: 'none',
-              },
-            },
-          },
-        },
-      },
-    });
-
-    function App() {
-      const [currentPage, setCurrentPage] = React.useState('dashboard');
-      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-      const renderPage = () => {
-        switch (currentPage) {
-          case 'dashboard':
-            return <DashboardPage />;
-          // Include other pages here if needed
-          default:
-            return <DashboardPage />;
-        }
-      };
-
-      return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box className="animatedBackground">
-            <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
-            {renderPage()}
-          </Box>
-        </ThemeProvider>
-      );
-    }
-
-    function NavigationBar({ setCurrentPage, isMobile }) {
-      const [anchorEl, setAnchorEl] = React.useState(null);
-      const [menuId, setMenuId] = React.useState(null);
-
-      const handleMenuOpen = (event, id) => {
-        setAnchorEl(event.currentTarget);
-        setMenuId(id);
-      };
-
-      const handleMenuClose = () => {
-        setAnchorEl(null);
-        setMenuId(null);
-      };
-
-      return (
-        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
-          <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('dashboard')}>
-              ONE Local
-            </Typography>
-            {isMobile ? (
-              <>
-                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')} aria-label="menu">
-                  <Icon>menu</Icon>
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={menuId === 'mobileMenu'}
-                  onClose={handleMenuClose}
-                  PaperProps={{ style: { zIndex: 1400 } }}
-                >
-                  <MenuItem onClick={() => { setCurrentPage('dashboard'); handleMenuClose(); }}>Dashboard</MenuItem>
-                  {/* Add other menu items here */}
-                </Menu>
-              </>
-            ) : (
-              <div className="desktopMenu">
-                <Button color="primary" onClick={() => setCurrentPage('dashboard')}>Dashboard</Button>
-                {/* Add other buttons here */}
-              </div>
-            )}
-            {/* Add menus for other options if needed */}
-          </Toolbar>
-        </AppBar>
-      );
-    }
-
-    function DashboardPage() {
+    const ProfileDashboard = () => {
       const [activeTab, setActiveTab] = React.useState('My Groups');
       const tabs = ['My Groups', 'Attending', 'Interested'];
-
+      
       const categories = [
-        { name: 'Events', icon: <Calendar fontSize="small" /> },
-        { name: 'Orgs', icon: <Users fontSize="small" /> },
-        { name: 'Groups', icon: <Users fontSize="small" /> },
-        { name: 'Sharing', icon: <Share fontSize="small" /> },
-        { name: 'Services', icon: <Settings fontSize="small" /> },
-        { name: 'Rules', icon: <Book fontSize="small" /> },
-        { name: 'Products', icon: <Package fontSize="small" /> },
-        { name: 'Polling', icon: <BarChart fontSize="small" /> },
-        { name: 'Resources', icon: <FileText fontSize="small" /> }
+        { name: 'Events', icon: <Calendar className="w-4 h-4" /> },
+        { name: 'Orgs', icon: <Users className="w-4 h-4" /> },
+        { name: 'Groups', icon: <Users className="w-4 h-4" /> },
+        { name: 'Sharing', icon: <Share className="w-4 h-4" /> },
+        { name: 'Services', icon: <Settings className="w-4 h-4" /> },
+        { name: 'Rules', icon: <Book className="w-4 h-4" /> },
+        { name: 'Products', icon: <Package className="w-4 h-4" /> },
+        { name: 'Polling', icon: <BarChart className="w-4 h-4" /> },
+        { name: 'Resources', icon: <FileText className="w-4 h-4" /> }
       ];
-
+      
       const events = [
         {
           title: "Jo Malone London's Mother",
           date: "Fri, Jan 3 • 2:00 PM",
           location: "Radius Gallery • Santa Cruz, CA",
-          image: "https://via.placeholder.com/400x200"
+          image: "https://via.placeholder.com/400x200?text=Event+1"
         },
         {
           title: "Garden Party",
           date: "Sat, Jan 5 • 2:00 PM",
           location: "53 Bush St • San Francisco, CA",
-          image: "https://via.placeholder.com/400x200"
+          image: "https://via.placeholder.com/400x200?text=Event+2"
         }
       ];
-
+    
       return (
-        <Box className="main-content">
-          {/* Profile Dashboard */}
-          <Box className="min-h-screen bg-teal-900/90" sx={{ position: 'relative', padding: 4, borderRadius: 2 }}>
-            {/* Left Sidebar */}
-            <Box className="sidebar">
-              <div className="profile-section">
-                <Box className="stats" sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
-                  <Box sx={{ backgroundColor: 'rgba(0, 128, 128, 0.8)', padding: 1, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="body2">Followers</Typography>
-                    <Typography variant="h6">19.9k</Typography>
-                  </Box>
-                  <Box sx={{ backgroundColor: 'rgba(0, 128, 128, 0.8)', padding: 1, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="body2">Engagement</Typography>
-                    <Typography variant="h6">97.5%</Typography>
-                  </Box>
-                  <Box sx={{ backgroundColor: 'rgba(0, 128, 128, 0.8)', padding: 1, borderRadius: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="body2">Points</Typography>
-                    <Typography variant="h6">20k</Typography>
-                  </Box>
+        <div className="min-h-screen bg-teal-900/90 animatedBackground">
+          {/* Left Sidebar */}
+          <div className="fixed left-0 top-0 w-64 h-screen p-4 text-white overflow-y-auto">
+            <div className="flex flex-col items-center">
+              <div className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+                    <span className="text-sm">19.9k</span>
+                  </div>
+                  <div className="text-2xl font-bold">97.5%</div>
+                  <div className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center">
+                    <span className="text-sm">20k</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="w-32 h-32 rounded-full overflow-hidden mb-4">
+                <img src="https://via.placeholder.com/128" alt="Profile" className="w-full h-full object-cover" />
+              </div>
+              
+              <h2 className="text-xl font-semibold mb-2">Cameron Murdock</h2>
+              <div className="flex items-center gap-2 mb-4">
+                <Gift className="w-4 h-4" />
+                <span>500</span>
+              </div>
+              
+              <button className="w-full bg-emerald-800 hover:bg-emerald-700 rounded-lg py-2 px-4 mb-2 flex items-center justify-center gap-2">
+                <Gift className="w-4 h-4" />
+                Give
+              </button>
+              
+              <button className="w-full bg-emerald-800 hover:bg-emerald-700 rounded-lg py-2 px-4 mb-4 flex items-center justify-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                Message
+              </button>
+              
+              <div className="w-full">
+                <h3 className="text-lg font-semibold mb-2">Skills</h3>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="bg-emerald-800 rounded-full px-3 py-1 text-sm">Designing</span>
+                  <span className="bg-emerald-800 rounded-full px-3 py-1 text-sm">Art Making</span>
                 </div>
                 
-                <Avatar src="https://via.placeholder.com/128" alt="Profile" sx={{ width: 96, height: 96, mb: 2 }} />
-                <Typography variant="h6" sx={{ mb: 1 }}>Cameron Murdock</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                  <Gift fontSize="small" />
-                  <Typography>500</Typography>
-                </Box>
-                
-                <Button variant="contained" color="primary" sx={{ width: '100%', mb: 1 }} startIcon={<Gift fontSize="small" />}>
-                  Give
-                </Button>
-                
-                <Button variant="contained" color="primary" sx={{ width: '100%', mb: 3 }} startIcon={<MessageCircle fontSize="small" />}>
-                  Message
-                </Button>
-                
-                <Box>
-                  <Typography variant="subtitle1" sx={{ mb: 1 }}>Skills</Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-                    <Chip label="Designing" sx={{ backgroundColor: 'rgba(0, 128, 128, 0.8)', color: 'white' }} />
-                    <Chip label="Art Making" sx={{ backgroundColor: 'rgba(0, 128, 128, 0.8)', color: 'white' }} />
-                  </Box>
-                  
-                  <Typography variant="subtitle1" sx={{ mb: 1 }}>Sharing</Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 2, padding: 1 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Palette fontSize="small" />
-                      <Typography>Painting</Typography>
-                    </Box>
-                    <Chip label="OFFER" sx={{ backgroundColor: '#2e7d32', color: 'white' }} />
-                  </Box>
-                </Box>
-              </Box>
-
-              {/* Main Dashboard Content */}
-              <Box sx={{ ml: 32 }}>
-                {/* Top Navigation */}
-                <Box className="top-nav" sx={{ backgroundColor: 'rgba(255, 223, 0, 0.2)', borderRadius: 2, padding: 2, mb: 4 }}>
-                  {/* Categories */}
-                  <Box className="categories" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                    {categories.map((category) => (
-                      <Button
-                        key={category.name}
-                        variant="contained"
-                        color="secondary"
-                        startIcon={category.icon}
-                        sx={{ borderRadius: '20px', textTransform: 'none' }}
-                      >
-                        {category.name}
-                      </Button>
-                    ))}
-                  </Box>
-                  
-                  {/* Tabs */}
-                  <Box className="tabs" sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                    {tabs.map((tab) => (
-                      <Button
-                        key={tab}
-                        variant={activeTab === tab ? 'contained' : 'outlined'}
-                        color="primary"
-                        sx={{ borderRadius: '20px' }}
-                        onClick={() => setActiveTab(tab)}
-                      >
-                        {tab}
-                      </Button>
-                    ))}
-                  </Box>
-                  
-                  {/* Search */}
-                  <Box className="search" sx={{ position: 'relative' }}>
-                    <InputBase
-                      placeholder="Search"
-                      fullWidth
-                      startAdornment={<Search sx={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'white' }} />}
-                      sx={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: '20px',
-                        paddingLeft: '40px',
-                        color: 'white',
-                        height: '40px',
-                      }}
-                    />
-                  </Box>
-                </Box>
-
-                {/* Event Cards */}
-                <Box className="events-grid">
-                  {events.map((event, index) => (
-                    <Card key={index} className="event-card" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'white' }}>
-                      <CardContent>
-                        <img src={event.image} alt={event.title} className="event-image" />
-                        <Typography variant="h6" sx={{ mb: 1 }}>{event.title}</Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                          <Calendar fontSize="small" />
-                          <Typography variant="body2">{event.date}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <MapPin fontSize="small" />
-                          <Typography variant="body2">{event.location}</Typography>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
+                <h3 className="text-lg font-semibold mb-2">Sharing</h3>
+                <div className="bg-white rounded-lg p-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-black" />
+                    <span className="text-black">Painting</span>
+                  </div>
+                  <span className="text-emerald-600 font-semibold">OFFER</span>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          {/* Main Content */}
+          <div className="ml-64 p-4">
+            {/* Top Navigation */}
+            <div className="bg-yellow-500/20 rounded-lg p-4 mb-4">
+              <div className="flex gap-2 mb-4 flex-wrap">
+                {categories.map((category) => (
+                  <button
+                    key={category.name}
+                    className="bg-white/10 hover:bg-white/20 rounded-full px-4 py-1 text-white flex items-center gap-1"
+                  >
+                    {category.icon}
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="flex gap-4 mb-4">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab}
+                    className={`px-4 py-2 rounded-full ${
+                      activeTab === tab ? 'bg-yellow-500 text-black' : 'text-white'
+                    }`}
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+              
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="w-full bg-white/10 rounded-full px-4 py-2 text-white placeholder-white/70"
+                />
+                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white" />
+              </div>
+            </div>
+    
+            {/* Event Cards */}
+            <div className="grid gap-4">
+              {events.map((event, index) => (
+                <div key={index} className="bg-white/10 rounded-lg p-4 card-hover">
+                  <img src={event.image} alt={event.title} className="w-full h-48 object-cover rounded-lg mb-4" />
+                  <h3 className="text-white text-xl font-semibold mb-2">{event.title}</h3>
+                  <div className="flex items-center gap-2 text-white/70 mb-1">
+                    <Calendar className="w-4 h-4" />
+                    {event.date}
+                  </div>
+                  <div className="flex items-center gap-2 text-white/70">
+                    <MapPin className="w-4 h-4" />
+                    {event.location}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       );
-    }
-
-    // Render the App
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    
+      ReactDOM.createRoot(document.getElementById('root')).render(<ProfileDashboard />);
   </script>
 </body>
 </html>
