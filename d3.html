@@ -226,12 +226,12 @@
         fontFamily: 'Montserrat, sans-serif',
         fontWeightBold: 700,
         h2: {
-          fontFamily: 'Playfair Display', serif',
+          fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '3rem',
         },
         h4: {
-          fontFamily: 'Playfair Display', serif',
+          fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '2.5rem',
         },
@@ -319,42 +319,9 @@
         switch (currentPage) {
           case 'dashboard':
             return <DashboardPage />;
-          case 'home':
-            return <LandingPage setCurrentPage={setCurrentPage} />;
-          case 'manifesto':
-            return <ManifestoPage />;
-          case 'team':
-            return <TeamPage />;
-          case 'whitepaper':
-            return <WhitepaperPage />;
-          case 'investors':
-            return <InvestorsPage />;
-          case 'features-overview':
-            return <FeaturesOverviewPage />;
-          case 'local-members':
-            return <LocalMembersPage />;
-          case 'event-hosts':
-            return <EventHostsPage />;
-          case 'sellers':
-            return <SellersPage />;
-          case 'organizations':
-            return <OrganizationsPage />;
-          case 'impact-stories':
-            return <ImpactStoriesPage />;
-          case 'blog':
-            return <BlogPage />;
-          case 'download-app':
-            return <DownloadAppPage />;
-          case 'terms-of-service':
-            return <TermsOfServicePage />;
-          case 'privacy-policy':
-            return <PrivacyPolicyPage />;
-          case 'faq':
-            return <FAQPage />;
-          case 'contact-us':
-            return <ContactUsPage />;
+          // Include other pages here...
           default:
-            return <LandingPage setCurrentPage={setCurrentPage} />;
+            return <DashboardPage />;
         }
       };
 
@@ -364,7 +331,6 @@
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
             {renderPage()}
-            <Footer setCurrentPage={setCurrentPage} />
           </Box>
         </ThemeProvider>
       );
@@ -387,7 +353,7 @@
       return (
         <AppBar position="fixed" sx={{ zIndex: 1300 }}>
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('dashboard')}>
               ONE Local
             </Typography>
             {isMobile ? (
@@ -401,78 +367,22 @@
                   onClose={handleMenuClose}
                   PaperProps={{ style: { zIndex: 1400 } }}
                 >
-                  <MenuItem onClick={() => { setCurrentPage('home'); handleMenuClose(); }}>Home</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'about'); }}>About</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'features'); }}>Features</MenuItem>
-                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'community'); }}>Community</MenuItem>
                   <MenuItem onClick={() => { setCurrentPage('dashboard'); handleMenuClose(); }}>Dashboard</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('download-app'); handleMenuClose(); }}>Download App</MenuItem>
+                  {/* Add other menu items here */}
                 </Menu>
               </>
             ) : (
               <div className="desktopMenu">
-                <Button color="primary" onClick={() => setCurrentPage('home')}>Home</Button>
-                <Button
-                  color="primary"
-                  onClick={(e) => handleMenuOpen(e, 'about')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  About
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={(e) => handleMenuOpen(e, 'features')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  Features
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={(e) => handleMenuOpen(e, 'community')}
-                  endIcon={<Icon>expand_more</Icon>}
-                >
-                  Community
-                </Button>
                 <Button color="primary" onClick={() => setCurrentPage('dashboard')}>Dashboard</Button>
-                <Button color="primary" onClick={() => setCurrentPage('download-app')}>Download App</Button>
+                {/* Add other buttons here */}
               </div>
             )}
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
-              onClose={handleMenuClose}
-              PaperProps={{ style: { zIndex: 1400 } }}
-            >
-              {menuId === 'about' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('manifesto'); handleMenuClose(); }}>Manifesto</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('team'); handleMenuClose(); }}>Team</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('whitepaper'); handleMenuClose(); }}>Whitepaper</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('investors'); handleMenuClose(); }}>Investors</MenuItem>
-                </>
-              )}
-              {menuId === 'features' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('features-overview'); handleMenuClose(); }}>Overview</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('local-members'); handleMenuClose(); }}>For Local Members</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('event-hosts'); handleMenuClose(); }}>For Event Hosts</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('sellers'); handleMenuClose(); }}>For Sellers</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('organizations'); handleMenuClose(); }}>For Organizations</MenuItem>
-                </>
-              )}
-              {menuId === 'community' && (
-                <>
-                  <MenuItem onClick={() => { setCurrentPage('impact-stories'); handleMenuClose(); }}>Impact Stories</MenuItem>
-                  <MenuItem onClick={() => { setCurrentPage('blog'); handleMenuClose(); }}>Blog</MenuItem>
-                </>
-              )}
-            </Menu>
+            {/* Add menus for other options if needed */}
           </Toolbar>
         </AppBar>
       );
     }
 
-    // Dashboard Page
     function DashboardPage() {
       const avatars = [
         "https://randomuser.me/api/portraits/men/32.jpg",
@@ -524,7 +434,7 @@
             <Grid container alignItems="center" spacing={2}>
               <Grid item>
                 <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                  ONE Global Dashboard
+                  Dashboard
                 </Typography>
               </Grid>
               <Grid item xs>
@@ -693,9 +603,7 @@
       );
     }
 
-    // Other Pages (reuse your existing code for other pages)
-
-    // ======================= Render App =======================
+    // Render the App
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
