@@ -142,7 +142,7 @@
     }
   </style>
 </head>
-<body>
+<body style="margin: 0;">
   <div id="root"></div>
 
   <!-- React 18 and ReactDOM 18 -->
@@ -319,7 +319,7 @@
         switch (currentPage) {
           case 'dashboard':
             return <DashboardPage />;
-          // Add other pages here if needed
+          // You can include other pages here by following the same pattern
           default:
             return <DashboardPage />;
         }
@@ -396,23 +396,23 @@
 
       const allPosts = {
         Sharing: [
-          { id: 1, type: 'Offer', user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Offering free gardening tools to anyone in need.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-          { id: 2, type: 'Request', user: "Emily Clark", date: "Nov 14, 2024", content: "Looking for volunteers for community cleanup this Saturday.", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
-          { id: 3, type: 'Gratitude', user: "John Doe", date: "Nov 15, 2024", content: "Thank you all for your support during the recent event!", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
+          { id: 1, type: "Offer", user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Offering free gardening tools to the community!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, type: "Request", user: "Emily Clark", date: "Nov 14, 2024", content: "Looking for volunteers for the community cleanup event.", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+          { id: 3, type: "Gratitude", user: "John Doe", date: "Nov 15, 2024", content: "Thank you to everyone who participated in the local food drive!", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
         ],
         Events: [
-          { id: 4, type: 'Event', user: "Local Yoga Studio", date: "Nov 16, 2024", content: "Join our free yoga session at the central park.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Yoga+Studio" },
-          { id: 5, type: 'Project', user: "Community Garden", date: "Nov 17, 2024", content: "Starting a new community garden project. Volunteers needed!", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Garden" },
+          { id: 4, name: "Yoga in the Park", date: "Nov 20, 2024", description: "Join us for a relaxing yoga session in the central park.", avatar: "https://randomuser.me/api/portraits/women/25.jpg", type: "Project" },
+          { id: 5, name: "Community Cleanup", date: "Nov 22, 2024", description: "Help us keep our town clean by participating in the cleanup drive.", avatar: "https://randomuser.me/api/portraits/men/41.jpg", type: "Project" },
         ],
         Groups: [
-          { id: 6, type: 'Organization', user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank" },
-          { id: 7, type: 'Organization', user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter" },
+          { id: 6, name: "Neighborhood Watch", members: 15, description: "Ensuring the safety and security of our community.", avatar: "https://randomuser.me/api/portraits/men/85.jpg", type: "Organization" },
+          { id: 7, name: "Book Club", members: 20, description: "Monthly meetings to discuss selected books.", avatar: "https://randomuser.me/api/portraits/women/25.jpg", type: "Organization" },
         ],
         People: [
-          { id: 8, user: "Sarah Johnson", date: "Nov 14, 2024", content: "Excited to connect with more community members!", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
-          { id: 9, user: "Tom Baker", date: "Nov 15, 2024", content: "Looking forward to attending the upcoming events.", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
-          { id: 10, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
-          { id: 11, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+          { id: 8, name: "Alice Johnson", role: "Founder & CEO", bio: "Passionate about community building with over 15 years of experience.", avatar: "https://i.pravatar.cc/300?img=5" },
+          { id: 9, name: "Bob Smith", role: "COO", bio: "Ensures smooth operations and manages daily tasks.", avatar: "https://i.pravatar.cc/300?img=6" },
+          { id: 10, name: "Carol Williams", role: "Head of Outreach", bio: "Fosters engagement and growth within local groups.", avatar: "https://i.pravatar.cc/300?img=7" },
+          { id: 11, name: "David Lee", role: "Marketing Director", bio: "Crafts our message and spreads the mission of ONE Local.", avatar: "https://i.pravatar.cc/300?img=8" },
         ],
       };
 
@@ -421,10 +421,26 @@
       const [selectedPost, setSelectedPost] = React.useState(null);
       const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-      const filteredPosts = allPosts[activeTab]?.filter(post =>
-        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-        post.user.toLowerCase().includes(searchText.toLowerCase())
-      ) || [];
+      const filteredPosts = allPosts[activeTab]?.filter(post => {
+        if (activeTab === 'Sharing') {
+          return post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.user.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.type.toLowerCase().includes(searchText.toLowerCase());
+        } else if (activeTab === 'Events') {
+          return post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.description.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.type.toLowerCase().includes(searchText.toLowerCase());
+        } else if (activeTab === 'Groups') {
+          return post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.description.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.type.toLowerCase().includes(searchText.toLowerCase());
+        } else if (activeTab === 'People') {
+          return post.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.role.toLowerCase().includes(searchText.toLowerCase()) ||
+                 post.bio.toLowerCase().includes(searchText.toLowerCase());
+        }
+        return false;
+      }) || [];
 
       const openModal = (post) => setSelectedPost(post);
       const closeModal = () => setSelectedPost(null);
@@ -481,14 +497,14 @@
             scrollButtons="auto"
             sx={{ mb: 2 }}
           >
-            {Object.keys(allPosts).map((tab) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
+            <Tab label="Sharing" value="Sharing" />
+            <Tab label="Events" value="Events" />
+            <Tab label="Groups" value="Groups" />
+            <Tab label="People" value="People" />
           </Tabs>
 
           {/* Dashboard Content */}
           <Grid container spacing={2}>
-            {/* Left Panel - Chats */}
             {!isMobile && (
               <Grid item xs={12} md={3}>
                 <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
@@ -516,38 +532,68 @@
                 </Paper>
               </Grid>
             )}
-
-            {/* Main Content - Posts */}
             <Grid item xs={12} md={isMobile ? 12 : 6}>
               {filteredPosts.map(post => (
-                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)} aria-labelledby={`post-${post.id}`}>
                   <CardContent>
                     <Grid container spacing={2}>
                       <Grid item>
-                        <Avatar src={post.avatar} />
+                        {activeTab === 'Sharing' || activeTab === 'People' ? (
+                          <Avatar src={post.avatar} />
+                        ) : (
+                          <Avatar>
+                            <Icon>event</Icon>
+                          </Avatar>
+                        )}
                       </Grid>
                       <Grid item xs>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                          {post.user} {post.type && `- ${post.type}`}
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          {post.date}
-                        </Typography>
+                        {activeTab === 'Sharing' ? (
+                          <>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                              {post.user} - <Chip label={post.type} size="small" color="secondary" />
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                              {post.date}
+                            </Typography>
+                          </>
+                        ) : activeTab === 'Events' ? (
+                          <>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                              {post.name} - <Chip label={post.type} size="small" color="secondary" />
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                              {post.date}
+                            </Typography>
+                          </>
+                        ) : activeTab === 'Groups' ? (
+                          <>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                              {post.name} - <Chip label={post.type} size="small" color="secondary" />
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                              {post.members} Members
+                            </Typography>
+                          </>
+                        ) : (
+                          <>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                              {post.name} - {post.role}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                              {post.bio}
+                            </Typography>
+                          </>
+                        )}
                       </Grid>
                     </Grid>
                     <Typography variant="body1" sx={{ mt: 2 }}>
-                      {post.content}
+                      {activeTab === 'Sharing' ? post.content : activeTab === 'Events' ? post.description : activeTab === 'Groups' ? post.description : post.bio}
                     </Typography>
-                    <Box sx={{ mt: 2 }}>
-                      <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
-                      <Chip icon={<Icon>comment</Icon>} label="Comment" />
-                    </Box>
+                    {/* Additional Actions or Information */}
                   </CardContent>
                 </Card>
               ))}
             </Grid>
-
-            {/* Right Panel - Map */}
             {!isMobile && (
               <Grid item xs={12} md={3}>
                 <Paper elevation={3} sx={{ p: 2 }}>
@@ -582,15 +628,56 @@
                   <>
                     <Grid container spacing={2} sx={{ mb: 2 }}>
                       <Grid item>
-                        <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                        {activeTab === 'Sharing' || activeTab === 'People' ? (
+                          <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                        ) : activeTab === 'Events' ? (
+                          <Avatar>
+                            <Icon>event</Icon>
+                          </Avatar>
+                        ) : (
+                          <Avatar>
+                            <Icon>group</Icon>
+                          </Avatar>
+                        )}
                       </Grid>
                       <Grid item xs>
-                        <Typography variant="h6" component="h2">
-                          {selectedPost.user} {selectedPost.type && `- ${selectedPost.type}`}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {selectedPost.date}
-                        </Typography>
+                        {activeTab === 'Sharing' ? (
+                          <>
+                            <Typography variant="h6" component="h2">
+                              {selectedPost.user}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {selectedPost.date} - {selectedPost.type}
+                            </Typography>
+                          </>
+                        ) : activeTab === 'Events' ? (
+                          <>
+                            <Typography variant="h6" component="h2">
+                              {selectedPost.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {selectedPost.date} - {selectedPost.type}
+                            </Typography>
+                          </>
+                        ) : activeTab === 'Groups' ? (
+                          <>
+                            <Typography variant="h6" component="h2">
+                              {selectedPost.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {selectedPost.members} Members - {selectedPost.type}
+                            </Typography>
+                          </>
+                        ) : (
+                          <>
+                            <Typography variant="h6" component="h2">
+                              {selectedPost.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {selectedPost.role}
+                            </Typography>
+                          </>
+                        )}
                       </Grid>
                       <Grid item>
                         <IconButton onClick={closeModal}>
@@ -599,7 +686,7 @@
                       </Grid>
                     </Grid>
                     <Typography variant="body1" sx={{ mb: 4 }}>
-                      {selectedPost.content}
+                      {activeTab === 'Sharing' ? selectedPost.content : activeTab === 'Events' ? selectedPost.description : activeTab === 'Groups' ? selectedPost.description : selectedPost.bio}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={closeModal}>
                       Close
@@ -613,6 +700,6 @@
 
         // ======================= Render App =======================
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-      </script>
+  </script>
 </body>
 </html>
