@@ -4,106 +4,180 @@
   <meta charset="UTF-8">
   <title>ONE Local Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- React, ReactDOM, Babel -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-  <!-- Material UI (if needed - uncomment) -->
-  <!--<script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>-->
-  <!--<script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>-->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-  <style>
-    /* ... (All styles from BOTH code blocks – remove duplicates) */
-    .avatar {  /* Ensure avatar styles are present */
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 0.5rem;
-    }
-   /* Override animated background from second snippet to apply it only where needed */
-    .animatedBackground { /* From second snippet - more specific application */
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #333333;
-      position: relative; /* Ensure proper stacking context */
-    }
-     #root { /* So the gradient doesn't affect everything */
-      background-color: white; /* Or another desired background for the app */
-      min-height: 100vh; /* Ensure it takes up full viewport height */
-    }
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
-  </style>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #f5f5f5; /* Light gray background from landing page */
+      color: #333333;  /* Dark gray text color from landing page */
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      height: 100vh;    /* Ensure full viewport height */
+    }
+    .app-container { height: 100%; }
+</style>
 </head>
 <body>
   <div id="root"></div>
 
   <script type="text/babel">
-    // ... (Material UI imports – if used) 
-    // ... (theme definition – if using Material UI)
+    const {
+      ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
+      InputBase, Avatar, Box, Tabs, Tab, Grid, Paper,
+      List, ListItem, ListItemText, Modal, Fade, Backdrop,
+    } = MaterialUI;
+
+        // Custom Theme from Landing Page
+    const theme = createTheme({
+      // ... (same theme as landing page, include it here)
+       palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      }, // ... rest of the theme
+    });
 
     function App() {
-       // ... (State, avatars, allPosts, filteredPosts, openModal, closeModal)
-
-       const [currentPage, setCurrentPage] = React.useState('dashboard'); // Start on the dashboard
-
-      const renderPage = () => {
-        switch (currentPage) {
-          case 'dashboard':
-            return <DashboardContent 
-                      activeTab={activeTab}
-                      setActiveTab={setActiveTab}
-                      searchText={searchText}
-                      setSearchText={setSearchText}
-                      filteredPosts={filteredPosts}
-                      openModal={openModal}
-                   />;  // Pass necessary props to DashboardContent
-          // ... (Other pages - ManifestoPage, TeamPage, etc. from the second snippet)
-          default:
-            return <DashboardContent />;
-        }
-      };
-
+      // ... (rest of the App component code)
 
       return (
-        <div> {/* Main container */}
-           <NavigationBar setCurrentPage={setCurrentPage} />
-           {renderPage()}
-           <Footer setCurrentPage={setCurrentPage} />
-        </div>
-      );
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+            <div className="app-container"> {/* Use MUI Box for main container */}
 
-    }
+          <AppBar position="static" color="transparent" sx={{ boxShadow: 'none' }}> {/* Transparent AppBar */}
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+                ONE Global
+              </Typography>
+              <InputBase
+                placeholder="Search"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <Avatar alt="User Avatar" src="https://randomuser.me/api/portraits/men/75.jpg" /> {/* Use Avatar component */}
+            </Toolbar>
+          </AppBar>
 
-    function DashboardContent(props) {  // Dashboard component receives props
-     return (
-       <div className="animatedBackground" style={{ minHeight: 'calc(100vh - 100px)', paddingTop: '60px'}}>
-         <div className="app-container" style={{ backgroundColor: 'transparent' }}> {/* Adjust background */}
-         <div className="top-bar">
-            <h1>ONE Local</h1>
-            {/* ... rest of your components */}
-         </div>
+          <Box sx={{ display: 'flex', overflowX: 'auto', p: 2, bgcolor: 'background.paper' }}> {/* Use MUI Box with bgcolor */}
+            {avatars.map((src, index) => (
+              <Avatar key={index} alt={`Avatar ${index}`} src={src} sx={{ mr: 2 }} />
+            ))}
+          </Box>
 
+          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered> {/* Use MUI Tabs */}
+            {Object.keys(allPosts).map(tab => (
+              <Tab key={tab} label={tab} value={tab} />
+            ))}
+          </Tabs>
 
-          {/* ... rest of dashboard HTML  */}
-          {props.selectedPost && ( // Check if a post is selected
-           <div className="modal-overlay" onClick={props.closeModal}>
-            <div className="modal-card"> {/* Modal content */}
-              {/* ... modal content ... */}
-            </div>
+          <Grid container spacing={3} sx={{ p: 3, height: 'calc(100vh - 200px)', overflowY: 'auto' }}> {/* Use MUI Grid */}
+            <Grid item xs={12} md={3}>
+              <Paper sx={{ p: 2 }}> {/* Use MUI Paper */}
+                <Typography variant="h5" gutterBottom>Chats</Typography>
+                <List> {/* Use MUI List */}
+                  <ListItem>
+                    <ListItemText primary="Working Group" secondary="Last message..." />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Sales" secondary="New idea..." />
+                  </ListItem>
+                </List>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+              {filteredPosts.map(post => (
+                <Paper key={post.id} sx={{ p: 2, mb: 2, cursor: 'pointer' }} onClick={() => openModal(post)}> {/* Use MUI Paper */}
+                  <Typography variant="subtitle1">{post.user} - {post.date}</Typography>
+                  <Typography variant="body2">{post.content}</Typography>
+                </Paper>
+              ))}
+            </Grid>
+
+            <Grid item xs={12} md={3}>
+              <Paper sx={{ p: 2 }}> {/* Use MUI Paper */}
+                <Typography variant="h5" gutterBottom>Map</Typography>
+                <Box sx={{ bgcolor: '#073642', height: 200, borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  Map Placeholder
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+
+          {selectedPost && (
+            <Modal
+              open={true}
+              onClose={closeModal}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Fade in={true}>
+                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 1 }}>
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    {selectedPost.user}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <p><strong>Date:</strong> {selectedPost.date}</p>
+                  <p>{selectedPost.content}</p>
+                  </Typography>
+                </Box>
+              </Fade>
+            </Modal>
+          )}
            </div>
-         )}
-
-        </div>
-       </div>
-     )
+        </ThemeProvider>
+      );
     }
-
-
-
-    // ... (NavigationBar, Footer, and other page components from the second snippet)
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
