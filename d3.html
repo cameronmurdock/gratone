@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Empower Your Community</title>
+  <title>ONE Local - Profile Dashboard</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Meta Descriptions for SEO -->
-  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
-  <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Meta Description -->
+  <meta name="description" content="ONE Local - Empower Your Community, Enrich Your Life.">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
@@ -64,9 +65,18 @@
     .main-content {
       margin-left: 256px;
       padding: 24px;
+      width: calc(100% - 256px);
     }
-    .icon-button {
-      color: white;
+    @media (max-width: 960px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -126,10 +136,10 @@
     } = MaterialUI;
 
     const {
-      Gift,
-      MessageCircle,
+      CardGiftcard,
+      Message,
       Palette,
-      Search,
+      Search as SearchIcon,
       CalendarToday,
       LocationOn,
       TrendingUp,
@@ -139,10 +149,13 @@
       Book as BookIcon,
       Inventory as InventoryIcon,
       BarChart as BarChartIcon,
-      Description as DescriptionIcon
+      Description as DescriptionIcon,
+      Favorite,
+      Comment,
+      Close,
     } = MaterialUIIcons;
 
-    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    // Custom Theme
     const theme = createTheme({
       palette: {
         mode: 'light',
@@ -258,15 +271,15 @@
       const tabs = ['My Groups', 'Attending', 'Interested'];
       
       const categories = [
-        { name: 'Events', icon: <CalendarToday /> },
-        { name: 'Orgs', icon: <People /> },
-        { name: 'Groups', icon: <People /> },
-        { name: 'Sharing', icon: <ShareIcon /> },
-        { name: 'Services', icon: <SettingsIcon /> },
-        { name: 'Rules', icon: <BookIcon /> },
-        { name: 'Products', icon: <InventoryIcon /> },
-        { name: 'Polling', icon: <BarChartIcon /> },
-        { name: 'Resources', icon: <DescriptionIcon /> }
+        { name: 'Events', icon: <CalendarToday fontSize="small" /> },
+        { name: 'Orgs', icon: <People fontSize="small" /> },
+        { name: 'Groups', icon: <People fontSize="small" /> },
+        { name: 'Sharing', icon: <ShareIcon fontSize="small" /> },
+        { name: 'Services', icon: <SettingsIcon fontSize="small" /> },
+        { name: 'Rules', icon: <BookIcon fontSize="small" /> },
+        { name: 'Products', icon: <InventoryIcon fontSize="small" /> },
+        { name: 'Polling', icon: <BarChartIcon fontSize="small" /> },
+        { name: 'Resources', icon: <DescriptionIcon fontSize="small" /> }
       ];
       
       const events = [
@@ -283,24 +296,25 @@
           image: "https://via.placeholder.com/400x200"
         }
       ];
-
+    
       // Modal State
       const [selectedEvent, setSelectedEvent] = React.useState(null);
       const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+    
       const handleOpenModal = (event) => {
         setSelectedEvent(event);
       };
-
+    
       const handleCloseModal = () => {
         setSelectedEvent(null);
       };
-
+    
       return (
         <Box className="min-h-screen bg-teal-900/90" sx={{ backgroundColor: 'teal.900', opacity: 0.9, display: 'flex' }}>
           {/* Left Sidebar */}
           <Box className="sidebar">
             <Box className="flex flex-col items-center">
+              {/* Stats Box */}
               <Box className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4" sx={{ backgroundColor: 'emerald.700', opacity: 0.3, borderRadius: 2, p: 2, width: '100%', mb: 2 }}>
                 <Box className="flex items-center gap-4" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Box className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center" sx={{ width: 48, height: 48, backgroundColor: 'emerald.600', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -313,26 +327,33 @@
                 </Box>
               </Box>
               
+              {/* Profile Picture */}
               <Box className="w-32 h-32 rounded-full overflow-hidden mb-4" sx={{ width: 128, height: 128, borderRadius: '50%', overflow: 'hidden', mb: 2 }}>
                 <img src="https://via.placeholder.com/128" alt="Profile" className="w-full h-full object-cover" />
               </Box>
               
+              {/* User Name */}
               <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>Cameron Murdock</Typography>
+              
+              {/* Gift Icon with Number */}
               <Box className="flex items-center gap-2 mb-4" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                <Gift />
+                <CardGiftcard fontSize="small" />
                 <Typography variant="body2">500</Typography>
               </Box>
               
+              {/* Give Button */}
               <Button variant="contained" color="primary" fullWidth sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                <Gift />
+                <CardGiftcard fontSize="small" />
                 Give
               </Button>
               
+              {/* Message Button */}
               <Button variant="contained" color="primary" fullWidth sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                <MessageCircle />
+                <Message fontSize="small" />
                 Message
               </Button>
               
+              {/* Skills */}
               <Box className="w-full">
                 <Typography variant="h6" sx={{ mb: 1 }}>Skills</Typography>
                 <Box className="flex flex-wrap gap-2 mb-4" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
@@ -340,6 +361,7 @@
                   <Chip label="Art Making" color="secondary" sx={{ backgroundColor: 'emerald.800', color: 'white' }} />
                 </Box>
                 
+                {/* Sharing */}
                 <Typography variant="h6" sx={{ mb: 1 }}>Sharing</Typography>
                 <Box className="bg-white rounded-lg p-2 flex items-center justify-between" sx={{ backgroundColor: 'white', borderRadius: 2, p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Box className="flex items-center gap-2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -355,6 +377,7 @@
             <Box className="main-content" sx={{ flexGrow: 1, backgroundColor: 'transparent' }}>
               {/* Top Navigation */}
               <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'yellow.500', opacity: 0.2, borderRadius: 2 }}>
+                {/* Categories */}
                 <Box className="flex gap-2 mb-4 flex-wrap" sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
                   {categories.map((category) => (
                     <Button
@@ -369,6 +392,7 @@
                   ))}
                 </Box>
                 
+                {/* Tabs */}
                 <Box className="flex gap-4 mb-4" sx={{ display: 'flex', gap: 2, mb: 2 }}>
                   {tabs.map((tab) => (
                     <Button
@@ -383,12 +407,13 @@
                   ))}
                 </Box>
                 
+                {/* Search Bar */}
                 <Box className="relative" sx={{ position: 'relative' }}>
+                  <SearchIcon sx={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'gray.500' }} />
                   <InputBase
                     placeholder="Search"
                     value=""
                     onChange={() => {}}
-                    startAdornment={<Search sx={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'white' }} />}
                     sx={{
                       width: '100%',
                       backgroundColor: 'white',
@@ -405,7 +430,7 @@
               <Grid container spacing={4}>
                 {events.map((event, index) => (
                   <Grid item xs={12} md={6} key={index}>
-                    <Card sx={{ backgroundColor: 'white/10', color: 'white', cursor: 'pointer' }} onClick={() => handleOpenModal(event)}>
+                    <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'white', cursor: 'pointer' }} onClick={() => handleOpenModal(event)}>
                       <CardContent>
                         <Box sx={{ position: 'relative' }}>
                           <img src={event.image} alt={event.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
@@ -480,17 +505,16 @@
                 </Fade>
               </Modal>
             </Box>
-        </Box>
-      );
-    };
+          );
+        };
 
-    // Render the App
-    ReactDOM.createRoot(document.getElementById('root')).render(
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ProfileDashboard />
-      </ThemeProvider>
-    );
+        // Render the App
+        ReactDOM.createRoot(document.getElementById('root')).render(
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ProfileDashboard />
+          </ThemeProvider>
+        );
   </script>
 </body>
 </html>
