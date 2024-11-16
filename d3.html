@@ -18,20 +18,12 @@
       background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      color: #333; /* Use consistent text color */
+      color: #333; /* Consistent text color */
     }
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
-    }
-    .MuiAppBar-root {
-      background: rgba(255, 255, 255, 0.95) !important; /* Override default background */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-    }
-    .map-container {
-      height: 100%;
-      border-radius: theme.shape.borderRadius;
     }
   </style>
 </head>
@@ -39,109 +31,134 @@
   <div id="root"></div>
   <script type="text/babel">
     const {
-      AppBar, Toolbar, Typography, Box, Grid, Avatar, Tabs, Tab,
-      List, ListItem, ListItemAvatar, ListItemText, Divider,
-      Card, CardContent, CardActions, Button, IconButton, Modal, Fade, Backdrop, Icon, TextField
+      ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
+      InputBase, IconButton, Avatar, Tabs, Tab, Box, Grid, Paper,
+      List, ListItem, ListItemAvatar, ListItemText, Divider, Modal, Fade, Backdrop
     } = MaterialUI;
 
-    // ... (rest of Material UI component imports)
-
-     // Custom Theme (Consistent with your org page)
-    const theme = createTheme({ /* ... your theme object */});
+    const theme = createTheme({ /* ... your theme from the org page ... */ });
 
     function App() {
-      // ... (state and other variables)
-
+      // ... (rest of your component code)
       return (
         <ThemeProvider theme={theme}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}> {/* Ensure content takes up full viewport height */}
-          <AppBar position="static">
-            <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                ONE Global
-              </Typography>
-              <TextField label="Search" variant="outlined" size="small" value={searchText} onChange={(e) => setSearchText(e.target.value)}  sx={{ backgroundColor: '#fff', mr: 2, borderRadius: '20px' }} InputLabelProps={{ shrink: true, style: { color: theme.palette.primary.main } }}
-                InputProps={{ style: { color: theme.palette.primary.main } }}/>
-              <IconButton color="inherit">
-                <Avatar alt="User Avatar" src="https://randomuser.me/api/portraits/men/75.jpg" />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex' }}> {/* Flex container for avatars, tabs and content */}
-            <Box sx={{ backgroundColor: theme.palette.background.default, padding: theme.spacing(2) }}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Chats</Typography>
-              <List>
-                <ListItem button>
-                  <ListItemAvatar>
-                    <Avatar alt="Working Group" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Working Group" secondary="Last message..." />
-                </ListItem>
-                <ListItem button>
-                  <ListItemAvatar>
-                    <Avatar alt="Sales" />
-                  </ListItemAvatar>
-                  <ListItemText primary="Sales" secondary="New idea..." />
-                </ListItem>
-              </List>
+          <CssBaseline />
+          <div className="app-container">
+            <AppBar position="static" sx={{ backgroundColor: '#004d40' }}>
+              <Toolbar>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  ONE Global
+                </Typography>
+                <InputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                  sx={{ backgroundColor: 'white', borderRadius: 2, px: 1 }}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                />
+                <IconButton color="inherit" sx={{ ml: 1 }}>
+                  <Avatar alt="User Avatar" src={avatars[0]} /> {/* Use a default avatar */}
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+            {/* Avatar Row (using horizontal scroll with MUI components) */}
+            <Box sx={{ overflowX: 'auto', backgroundColor: '#003642', p: 2, display: 'flex' }}>
+              {avatars.map((src, index) => (
+                <Avatar key={index} alt={`Avatar ${index + 1}`} src={src} sx={{ mr: 1 }} />
+              ))}
             </Box>
 
-            <Box sx={{ flex: '1 1 auto', padding: theme.spacing(2), overflowY: 'auto' }}> {/* Make main content area scrollable */}
-              <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered>
-                {Object.keys(allPosts).map(tab => (
-                  <Tab key={tab} label={tab} value={tab} />
-                ))}
-              </Tabs>
-              <Divider />
-              <Box mt={3}>
-                {filteredPosts.map(post => (
-                  <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
-                    <CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar alt={post.user} src={post.avatar} sx={{ mr: 2 }} />
-                        <Typography variant="subtitle1">{post.user}</Typography>
-                        <Typography variant="body2" color="textSecondary" sx={{ ml: 'auto' }}>{post.date}</Typography>
-                      </Box>
-                      <Typography variant="body1" paragraph>{post.content}</Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            </Box>
-            <Box sx={{ backgroundColor: theme.palette.background.default, padding: theme.spacing(2), width: 300, minWidth: 300 }}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Map</Typography>
-              <Box className="map-container">{/* Replace with actual map implementation */}</Box> {/* Map placeholder */}
-            </Box>
-          </Box>
+            <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered sx={{ backgroundColor: '#003642' }}>
+              {Object.keys(allPosts).map(tab => (
+                <Tab key={tab} label={tab} value={tab} sx={{ color: '#93a1a1', '&.Mui-selected': { color: 'white' } }} />
+              ))}
+            </Tabs>
 
-          {/* Modal */}
-          <Modal
-            open={selectedPost !== null} // Use selectedPost directly in condition
+            <Grid container spacing={2} sx={{ p: 2, height: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+              <Grid item xs={12} md={3}>
+                <Paper sx={{ p: 2, backgroundColor: '#003642', color: 'white', height: '100%' }}>
+                  <h2>Chats</h2>
+                   <List>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                           <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Working Group" secondary="Last message..." />
+                    </ListItem>
+                   <Divider variant="inset" component="li" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>storefront</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Sales" secondary="New idea..." />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                 {filteredPosts.map(post => (
+                  <Paper key={post.id} className="post-card" onClick={() => openModal(post)} sx={{ mb: 2, p: 2, backgroundColor: '#003642', color: 'white', cursor: 'pointer' }}>
+                    <Box display="flex" alignItems="center">
+                       <ListItemAvatar>
+                           <Avatar alt={post.user} src={post.avatar} />
+                       </ListItemAvatar>
+                      <Box ml={2}>
+                      <Typography variant="subtitle1">{post.user}</Typography>
+                      <Typography variant="caption" color="textSecondary">{post.date}</Typography>
+                    </Box>
+                    </Box>
+                    <Typography variant="body2" sx={{ mt: 1 }}>{post.content}</Typography>
+                  </Paper>
+                ))}
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Paper sx={{ p: 2, backgroundColor: '#003642', color: 'white', height: '100%' }}>
+                  <h2>Map</h2>
+                  <Box sx={{ backgroundColor: '#073642', height: 200, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                    Map Placeholder
+                  </Box>
+                </Paper>
+              </Grid>
+            </Grid>
+
+            <Modal
+            open={selectedPost !== null}  // Use boolean directly
             onClose={closeModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{ timeout: 500 }}
+            BackdropProps={{
+              timeout: 500,
+            }}
           >
             <Fade in={selectedPost !== null}>
-              <Box className="modalContent">
+               <Box className="modal-card" sx={{ bgcolor: '#003642', color: 'white', p: 4, borderRadius: 2, width: 400, maxWidth: '90%', position: 'relative' }}>
                 {selectedPost && (
                   <>
-                  <IconButton aria-label="close" onClick={closeModal} sx={{ position: 'absolute', top: 8, right: 8 }} >
-                    <Icon>close</Icon>
-                  </IconButton>
-                    <Typography variant="h5" component="h2">{selectedPost.user}</Typography>
-                    <Typography variant="body2" color="textSecondary">{selectedPost.date}</Typography>
-                    <Typography variant="body1" paragraph>{selectedPost.content}</Typography>
-                    <Button variant="contained" onClick={closeModal}>Close</Button>
+                    <IconButton
+                      aria-label="close"
+                      onClick={closeModal}
+                      sx={{ position: 'absolute', top: 8, right: 8 }}
+                    >
+                      <Icon>close</Icon>
+                    </IconButton>
+                  <Typography variant="h6" component="h2">{selectedPost.user}</Typography>
+                  <Typography variant="body2" color="text.secondary">Date: {selectedPost.date}</Typography>
+                  <Typography variant="body1">{selectedPost.content}</Typography>
                   </>
                 )}
               </Box>
             </Fade>
           </Modal>
-        </Box>
+          </div>
         </ThemeProvider>
       );
     }
+
+
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
