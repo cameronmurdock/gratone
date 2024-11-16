@@ -6,11 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
 
   <style>
     body {
@@ -19,123 +18,132 @@
       background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      color: #333;
-      overflow: hidden; /* Prevent scrollbars during modal open */
+      color: #333; /* Use consistent text color */
     }
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .modalContent {  /* Style the modal content */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;        /* Make modal responsive */
-      max-width: 600px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      outline: none;
+    .MuiAppBar-root {
+      background: rgba(255, 255, 255, 0.95) !important; /* Override default background */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    .map-container {
+      height: 100%;
+      border-radius: theme.shape.borderRadius;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
+    const {
+      AppBar, Toolbar, Typography, Box, Grid, Avatar, Tabs, Tab,
+      List, ListItem, ListItemAvatar, ListItemText, Divider,
+      Card, CardContent, CardActions, Button, IconButton, Modal, Fade, Backdrop, Icon, TextField
+    } = MaterialUI;
 
-  // ... (MUI imports - same as before)
+    // ... (rest of Material UI component imports)
 
-const theme = createTheme({
-      palette: { // ... your color palette from org page },
-      typography: { // ... your typography settings from org page },
-      // ... other theme settings
-});
+     // Custom Theme (Consistent with your org page)
+    const theme = createTheme({ /* ... your theme object */});
 
+    function App() {
+      // ... (state and other variables)
 
+      return (
+        <ThemeProvider theme={theme}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}> {/* Ensure content takes up full viewport height */}
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                ONE Global
+              </Typography>
+              <TextField label="Search" variant="outlined" size="small" value={searchText} onChange={(e) => setSearchText(e.target.value)}  sx={{ backgroundColor: '#fff', mr: 2, borderRadius: '20px' }} InputLabelProps={{ shrink: true, style: { color: theme.palette.primary.main } }}
+                InputProps={{ style: { color: theme.palette.primary.main } }}/>
+              <IconButton color="inherit">
+                <Avatar alt="User Avatar" src="https://randomuser.me/api/portraits/men/75.jpg" />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex' }}> {/* Flex container for avatars, tabs and content */}
+            <Box sx={{ backgroundColor: theme.palette.background.default, padding: theme.spacing(2) }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Chats</Typography>
+              <List>
+                <ListItem button>
+                  <ListItemAvatar>
+                    <Avatar alt="Working Group" />
+                  </ListItemAvatar>
+                  <ListItemText primary="Working Group" secondary="Last message..." />
+                </ListItem>
+                <ListItem button>
+                  <ListItemAvatar>
+                    <Avatar alt="Sales" />
+                  </ListItemAvatar>
+                  <ListItemText primary="Sales" secondary="New idea..." />
+                </ListItem>
+              </List>
+            </Box>
 
-function App() {
-  const avatars = [
-    "https://randomuser.me/api/portraits/men/32.jpg",
-    "https://randomuser.me/api/portraits/women/65.jpg",
-    // ... more avatars
-  ];
-
-  const allPosts = { /* ... your post data */ };
-
-  const [activeTab, setActiveTab] = React.useState('Events');
-  const [searchText, setSearchText] = React.useState('');
-  const [selectedPost, setSelectedPost] = React.useState(null);
-
-  const filteredPosts = allPosts[activeTab]?.filter(post =>
-    post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-    post.user.toLowerCase().includes(searchText.toLowerCase())
-  ) || [];
-
-  const openModal = (post) => setSelectedPost(post);
-  const closeModal = () => setSelectedPost(null);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}> 
-        <NavigationBar searchText={searchText} setSearchText={setSearchText} />
-        <AvatarRow avatars={avatars} />
-        <TabPanel activeTab={activeTab} allPosts={allPosts} setActiveTab={setActiveTab} />
-        <Dashboard filteredPosts={filteredPosts} openModal={openModal} />
-        <PostModal post={selectedPost} closeModal={closeModal} />
-      </Box>
-    </ThemeProvider>
-  );
-}
-
-
-
-    // ... (NavigationBar, AvatarRow, TabPanel, Dashboard -  same as before - but use theme-aware styling with sx prop)
-
-function PostModal({ post, closeModal }) {
-  const handleClose = () => {
-    closeModal();
-  };
-    return (
-      <Modal
-        open={!!post}
-        onClose={handleClose}  // Use handleClose here
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={!!post}>  {/* Fade transition */}
-          <Box className="modalContent" sx={{ bgcolor: 'background.paper',  width: { xs: '90%', md: '600px' } }}>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}  // And here
-              sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
-            >
-              <Icon>close</Icon>
-            </IconButton>
-            {post && (
-              <>
-                <Typography variant="h5" component="h2" sx={{ mb: 2 }}>{post.user}</Typography>
-                <Typography sx={{ mb: 1 }}><strong>Date:</strong> {post.date}</Typography>
-                <Typography sx={{ mb: 2 }}>{post.content}</Typography>
-                <Button variant="contained" onClick={handleClose}>Close</Button> {/* Close button */}
-              </>
-            )}
+            <Box sx={{ flex: '1 1 auto', padding: theme.spacing(2), overflowY: 'auto' }}> {/* Make main content area scrollable */}
+              <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)} centered>
+                {Object.keys(allPosts).map(tab => (
+                  <Tab key={tab} label={tab} value={tab} />
+                ))}
+              </Tabs>
+              <Divider />
+              <Box mt={3}>
+                {filteredPosts.map(post => (
+                  <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                    <CardContent>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar alt={post.user} src={post.avatar} sx={{ mr: 2 }} />
+                        <Typography variant="subtitle1">{post.user}</Typography>
+                        <Typography variant="body2" color="textSecondary" sx={{ ml: 'auto' }}>{post.date}</Typography>
+                      </Box>
+                      <Typography variant="body1" paragraph>{post.content}</Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Box>
+            </Box>
+            <Box sx={{ backgroundColor: theme.palette.background.default, padding: theme.spacing(2), width: 300, minWidth: 300 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Map</Typography>
+              <Box className="map-container">{/* Replace with actual map implementation */}</Box> {/* Map placeholder */}
+            </Box>
           </Box>
-        </Fade>
-      </Modal>
-    );
-  }
 
+          {/* Modal */}
+          <Modal
+            open={selectedPost !== null} // Use selectedPost directly in condition
+            onClose={closeModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{ timeout: 500 }}
+          >
+            <Fade in={selectedPost !== null}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                  <IconButton aria-label="close" onClick={closeModal} sx={{ position: 'absolute', top: 8, right: 8 }} >
+                    <Icon>close</Icon>
+                  </IconButton>
+                    <Typography variant="h5" component="h2">{selectedPost.user}</Typography>
+                    <Typography variant="body2" color="textSecondary">{selectedPost.date}</Typography>
+                    <Typography variant="body1" paragraph>{selectedPost.content}</Typography>
+                    <Button variant="contained" onClick={closeModal}>Close</Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+        </ThemeProvider>
+      );
+    }
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
