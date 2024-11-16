@@ -13,20 +13,6 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Animated Gradient Background */
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .animatedBackground {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
-      color: #333333;
-      position: relative; /* Ensure proper stacking context */
-    }
     /* Scrollbar Styling */
     body {
       overflow-x: hidden;
@@ -43,6 +29,44 @@
       background-color: #a8d5ba;
       border-radius: 4px;
     }
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+    /* Custom Styles for Profile Dashboard */
+    .sidebar {
+      background-color: rgba(0, 128, 128, 0.8); /* Teal background */
+      color: white;
+      padding: 16px;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 256px;
+      overflow-y: auto;
+    }
+    .main-content {
+      margin-left: 256px;
+      padding: 24px;
+    }
+    .icon-button {
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -57,6 +81,8 @@
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <!-- Lucide-React Icons -->
+  <script src="https://unpkg.com/lucide-react/dist/lucide-react.min.js"></script>
 
   <script type="text/babel">
     const {
@@ -95,35 +121,27 @@
       Tab,
       InputBase,
       Paper,
-      ListItemAvatar,
-      ListItemIcon,
       Badge,
       Chip,
       Tooltip,
-      Drawer,
     } = MaterialUI;
 
-    // Import MUI Icons
     const {
-      CardGiftcard,
-      Message,
-      Palette as PaletteIcon,
-      Search as SearchIcon,
-      CalendarToday,
-      Map as MapPinIcon,
-      TrendingUp,
-      Group,
-      Share as ShareIcon,
-      Settings as SettingsIcon,
-      Book as BookIcon,
-      LocalShipping,
-      BarChart as BarChartIcon,
-      Description as FileTextIcon,
-      Close as CloseIcon,
-      Notifications,
-      AccountCircle,
-      Menu as MenuIcon,
-    } = MaterialUIIcons;
+      Gift,
+      MessageCircle,
+      Palette,
+      Search,
+      Calendar,
+      MapPin,
+      Activity,
+      Users,
+      Share,
+      Settings,
+      Book,
+      Package,
+      BarChart,
+      FileText
+    } = lucideReact;
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
@@ -236,31 +254,20 @@
       },
     });
 
-    function App() {
-      return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box className="animatedBackground">
-            <ProfileDashboard />
-          </Box>
-        </ThemeProvider>
-      );
-    }
-
     const ProfileDashboard = () => {
       const [activeTab, setActiveTab] = React.useState('My Groups');
       const tabs = ['My Groups', 'Attending', 'Interested'];
       
       const categories = [
-        { name: 'Events', icon: <CalendarToday fontSize="small" /> },
-        { name: 'Orgs', icon: <Group fontSize="small" /> },
-        { name: 'Groups', icon: <Group fontSize="small" /> },
-        { name: 'Sharing', icon: <ShareIcon fontSize="small" /> },
-        { name: 'Services', icon: <SettingsIcon fontSize="small" /> },
-        { name: 'Rules', icon: <BookIcon fontSize="small" /> },
-        { name: 'Products', icon: <LocalShipping fontSize="small" /> },
-        { name: 'Polling', icon: <BarChartIcon fontSize="small" /> },
-        { name: 'Resources', icon: <FileTextIcon fontSize="small" /> }
+        { name: 'Events', icon: <Calendar className="w-4 h-4" /> },
+        { name: 'Orgs', icon: <Users className="w-4 h-4" /> },
+        { name: 'Groups', icon: <Users className="w-4 h-4" /> },
+        { name: 'Sharing', icon: <Share className="w-4 h-4" /> },
+        { name: 'Services', icon: <Settings className="w-4 h-4" /> },
+        { name: 'Rules', icon: <Book className="w-4 h-4" /> },
+        { name: 'Products', icon: <Package className="w-4 h-4" /> },
+        { name: 'Polling', icon: <BarChart className="w-4 h-4" /> },
+        { name: 'Resources', icon: <FileText className="w-4 h-4" /> }
       ];
       
       const events = [
@@ -277,350 +284,148 @@
           image: "https://via.placeholder.com/400x200"
         }
       ];
-    
-      // Sidebar Data
-      const profile = {
-        name: "Cameron Murdock",
-        followers: 500,
-        avatar: "https://via.placeholder.com/128",
-        skills: ["Designing", "Art Making"],
-        sharing: {
-          type: "OFFER",
-          category: "Painting",
-          icon: <PaletteIcon fontSize="small" />
-        }
-      };
-    
-      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-      // Modal State
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedEvent, setSelectedEvent] = React.useState(null);
-
-      const handleOpenModal = (event) => {
-        setSelectedEvent(event);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setSelectedEvent(null);
-        setOpenModal(false);
-      };
-    
       return (
-        <Box sx={{ display: 'flex' }}>
+        <Box className="min-h-screen bg-teal-900/90" sx={{ backgroundColor: 'teal.900', opacity: 0.9 }}>
           {/* Left Sidebar */}
-          <Box
-            sx={{
-              width: isMobile ? '100%' : 256,
-              backgroundColor: 'rgba(0, 77, 64, 0.8)',
-              color: '#ffffff',
-              p: 3,
-              position: isMobile ? 'fixed' : 'relative',
-              height: isMobile ? 'auto' : '100vh',
-              zIndex: 1000,
-              overflowY: 'auto'
-            }}
-          >
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {/* Statistics */}
-              <Box sx={{ backgroundColor: 'rgba(0, 77, 64, 0.5)', borderRadius: 2, p: 2, width: '100%', mb: 4 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{profile.followers}</Typography>
-                    <Typography variant="body2">Followers</Typography>
+          <Box className="sidebar">
+            <Box className="flex flex-col items-center">
+              <Box className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4" sx={{ backgroundColor: 'emerald.700', opacity: 0.3, borderRadius: 2, p: 2, width: '100%', mb: 2 }}>
+                <Box className="flex items-center gap-4" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center" sx={{ width: 48, height: 48, backgroundColor: 'emerald.600', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="body2">19.9k</Typography>
                   </Box>
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>97.5%</Typography>
-                    <Typography variant="body2">Engagement</Typography>
-                  </Box>
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>20k</Typography>
-                    <Typography variant="body2">Reach</Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>97.5%</Typography>
+                  <Box className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center" sx={{ width: 48, height: 48, backgroundColor: 'emerald.600', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="body2">20k</Typography>
                   </Box>
                 </Box>
               </Box>
               
-              {/* Profile Picture */}
-              <Avatar
-                src={profile.avatar}
-                alt={profile.name}
-                sx={{ width: 128, height: 128, mb: 2 }}
-              />
-              
-              {/* Name */}
-              <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                {profile.name}
-              </Typography>
-              
-              {/* Followers */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-                <CardGiftcard fontSize="small" />
-                <Typography variant="body2">{profile.followers} Followers</Typography>
+              <Box className="w-32 h-32 rounded-full overflow-hidden mb-4" sx={{ width: 128, height: 128, borderRadius: '50%', overflow: 'hidden', mb: 2 }}>
+                <img src="https://via.placeholder.com/128" alt="Profile" className="w-full h-full object-cover" />
               </Box>
               
-              {/* Action Buttons */}
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                startIcon={<CardGiftcard fontSize="small" />}
-                sx={{ mb: 2 }}
-              >
+              <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>Cameron Murdock</Typography>
+              <Box className="flex items-center gap-2 mb-4" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Gift className="w-4 h-4" />
+                <Typography variant="body2">500</Typography>
+              </Box>
+              
+              <Button variant="contained" color="primary" fullWidth sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                <Gift className="w-4 h-4" />
                 Give
               </Button>
               
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                startIcon={<Message fontSize="small" />}
-                sx={{ mb: 4 }}
-              >
+              <Button variant="contained" color="primary" fullWidth sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                <MessageCircle className="w-4 h-4" />
                 Message
               </Button>
               
-              {/* Skills */}
-              <Box sx={{ width: '100%', mb: 4 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
-                  Skills
-                </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                  {profile.skills.map((skill, index) => (
-                    <Chip key={index} label={skill} variant="outlined" />
-                  ))}
+              <Box className="w-full">
+                <Typography variant="h6" sx={{ mb: 1 }}>Skills</Typography>
+                <Box className="flex flex-wrap gap-2 mb-4" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  <Chip label="Designing" color="secondary" sx={{ backgroundColor: 'emerald.800', color: 'white' }} />
+                  <Chip label="Art Making" color="secondary" sx={{ backgroundColor: 'emerald.800', color: 'white' }} />
                 </Box>
-              </Box>
-              
-              {/* Sharing */}
-              <Box sx={{ width: '100%' }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
-                  Sharing
-                </Typography>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                  }}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {profile.sharing.icon}
-                    <Typography variant="body1">{profile.sharing.category}</Typography>
+                
+                <Typography variant="h6" sx={{ mb: 1 }}>Sharing</Typography>
+                <Box className="bg-white rounded-lg p-2 flex items-center justify-between" sx={{ backgroundColor: 'white', borderRadius: 2, p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Box className="flex items-center gap-2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Palette className="w-4 h-4 text-black" />
+                    <Typography variant="body2" sx={{ color: 'black' }}>Painting</Typography>
                   </Box>
-                  <Chip label={profile.sharing.type} color="success" />
-                </Paper>
+                  <Typography variant="body2" sx={{ color: 'emerald.600', fontWeight: 'bold' }}>OFFER</Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
-    
-          {/* Main Content */}
-          <Box
-            sx={{
-              flexGrow: 1,
-              p: 4,
-              marginLeft: isMobile ? 0 : '256px',
-              mt: isMobile ? '64px' : 0,
-            }}
-          >
-            {/* Top Navigation */}
-            <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}>
-              {/* Categories */}
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-                {categories.map((category) => (
-                  <Button
-                    key={category.name}
-                    variant="outlined"
-                    startIcon={category.icon}
-                    sx={{
-                      borderColor: '#ffffff',
-                      color: '#ffffff',
-                      '&:hover': {
-                        borderColor: '#ffffff',
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                      }
-                    }}
-                  >
-                    {category.name}
-                  </Button>
-                ))}
-              </Box>
-              
-              {/* Tabs and Search */}
-              <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 2 }}>
-                {/* Tabs */}
-                <Tabs
-                  value={activeTab}
-                  onChange={(e, newValue) => setActiveTab(newValue)}
-                  textColor="inherit"
-                  indicatorColor="secondary"
-                  variant="scrollable"
-                  scrollButtons="auto"
-                  sx={{
-                    flexGrow: 1,
-                    '.MuiTabs-indicator': {
-                      backgroundColor: '#ffffff'
-                    }
-                  }}
-                >
-                  {tabs.map((tab) => (
-                    <Tab
-                      key={tab}
-                      label={tab}
-                      value={tab}
-                      sx={{
-                        textTransform: 'none',
-                        color: '#ffffff',
-                        '&.Mui-selected': {
-                          color: '#000000',
-                          backgroundColor: '#ffffff',
-                          borderRadius: '20px',
-                        }
-                      }}
-                    />
+
+            {/* Main Content */}
+            <Box className="main-content">
+              {/* Top Navigation */}
+              <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'yellow.500', opacity: 0.2, borderRadius: 2 }}>
+                <Box className="flex gap-2 mb-4 flex-wrap" sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+                  {categories.map((category) => (
+                    <Button
+                      key={category.name}
+                      variant="contained"
+                      color="secondary"
+                      startIcon={category.icon}
+                      sx={{ borderRadius: '20px', textTransform: 'none' }}
+                    >
+                      {category.name}
+                    </Button>
                   ))}
-                </Tabs>
+                </Box>
                 
-                {/* Search */}
-                <Box sx={{ position: 'relative', width: isMobile ? '100%' : '300px' }}>
+                <Box className="flex gap-4 mb-4" sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                  {tabs.map((tab) => (
+                    <Button
+                      key={tab}
+                      variant={activeTab === tab ? 'contained' : 'outlined'}
+                      color="secondary"
+                      onClick={() => setActiveTab(tab)}
+                      sx={{ borderRadius: '20px', textTransform: 'none' }}
+                    >
+                      {tab}
+                    </Button>
+                  ))}
+                </Box>
+                
+                <Box className="relative" sx={{ position: 'relative' }}>
                   <InputBase
                     placeholder="Search"
-                    fullWidth
+                    value=""
+                    onChange={() => {}}
+                    startAdornment={<Search sx={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'white' }} />}
                     sx={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      width: '100%',
+                      backgroundColor: 'white',
                       borderRadius: '20px',
-                      padding: '8px 12px',
-                      color: '#ffffff',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                      }
-                    }}
-                  />
-                  <SearchIcon
-                    sx={{
-                      position: 'absolute',
-                      right: '12px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: '#ffffff'
+                      paddingLeft: '40px',
+                      paddingY: '8px',
+                      color: 'black',
                     }}
                   />
                 </Box>
-              </Box>
-            </Paper>
-    
-            {/* Event Cards */}
-            <Grid container spacing={4}>
-              {events.map((event, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <Card
-                    sx={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      color: '#ffffff',
-                      cursor: 'pointer',
-                      transition: 'transform 0.3s',
-                      '&:hover': {
-                        transform: 'scale(1.02)',
-                        backgroundColor: 'rgba(255, 255, 255, 0.2)'
-                      }
-                    }}
-                    onClick={() => handleOpenModal(event)}
-                  >
-                    <CardContent>
-                      <Box sx={{ position: 'relative' }}>
-                        <Avatar
-                          src={event.image}
-                          alt={event.title}
-                          variant="square"
-                          sx={{
-                            width: '100%',
-                            height: 140,
-                            borderRadius: '10px',
-                            objectFit: 'cover',
-                            mb: 2
-                          }}
-                        />
-                      </Box>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                        {event.title}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <CalendarToday fontSize="small" />
-                        <Typography variant="body2">{event.date}</Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <MapPinIcon fontSize="small" />
-                        <Typography variant="body2">{event.location}</Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-    
-            {/* Event Details Modal */}
-            <Modal
-              open={Boolean(selectedEvent)}
-              onClose={handleCloseModal}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-              aria-labelledby="event-modal-title"
-              aria-describedby="event-modal-description"
-            >
-              <Fade in={Boolean(selectedEvent)}>
-                <Box className="modalContent">
-                  {selectedEvent && (
-                    <>
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <IconButton onClick={handleCloseModal}>
-                          <CloseIcon />
-                        </IconButton>
-                      </Box>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Avatar
-                          src={selectedEvent.image}
-                          alt={selectedEvent.title}
-                          variant="square"
-                          sx={{
-                            width: '100%',
-                            height: 200,
-                            borderRadius: '10px',
-                            objectFit: 'cover',
-                            mb: 2
-                          }}
-                        />
-                        <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-                          {selectedEvent.title}
-                        </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
-                          <CalendarToday fontSize="small" />
-                          <Typography variant="body1">{selectedEvent.date}</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                          <MapPinIcon fontSize="small" />
-                          <Typography variant="body1">{selectedEvent.location}</Typography>
-                        </Box>
-                        <Typography variant="body1" sx={{ mt: 2 }}>
-                          {/* Add detailed event description here */}
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac venenatis elit. Phasellus sit amet quam ut nisl tincidunt tempus.
-                        </Typography>
-                      </Box>
-                    </>
-                  )}
-                </Box>
-              </Fade>
-            </Modal>
-          </Box>
-        };
+              </Paper>
 
-    // ======================= Render App =======================
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+              {/* Event Cards */}
+              <Grid container spacing={4}>
+                {events.map((event, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <Card sx={{ backgroundColor: 'white/10', color: 'white' }}>
+                      <CardContent>
+                        <Box sx={{ position: 'relative' }}>
+                          <img src={event.image} alt={event.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
+                        </Box>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {event.title}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                          <Calendar />
+                          <Typography variant="body2">{event.date}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <MapPin />
+                          <Typography variant="body2">{event.location}</Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+        </Box>
+      );
+      
+      // ======================= Render App =======================
+      ReactDOM.createRoot(document.getElementById('root')).render(
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <ProfileDashboard />
+        </ThemeProvider>
+      );
   </script>
 </body>
 </html>
