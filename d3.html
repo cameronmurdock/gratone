@@ -19,185 +19,122 @@
       background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
-      color: #333; /* Use the theme's text primary color */
+      color: #333;
+      overflow: hidden; /* Prevent scrollbars during modal open */
     }
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
+    .modalContent {  /* Style the modal content */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;        /* Make modal responsive */
+      max-width: 600px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const {
-      ThemeProvider, createTheme, CssBaseline, AppBar, Toolbar, Typography,
-      InputBase, Avatar, Box, Tabs, Tab, Grid, Paper, 
-      List, ListItem, ListItemAvatar, ListItemText, Divider,
-      Modal, Fade, Backdrop, Button, IconButton,
-    } = MaterialUI;
 
-        // Custom Theme (using the same theme as the org page)
-    const theme = createTheme({ /* ... same theme object as the org page */ });
+  // ... (MUI imports - same as before)
 
-    function App() {
-      // ... (rest of the component code)
-      return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline /> {/* Important for MUI styles */}
-          <div className="app-container">
-            {/* ... (rest of the JSX) */}
-          </div>
-        </ThemeProvider>
-      );
-    }
+const theme = createTheme({
+      palette: { // ... your color palette from org page },
+      typography: { // ... your typography settings from org page },
+      // ... other theme settings
+});
 
 
 
-    function Dashboard({ filteredPosts, openModal }) {
-      return (
-        <Grid container spacing={2} sx={{ p: 2, height: 'calc(100vh - 140px)', overflowY: 'auto' }}> {/* Adjusted height and added overflow */}
-          <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ height: '100%', overflowY: 'auto', p: 2 }}> {/* Added Paper and overflow */}
-              <Typography variant="h5" sx={{ mb: 2 }}>Chats</Typography>
-              <List>
-                <ListItem>
-                  <ListItemText primary="Working Group" secondary="Last message..." />
-                </ListItem>
-                <Divider />
-                <ListItem>
-                  <ListItemText primary="Sales" secondary="New idea..." />
-                </ListItem>
-              </List>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            {filteredPosts.map(post => (
-              <Paper
-                key={post.id}
-                elevation={2}
-                sx={{ mb: 2, p: 2, cursor: 'pointer' }}
-                onClick={() => openModal(post)}
-              >
-                <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                        <Avatar alt={post.user} src={post.avatar} />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={post.user}
-                        secondary={
-                        <React.Fragment>
-                            <Typography
-                            sx={{ display: 'inline' }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                            >
-                            {post.date}
-                            </Typography>
-                            {` — ${post.content}`}
-                        </React.Fragment>
-                        }
-                    />
-                    </ListItem>
-                  
-                </Paper>
-              ))}
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ height: '100%', p: 2 }}>
-              <Typography variant="h5" sx={{ mb: 2 }}>Map</Typography>
-              <Box sx={{ height: 'calc(100% - 48px)', backgroundColor: '#073642', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                Map Placeholder
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      );
-    }
+function App() {
+  const avatars = [
+    "https://randomuser.me/api/portraits/men/32.jpg",
+    "https://randomuser.me/api/portraits/women/65.jpg",
+    // ... more avatars
+  ];
+
+  const allPosts = { /* ... your post data */ };
+
+  const [activeTab, setActiveTab] = React.useState('Events');
+  const [searchText, setSearchText] = React.useState('');
+  const [selectedPost, setSelectedPost] = React.useState(null);
+
+  const filteredPosts = allPosts[activeTab]?.filter(post =>
+    post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+    post.user.toLowerCase().includes(searchText.toLowerCase())
+  ) || [];
+
+  const openModal = (post) => setSelectedPost(post);
+  const closeModal = () => setSelectedPost(null);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}> 
+        <NavigationBar searchText={searchText} setSearchText={setSearchText} />
+        <AvatarRow avatars={avatars} />
+        <TabPanel activeTab={activeTab} allPosts={allPosts} setActiveTab={setActiveTab} />
+        <Dashboard filteredPosts={filteredPosts} openModal={openModal} />
+        <PostModal post={selectedPost} closeModal={closeModal} />
+      </Box>
+    </ThemeProvider>
+  );
+}
 
 
 
-    function PostModal({ post, closeModal }) {
-      return (
-        <Modal
-          open={!!post} // Open if post is not null
-          onClose={closeModal}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <Fade in={!!post}>
-            <Box className="modalContent" sx={{ width: { xs: '90%', md: '600px' } }}> {/* Use Box instead of div */}
-              <IconButton
-                aria-label="close"
-                onClick={closeModal}
-                sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500], }}
-              >
-                <Icon>close</Icon>
-              </IconButton>
-              {post && (
-                <>
-                  <Typography variant="h5" sx={{ mb: 2 }}>{post.user}</Typography>
-                  <Typography sx={{ mb: 1 }}><strong>Date:</strong> {post.date}</Typography>
-                  <Typography sx={{ mb: 2 }}>{post.content}</Typography>
-                  <Button variant="contained" color="primary" onClick={closeModal}>Close</Button>
-                </>
-              )}
-            </Box>
-          </Fade>
-        </Modal>
-      );
-    }
+    // ... (NavigationBar, AvatarRow, TabPanel, Dashboard -  same as before - but use theme-aware styling with sx prop)
 
-    // ... other components (NavigationBar, AvatarRow, etc.)
-    function NavigationBar() {
-      return (
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ONE Global
-            </Typography>
-            <InputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                sx={{ backgroundColor: 'white', borderRadius: 2, px: 1 }}
-
-              />
-            <IconButton color="inherit">
-              <Avatar alt="User" src="https://randomuser.me/api/portraits/men/75.jpg" />
+function PostModal({ post, closeModal }) {
+  const handleClose = () => {
+    closeModal();
+  };
+    return (
+      <Modal
+        open={!!post}
+        onClose={handleClose}  // Use handleClose here
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={!!post}>  {/* Fade transition */}
+          <Box className="modalContent" sx={{ bgcolor: 'background.paper',  width: { xs: '90%', md: '600px' } }}>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}  // And here
+              sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500] }}
+            >
+              <Icon>close</Icon>
             </IconButton>
-          </Toolbar>
-        </AppBar>
-      );
-    }
-    function AvatarRow({ avatars }) {
-        return (
-        <Box sx={{ display: 'flex', overflowX: 'auto', bgcolor: '#003642', p: 2, }}>
-            {avatars.map((src, index) => (
-            <Avatar key={index} alt={`Avatar ${index + 1}`} src={src} sx={{ mr: 1 }} />
-            ))}
-        </Box>
-        );
-    }
+            {post && (
+              <>
+                <Typography variant="h5" component="h2" sx={{ mb: 2 }}>{post.user}</Typography>
+                <Typography sx={{ mb: 1 }}><strong>Date:</strong> {post.date}</Typography>
+                <Typography sx={{ mb: 2 }}>{post.content}</Typography>
+                <Button variant="contained" onClick={handleClose}>Close</Button> {/* Close button */}
+              </>
+            )}
+          </Box>
+        </Fade>
+      </Modal>
+    );
+  }
 
-    function TabPanel({ activeTab, allPosts, setActiveTab }) {
-      return (
-        <>
-            <Tabs value={activeTab} onChange={(event, newValue) => setActiveTab(newValue)} centered sx={{ bgcolor: '#003642', color:'white' }}>
-            {Object.keys(allPosts).map((tab) => (
-                <Tab key={tab} label={tab} value={tab} sx={{ color:'white', fontWeight: activeTab === tab ? 'bold' : 'normal' }} />
-            ))}
-            </Tabs>
-        </>
-      );
-    }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
   </script>
 </body>
