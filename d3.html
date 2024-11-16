@@ -13,11 +13,19 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Global Styles */
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
     body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      color: #333333;
       overflow-x: hidden;
       scrollbar-color: #a8d5ba #ffffff;
       scrollbar-width: thin;
@@ -43,8 +51,8 @@
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       min-height: 100vh;
-      position: relative; /* Ensure content layers correctly */
-      z-index: 1;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
     }
     /* Carousel Styling */
     .carousel {
@@ -70,10 +78,6 @@
       cursor: pointer;
       border-radius: 50%;
       z-index: 1;
-      transition: background-color 0.3s;
-    }
-    .carousel-button:hover {
-      background-color: rgba(0, 0, 0, 0.7);
     }
     .carousel-button.left {
       left: 10px;
@@ -81,32 +85,64 @@
     .carousel-button.right {
       right: 10px;
     }
-    /* Modal Overlay */
-    .modalOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
+      padding: 20px;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
     }
     /* Enhanced Card Hover Effect */
     .MuiCard-root:hover {
       transform: translateY(-5px);
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-    /* Footer Link Hover Effect */
-    .footer-link:hover {
-      text-decoration: underline;
+      transition: transform 0.3s;
     }
   </style>
 </head>
-<body>
+<body style="margin: 0;">
   <div id="root"></div>
 
   <!-- React 18 and ReactDOM 18 -->
@@ -154,7 +190,7 @@
       Backdrop,
     } = MaterialUI;
 
-    // Custom Theme with Enhanced Styling
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
       palette: {
         mode: 'light',
@@ -183,35 +219,20 @@
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '3rem',
-          '@media (max-width:600px)': {
-            fontSize: '2.5rem',
-          },
         },
         h4: {
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
           fontSize: '2.5rem',
-          '@media (max-width:600px)': {
-            fontSize: '2rem',
-          },
         },
         h5: {
           fontSize: '2rem',
-          '@media (max-width:600px)': {
-            fontSize: '1.5rem',
-          },
         },
         body1: {
           fontSize: '1.2rem',
-          '@media (max-width:600px)': {
-            fontSize: '1rem',
-          },
         },
         body2: {
           fontSize: '1rem',
-          '@media (max-width:600px)': {
-            fontSize: '0.9rem',
-          },
         },
       },
       shape: {
@@ -224,20 +245,18 @@
               borderRadius: '20px',
               textTransform: 'none',
               fontWeight: 'bold',
-              transition: 'background-color 0.3s, transform 0.3s',
+              transition: '0.3s',
             },
             containedPrimary: {
               backgroundColor: '#6d4c41',
               '&:hover': {
                 backgroundColor: '#5a4033',
-                transform: 'scale(1.05)',
               },
             },
             containedSecondary: {
               backgroundColor: '#8d6e63',
               '&:hover': {
                 backgroundColor: '#7a5e55',
-                transform: 'scale(1.05)',
               },
             },
             outlinedPrimary: {
@@ -262,10 +281,9 @@
             root: {
               borderRadius: '10px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s, box-shadow 0.3s',
+              transition: 'transform 0.3s',
               '&:hover': {
                 transform: 'translateY(-5px)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
               },
             },
           },
@@ -277,22 +295,6 @@
               '&::before': {
                 display: 'none',
               },
-            },
-          },
-        },
-        MuiTypography: {
-          defaultProps: {
-            variantMapping: {
-              h1: 'h2',
-              h2: 'h2',
-              h3: 'h3',
-              h4: 'h2',
-              h5: 'h2',
-              h6: 'h3',
-              subtitle1: 'h6',
-              subtitle2: 'h6',
-              body1: 'p',
-              body2: 'p',
             },
           },
         },
@@ -347,7 +349,7 @@
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Box className="animatedBackground" sx={{ position: 'relative', zIndex: 1 }}>
+          <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
             {renderPage()}
             <Footer setCurrentPage={setCurrentPage} />
@@ -456,10 +458,10 @@
       );
     }
 
-    // ======================= Landing Page =======================
+    // Landing Page
     function LandingPage({ setCurrentPage }) {
       return (
-        <Container maxWidth="lg" sx={{ mt: 16, position: 'relative', zIndex: 2 }}>
+        <Container maxWidth="lg" sx={{ mt: 16 }}>
           <HeroSection setCurrentPage={setCurrentPage} />
           <LogoCollection />
           <FeaturesSection />
@@ -472,11 +474,10 @@
       );
     }
 
-    // ======================= Other Pages =======================
-
+    // Other Pages
     function ManifestoPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Manifesto
           </Typography>
@@ -606,8 +607,8 @@
       };
 
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Meet the Team
           </Typography>
           {teamGroupsData.map((group, index) => (
@@ -675,7 +676,7 @@
 
     function WhitepaperPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Whitepaper
           </Typography>
@@ -694,7 +695,7 @@
 
     function InvestorsPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Invest in a New Kind of Social Infrastructure
           </Typography>
@@ -716,7 +717,7 @@
 
     function FeaturesOverviewPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Discover What’s Possible with ONE Local
           </Typography>
@@ -730,7 +731,7 @@
 
     function LocalMembersPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Local Members
           </Typography>
@@ -746,7 +747,7 @@
 
     function EventHostsPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Event Hosts
           </Typography>
@@ -762,7 +763,7 @@
 
     function SellersPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Sellers
           </Typography>
@@ -778,7 +779,7 @@
 
     function OrganizationsPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             For Organizations
           </Typography>
@@ -834,7 +835,7 @@
       }, []);
 
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Impact Stories
           </Typography>
@@ -919,7 +920,7 @@
       };
 
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Blog
           </Typography>
@@ -991,7 +992,7 @@
       const handleClose = () => setOpenModal(false);
 
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Download the App
           </Typography>
@@ -1032,7 +1033,7 @@
 
     function TermsOfServicePage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Terms of Service
           </Typography>
@@ -1049,7 +1050,7 @@
 
     function PrivacyPolicyPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Privacy Policy
           </Typography>
@@ -1089,7 +1090,7 @@
       ];
 
       return (
-        <Container id="faq" sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Frequently Asked Questions
           </Typography>
@@ -1115,7 +1116,7 @@
 
     function ContactUsPage() {
       return (
-        <Container sx={{ py: 12, minHeight: '100vh', position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Contact Us
           </Typography>
@@ -1144,22 +1145,19 @@
               <Typography variant="h6" sx={{ mb: 4 }}>
                 Send Us a Message
               </Typography>
-              <Box component="form" noValidate autoComplete="off">
-                <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
-                <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
-                <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
-                <Button variant="contained" color="primary">
-                  Submit
-                </Button>
-              </Box>
+              <TextField label="Name" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 3 }} />
+              <TextField label="Message" variant="outlined" fullWidth multiline rows={6} sx={{ mb: 3 }} />
+              <Button variant="contained" color="primary">
+                Submit
+              </Button>
             </Grid>
           </Grid>
         </Container>
       );
     }
 
-    // ======================= Reusable Components =======================
-
+    // Reusable Components
     function HeroSection({ setCurrentPage }) {
       return (
         <Box sx={{ textAlign: 'center', py: 12 }}>
@@ -1191,10 +1189,6 @@
         height: '100px',
         margin: '0 20px',
         opacity: 0.8,
-        transition: 'opacity 0.3s',
-        '&:hover': {
-          opacity: 1,
-        },
       };
 
       return (
@@ -1721,7 +1715,7 @@
       }, []);
 
       return (
-        <Container sx={{ py: 12, position: 'relative', zIndex: 2 }}>
+        <Container sx={{ py: 12 }}>
           <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             What Our Members Say
           </Typography>
@@ -1762,7 +1756,7 @@
 
     function CallToAction({ setCurrentPage }) {
       return (
-        <Box mt={12} mb={12} textAlign="center" sx={{ position: 'relative', zIndex: 2 }}>
+        <Box mt={12} mb={12} textAlign="center">
           <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', mb: 6 }}>
             Help Us Grow
           </Typography>
@@ -1784,7 +1778,7 @@
 
     function Footer({ setCurrentPage }) {
       return (
-        <Box py={6} sx={{ backgroundColor: '#f5f5f5', position: 'relative', zIndex: 2 }}>
+        <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
           <Container maxWidth="lg">
             <Grid container spacing={6}>
               <Grid item xs={12} md={4}>
@@ -1858,19 +1852,17 @@
                 <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
                   Get the Latest Stories and Updates — Sign Up Here.
                 </Typography>
-                <Box component="form" noValidate autoComplete="off">
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    InputLabelProps={{ style: { color: '#6d4c41' } }}
-                    InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
-                  />
-                  <Button variant="contained" color="primary" fullWidth>
-                    Subscribe
-                  </Button>
-                </Box>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#6d4c41' } }}
+                  InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
               </Grid>
             </Grid>
             <Divider sx={{ my: 6, backgroundColor: '#e0e0e0' }} />
