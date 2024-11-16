@@ -521,7 +521,6 @@
 
     // Sidebar Component
     function Sidebar() {
-      const [trustScore, setTrustScore] = React.useState(97.5);
       const skills = ["Designing", "Art Making"];
       const sharingOffers = sampleData.sharing.filter(item => item.type === "Offer");
       const badges = ["Top Contributor", "Community Leader", "Creative Visionary"];
@@ -538,7 +537,7 @@
               <Box sx={{ mt: 2 }}>
                 <Typography variant="body2" color="text.secondary">Trust Score</Typography>
                 <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                  <CircularProgress value={trustScore} />
+                  <CircularProgress value={97.5} />
                   <Box
                     sx={{
                       top: 0,
@@ -552,7 +551,7 @@
                     }}
                   >
                     <Typography variant="caption" component="div" color="text.secondary">
-                      {`${Math.round(trustScore)}%`}
+                      {`${Math.round(97.5)}%`}
                     </Typography>
                   </Box>
                 </Box>
