@@ -1,423 +1,47 @@
-<script type="text/babel">
-  const {
-    ThemeProvider,
-    createTheme,
-    CssBaseline,
-    AppBar,
-    Toolbar,
-    Typography,
-    Button,
-    IconButton,
-    Container,
-    Box,
-    Grid,
-    Card,
-    CardContent,
-    CardActions,
-    Icon,
-    Menu,
-    MenuItem,
-    Link,
-    Divider,
-    Avatar,
-    List,
-    ListItem,
-    ListItemText,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    TextField,
-    useMediaQuery,
-    Modal,
-    Fade,
-    Backdrop,
-    Tabs,
-    Tab,
-    InputBase,
-    Paper,
-    Badge,
-    Chip,
-    Tooltip,
-  } = MaterialUI;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... (existing head content) ... -->
+</head>
+<body style="margin: 0;">
+  <div id="root"></div>
 
-  const {
-    CardGiftcard,
-    Message,
-    Palette,
-    Search as SearchIcon,
-    CalendarToday,
-    LocationOn,
-    TrendingUp,
-    People,
-    Share as ShareIcon,
-    Settings as SettingsIcon,
-    Book as BookIcon,
-    Inventory as InventoryIcon,
-    BarChart as BarChartIcon,
-    Description as DescriptionIcon,
-    Favorite,
-    Comment,
-    Close,
-  } = MaterialUIIcons;
+  <!-- ... (existing script tags) ... -->
 
-  // Custom Theme
-  const theme = createTheme({
-    palette: {
-      mode: 'light',
-      primary: {
-        main: '#6d4c41', // Muted Brown
-      },
-      secondary: {
-        main: '#8d6e63', // Muted Coral
-      },
-      error: {
-        main: '#e57373', // Soft Red
-      },
-      background: {
-        default: '#f5f5f5', // Light Gray
-        paper: '#ffffff', // White
-      },
-      text: {
-        primary: '#333333', // Dark Gray
-        secondary: '#555555', // Medium Gray
-      },
-      // 'green' is already in MUI's palette
-    },
-    typography: {
-      fontFamily: 'Montserrat, sans-serif',
-      fontWeightBold: 700,
-      h2: {
-        fontFamily: 'Playfair Display, serif',
-        fontWeight: 700,
-        fontSize: '3rem',
-      },
-      h4: {
-        fontFamily: 'Playfair Display, serif',
-        fontWeight: 700,
-        fontSize: '2.5rem',
-      },
-      h5: {
-        fontSize: '2rem',
-      },
-      body1: {
-        fontSize: '1.2rem',
-      },
-      body2: {
-        fontSize: '1rem',
-      },
-    },
-    shape: {
-      borderRadius: 10,
-    },
-    components: {
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            borderRadius: '20px',
-            textTransform: 'none',
-            fontWeight: 'bold',
-            transition: '0.3s',
-          },
-          containedPrimary: {
-            backgroundColor: '#6d4c41',
-            '&:hover': {
-              backgroundColor: '#BF820A',
-            },
-          },
-          containedSecondary: {
-            backgroundColor: '#8d6e63',
-            '&:hover': {
-              backgroundColor: '#7a5e55',
-            },
-          },
-          outlinedPrimary: {
-            borderColor: '#6d4c41',
-            color: '#6d4c41',
-            '&:hover': {
-              backgroundColor: 'rgba(109, 76, 65, 0.1)',
-            },
-          },
-        },
-      },
-      MuiAppBar: {
-        styleOverrides: {
-          root: {
-            background: 'rgba(255, 255, 255, 0.95)',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-          },
-        },
-      },
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            borderRadius: '10px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            transition: 'transform 0.3s',
-            '&:hover': {
-              transform: 'translateY(-5px)',
-            },
-          },
-        },
-      },
-      MuiAccordion: {
-        styleOverrides: {
-          root: {
-            boxShadow: 'none',
-            '&::before': {
-              display: 'none',
-            },
-          },
-        },
-      },
-    },
-  });
+  <script type="text/babel">
+    // ... (existing code) ...
 
-  const ProfileDashboard = () => {
-    const [activeTab, setActiveTab] = React.useState('My Groups');
-    const tabs = ['My Groups', 'Attending', 'Interested'];
-    
-    const categories = [
-      { name: 'Events', icon: <CalendarToday fontSize="small" /> },
-      { name: 'Orgs', icon: <People fontSize="small" /> },
-      { name: 'Groups', icon: <People fontSize="small" /> },
-      { name: 'Sharing', icon: <ShareIcon fontSize="small" /> },
-      { name: 'Services', icon: <SettingsIcon fontSize="small" /> },
-      { name: 'Rules', icon: <BookIcon fontSize="small" /> },
-      { name: 'Products', icon: <InventoryIcon fontSize="small" /> },
-      { name: 'Polling', icon: <BarChartIcon fontSize="small" /> },
-      { name: 'Resources', icon: <DescriptionIcon fontSize="small" /> }
-    ];
-    
-    const events = [
-      {
-        title: "Jo Malone London's Mother",
-        date: "Fri, Jan 3 • 2:00 PM",
-        location: "Radius Gallery • Santa Cruz, CA",
-        image: "https://via.placeholder.com/400x200"
-      },
-      {
-        title: "Garden Party",
-        date: "Sat, Jan 5 • 2:00 PM",
-        location: "53 Bush St • San Francisco, CA",
-        image: "https://via.placeholder.com/400x200"
-      }
-    ];
-  
-    // Modal State
-    const [selectedEvent, setSelectedEvent] = React.useState(null);
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  
-    const handleOpenModal = (event) => {
-      setSelectedEvent(event);
-    };
-  
-    const handleCloseModal = () => {
-      setSelectedEvent(null);
-    };
-  
-    return (
-      <Box className="min-h-screen bg-teal-900/90" sx={{ backgroundColor: 'teal.900', opacity: 0.9, display: 'flex' }}>
-        {/* Left Sidebar */}
-        <Box className="sidebar">
-          <Box className="flex flex-col items-center">
-            {/* Stats Box */}
-            <Box className="bg-emerald-700/30 rounded-lg p-4 w-full mb-4" sx={{ backgroundColor: 'green.700', opacity: 0.3, borderRadius: 2, p: 2, width: '100%', mb: 2 }}>
-              <Box className="flex items-center gap-4" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Box className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center" sx={{ width: 48, height: 48, backgroundColor: 'green.600', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant="body2">19.9k</Typography>
-                </Box>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>97.5%</Typography>
-                <Box className="w-12 h-12 bg-emerald-600 rounded-lg flex items-center justify-center" sx={{ width: 48, height: 48, backgroundColor: 'green.600', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant="body2">20k</Typography>
-                </Box>
-              </Box>
-            </Box>
-            
-            {/* Profile Picture */}
-            <Box className="w-32 h-32 rounded-full overflow-hidden mb-4" sx={{ width: 128, height: 128, borderRadius: '50%', overflow: 'hidden', mb: 2 }}>
-              <img src="https://via.placeholder.com/128" alt="Profile" className="w-full h-full object-cover" />
-            </Box>
-            
-            {/* User Name */}
-            <Typography variant="h6" sx={{ textAlign: 'center', mb: 1 }}>Cameron Murdock</Typography>
-            
-            {/* Gift Icon with Number */}
-            <Box className="flex items-center gap-2 mb-4" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-              <CardGiftcard fontSize="small" />
-              <Typography variant="body2">500</Typography>
-            </Box>
-            
-            {/* Give Button */}
-            <Button variant="contained" color="primary" fullWidth sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-              <CardGiftcard fontSize="small" />
-              Give
-            </Button>
-            
-            {/* Message Button */}
-            <Button variant="contained" color="primary" fullWidth sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-              <Message fontSize="small" />
-              Message
-            </Button>
-            
-            {/* Skills */}
-            <Box className="w-full">
-              <Typography variant="h6" sx={{ mb: 1 }}>Skills</Typography>
-              <Box className="flex flex-wrap gap-2 mb-4" sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                <Chip label="Designing" color="secondary" sx={{ backgroundColor: 'green.800', color: 'white' }} />
-                <Chip label="Art Making" color="secondary" sx={{ backgroundColor: 'green.800', color: 'white' }} />
-              </Box>
-              
-              {/* Sharing */}
-              <Typography variant="h6" sx={{ mb: 1 }}>Sharing</Typography>
-              <Box className="bg-white rounded-lg p-2 flex items-center justify-between" sx={{ backgroundColor: 'white', borderRadius: 2, p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Box className="flex items-center gap-2" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Palette sx={{ color: 'black' }} />
-                  <Typography variant="body2" sx={{ color: 'black' }}>Painting</Typography>
-                </Box>
-                <Typography variant="body2" sx={{ color: 'green.600', fontWeight: 'bold' }}>OFFER</Typography>
-              </Box>
-            </Box>
-          </Box>
+    function DownloadAppPage() {
+      const [openModal, setOpenModal] = React.useState(false);
 
-          {/* Main Content */}
-          <Box className="main-content" sx={{ flexGrow: 1, backgroundColor: 'transparent' }}>
-            {/* Top Navigation */}
-            <Paper elevation={3} sx={{ p: 3, mb: 4, backgroundColor: 'yellow.500', opacity: 0.2, borderRadius: 2 }}>
-              {/* Categories */}
-              <Box className="flex gap-2 mb-4 flex-wrap" sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-                {categories.map((category) => (
-                  <Button
-                    key={category.name}
-                    variant="contained"
-                    color="secondary"
-                    startIcon={category.icon}
-                    sx={{ borderRadius: '20px', textTransform: 'none' }}
-                  >
-                    {category.name}
-                  </Button>
-                ))}
-              </Box>
-              
-              {/* Tabs */}
-              <Box className="flex gap-4 mb-4" sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                {tabs.map((tab) => (
-                  <Button
-                    key={tab}
-                    variant={activeTab === tab ? 'contained' : 'outlined'}
-                    color="secondary"
-                    onClick={() => setActiveTab(tab)}
-                    sx={{ borderRadius: '20px', textTransform: 'none' }}
-                  >
-                    {tab}
-                  </Button>
-                ))}
-              </Box>
-              
-              {/* Search Bar */}
-              <Box className="relative" sx={{ position: 'relative' }}>
-                <SearchIcon sx={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'gray.500' }} />
-                <InputBase
-                  placeholder="Search"
-                  value=""
-                  onChange={() => {}}
-                  sx={{
-                    width: '100%',
-                    backgroundColor: 'white',
-                    borderRadius: '20px',
-                    paddingLeft: '40px',
-                    paddingY: '8px',
-                    color: 'black',
-                  }}
-                />
-              </Box>
-            </Paper>
+      const handleOpen = () => setOpenModal(true);
+      const handleClose = () => setOpenModal(false);
 
-            {/* Event Cards */}
-            <Grid container spacing={4}>
-              {events.map((event, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <Card sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'white', cursor: 'pointer' }} onClick={() => handleOpenModal(event)}>
-                    <CardContent>
-                      <Box sx={{ position: 'relative' }}>
-                        <img src={event.image} alt={event.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
-                      </Box>
-                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                        {event.title}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                        <CalendarToday fontSize="small" />
-                        <Typography variant="body2">{event.date}</Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <LocationOn fontSize="small" />
-                        <Typography variant="body2">{event.location}</Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Download the App
+          </Typography>
+          <Typography variant="h5" sx={{ mb: 8 }}>
+            Step in, the door is open.
+          </Typography>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            size="large" 
+            component={Link} // Use Link component
+            href="https://onelocal.one/dashboard.html" // Set the correct href
+            target="_blank" // Open in a new tab (optional)
+          >
+            Get the App Now
+          </Button> {/* Removed the onClick handler */}
 
-            {/* Event Details Modal */}
-            <Modal
-              open={Boolean(selectedEvent)}
-              onClose={handleCloseModal}
-              closeAfterTransition
-              BackdropComponent={Backdrop}
-              BackdropProps={{
-                timeout: 500,
-              }}
-              aria-labelledby="event-modal-title"
-              aria-describedby="event-modal-description"
-            >
-              <Fade in={Boolean(selectedEvent)}>
-                <Box sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: isMobile ? '90%' : 600,
-                  bgcolor: 'background.paper',
-                  borderRadius: '10px',
-                  boxShadow: 24,
-                  p: 4,
-                }}>
-                  {selectedEvent && (
-                    <>
-                      <Box sx={{ position: 'relative' }}>
-                        <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
-                      </Box>
-                      <Typography id="event-modal-title" variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                        {selectedEvent.title}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <CalendarToday fontSize="small" />
-                        <Typography variant="body2">{selectedEvent.date}</Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                        <LocationOn fontSize="small" />
-                        <Typography variant="body2">{selectedEvent.location}</Typography>
-                      </Box>
-                      <Typography id="event-modal-description" variant="body1" sx={{ mb: 4 }}>
-                        {/* Placeholder for event description */}
-                        This is a detailed description of the event. You can add more information about the event here.
-                      </Typography>
-                      <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                        Close
-                      </Button>
-                    </>
-                  )}
-                </Box>
-              </Fade>
-            </Modal>
-          </Box>
-        };
+          {/* Remove the Modal; it's no longer needed */}
+        </Container>
+      );
+    }
 
-        // Render the App
-        ReactDOM.createRoot(document.getElementById('root')).render(
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <ProfileDashboard />
-          </ThemeProvider>
-        );
-</script>
+    // ... (rest of the code) ...
+  </script>
+</body>
+</html>
