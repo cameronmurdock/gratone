@@ -8,20 +8,36 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/5.11.0/material-ui.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: white;
+      height: 100vh;
+      overflow: hidden;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .profile-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      height: 100vh;
+    }
+    .sidebar {
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      border-right: 2px solid #333;
     }
     .avatar {
       width: 120px;
@@ -36,40 +52,35 @@
     .user-info h1 {
       margin: 0.5rem 0;
     }
-    .user-info p {
-      color: #cfd8dc;
-      margin: 0.5rem 0;
+    .badge {
+      background-color: #ffeb3b;
+      color: #333;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      margin: 0.3rem;
     }
     .tabs {
       display: flex;
-      justify-content: center;
-      margin-top: 2rem;
+      justify-content: flex-start;
+      padding: 1rem;
+      background-color: rgba(0, 0, 0, 0.4);
     }
     .tab {
-      padding: 1rem;
-      cursor: pointer;
       color: #cfd8dc;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      margin-right: 1rem;
       border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
     }
     .tab.active {
       color: white;
       border-bottom: 2px solid #ffeb3b;
     }
-    .tab-content {
-      width: 100%;
-      max-width: 600px;
-      margin-top: 2rem;
+    .content-area {
+      padding: 2rem;
+      overflow-y: auto;
     }
-    .badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #ffeb3b;
-      color: #333;
-      border-radius: 12px;
-      margin: 0.5rem;
-    }
-    .post-card {
+    .post-card, .service-card, .activity-card {
       background-color: #3f51b5;
       padding: 1rem;
       border-radius: 8px;
@@ -85,16 +96,23 @@
       const user = {
         name: "Cameron Ely-Murdock",
         role: "Community Leader",
-        bio: "Passionate about building strong local communities through sustainable initiatives and shared resources.",
+        bio: "Connecting people and resources for a stronger local community.",
         avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        badges: ["Community Leader", "Event Organizer", "Volunteer"],
+        location: "Boulder, CO",
+        contact: "cameron@example.com",
+        badges: ["Community Leader", "Event Organizer", "Volunteer", "Gardener"],
         posts: [
-          { id: 1, content: "Excited to host a new community event this weekend!" },
-          { id: 2, content: "Looking for volunteers for the community garden project." },
+          { id: 1, content: "Excited for the upcoming community garden project!" },
+          { id: 2, content: "Looking for volunteers for our local park cleanup." },
         ],
         services: [
-          { id: 1, name: "Yoga Classes", description: "Free weekly yoga sessions at the local park." },
-          { id: 2, name: "Community Mediation", description: "Offering conflict resolution services for local groups." },
+          { id: 1, name: "Yoga Classes", description: "Weekly yoga sessions at the park." },
+          { id: 2, name: "Mediation Services", description: "Conflict resolution for community disputes." },
+        ],
+        connections: ["Emily Clark", "Tom Baker", "Sarah Johnson"],
+        activities: [
+          { id: 1, activity: "Hosted a community meetup at Central Park." },
+          { id: 2, activity: "Volunteered at the local food bank." },
         ],
       };
 
@@ -104,35 +122,45 @@
         switch (activeTab) {
           case "Overview":
             return (
-              <div className="tab-content">
+              <div>
                 <h2>Badges</h2>
-                <div>
-                  {user.badges.map((badge, index) => (
-                    <span key={index} className="badge">{badge}</span>
-                  ))}
-                </div>
+                <div>{user.badges.map((badge, index) => <span key={index} className="badge">{badge}</span>)}</div>
               </div>
             );
           case "Posts":
             return (
-              <div className="tab-content">
+              <div>
                 <h2>Recent Posts</h2>
                 {user.posts.map(post => (
-                  <div key={post.id} className="post-card">
-                    <p>{post.content}</p>
-                  </div>
+                  <div key={post.id} className="post-card">{post.content}</div>
                 ))}
               </div>
             );
           case "Services":
             return (
-              <div className="tab-content">
-                <h2>Offered Services</h2>
+              <div>
+                <h2>Services</h2>
                 {user.services.map(service => (
-                  <div key={service.id} className="post-card">
+                  <div key={service.id} className="service-card">
                     <h3>{service.name}</h3>
                     <p>{service.description}</p>
                   </div>
+                ))}
+              </div>
+            );
+          case "Connections":
+            return (
+              <div>
+                <h2>Connections</h2>
+                <ul>{user.connections.map((conn, index) => <li key={index}>{conn}</li>)}</ul>
+              </div>
+            );
+          case "Activities":
+            return (
+              <div>
+                <h2>Recent Activities</h2>
+                {user.activities.map(activity => (
+                  <div key={activity.id} className="activity-card">{activity.activity}</div>
                 ))}
               </div>
             );
@@ -143,24 +171,30 @@
 
       return (
         <div className="profile-container">
-          <img src={user.avatar} alt={user.name} className="avatar" />
-          <div className="user-info">
-            <h1>{user.name}</h1>
-            <h3>{user.role}</h3>
-            <p>{user.bio}</p>
+          <div className="sidebar">
+            <img src={user.avatar} alt={user.name} className="avatar" />
+            <div className="user-info">
+              <h1>{user.name}</h1>
+              <h3>{user.role}</h3>
+              <p>{user.bio}</p>
+              <p>{user.location}</p>
+              <p>{user.contact}</p>
+            </div>
           </div>
-          <div className="tabs">
-            {["Overview", "Posts", "Services"].map(tab => (
-              <div
-                key={tab}
-                className={`tab ${activeTab === tab ? "active" : ""}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </div>
-            ))}
+          <div className="content-area">
+            <div className="tabs">
+              {["Overview", "Posts", "Services", "Connections", "Activities"].map(tab => (
+                <div
+                  key={tab}
+                  className={`tab ${activeTab === tab ? "active" : ""}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </div>
+              ))}
+            </div>
+            {renderContent()}
           </div>
-          {renderContent()}
         </div>
       );
     }
