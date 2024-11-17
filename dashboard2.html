@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - User Profile</title>
+  <title>User Profile - ONE Local</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -14,68 +14,66 @@
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: #2c3e50;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
       color: white;
     }
     .profile-container {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-    }
-    .header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      padding: 2rem;
     }
     .avatar {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      border: 4px solid #ecf0f1;
+      border: 4px solid #fff;
     }
     .user-info {
-      flex: 1;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .user-info h1 {
+      margin: 0.5rem 0;
+    }
+    .user-info p {
+      color: #cfd8dc;
+      margin: 0.5rem 0;
     }
     .tabs {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       margin-top: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #ecf0f1;
     }
     .tab {
+      padding: 1rem;
       cursor: pointer;
-      color: #bdc3c7;
-      padding: 0.5rem;
+      color: #cfd8dc;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
     }
     .tab.active {
-      color: #ecf0f1;
-      border-bottom: 2px solid #ecf0f1;
+      color: white;
+      border-bottom: 2px solid #ffeb3b;
     }
-    .section {
+    .tab-content {
+      width: 100%;
+      max-width: 600px;
       margin-top: 2rem;
     }
     .badge {
       display: inline-block;
-      background-color: #f39c12;
-      color: #2c3e50;
       padding: 0.5rem 1rem;
+      background-color: #ffeb3b;
+      color: #333;
       border-radius: 12px;
       margin: 0.5rem;
     }
-    .post-card, .service-card, .group-card, .event-card, .resource-card, .testimonial-card {
-      background-color: #34495e;
+    .post-card {
+      background-color: #3f51b5;
       padding: 1rem;
       border-radius: 8px;
       margin-bottom: 1rem;
-    }
-    .wallet-stats {
-      display: flex;
-      gap: 2rem;
-      margin-top: 1rem;
-    }
-    .stat {
-      text-align: center;
     }
   </style>
 </head>
@@ -87,34 +85,17 @@
       const user = {
         name: "Cameron Ely-Murdock",
         role: "Community Leader",
-        bio: "Building strong local communities through shared resources and sustainable initiatives.",
+        bio: "Passionate about building strong local communities through sustainable initiatives and shared resources.",
         avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        contact: {
-          email: "cameron@onelocal.org",
-          phone: "123-456-7890",
-          social: {
-            twitter: "https://twitter.com/cameron",
-            linkedin: "https://linkedin.com/in/cameron",
-          },
-        },
         badges: ["Community Leader", "Event Organizer", "Volunteer"],
         posts: [
-          { id: 1, content: "Hosting a new community event this weekend!" },
-          { id: 2, content: "Volunteers needed for the community garden project." },
+          { id: 1, content: "Excited to host a new community event this weekend!" },
+          { id: 2, content: "Looking for volunteers for the community garden project." },
         ],
         services: [
-          { id: 1, name: "Yoga Classes", description: "Free yoga sessions at the park every Sunday." },
-          { id: 2, name: "Conflict Resolution", description: "Offering mediation services for community groups." },
+          { id: 1, name: "Yoga Classes", description: "Free weekly yoga sessions at the local park." },
+          { id: 2, name: "Community Mediation", description: "Offering conflict resolution services for local groups." },
         ],
-        skills: ["Strategic Planning", "Leadership", "Conflict Resolution"],
-        groups: ["Neighborhood Watch", "Book Club", "Community Garden"],
-        events: ["Community Cleanup", "Neighborhood Meeting", "Charity Run"],
-        resources: ["Gardening Tools", "Shared Workspace", "Event Supplies"],
-        testimonials: [
-          { id: 1, author: "Emily Clark", content: "Cameron is an incredible leader and organizer!" },
-          { id: 2, author: "John Smith", content: "Always reliable and willing to help the community." },
-        ],
-        wallet: { tokens: 150, credits: 200 },
       };
 
       const [activeTab, setActiveTab] = React.useState("Overview");
@@ -123,71 +104,34 @@
         switch (activeTab) {
           case "Overview":
             return (
-              <div className="section">
+              <div className="tab-content">
                 <h2>Badges</h2>
-                <div>{user.badges.map((badge, index) => <span key={index} className="badge">{badge}</span>)}</div>
-                <h2>Wallet</h2>
-                <div className="wallet-stats">
-                  <div className="stat"><h3>{user.wallet.tokens}</h3><p>Tokens</p></div>
-                  <div className="stat"><h3>{user.wallet.credits}</h3><p>Credits</p></div>
+                <div>
+                  {user.badges.map((badge, index) => (
+                    <span key={index} className="badge">{badge}</span>
+                  ))}
                 </div>
               </div>
             );
           case "Posts":
             return (
-              <div className="section">
+              <div className="tab-content">
                 <h2>Recent Posts</h2>
-                {user.posts.map(post => <div key={post.id} className="post-card"><p>{post.content}</p></div>)}
-              </div>
-            );
-          case "Services":
-            return (
-              <div className="section">
-                <h2>Offered Services</h2>
-                {user.services.map(service => (
-                  <div key={service.id} className="service-card">
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
+                {user.posts.map(post => (
+                  <div key={post.id} className="post-card">
+                    <p>{post.content}</p>
                   </div>
                 ))}
               </div>
             );
-          case "Skills":
+          case "Services":
             return (
-              <div className="section">
-                <h2>Skills</h2>
-                <div>{user.skills.map(skill => <span key={skill} className="badge">{skill}</span>)}</div>
-              </div>
-            );
-          case "Groups":
-            return (
-              <div className="section">
-                <h2>Groups</h2>
-                {user.groups.map(group => <div key={group} className="group-card"><p>{group}</p></div>)}
-              </div>
-            );
-          case "Events":
-            return (
-              <div className="section">
-                <h2>Events</h2>
-                {user.events.map(event => <div key={event} className="event-card"><p>{event}</p></div>)}
-              </div>
-            );
-          case "Resources":
-            return (
-              <div className="section">
-                <h2>Resources</h2>
-                {user.resources.map(resource => <div key={resource} className="resource-card"><p>{resource}</p></div>)}
-              </div>
-            );
-          case "Testimonials":
-            return (
-              <div className="section">
-                <h2>Testimonials</h2>
-                {user.testimonials.map(testimonial => (
-                  <div key={testimonial.id} className="testimonial-card">
-                    <h4>{testimonial.author}</h4>
-                    <p>{testimonial.content}</p>
+              <div className="tab-content">
+                <h2>Offered Services</h2>
+                {user.services.map(service => (
+                  <div key={service.id} className="post-card">
+                    <h3>{service.name}</h3>
+                    <p>{service.description}</p>
                   </div>
                 ))}
               </div>
@@ -199,16 +143,14 @@
 
       return (
         <div className="profile-container">
-          <div className="header">
-            <img src={user.avatar} alt={user.name} className="avatar" />
-            <div className="user-info">
-              <h1>{user.name}</h1>
-              <h3>{user.role}</h3>
-              <p>{user.bio}</p>
-            </div>
+          <img src={user.avatar} alt={user.name} className="avatar" />
+          <div className="user-info">
+            <h1>{user.name}</h1>
+            <h3>{user.role}</h3>
+            <p>{user.bio}</p>
           </div>
           <div className="tabs">
-            {["Overview", "Posts", "Services", "Skills", "Groups", "Events", "Resources", "Testimonials"].map(tab => (
+            {["Overview", "Posts", "Services"].map(tab => (
               <div
                 key={tab}
                 className={`tab ${activeTab === tab ? "active" : ""}`}
