@@ -8,72 +8,112 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/5.11.0/material-ui.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: white;
+      height: 100vh;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     .profile-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      max-width: 800px;
+      margin: 0 auto;
       padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 10px;
     }
-    .avatar {
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .profile-avatar {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      border: 4px solid #fff;
+      margin-right: 1.5rem;
     }
-    .user-info {
-      text-align: center;
-      margin-top: 1rem;
+    .profile-info {
+      flex: 1;
     }
-    .user-info h1 {
-      margin: 0.5rem 0;
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 700;
     }
-    .user-info p {
-      color: #cfd8dc;
-      margin: 0.5rem 0;
-    }
-    .tabs {
-      display: flex;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    .tab {
-      padding: 1rem;
-      cursor: pointer;
-      color: #cfd8dc;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
-    }
-    .tab.active {
-      color: white;
-      border-bottom: 2px solid #ffeb3b;
-    }
-    .tab-content {
-      width: 100%;
-      max-width: 600px;
-      margin-top: 2rem;
+    .profile-bio {
+      font-size: 1rem;
+      color: #cfcfcf;
+      margin-top: 0.5rem;
     }
     .badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background-color: #ffeb3b;
-      color: #333;
+      background-color: #004d40;
+      color: white;
+      padding: 4px 10px;
       border-radius: 12px;
-      margin: 0.5rem;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
     }
-    .post-card {
-      background-color: #3f51b5;
+    .section-title {
+      font-size: 1.4rem;
+      margin: 1.5rem 0 1rem;
+    }
+    .skills-list, .interests-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      background-color: #004d40;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+    }
+    .activities-list {
+      margin-top: 1rem;
+    }
+    .activity-card {
+      background-color: #003642;
       padding: 1rem;
       border-radius: 8px;
       margin-bottom: 1rem;
+    }
+    .activity-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .activity-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    .activity-content {
+      flex: 1;
+    }
+    .contact-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .contact-button {
+      background-color: #004d40;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -82,85 +122,83 @@
 
   <script type="text/babel">
     function UserProfile() {
-      const user = {
-        name: "Cameron Ely-Murdock",
-        role: "Community Leader",
-        bio: "Passionate about building strong local communities through sustainable initiatives and shared resources.",
+      const userData = {
         avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        badges: ["Community Leader", "Event Organizer", "Volunteer"],
-        posts: [
-          { id: 1, content: "Excited to host a new community event this weekend!" },
-          { id: 2, content: "Looking for volunteers for the community garden project." },
+        name: "Cameron Ely-Murdock",
+        bio: "Community builder, yoga instructor, and advocate for local resilience. Passionate about creating connected, sustainable communities.",
+        location: "Boulder, CO",
+        reputation: 85,
+        badges: ["Community Leader", "Volunteer", "Top Contributor"],
+        skills: ["Yoga", "Gardening", "Project Management", "Public Speaking"],
+        interests: ["Sustainability", "Local Food", "Mindfulness", "Art"],
+        recentActivities: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Offering free yoga class tomorrow morning!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, user: "Cameron Ely-Murdock", date: "Nov 12, 2024", content: "Looking for volunteers for the community garden this weekend.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
         ],
-        services: [
-          { id: 1, name: "Yoga Classes", description: "Free weekly yoga sessions at the local park." },
-          { id: 2, name: "Community Mediation", description: "Offering conflict resolution services for local groups." },
-        ],
-      };
-
-      const [activeTab, setActiveTab] = React.useState("Overview");
-
-      const renderContent = () => {
-        switch (activeTab) {
-          case "Overview":
-            return (
-              <div className="tab-content">
-                <h2>Badges</h2>
-                <div>
-                  {user.badges.map((badge, index) => (
-                    <span key={index} className="badge">{badge}</span>
-                  ))}
-                </div>
-              </div>
-            );
-          case "Posts":
-            return (
-              <div className="tab-content">
-                <h2>Recent Posts</h2>
-                {user.posts.map(post => (
-                  <div key={post.id} className="post-card">
-                    <p>{post.content}</p>
-                  </div>
-                ))}
-              </div>
-            );
-          case "Services":
-            return (
-              <div className="tab-content">
-                <h2>Offered Services</h2>
-                {user.services.map(service => (
-                  <div key={service.id} className="post-card">
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
-                  </div>
-                ))}
-              </div>
-            );
-          default:
-            return null;
-        }
       };
 
       return (
         <div className="profile-container">
-          <img src={user.avatar} alt={user.name} className="avatar" />
-          <div className="user-info">
-            <h1>{user.name}</h1>
-            <h3>{user.role}</h3>
-            <p>{user.bio}</p>
-          </div>
-          <div className="tabs">
-            {["Overview", "Posts", "Services"].map(tab => (
-              <div
-                key={tab}
-                className={`tab ${activeTab === tab ? "active" : ""}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
+          {/* Profile Header */}
+          <div className="profile-header">
+            <img src={userData.avatar} alt="User avatar" className="profile-avatar" />
+            <div className="profile-info">
+              <div className="profile-name">{userData.name}</div>
+              <div className="profile-bio">{userData.bio}</div>
+              <div className="profile-bio">Location: {userData.location}</div>
+              <div className="profile-bio">Reputation Score: {userData.reputation}</div>
+              <div>
+                {userData.badges.map((badge, index) => (
+                  <span key={index} className="badge">{badge}</span>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-          {renderContent()}
+
+          {/* Skills Section */}
+          <div>
+            <div className="section-title">Skills</div>
+            <div className="skills-list">
+              {userData.skills.map((skill, index) => (
+                <div key={index} className="chip">{skill}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Interests Section */}
+          <div>
+            <div className="section-title">Interests</div>
+            <div className="interests-list">
+              {userData.interests.map((interest, index) => (
+                <div key={index} className="chip">{interest}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Activities Section */}
+          <div>
+            <div className="section-title">Recent Activities</div>
+            <div className="activities-list">
+              {userData.recentActivities.map(activity => (
+                <div key={activity.id} className="activity-card">
+                  <div className="activity-header">
+                    <img src={activity.avatar} alt="Activity avatar" className="activity-avatar" />
+                    <div className="activity-content">
+                      <div>{activity.user} - {activity.date}</div>
+                      <div>{activity.content}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact Buttons */}
+          <div className="contact-buttons">
+            <button className="contact-button">Message</button>
+            <button className="contact-button">Share Profile</button>
+            <button className="contact-button">Follow</button>
+          </div>
         </div>
       );
     }
