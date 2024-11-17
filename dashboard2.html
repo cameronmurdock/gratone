@@ -2,122 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local Dashboard</title>
+  <title>User Profile - ONE Local</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/5.11.0/material-ui.min.css" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
       color: white;
-      height: 100vh;
-      overflow: hidden;
     }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .app-container { display: flex; flex-direction: column; height: 100vh; }
-    .top-bar {
-      background-color: #004d40;
-      padding: 1rem;
+    .profile-container {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+      padding: 2rem;
     }
-    .search-bar {
-      background-color: white;
-      border-radius: 4px;
-      padding: 0.5rem;
-      width: 200px;
-      border: none;
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #fff;
     }
-    .avatar-row {
-      display: flex;
-      overflow-x: auto;
-      padding: 1rem;
-      background-color: #003642;
+    .user-info {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .user-info h1 {
+      margin: 0.5rem 0;
+    }
+    .user-info p {
+      color: #cfd8dc;
+      margin: 0.5rem 0;
     }
     .tabs {
-      background-color: #003642;
       display: flex;
       justify-content: center;
-      padding: 1rem;
+      margin-top: 2rem;
     }
     .tab {
-      color: #93a1a1;
+      padding: 1rem;
       cursor: pointer;
-      padding: 0.5rem 1rem;
+      color: #cfd8dc;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
     }
     .tab.active {
       color: white;
-      border-bottom: 2px solid white;
+      border-bottom: 2px solid #ffeb3b;
     }
-    .dashboard {
-      display: grid;
-      grid-template-columns: 300px auto 300px;
-      gap: 1rem;
-      height: calc(100vh - 200px);
-      padding: 1rem;
+    .tab-content {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 2rem;
     }
-    .panel {
-      background-color: #003642;
-      color: white;
-      padding: 1rem;
-      border-radius: 4px;
-      overflow-y: auto;
-      height: 100%;
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #ffeb3b;
+      color: #333;
+      border-radius: 12px;
+      margin: 0.5rem;
     }
     .post-card {
-      background-color: #003642;
-      color: white;
-      margin-bottom: 1rem;
+      background-color: #3f51b5;
       padding: 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .map-placeholder {
-      background-color: #073642;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1rem;
-      border-radius: 4px;
-    }
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-card {
-      background-color: #003642;
-      color: white;
-      padding: 2rem;
       border-radius: 8px;
-      width: 400px;
-      max-width: 90%;
-    }
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      cursor: pointer;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -125,112 +81,91 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    function App() {
-      const avatars = [
-        "https://randomuser.me/api/portraits/men/32.jpg",
-        "https://randomuser.me/api/portraits/women/65.jpg",
-        "https://randomuser.me/api/portraits/men/85.jpg",
-        "https://randomuser.me/api/portraits/women/25.jpg",
-        "https://randomuser.me/api/portraits/men/41.jpg",
-      ];
-
-      const allPosts = {
-        Events: [
-          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+    function UserProfile() {
+      const user = {
+        name: "Cameron Ely-Murdock",
+        role: "Community Leader",
+        bio: "Passionate about building strong local communities through sustainable initiatives and shared resources.",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        badges: ["Community Leader", "Event Organizer", "Volunteer"],
+        posts: [
+          { id: 1, content: "Excited to host a new community event this weekend!" },
+          { id: 2, content: "Looking for volunteers for the community garden project." },
         ],
-        Orgs: [
-          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank" },
-          { id: 4, user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter" },
-        ],
-        Groups: [
-          { id: 5, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Monthly safety meeting on Thursday. All are welcome.", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
-          { id: 6, user: "Book Club", date: "Nov 16, 2024", content: "Join us for a discussion on our latest book choice!", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
-        ],
-        Sharing: [
-          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
-          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
-        ],
-        Services: [
-          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
-          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+        services: [
+          { id: 1, name: "Yoga Classes", description: "Free weekly yoga sessions at the local park." },
+          { id: 2, name: "Community Mediation", description: "Offering conflict resolution services for local groups." },
         ],
       };
 
-      const [activeTab, setActiveTab] = React.useState('Events');
-      const [searchText, setSearchText] = React.useState('');
-      const [selectedPost, setSelectedPost] = React.useState(null);
+      const [activeTab, setActiveTab] = React.useState("Overview");
 
-      const filteredPosts = allPosts[activeTab]?.filter(post =>
-        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
-        post.user.toLowerCase().includes(searchText.toLowerCase())
-      ) || [];
-
-      const openModal = (post) => setSelectedPost(post);
-      const closeModal = () => setSelectedPost(null);
+      const renderContent = () => {
+        switch (activeTab) {
+          case "Overview":
+            return (
+              <div className="tab-content">
+                <h2>Badges</h2>
+                <div>
+                  {user.badges.map((badge, index) => (
+                    <span key={index} className="badge">{badge}</span>
+                  ))}
+                </div>
+              </div>
+            );
+          case "Posts":
+            return (
+              <div className="tab-content">
+                <h2>Recent Posts</h2>
+                {user.posts.map(post => (
+                  <div key={post.id} className="post-card">
+                    <p>{post.content}</p>
+                  </div>
+                ))}
+              </div>
+            );
+          case "Services":
+            return (
+              <div className="tab-content">
+                <h2>Offered Services</h2>
+                {user.services.map(service => (
+                  <div key={service.id} className="post-card">
+                    <h3>{service.name}</h3>
+                    <p>{service.description}</p>
+                  </div>
+                ))}
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
 
       return (
-        <div className="app-container">
-          <div className="top-bar">
-            <h1>ONE Global</h1>
-            <input
-              className="search-bar"
-              placeholder="Search"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <span className="material-icons">account_circle</span>
-          </div>
-          <div className="avatar-row">
-            {avatars.map((src, index) => (
-              <img key={index} src={src} className="avatar" alt="User avatar" />
-            ))}
+        <div className="profile-container">
+          <img src={user.avatar} alt={user.name} className="avatar" />
+          <div className="user-info">
+            <h1>{user.name}</h1>
+            <h3>{user.role}</h3>
+            <p>{user.bio}</p>
           </div>
           <div className="tabs">
-            {Object.keys(allPosts).map(tab => (
-              <button
+            {["Overview", "Posts", "Services"].map(tab => (
+              <div
                 key={tab}
-                className={`tab ${activeTab === tab ? 'active' : ''}`}
+                className={`tab ${activeTab === tab ? "active" : ""}`}
                 onClick={() => setActiveTab(tab)}
               >
                 {tab}
-              </button>
+              </div>
             ))}
           </div>
-          <div className="dashboard">
-            <div className="panel">
-              <h2>Chats</h2>
-              <div>Working Group: Last message...</div>
-              <div>Sales: New idea...</div>
-            </div>
-            <div>
-              {filteredPosts.map(post => (
-                <div key={post.id} className="post-card" onClick={() => openModal(post)}>
-                  <div>{post.user} - {post.date}</div>
-                  <div>{post.content}</div>
-                </div>
-              ))}
-            </div>
-            <div className="panel">
-              <h2>Map</h2>
-              <div className="map-placeholder">Map Placeholder</div>
-            </div>
-          </div>
-          {selectedPost && (
-            <div className="modal-overlay" onClick={closeModal}>
-              <div className="modal-card">
-                <span className="material-icons modal-close" onClick={closeModal}>close</span>
-                <h2>{selectedPost.user}</h2>
-                <p><strong>Date:</strong> {selectedPost.date}</p>
-                <p>{selectedPost.content}</p>
-              </div>
-            </div>
-          )}
+          {renderContent()}
         </div>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<UserProfile />);
   </script>
 </body>
 </html>
