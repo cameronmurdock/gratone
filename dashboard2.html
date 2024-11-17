@@ -8,107 +8,72 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-ui/5.11.0/material-ui.min.css" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: #1a2e38;
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
       color: white;
     }
     .profile-container {
       display: flex;
-      gap: 1rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .left-panel {
-      width: 300px;
-      background-color: #2e3b4e;
-      border-radius: 8px;
-      padding: 1rem;
-    }
-    .main-panel {
-      flex: 1;
-      background-color: #2e3b4e;
-      border-radius: 8px;
-      padding: 1rem;
-    }
-    .profile-header {
-      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      padding: 2rem;
     }
-    .avatar-large {
-      width: 100px;
-      height: 100px;
+    .avatar {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      border: 2px solid #00bfa5;
+      border: 4px solid #fff;
     }
     .user-info {
-      flex: 1;
+      text-align: center;
+      margin-top: 1rem;
     }
-    .reputation {
-      color: #00bfa5;
-      font-weight: bold;
+    .user-info h1 {
+      margin: 0.5rem 0;
     }
-    .action-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-    .action-button {
-      background-color: #00bfa5;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
+    .user-info p {
+      color: #cfd8dc;
+      margin: 0.5rem 0;
     }
     .tabs {
       display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
     }
     .tab {
-      flex: 1;
-      text-align: center;
-      padding: 0.5rem;
-      background-color: #3c4b5d;
-      color: #93a1a1;
+      padding: 1rem;
       cursor: pointer;
-      border-radius: 8px;
+      color: #cfd8dc;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
     }
     .tab.active {
-      background-color: #00bfa5;
       color: white;
+      border-bottom: 2px solid #ffeb3b;
     }
-    .skills, .activity-feed {
-      margin-top: 1rem;
+    .tab-content {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 2rem;
     }
-    .skill-chip {
-      background-color: #00bfa5;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 16px;
-      margin: 5px;
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #ffeb3b;
+      color: #333;
+      border-radius: 12px;
+      margin: 0.5rem;
     }
-    .activity-card {
-      background-color: #3c4b5d;
-      border-radius: 8px;
+    .post-card {
+      background-color: #3f51b5;
       padding: 1rem;
-      margin-top: 1rem;
-    }
-    .org-card {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    .org-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -119,91 +84,83 @@
     function UserProfile() {
       const user = {
         name: "Cameron Ely-Murdock",
+        role: "Community Leader",
+        bio: "Passionate about building strong local communities through sustainable initiatives and shared resources.",
         avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        bio: "Community organizer and local advocate.",
-        reputation: 97.5,
-        skills: ["Strategic Planning", "Gardening", "Public Speaking"],
-        offers: ["Free Yoga Class", "Coaching Session"],
-        activity: [
-          { type: "Offer", content: "Offering a free yoga class tomorrow!" },
-          { type: "Request", content: "Looking for volunteers for the food drive." },
+        badges: ["Community Leader", "Event Organizer", "Volunteer"],
+        posts: [
+          { id: 1, content: "Excited to host a new community event this weekend!" },
+          { id: 2, content: "Looking for volunteers for the community garden project." },
         ],
-        organizations: [
-          { name: "Boulder Co-op", avatar: "https://via.placeholder.com/50/FF5733/FFFFFF" },
-          { name: "Local Food Bank", avatar: "https://via.placeholder.com/50/28B463/FFFFFF" },
+        services: [
+          { id: 1, name: "Yoga Classes", description: "Free weekly yoga sessions at the local park." },
+          { id: 2, name: "Community Mediation", description: "Offering conflict resolution services for local groups." },
         ],
       };
 
       const [activeTab, setActiveTab] = React.useState("Overview");
 
+      const renderContent = () => {
+        switch (activeTab) {
+          case "Overview":
+            return (
+              <div className="tab-content">
+                <h2>Badges</h2>
+                <div>
+                  {user.badges.map((badge, index) => (
+                    <span key={index} className="badge">{badge}</span>
+                  ))}
+                </div>
+              </div>
+            );
+          case "Posts":
+            return (
+              <div className="tab-content">
+                <h2>Recent Posts</h2>
+                {user.posts.map(post => (
+                  <div key={post.id} className="post-card">
+                    <p>{post.content}</p>
+                  </div>
+                ))}
+              </div>
+            );
+          case "Services":
+            return (
+              <div className="tab-content">
+                <h2>Offered Services</h2>
+                {user.services.map(service => (
+                  <div key={service.id} className="post-card">
+                    <h3>{service.name}</h3>
+                    <p>{service.description}</p>
+                  </div>
+                ))}
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
+
       return (
         <div className="profile-container">
-          <div className="left-panel">
-            <div className="profile-header">
-              <img src={user.avatar} alt="User Avatar" className="avatar-large" />
-              <div className="user-info">
-                <h2>{user.name}</h2>
-                <p>{user.bio}</p>
-                <p className="reputation">Reputation: {user.reputation}%</p>
-                <div className="action-buttons">
-                  <button className="action-button">Give</button>
-                  <button className="action-button">Message</button>
-                </div>
-              </div>
-            </div>
-            <div className="skills">
-              <h3>Skills</h3>
-              {user.skills.map(skill => (
-                <span key={skill} className="skill-chip">{skill}</span>
-              ))}
-            </div>
+          <img src={user.avatar} alt={user.name} className="avatar" />
+          <div className="user-info">
+            <h1>{user.name}</h1>
+            <h3>{user.role}</h3>
+            <p>{user.bio}</p>
           </div>
-
-          <div className="main-panel">
-            <div className="tabs">
-              {["Overview", "Activity", "Organizations"].map(tab => (
-                <div
-                  key={tab}
-                  className={`tab ${activeTab === tab ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </div>
-              ))}
-            </div>
-
-            {activeTab === "Overview" && (
-              <div className="offers">
-                <h3>Current Offers</h3>
-                {user.offers.map(offer => (
-                  <div key={offer} className="activity-card">{offer}</div>
-                ))}
+          <div className="tabs">
+            {["Overview", "Posts", "Services"].map(tab => (
+              <div
+                key={tab}
+                className={`tab ${activeTab === tab ? "active" : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
               </div>
-            )}
-
-            {activeTab === "Activity" && (
-              <div className="activity-feed">
-                <h3>Recent Activity</h3>
-                {user.activity.map((item, index) => (
-                  <div key={index} className="activity-card">
-                    <strong>{item.type}:</strong> {item.content}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === "Organizations" && (
-              <div className="organizations">
-                <h3>Organizations</h3>
-                {user.organizations.map(org => (
-                  <div key={org.name} className="org-card">
-                    <img src={org.avatar} alt={org.name} className="org-avatar" />
-                    <p>{org.name}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
+          {renderContent()}
         </div>
       );
     }
