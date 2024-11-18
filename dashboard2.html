@@ -1,359 +1,209 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --header-height: 60px;
-            --sidebar-width: 280px;
-            --text-color: #1a1a1a;
-            --bg-color: #ffffff;
-            --sidebar-bg: #f8fafc;
-            --border-color: #e2e8f0;
-        }
+import React, { useState, useEffect } from 'react';
+import { Menu, Search, Sun, Moon, ChevronRight, ChevronDown } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 
-        [data-theme="dark"] {
-            --primary-color: #60a5fa;
-            --text-color: #f1f5f9;
-            --bg-color: #0f172a;
-            --sidebar-bg: #1e293b;
-            --border-color: #334155;
-        }
+const Documentation = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem('theme') === 'dark'
+  );
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeGroup, setActiveGroup] = useState('getting-started');
+  const [activePage, setActivePage] = useState('introduction');
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+  // Document sections with nested content
+  const sections = {
+    'getting-started': {
+      title: 'Getting Started',
+      pages: {
+        'introduction': {
+          title: 'Introduction',
+          content: 'Welcome to our documentation. This guide will help you get started with our platform.'
+        },
+        'quick-start': {
+          title: 'Quick Start',
+          content: 'Follow these steps to quickly get up and running with our platform.'
+        },
+        'installation': {
+          title: 'Installation',
+          content: 'Detailed installation instructions for different environments.'
         }
+      }
+    },
+    'core-concepts': {
+      title: 'Core Concepts',
+      pages: {
+        'architecture': {
+          title: 'Architecture',
+          content: 'Understanding the core architecture of our platform.'
+        },
+        'configuration': {
+          title: 'Configuration',
+          content: 'Learn how to configure the platform for your needs.'
+        },
+        'plugins': {
+          title: 'Plugins',
+          content: 'Extend functionality using our plugin system.'
+        }
+      }
+    },
+    'advanced': {
+      title: 'Advanced',
+      pages: {
+        'custom-themes': {
+          title: 'Custom Themes',
+          content: 'Create and customize themes for your documentation.'
+        },
+        'api-reference': {
+          title: 'API Reference',
+          content: 'Complete API documentation and examples.'
+        },
+        'migration': {
+          title: 'Migration Guide',
+          content: 'Guide for migrating between versions.'
+        }
+      }
+    }
+  };
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background: var(--bg-color);
-        }
+  // Update theme
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      'data-theme',
+      isDarkMode ? 'dark' : 'light'
+    );
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            background: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            padding: 0 1.5rem;
-            z-index: 100;
-        }
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsSidebarOpen(true);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            gap: 1rem;
-        }
+  // Filter pages based on search term
+  const filterContent = (pages) => {
+    if (!searchTerm) return pages;
+    return Object.entries(pages).reduce((filtered, [key, page]) => {
+      if (
+        page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        page.content.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        filtered[key] = page;
+      }
+      return filtered;
+    }, {});
+  };
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1.5rem;
-        }
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 h-16 border-b bg-background z-50">
+        <div className="h-full px-6 flex items-center gap-4">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="p-2 hover:bg-accent rounded-md"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          
+          <a href="#" className="text-xl font-semibold">
+            Documentation
+          </a>
+          
+          <div className="relative flex-1 max-w-xl">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search documentation..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-muted rounded-md text-sm"
+            />
+          </div>
+          
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 hover:bg-accent rounded-md"
+          >
+            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+        </div>
+      </header>
 
-        .logo {
-            font-weight: 600;
-            font-size: 1.25rem;
-            color: var(--text-color);
-            text-decoration: none;
-            margin-right: 2rem;
-        }
-
-        .search-container {
-            position: relative;
-            flex-grow: 1;
-            max-width: 600px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.5rem 1rem 0.5rem 2.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background: var(--sidebar-bg);
-            color: var(--text-color);
-            font-size: 0.875rem;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-color);
-            opacity: 0.5;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-color);
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1.25rem;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            bottom: 0;
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-
-        .nav-group {
-            padding: 1.5rem;
-        }
-
-        .nav-group-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text-color);
-            opacity: 0.5;
-            margin-bottom: 0.75rem;
-        }
-
-        .nav-items {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 0.25rem;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 0.5rem 0.75rem;
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.875rem;
-        }
-
-        .nav-link:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        [data-theme="dark"] .nav-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .main-content {
-            margin-left: var(--sidebar-width);
-            padding: calc(var(--header-height) + 2rem) 2rem 2rem;
-            max-width: 1000px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.full-width {
-            margin-left: 0;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-
-        h2 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin: 2rem 0 1rem;
-        }
-
-        p {
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin-left: 1rem;
-        }
-
-        .feature-list li {
-            margin-bottom: 0.5rem;
-            position: relative;
-        }
-
-        .feature-list li::before {
-            content: "•";
-            color: var(--primary-color);
-            font-weight: bold;
-            position: absolute;
-            left: -1rem;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .sidebar.visible {
-                transform: translateX(0);
-            }
-            
-            .main-content {
-                margin-left: 0;
-                padding: calc(var(--header-height) + 1rem) 1rem 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="header-content">
-            <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
-            <a href="#" class="logo">Documentation</a>
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search documentation...">
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-16 bottom-0 w-64 border-r bg-muted/50 transition-transform duration-300 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0`}
+      >
+        <div className="h-full overflow-y-auto">
+          {Object.entries(sections).map(([groupId, group]) => (
+            <div key={groupId} className="py-2">
+              <button
+                onClick={() => setActiveGroup(groupId)}
+                className="w-full px-4 py-2 flex items-center justify-between hover:bg-accent"
+              >
+                <span className="font-semibold">{group.title}</span>
+                {activeGroup === groupId ? (
+                  <ChevronDown className="h-4 w-4" />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )}
+              </button>
+              
+              {activeGroup === groupId && (
+                <div className="mt-1">
+                  {Object.entries(filterContent(group.pages)).map(([pageId, page]) => (
+                    <button
+                      key={pageId}
+                      onClick={() => {
+                        setActivePage(pageId);
+                        if (window.innerWidth <= 768) {
+                          setIsSidebarOpen(false);
+                        }
+                      }}
+                      className={`w-full px-6 py-2 text-left hover:bg-accent text-sm ${
+                        activePage === pageId ? 'bg-accent font-medium' : ''
+                      }`}
+                    >
+                      {page.title}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <button class="theme-toggle" aria-label="Toggle Theme">🌙</button>
+          ))}
         </div>
-    </header>
+      </aside>
 
-    <nav class="sidebar">
-        <div class="nav-group">
-            <h2 class="nav-group-title">Getting Started</h2>
-            <ul class="nav-items">
-                <li class="nav-item"><a href="#" class="nav-link">Introduction</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Quick Start</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Installation</a></li>
-            </ul>
+      {/* Main Content */}
+      <main
+        className={`transition-all duration-300 ${
+          isSidebarOpen ? 'md:pl-64' : ''
+        }`}
+      >
+        <div className="max-w-4xl mx-auto p-8 pt-24">
+          <Card>
+            <CardContent className="p-6">
+              <h1 className="text-3xl font-bold mb-6">
+                {sections[activeGroup]?.pages[activePage]?.title}
+              </h1>
+              <div className="prose max-w-none">
+                {sections[activeGroup]?.pages[activePage]?.content}
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <div class="nav-group">
-            <h2 class="nav-group-title">Core Concepts</h2>
-            <ul class="nav-items">
-                <li class="nav-item"><a href="#" class="nav-link">Architecture</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Configuration</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Plugins</a></li>
-            </ul>
-        </div>
-        <div class="nav-group">
-            <h2 class="nav-group-title">Advanced</h2>
-            <ul class="nav-items">
-                <li class="nav-item"><a href="#" class="nav-link">Custom Themes</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">API Reference</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Migration Guide</a></li>
-            </ul>
-        </div>
-    </nav>
+      </main>
+    </div>
+  );
+};
 
-    <main class="main-content">
-        <h1>Welcome to the Documentation</h1>
-        <p>This is a modern documentation site built with vanilla HTML, CSS, and JavaScript. It features a clean, responsive design with support for dark mode, search functionality, and easy navigation.</p>
-        
-        <h2>Key Features</h2>
-        <ul class="feature-list">
-            <li>Clean and modern design</li>
-            <li>Dark mode support</li>
-            <li>Responsive layout</li>
-            <li>Collapsible sidebar</li>
-            <li>Search functionality</li>
-            <li>Fast and lightweight</li>
-        </ul>
-    </main>
-
-    <script>
-        // DOM Elements
-        const menuToggle = document.querySelector('.menu-toggle');
-        const themeToggle = document.querySelector('.theme-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
-        
-        // Theme Management
-        let isDark = localStorage.getItem('theme') === 'dark';
-        
-        function updateTheme() {
-            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        }
-        
-        // Initialize theme
-        updateTheme();
-        
-        // Theme toggle handler
-        themeToggle.addEventListener('click', () => {
-            isDark = !isDark;
-            updateTheme();
-        });
-        
-        // Sidebar Management
-        let isSidebarVisible = window.innerWidth > 768;
-        
-        function updateSidebar() {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('hidden', 'visible');
-                sidebar.classList.toggle('visible', isSidebarVisible);
-                mainContent.classList.add('full-width');
-            } else {
-                sidebar.classList.remove('visible', 'hidden');
-                sidebar.classList.toggle('hidden', !isSidebarVisible);
-                mainContent.classList.toggle('full-width', !isSidebarVisible);
-            }
-        }
-        
-        // Initialize sidebar
-        updateSidebar();
-        
-        // Menu toggle handler
-        menuToggle.addEventListener('click', () => {
-            isSidebarVisible = !isSidebarVisible;
-            updateSidebar();
-        });
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                isSidebarVisible = true;
-            }
-            updateSidebar();
-        });
-        
-        // Search functionality
-        const searchInput = document.querySelector('.search-input');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            navLinks.forEach(link => {
-                const text = link.textContent.toLowerCase();
-                const listItem = link.parentElement;
-                if (text.includes(searchTerm)) {
-                    listItem.style.display = '';
-                } else {
-                    listItem.style.display = 'none';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+export default Documentation;
