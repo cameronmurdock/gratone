@@ -136,6 +136,9 @@
       CardActions,
       Icon,
       Chip,
+      List,
+      ListItem,
+      ListItemText,
     } = MaterialUI;
     const { default: styled } = window['@emotion/styled'];
 
@@ -270,7 +273,7 @@
                 </Typography>
                 <Box>
                   {user.badges.map((badge, index) => (
-                    <Chip key={index} label={badge} className="badge" />
+                    <Chip key={index} label={badge} className="badge" sx={{ margin: '0.3rem' }} />
                   ))}
                 </Box>
               </Box>
@@ -312,11 +315,13 @@
                 <Typography variant="h5" gutterBottom>
                   Connections
                 </Typography>
-                <ul>
+                <List>
                   {user.connections.map((conn, index) => (
-                    <li key={index}>{conn}</li>
+                    <ListItem key={index} disablePadding>
+                      <ListItemText primary={conn} />
+                    </ListItem>
                   ))}
-                </ul>
+                </List>
               </Box>
             );
           case "Activities":
