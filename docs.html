@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Dark mode styles */
+        .dark {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        /* Sidebar transition */
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Content styles */
+        .content-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .nav-link {
+            cursor: pointer;
+            padding: 8px 16px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .active-link {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .active-link {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .dark .search-input {
+            background-color: #2d2d2d;
+            border-color: #404040;
+            color: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+        }
+
+        .theme-toggle {
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: inherit;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Prose styles */
+        .prose {
+            line-height: 1.8;
+            color: inherit;
+        }
+
+        .prose p {
+            margin-bottom: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+    <script type="text/babel">
+        function App() {
+            const [isDark, setIsDark] = React.useState(false);
+            const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+            const [searchTerm, setSearchTerm] = React.useState('');
+            const [currentSection, setCurrentSection] = React.useState('introduction');
+
+            const sections = {
+                introduction: {
+                    title: 'Introduction',
+                    content: 'Welcome to our documentation. This comprehensive guide will help you understand and make the most of our platform. We cover everything from basic concepts to advanced features.',
+                },
+                'getting-started': {
+                    title: 'Getting Started',
+                    content: 'Begin your journey with our platform. Learn the basics of installation, configuration, and essential concepts that will help you build amazing applications.',
+                },
+                'advanced-topics': {
+                    title: 'Advanced Topics',
+                    content: 'Dive deep into advanced features and concepts. Learn about system architecture, performance optimization, and best practices for scaling your applications.',
+                },
+                'api-reference': {
+                    title: 'API Reference',
+                    content: 'Explore our complete API documentation. Find detailed information about all available methods, parameters, and return values.',
+                },
+                tutorials: {
+                    title: 'Tutorials',
+                    content: 'Step-by-step guides to help you build real-world applications. Follow along with practical examples and learn best practices.',
+                }
+            };
+
+            React.useEffect(() => {
+                const handleResize = () => {
+                    setIsSidebarOpen(window.innerWidth > 768);
+                };
+                
+                window.addEventListener('resize', handleResize);
+                handleResize();
+                
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+
+            const filteredSections = React.useMemo(() => {
+                if (!searchTerm) return sections;
+                
+                return Object.entries(sections).reduce((acc, [key, section]) => {
+                    if (
+                        section.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        section.content.toLowerCase().includes(searchTerm.toLowerCase())
+                    ) {
+                        acc[key] = section;
+                    }
+                    return acc;
+                }, {});
+            }, [searchTerm]);
+
+            return (
+                <div className={isDark ? 'dark' : ''} style={{ minHeight: '100vh' }}>
+                    {/* Header */}
+                    <header style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '64px',
+                        backgroundColor: isDark ? '#2d2d2d' : 'white',
+                        borderBottom: `1px solid ${isDark ? '#404040' : '#e2e8f0'}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0 24px',
+                        zIndex: 40
+                    }}>
+                        <button
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                            style={{
+                                padding: '8px',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: isDark ? 'white' : 'black'
+                            }}
+                        >
+                            ☰
+                        </button>
+
+                        <div style={{ marginLeft: '24px', fontWeight: 600, fontSize: '20px' }}>
+                            Documentation
+                        </div>
+
+                        <div style={{ position: 'relative', flex: 1, maxWidth: '400px', margin: '0 24px' }}>
+                            <span className="search-icon">🔍</span>
+                            <input
+                                type="text"
+                                placeholder="Search documentation..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-input"
+                            />
+                        </div>
+
+                        <button
+                            onClick={() => setIsDark(!isDark)}
+                            className="theme-toggle"
+                        >
+                            {isDark ? '☀️' : '🌙'}
+                        </button>
+                    </header>
+
+                    {/* Sidebar */}
+                    <aside className="sidebar-transition" style={{
+                        position: 'fixed',
+                        top: '64px',
+                        bottom: 0,
+                        left: 0,
+                        width: '280px',
+                        backgroundColor: isDark ? '#2d2d2d' : '#f8fafc',
+                        borderRight: `1px solid ${isDark ? '#404040' : '#e2e8f0'}`,
+                        overflowY: 'auto',
+                        transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)'
+                    }}>
+                        {Object.entries(filteredSections).map(([key, section]) => (
+                            <div
+                                key={key}
+                                className={`nav-link ${currentSection === key ? 'active-link' : ''}`}
+                                onClick={() => {
+                                    setCurrentSection(key);
+                                    if (window.innerWidth <= 768) {
+                                        setIsSidebarOpen(false);
+                                    }
+                                }}
+                            >
+                                {section.title}
+                            </div>
+                        ))}
+                    </aside>
+
+                    {/* Main Content */}
+                    <main style={{
+                        marginLeft: isSidebarOpen ? '280px' : '0',
+                        marginTop: '64px',
+                        padding: '40px',
+                        transition: 'margin-left 0.3s ease-in-out'
+                    }}>
+                        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                            <h1 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '24px' }}>
+                                {sections[currentSection].title}
+                            </h1>
+                            <img
+                                src={`/api/placeholder/800/400?text=${sections[currentSection].title}`}
+                                alt={sections[currentSection].title}
+                                className="content-image"
+                            />
+                            <div className="prose">
+                                <p>{sections[currentSection].content}</p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
