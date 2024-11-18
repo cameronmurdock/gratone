@@ -1,209 +1,345 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Search, Sun, Moon, ChevronRight, ChevronDown } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
-
-const Documentation = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem('theme') === 'dark'
-  );
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeGroup, setActiveGroup] = useState('getting-started');
-  const [activePage, setActivePage] = useState('introduction');
-
-  // Document sections with nested content
-  const sections = {
-    'getting-started': {
-      title: 'Getting Started',
-      pages: {
-        'introduction': {
-          title: 'Introduction',
-          content: 'Welcome to our documentation. This guide will help you get started with our platform.'
-        },
-        'quick-start': {
-          title: 'Quick Start',
-          content: 'Follow these steps to quickly get up and running with our platform.'
-        },
-        'installation': {
-          title: 'Installation',
-          content: 'Detailed installation instructions for different environments.'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --background: #ffffff;
+            --foreground: #0f172a;
+            --muted: #f1f5f9;
+            --muted-foreground: #64748b;
+            --accent: #e2e8f0;
+            --border: #e2e8f0;
         }
-      }
-    },
-    'core-concepts': {
-      title: 'Core Concepts',
-      pages: {
-        'architecture': {
-          title: 'Architecture',
-          content: 'Understanding the core architecture of our platform.'
-        },
-        'configuration': {
-          title: 'Configuration',
-          content: 'Learn how to configure the platform for your needs.'
-        },
-        'plugins': {
-          title: 'Plugins',
-          content: 'Extend functionality using our plugin system.'
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --foreground: #f1f5f9;
+            --muted: #1e293b;
+            --muted-foreground: #94a3b8;
+            --accent: #334155;
+            --border: #1e293b;
         }
-      }
-    },
-    'advanced': {
-      title: 'Advanced',
-      pages: {
-        'custom-themes': {
-          title: 'Custom Themes',
-          content: 'Create and customize themes for your documentation.'
-        },
-        'api-reference': {
-          title: 'API Reference',
-          content: 'Complete API documentation and examples.'
-        },
-        'migration': {
-          title: 'Migration Guide',
-          content: 'Guide for migrating between versions.'
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
-    }
-  };
 
-  // Update theme
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      'data-theme',
-      isDarkMode ? 'dark' : 'light'
-    );
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }, [isDarkMode]);
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+        }
 
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsSidebarOpen(true);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+        .prose {
+            max-width: 65ch;
+            color: var(--foreground);
+        }
 
-  // Filter pages based on search term
-  const filterContent = (pages) => {
-    if (!searchTerm) return pages;
-    return Object.entries(pages).reduce((filtered, [key, page]) => {
-      if (
-        page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        page.content.toLowerCase().includes(searchTerm.toLowerCase())
-      ) {
-        filtered[key] = page;
-      }
-      return filtered;
-    }, {});
-  };
+        .prose p {
+            margin-bottom: 1.5em;
+            line-height: 1.75;
+        }
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 border-b bg-background z-50">
-        <div className="h-full px-6 flex items-center gap-4">
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-accent rounded-md"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          
-          <a href="#" className="text-xl font-semibold">
-            Documentation
-          </a>
-          
-          <div className="relative flex-1 max-w-xl">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search documentation..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-muted rounded-md text-sm"
-            />
-          </div>
-          
-          <button
-            onClick={() => setIsDarkMode(!isDarkMode)}
-            className="p-2 hover:bg-accent rounded-md"
-          >
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
-        </div>
-      </header>
+        .card {
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed top-16 bottom-0 w-64 border-r bg-muted/50 transition-transform duration-300 ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0`}
-      >
-        <div className="h-full overflow-y-auto">
-          {Object.entries(sections).map(([groupId, group]) => (
-            <div key={groupId} className="py-2">
-              <button
-                onClick={() => setActiveGroup(groupId)}
-                className="w-full px-4 py-2 flex items-center justify-between hover:bg-accent"
-              >
-                <span className="font-semibold">{group.title}</span>
-                {activeGroup === groupId ? (
-                  <ChevronDown className="h-4 w-4" />
-                ) : (
-                  <ChevronRight className="h-4 w-4" />
-                )}
-              </button>
-              
-              {activeGroup === groupId && (
-                <div className="mt-1">
-                  {Object.entries(filterContent(group.pages)).map(([pageId, page]) => (
-                    <button
-                      key={pageId}
-                      onClick={() => {
-                        setActivePage(pageId);
-                        if (window.innerWidth <= 768) {
-                          setIsSidebarOpen(false);
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { Menu, Search, Sun, Moon, ChevronRight, ChevronDown } = lucide;
+
+        function Documentation() {
+            const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 768);
+            const [isDarkMode, setIsDarkMode] = useState(
+                localStorage.getItem('theme') === 'dark'
+            );
+            const [searchTerm, setSearchTerm] = useState('');
+            const [activeGroup, setActiveGroup] = useState('getting-started');
+            const [activePage, setActivePage] = useState('introduction');
+
+            const sections = {
+                'getting-started': {
+                    title: 'Getting Started',
+                    pages: {
+                        'introduction': {
+                            title: 'Introduction',
+                            content: 'Welcome to our documentation. This guide will help you get started with our platform.'
+                        },
+                        'quick-start': {
+                            title: 'Quick Start',
+                            content: 'Follow these steps to quickly get up and running with our platform.'
+                        },
+                        'installation': {
+                            title: 'Installation',
+                            content: 'Detailed installation instructions for different environments.'
                         }
-                      }}
-                      className={`w-full px-6 py-2 text-left hover:bg-accent text-sm ${
-                        activePage === pageId ? 'bg-accent font-medium' : ''
-                      }`}
-                    >
-                      {page.title}
-                    </button>
-                  ))}
+                    }
+                },
+                'core-concepts': {
+                    title: 'Core Concepts',
+                    pages: {
+                        'architecture': {
+                            title: 'Architecture',
+                            content: 'Understanding the core architecture of our platform.'
+                        },
+                        'configuration': {
+                            title: 'Configuration',
+                            content: 'Learn how to configure the platform for your needs.'
+                        },
+                        'plugins': {
+                            title: 'Plugins',
+                            content: 'Extend functionality using our plugin system.'
+                        }
+                    }
+                },
+                'advanced': {
+                    title: 'Advanced',
+                    pages: {
+                        'custom-themes': {
+                            title: 'Custom Themes',
+                            content: 'Create and customize themes for your documentation.'
+                        },
+                        'api-reference': {
+                            title: 'API Reference',
+                            content: 'Complete API documentation and examples.'
+                        },
+                        'migration': {
+                            title: 'Migration Guide',
+                            content: 'Guide for migrating between versions.'
+                        }
+                    }
+                }
+            };
+
+            useEffect(() => {
+                document.documentElement.setAttribute(
+                    'data-theme',
+                    isDarkMode ? 'dark' : 'light'
+                );
+                localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            }, [isDarkMode]);
+
+            useEffect(() => {
+                const handleResize = () => {
+                    setIsSidebarOpen(window.innerWidth > 768);
+                };
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+
+            const filterContent = (pages) => {
+                if (!searchTerm) return pages;
+                return Object.entries(pages).reduce((filtered, [key, page]) => {
+                    if (
+                        page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        page.content.toLowerCase().includes(searchTerm.toLowerCase())
+                    ) {
+                        filtered[key] = page;
+                    }
+                    return filtered;
+                }, {});
+            };
+
+            const mainContentStyle = {
+                marginLeft: isSidebarOpen ? '16rem' : '0',
+                transition: 'margin-left 0.3s ease',
+                padding: '2rem',
+                maxWidth: isSidebarOpen ? 'calc(100% - 16rem)' : '100%'
+            };
+
+            return (
+                <div style={{ minHeight: '100vh', backgroundColor: 'var(--background)' }}>
+                    {/* Header */}
+                    <header style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '4rem',
+                        borderBottom: '1px solid var(--border)',
+                        backgroundColor: 'var(--background)',
+                        zIndex: 50,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '0 1.5rem'
+                    }}>
+                        <button
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                            style={{
+                                padding: '0.5rem',
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--foreground)'
+                            }}
+                        >
+                            <Menu size={20} />
+                        </button>
+                        
+                        <a href="#" style={{
+                            fontSize: '1.25rem',
+                            fontWeight: 600,
+                            marginLeft: '1rem',
+                            color: 'var(--foreground)',
+                            textDecoration: 'none'
+                        }}>
+                            Documentation
+                        </a>
+                        
+                        <div style={{
+                            position: 'relative',
+                            flex: 1,
+                            maxWidth: '36rem',
+                            marginLeft: '1rem'
+                        }}>
+                            <Search style={{
+                                position: 'absolute',
+                                left: '0.75rem',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted-foreground)'
+                            }} size={16} />
+                            <input
+                                type="text"
+                                placeholder="Search documentation..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem 1rem 0.5rem 2.5rem',
+                                    backgroundColor: 'var(--muted)',
+                                    border: 'none',
+                                    borderRadius: '0.375rem',
+                                    fontSize: '0.875rem',
+                                    color: 'var(--foreground)'
+                                }}
+                            />
+                        </div>
+                        
+                        <button
+                            onClick={() => setIsDarkMode(!isDarkMode)}
+                            style={{
+                                padding: '0.5rem',
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--foreground)',
+                                marginLeft: '1rem'
+                            }}
+                        >
+                            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+                        </button>
+                    </header>
+
+                    {/* Sidebar */}
+                    <aside style={{
+                        position: 'fixed',
+                        top: '4rem',
+                        bottom: 0,
+                        width: '16rem',
+                        backgroundColor: 'var(--muted)',
+                        borderRight: '1px solid var(--border)',
+                        overflowY: 'auto',
+                        transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+                        transition: 'transform 0.3s ease'
+                    }}>
+                        {Object.entries(sections).map(([groupId, group]) => (
+                            <div key={groupId} style={{ padding: '0.5rem 0' }}>
+                                <button
+                                    onClick={() => setActiveGroup(groupId)}
+                                    style={{
+                                        width: '100%',
+                                        padding: '0.5rem 1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        backgroundColor: 'transparent',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        color: 'var(--foreground)'
+                                    }}
+                                >
+                                    <span style={{ fontWeight: 600 }}>{group.title}</span>
+                                    {activeGroup === groupId ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                                </button>
+                                
+                                {activeGroup === groupId && (
+                                    <div>
+                                        {Object.entries(filterContent(group.pages)).map(([pageId, page]) => (
+                                            <button
+                                                key={pageId}
+                                                onClick={() => {
+                                                    setActivePage(pageId);
+                                                    if (window.innerWidth <= 768) {
+                                                        setIsSidebarOpen(false);
+                                                    }
+                                                }}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '0.5rem 1.5rem',
+                                                    textAlign: 'left',
+                                                    backgroundColor: activePage === pageId ? 'var(--accent)' : 'transparent',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                    color: 'var(--foreground)',
+                                                    fontSize: '0.875rem'
+                                                }}
+                                            >
+                                                {page.title}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </aside>
+
+                    {/* Main Content */}
+                    <main style={mainContentStyle}>
+                        <div style={{ 
+                            maxWidth: '65rem',
+                            margin: '5rem auto 0',
+                            transition: 'max-width 0.3s ease'
+                        }}>
+                            <div className="card" style={{ padding: '2rem' }}>
+                                <h1 style={{
+                                    fontSize: '2rem',
+                                    fontWeight: 700,
+                                    marginBottom: '1.5rem'
+                                }}>
+                                    {sections[activeGroup]?.pages[activePage]?.title}
+                                </h1>
+                                <div className="prose">
+                                    {sections[activeGroup]?.pages[activePage]?.content}
+                                </div>
+                            </div>
+                        </div>
+                    </main>
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </aside>
+            );
+        }
 
-      {/* Main Content */}
-      <main
-        className={`transition-all duration-300 ${
-          isSidebarOpen ? 'md:pl-64' : ''
-        }`}
-      >
-        <div className="max-w-4xl mx-auto p-8 pt-24">
-          <Card>
-            <CardContent className="p-6">
-              <h1 className="text-3xl font-bold mb-6">
-                {sections[activeGroup]?.pages[activePage]?.title}
-              </h1>
-              <div className="prose max-w-none">
-                {sections[activeGroup]?.pages[activePage]?.content}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default Documentation;
+        const root = createRoot(document.getElementById('root'));
+        root.render(<Documentation />);
+    </script>
+</body>
+</html>
