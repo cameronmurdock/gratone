@@ -493,6 +493,40 @@
           <Typography variant="body1">
             Join us in reshaping the future of local communities. Together, we are stronger.
           </Typography>
+          <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
+            Get the App Now
+          </Button>
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="download-app-modal-title"
+            aria-describedby="download-app-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                  Thank You for Your Interest!
+                </Typography>
+                <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
+                  The app is coming soon. Stay tuned!
+                </Typography>
+                <Button variant="contained" color="primary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="contained" color="primary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
         </Container>
       );
     }
