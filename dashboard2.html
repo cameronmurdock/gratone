@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>User Profile - ONE Local</title>
+  <title>ONE Local User Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -14,187 +14,179 @@
       margin: 0;
       padding: 0;
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: white;
-      height: 100vh;
-      overflow: hidden;
+      background: linear-gradient(120deg, #004d40, #002b36);
+      color: #ffffff;
     }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .profile-container {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      height: 100vh;
-    }
-    .sidebar {
-      padding: 2rem;
-      background-color: rgba(0, 0, 0, 0.6);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-right: 2px solid #333;
-    }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-    }
-    .user-info {
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .user-info h1 {
-      margin: 0.5rem 0;
-    }
-    .badge {
-      background-color: #ffeb3b;
-      color: #333;
-      padding: 0.3rem 0.8rem;
-      border-radius: 12px;
-      margin: 0.3rem;
-    }
-    .tabs {
-      display: flex;
-      justify-content: flex-start;
-      padding: 1rem;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    .tab {
-      color: #cfd8dc;
-      cursor: pointer;
-      padding: 0.5rem 1rem;
-      margin-right: 1rem;
-      border-bottom: 2px solid transparent;
-    }
-    .tab.active {
-      color: white;
-      border-bottom: 2px solid #ffeb3b;
-    }
-    .content-area {
-      padding: 2rem;
-      overflow-y: auto;
-    }
-    .post-card, .service-card, .activity-card {
-      background-color: #3f51b5;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
+    .profile-container { display: flex; padding: 20px; gap: 20px; }
+    .left-panel { width: 300px; background-color: #003642; padding: 20px; border-radius: 10px; }
+    .right-panel { flex: 1; background-color: #003642; padding: 20px; border-radius: 10px; }
+    .avatar { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 20px; }
+    .badge { background-color: #004d40; padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; margin: 5px; }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
   <script type="text/babel">
-    function UserProfile() {
-      const user = {
-        name: "Cameron Ely-Murdock",
-        role: "Community Leader",
-        bio: "Connecting people and resources for a stronger local community.",
-        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        location: "Boulder, CO",
-        contact: "cameron@example.com",
-        badges: ["Community Leader", "Event Organizer", "Volunteer", "Gardener"],
-        posts: [
-          { id: 1, content: "Excited for the upcoming community garden project!" },
-          { id: 2, content: "Looking for volunteers for our local park cleanup." },
-        ],
-        services: [
-          { id: 1, name: "Yoga Classes", description: "Weekly yoga sessions at the park." },
-          { id: 2, name: "Mediation Services", description: "Conflict resolution for community disputes." },
-        ],
-        connections: ["Emily Clark", "Tom Baker", "Sarah Johnson"],
-        activities: [
-          { id: 1, activity: "Hosted a community meetup at Central Park." },
-          { id: 2, activity: "Volunteered at the local food bank." },
-        ],
+    const {
+      Box,
+      Avatar,
+      Typography,
+      Button,
+      Grid,
+      Tabs,
+      Tab,
+      Card,
+      CardContent,
+      Chip,
+      List,
+      ListItem,
+      ListItemText,
+      Divider,
+      Modal,
+      Paper,
+    } = MaterialUI;
+
+    const userProfile = {
+      avatar: "https://via.placeholder.com/150",
+      name: "Cameron Murdock",
+      role: "Community Coach",
+      location: "Boulder, CO",
+      given: "19.5k",
+      received: "20k",
+      trustScore: "97.5%",
+      skills: ["Designing", "Art Making"],
+      sharing: ["Painting (Offer)"],
+      badges: ["Community Leader", "Top Contributor"],
+      posts: [
+        { id: 1, content: "Offering free yoga class tomorrow!", date: "Nov 13, 2024" },
+        { id: 2, content: "Looking for volunteers for the community garden.", date: "Nov 14, 2024" },
+      ],
+      services: ["Yoga Coaching", "Art Consultation"],
+      connections: ["Teresa Grant", "Bob Jones"],
+      events: ["Garden Party", "Meditation Workshop"],
+    };
+
+    function ObjectModal({ open, onClose, title, content }) {
+      return (
+        <Modal open={open} onClose={onClose}>
+          <Paper sx={{ width: 400, padding: 2, margin: 'auto', marginTop: '20vh' }}>
+            <Typography variant="h6">{title}</Typography>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="body1">{content}</Typography>
+            <Button onClick={onClose} fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
+              Close
+            </Button>
+          </Paper>
+        </Modal>
+      );
+    }
+
+    function ListWithModals({ title, items }) {
+      const [selectedItem, setSelectedItem] = React.useState(null);
+
+      const handleClick = (item) => {
+        setSelectedItem(item);
       };
 
-      const [activeTab, setActiveTab] = React.useState("Overview");
-
-      const renderContent = () => {
-        switch (activeTab) {
-          case "Overview":
-            return (
-              <div>
-                <h2>Badges</h2>
-                <div>{user.badges.map((badge, index) => <span key={index} className="badge">{badge}</span>)}</div>
-              </div>
-            );
-          case "Posts":
-            return (
-              <div>
-                <h2>Recent Posts</h2>
-                {user.posts.map(post => (
-                  <div key={post.id} className="post-card">{post.content}</div>
-                ))}
-              </div>
-            );
-          case "Services":
-            return (
-              <div>
-                <h2>Services</h2>
-                {user.services.map(service => (
-                  <div key={service.id} className="service-card">
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
-                  </div>
-                ))}
-              </div>
-            );
-          case "Connections":
-            return (
-              <div>
-                <h2>Connections</h2>
-                <ul>{user.connections.map((conn, index) => <li key={index}>{conn}</li>)}</ul>
-              </div>
-            );
-          case "Activities":
-            return (
-              <div>
-                <h2>Recent Activities</h2>
-                {user.activities.map(activity => (
-                  <div key={activity.id} className="activity-card">{activity.activity}</div>
-                ))}
-              </div>
-            );
-          default:
-            return null;
-        }
+      const handleClose = () => {
+        setSelectedItem(null);
       };
 
       return (
+        <>
+          <Typography variant="h6">{title}</Typography>
+          <List>
+            {items.map((item, index) => (
+              <ListItem button key={index} onClick={() => handleClick(item)}>
+                <ListItemText primary={item} />
+              </ListItem>
+            ))}
+          </List>
+
+          {selectedItem && (
+            <ObjectModal
+              open={Boolean(selectedItem)}
+              onClose={handleClose}
+              title={title}
+              content={selectedItem}
+            />
+          )}
+        </>
+      );
+    }
+
+    function RightPanel({ user }) {
+      const [tabIndex, setTabIndex] = React.useState(0);
+
+      return (
+        <Box className="right-panel">
+          <Tabs
+            value={tabIndex}
+            onChange={(e, newIndex) => setTabIndex(newIndex)}
+            centered
+            textColor="inherit"
+            indicatorColor="secondary"
+          >
+            <Tab label="Overview" />
+            <Tab label="Posts" />
+            <Tab label="Services" />
+            <Tab label="Connections" />
+            <Tab label="Events" />
+          </Tabs>
+
+          {tabIndex === 0 && (
+            <ListWithModals title="Badges" items={user.badges} />
+          )}
+          {tabIndex === 1 && (
+            <ListWithModals title="Posts" items={user.posts.map(post => post.content)} />
+          )}
+          {tabIndex === 2 && (
+            <ListWithModals title="Services" items={user.services} />
+          )}
+          {tabIndex === 3 && (
+            <ListWithModals title="Connections" items={user.connections} />
+          )}
+          {tabIndex === 4 && (
+            <ListWithModals title="Events" items={user.events} />
+          )}
+        </Box>
+      );
+    }
+
+    function LeftPanel({ user }) {
+      return (
+        <Box className="left-panel">
+          <Avatar src={user.avatar} className="avatar" />
+          <Typography variant="h5">{user.name}</Typography>
+          <Typography variant="subtitle1">{user.role}</Typography>
+          <Typography variant="subtitle2">{user.location}</Typography>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Typography variant="h6">Skills</Typography>
+          {user.skills.map(skill => (
+            <Chip key={skill} label={skill} className="badge" />
+          ))}
+
+          <Typography variant="h6" sx={{ mt: 2 }}>Sharing</Typography>
+          {user.sharing.map(item => (
+            <Chip key={item} label={item} className="badge" />
+          ))}
+
+          <Typography variant="h6" sx={{ mt: 2 }}>Badges</Typography>
+          {user.badges.map(badge => (
+            <Chip key={badge} label={badge} className="badge" />
+          ))}
+        </Box>
+      );
+    }
+
+    function UserProfile() {
+      return (
         <div className="profile-container">
-          <div className="sidebar">
-            <img src={user.avatar} alt={user.name} className="avatar" />
-            <div className="user-info">
-              <h1>{user.name}</h1>
-              <h3>{user.role}</h3>
-              <p>{user.bio}</p>
-              <p>{user.location}</p>
-              <p>{user.contact}</p>
-            </div>
-          </div>
-          <div className="content-area">
-            <div className="tabs">
-              {["Overview", "Posts", "Services", "Connections", "Activities"].map(tab => (
-                <div
-                  key={tab}
-                  className={`tab ${activeTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </div>
-              ))}
-            </div>
-            {renderContent()}
-          </div>
+          <LeftPanel user={userProfile} />
+          <RightPanel user={userProfile} />
         </div>
       );
     }
