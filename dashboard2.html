@@ -2,196 +2,435 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local User Profile</title>
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    body, html {
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
       margin: 0;
       padding: 0;
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(120deg, #004d40, #002b36);
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f5f5f5;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Animated Gradient Background for Main Site */
+    .animatedBackground {
+      background: linear-gradient(-45deg, #d1c4e9, #c5cae9, #b3e5fc, #b2dfdb);
+      background-size: 400% 400%;
+      animation: gradientAnimation 60s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* User Profile Page Specific Styles */
+    .profile-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      height: 100vh;
+      background-color: #ffffff;
+    }
+    .sidebar {
+      padding: 2rem;
+      background-color: rgba(109, 76, 65, 0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 2px solid #333;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+    }
+    .user-info {
+      text-align: center;
+      margin-top: 1rem;
       color: #ffffff;
     }
-    .profile-container { display: flex; padding: 20px; gap: 20px; }
-    .left-panel { width: 300px; background-color: #003642; padding: 20px; border-radius: 10px; }
-    .right-panel { flex: 1; background-color: #003642; padding: 20px; border-radius: 10px; }
-    .avatar { width: 150px; height: 150px; border-radius: 50%; margin-bottom: 20px; }
-    .badge { background-color: #004d40; padding: 5px 10px; border-radius: 10px; font-size: 0.8rem; margin: 5px; }
+    .user-info h1 {
+      margin: 0.5rem 0;
+      font-family: 'Playfair Display', serif;
+    }
+    .user-info h3 {
+      margin: 0.3rem 0;
+      font-weight: 500;
+    }
+    .badge {
+      background-color: #ffeb3b;
+      color: #333;
+      padding: 0.3rem 0.8rem;
+      border-radius: 12px;
+      margin: 0.3rem;
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    .tabs {
+      display: flex;
+      justify-content: flex-start;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .tab {
+      color: #6d4c41;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      margin-right: 1rem;
+      border-bottom: 2px solid transparent;
+      transition: border-bottom 0.3s, color 0.3s;
+    }
+    .tab.active {
+      color: #6d4c41;
+      border-bottom: 2px solid #6d4c41;
+    }
+    .content-area {
+      padding: 2rem;
+      overflow-y: auto;
+      background-color: #fafafa;
+    }
+    .post-card, .service-card, .activity-card {
+      background-color: #e0e0e0;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .post-card:hover, .service-card:hover, .activity-card:hover {
+      transform: translateY(-5px);
+      background-color: #d5d5d5;
+    }
+    /* Modal Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    /* Responsive User Profile */
+    @media (max-width: 960px) {
+      .profile-container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .sidebar {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1rem;
+        border-right: none;
+        border-bottom: 2px solid #333;
+      }
+      .user-info {
+        text-align: left;
+        margin-top: 0;
+        margin-left: 1rem;
+      }
+      .tabs {
+        flex-wrap: wrap;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.production.min.js" crossorigin></script>
+  <!-- Material UI Icons -->
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.production.min.js" crossorigin></script>
+
   <script type="text/babel">
     const {
-      Box,
-      Avatar,
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
       Typography,
       Button,
+      IconButton,
+      Container,
+      Box,
       Grid,
-      Tabs,
-      Tab,
       Card,
       CardContent,
-      Chip,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
       List,
       ListItem,
       ListItemText,
-      Divider,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
       Modal,
-      Paper,
+      Fade,
+      Backdrop,
     } = MaterialUI;
 
-    const userProfile = {
-      avatar: "https://via.placeholder.com/150",
-      name: "Cameron Murdock",
-      role: "Community Coach",
+    // ======================= Data Objects =======================
+
+    // User Profile Data
+    const userProfileData = {
+      name: "Cameron Ely-Murdock",
+      role: "Community Leader",
+      bio: "Connecting people and resources for a stronger local community.",
+      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
       location: "Boulder, CO",
-      given: "19.5k",
-      received: "20k",
-      trustScore: "97.5%",
-      skills: ["Designing", "Art Making"],
-      sharing: ["Painting (Offer)"],
-      badges: ["Community Leader", "Top Contributor"],
+      contact: "cameron@example.com",
+      badges: ["Community Leader", "Event Organizer", "Volunteer", "Gardener"],
       posts: [
-        { id: 1, content: "Offering free yoga class tomorrow!", date: "Nov 13, 2024" },
-        { id: 2, content: "Looking for volunteers for the community garden.", date: "Nov 14, 2024" },
+        { id: 1, content: "Excited for the upcoming community garden project!", date: "2024-04-10" },
+        { id: 2, content: "Looking for volunteers for our local park cleanup.", date: "2024-04-05" },
       ],
-      services: ["Yoga Coaching", "Art Consultation"],
-      connections: ["Teresa Grant", "Bob Jones"],
-      events: ["Garden Party", "Meditation Workshop"],
+      services: [
+        { id: 1, name: "Yoga Classes", description: "Weekly yoga sessions at the park.", date: "Every Saturday at 9 AM" },
+        { id: 2, name: "Mediation Services", description: "Conflict resolution for community disputes.", date: "Available upon request" },
+      ],
+      connections: ["Emily Clark", "Tom Baker", "Sarah Johnson", "Liam Davis"],
+      activities: [
+        { id: 1, activity: "Hosted a community meetup at Central Park.", date: "2024-03-20" },
+        { id: 2, activity: "Volunteered at the local food bank.", date: "2024-03-15" },
+      ],
     };
 
-    function ObjectModal({ open, onClose, title, content }) {
-      return (
-        <Modal open={open} onClose={onClose}>
-          <Paper sx={{ width: 400, padding: 2, margin: 'auto', marginTop: '20vh' }}>
-            <Typography variant="h6">{title}</Typography>
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="body1">{content}</Typography>
-            <Button onClick={onClose} fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
-              Close
-            </Button>
-          </Paper>
-        </Modal>
-      );
-    }
+    // ======================= Components =======================
 
-    function ListWithModals({ title, items }) {
-      const [selectedItem, setSelectedItem] = React.useState(null);
+    function UserProfile({ setCurrentPage }) {
+      const [activeTab, setActiveTab] = React.useState("Overview");
+      const [openModal, setOpenModal] = React.useState(false);
+      const [modalContent, setModalContent] = React.useState(null);
 
-      const handleClick = (item) => {
-        setSelectedItem(item);
+      const handleTabClick = (tab) => {
+        setActiveTab(tab);
       };
 
-      const handleClose = () => {
-        setSelectedItem(null);
+      const handleCardClick = (type, item) => {
+        setModalContent({ type, item });
+        setOpenModal(true);
       };
 
-      return (
-        <>
-          <Typography variant="h6">{title}</Typography>
-          <List>
-            {items.map((item, index) => (
-              <ListItem button key={index} onClick={() => handleClick(item)}>
-                <ListItemText primary={item} />
-              </ListItem>
-            ))}
-          </List>
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setModalContent(null);
+      };
 
-          {selectedItem && (
-            <ObjectModal
-              open={Boolean(selectedItem)}
-              onClose={handleClose}
-              title={title}
-              content={selectedItem}
-            />
-          )}
-        </>
-      );
-    }
+      const renderContent = () => {
+        switch (activeTab) {
+          case "Overview":
+            return (
+              <div>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Badges</Typography>
+                <Box>
+                  {userProfileData.badges.map((badge, index) => (
+                    <span key={index} className="badge">{badge}</span>
+                  ))}
+                </Box>
+              </div>
+            );
+          case "Posts":
+            return (
+              <div>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Recent Posts</Typography>
+                {userProfileData.posts.map(post => (
+                  <Card key={post.id} className="post-card" onClick={() => handleCardClick('post', post)}>
+                    <CardContent>
+                      <Typography variant="body1">{post.content}</Typography>
+                      <Typography variant="caption" sx={{ color: '#666' }}>{post.date}</Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            );
+          case "Services":
+            return (
+              <div>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Services</Typography>
+                {userProfileData.services.map(service => (
+                  <Card key={service.id} className="service-card" onClick={() => handleCardClick('service', service)}>
+                    <CardContent>
+                      <Typography variant="h6">{service.name}</Typography>
+                      <Typography variant="body2" sx={{ mb: 1 }}>{service.description}</Typography>
+                      <Typography variant="caption" sx={{ color: '#666' }}>{service.date}</Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            );
+          case "Connections":
+            return (
+              <div>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Connections</Typography>
+                <List>
+                  {userProfileData.connections.map((conn, index) => (
+                    <ListItem key={index}>
+                      <ListItemText primary={conn} />
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            );
+          case "Activities":
+            return (
+              <div>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>Recent Activities</Typography>
+                {userProfileData.activities.map(activity => (
+                  <Card key={activity.id} className="activity-card" onClick={() => handleCardClick('activity', activity)}>
+                    <CardContent>
+                      <Typography variant="body1">{activity.activity}</Typography>
+                      <Typography variant="caption" sx={{ color: '#666' }}>{activity.date}</Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            );
+          default:
+            return null;
+        }
+      };
 
-    function RightPanel({ user }) {
-      const [tabIndex, setTabIndex] = React.useState(0);
-
-      return (
-        <Box className="right-panel">
-          <Tabs
-            value={tabIndex}
-            onChange={(e, newIndex) => setTabIndex(newIndex)}
-            centered
-            textColor="inherit"
-            indicatorColor="secondary"
-          >
-            <Tab label="Overview" />
-            <Tab label="Posts" />
-            <Tab label="Services" />
-            <Tab label="Connections" />
-            <Tab label="Events" />
-          </Tabs>
-
-          {tabIndex === 0 && (
-            <ListWithModals title="Badges" items={user.badges} />
-          )}
-          {tabIndex === 1 && (
-            <ListWithModals title="Posts" items={user.posts.map(post => post.content)} />
-          )}
-          {tabIndex === 2 && (
-            <ListWithModals title="Services" items={user.services} />
-          )}
-          {tabIndex === 3 && (
-            <ListWithModals title="Connections" items={user.connections} />
-          )}
-          {tabIndex === 4 && (
-            <ListWithModals title="Events" items={user.events} />
-          )}
-        </Box>
-      );
-    }
-
-    function LeftPanel({ user }) {
-      return (
-        <Box className="left-panel">
-          <Avatar src={user.avatar} className="avatar" />
-          <Typography variant="h5">{user.name}</Typography>
-          <Typography variant="subtitle1">{user.role}</Typography>
-          <Typography variant="subtitle2">{user.location}</Typography>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Typography variant="h6">Skills</Typography>
-          {user.skills.map(skill => (
-            <Chip key={skill} label={skill} className="badge" />
-          ))}
-
-          <Typography variant="h6" sx={{ mt: 2 }}>Sharing</Typography>
-          {user.sharing.map(item => (
-            <Chip key={item} label={item} className="badge" />
-          ))}
-
-          <Typography variant="h6" sx={{ mt: 2 }}>Badges</Typography>
-          {user.badges.map(badge => (
-            <Chip key={badge} label={badge} className="badge" />
-          ))}
-        </Box>
-      );
-    }
-
-    function UserProfile() {
       return (
         <div className="profile-container">
-          <LeftPanel user={userProfile} />
-          <RightPanel user={userProfile} />
-        </div>
-      );
-    }
+          {/* Sidebar */}
+          <div className="sidebar">
+            <Avatar src={userProfileData.avatar} alt={userProfileData.name} className="avatar" />
+            <div className="user-info">
+              <Typography variant="h4">{userProfileData.name}</Typography>
+              <Typography variant="h6">{userProfileData.role}</Typography>
+              <Typography variant="body1">{userProfileData.bio}</Typography>
+              <Typography variant="body2">{userProfileData.location}</Typography>
+              <Typography variant="body2">{userProfileData.contact}</Typography>
+            </div>
+          </div>
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<UserProfile />);
+          {/* Main Content */}
+          <div className="content-area">
+            {/* Tabs */}
+            <div className="tabs">
+              {["Overview", "Posts", "Services", "Connections", "Activities"].map(tab => (
+                <div
+                  key={tab}
+                  className={`tab ${activeTab === tab ? "active" : ""}`}
+                  onClick={() => handleTabClick(tab)}
+                >
+                  {tab}
+                </div>
+              ))}
+            </div>
+
+            {/* Content Area */}
+            {renderContent()}
+
+            {/* Modal */}
+            <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+            >
+              <Fade in={openModal}>
+                <Box className="modalContent">
+                  {modalContent && (
+                    <>
+                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                        {modalContent.type === 'post' && 'Post Details'}
+                        {modalContent.type === 'service' && 'Service Details'}
+                        {modalContent.type === 'activity' && 'Activity Details'}
+                      </Typography>
+                      {modalContent.type === 'post' && (
+                        <div>
+                          <Typography variant="body1" sx={{ mb: 2 }}>{modalContent.item.content}</Typography>
+                          <Typography variant="caption" sx={{ color: '#666' }}>{modalContent.item.date}</Typography>
+                        </div>
+                      )}
+                      {modalContent.type === 'service' && (
+                        <div>
+                          <Typography variant="h6">{modalContent.item.name}</Typography>
+                          <Typography variant="body2" sx={{ mb: 1 }}>{modalContent.item.description}</Typography>
+                          <Typography variant="caption" sx={{ color: '#666' }}>{modalContent.item.date}</Typography>
+                        </div>
+                      )}
+                      {modalContent.type === 'activity' && (
+                        <div>
+                          <Typography variant="body1" sx={{ mb: 2 }}>{modalContent.item.activity}</Typography>
+                          <Typography variant="caption" sx={{ color: '#666' }}>{modalContent.item.date}</Typography>
+                        </div>
+                      )}
+                      <Button variant="contained" color="primary" onClick={handleCloseModal} sx={{ mt: 2 }}>
+                        Close
+                      </Button>
+                    </>
+                  )}
+                </Box>
+              </Fade>
+            </Modal>
+          </div>
+        </div>
+      }
+
+      // ======================= Render App =======================
+      ReactDOM.createRoot(document.getElementById('root')).render(<UserProfile />);
   </script>
 </body>
 </html>
