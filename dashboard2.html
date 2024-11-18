@@ -1,91 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentation App with MUI</title>
-  <!-- Import MUI CSS and JavaScript -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mui/material@5.0.0-alpha.29/dist/material.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.0.0-alpha.29/dist/material.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation SPA</title>
+  <!-- Import React, ReactDOM, Material-UI -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/material/umd/material-ui.development.js" crossorigin></script>
+  <style>
+    body {
+      font-family: Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="app"></div>
+  <script type="text/javascript">
+    const { useState } = React;
+    const { createRoot } = ReactDOM;
+    const { Button, Container, AppBar, Toolbar, Typography, Tabs, Tab, Box } = MaterialUI;
 
-  <script type="text/babel">
-    const {
-      AppBar,
-      Toolbar,
-      Typography,
-      CssBaseline,
-      Drawer,
-      List,
-      ListItem,
-      ListItemText,
-      Box,
-      Divider,
-      Button,
-    } = MaterialUI;
-
-    const pages = {
-      Home: "Welcome to the Home Page. This is a simple documentation-style SPA.",
-      GettingStarted: "To get started, please follow these simple steps...",
-      Components: "Here, you will learn about all the reusable components...",
-      API: "API reference and details go here..."
-    };
-
-    function App() {
-      const [selectedPage, setSelectedPage] = React.useState("Home");
+    function TabPanel(props) {
+      const { children, value, index, ...other } = props;
 
       return (
-        <Box sx={{ display: 'flex' }}>
-          <CssBaseline />
-          <AppBar position="fixed" sx={{ zIndex: 1201 }}>
-            <Toolbar>
-              <Typography variant="h6" noWrap>
-                MUI Documentation SPA
-              </Typography>
-            </Toolbar>
-          </AppBar>
-
-          <Drawer
-            variant="permanent"
-            sx={{
-              width: 240,
-              flexShrink: 0,
-              [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
-            }}
-          >
-            <Toolbar />
-            <Divider />
-            <List>
-              {Object.keys(pages).map((text) => (
-                <ListItem button key={text} onClick={() => setSelectedPage(text)}>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </Drawer>
-
-          <Box
-            component="main"
-            sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
-          >
-            <Toolbar />
-            <Typography variant="h4" gutterBottom>
-              {selectedPage}
-            </Typography>
-            <Typography>
-              {pages[selectedPage]}
-            </Typography>
-          </Box>
-        </Box>
+        <div
+          role="tabpanel"
+          hidden={value !== index}
+          id={`tabpanel-${index}`}
+          aria-labelledby={`tab-${index}`}
+          {...other}
+        >
+          {value === index && (
+            <Box sx={{ p: 3 }}>
+              <Typography>{children}</Typography>
+            </Box>
+          )}
+        </div>
       );
     }
 
-    ReactDOM.render(<App />, document.getElementById("root"));
+    function DocumentationApp() {
+      const [tabIndex, setTabIndex] = useState(0);
+
+      const handleChange = (event, newValue) => {
+        setTabIndex(newValue);
+      };
+
+      return (
+        <Container maxWidth="md">
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Documentation SPA
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <Box sx={{ width: '100%', marginTop: 2 }}>
+            <Tabs value={tabIndex} onChange={handleChange} aria-label="documentation tabs">
+              <Tab label="Introduction" id="tab-0" aria-controls="tabpanel-0" />
+              <Tab label="Getting Started" id="tab-1" aria-controls="tabpanel-1" />
+              <Tab label="API Reference" id="tab-2" aria-controls="tabpanel-2" />
+            </Tabs>
+            <TabPanel value={tabIndex} index={0}>
+              <Typography variant="h4" gutterBottom>Introduction</Typography>
+              <Typography variant="body1">
+                Welcome to our documentation! This SPA demonstrates how to build documentation using React and Material-UI.
+              </Typography>
+            </TabPanel>
+            <TabPanel value={tabIndex} index={1}>
+              <Typography variant="h4" gutterBottom>Getting Started</Typography>
+              <Typography variant="body1">
+                To get started, first install the necessary packages and follow the setup instructions provided in the documentation.
+              </Typography>
+            </TabPanel>
+            <TabPanel value={tabIndex} index={2}>
+              <Typography variant="h4" gutterBottom>API Reference</Typography>
+              <Typography variant="body1">
+                Here is the API reference for all the available components and hooks in our project.
+              </Typography>
+            </TabPanel>
+          </Box>
+        </Container>
+      );
+    }
+
+    const root = createRoot(document.getElementById('app'));
+    root.render(<DocumentationApp />);
   </script>
 </body>
 </html>
