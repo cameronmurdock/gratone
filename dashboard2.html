@@ -2,448 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>User Profile - ONE Local</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <!-- Material UI CSS (optional, as we're using JS) -->
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #f5f5f5;
-      color: #333333;
-      height: 100%;
-    }
-    /* Scrollbar Styling */
-    body {
-      scrollbar-color: #a8d5ba #ffffff;
-      scrollbar-width: thin;
-    }
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-track {
-      background: #ffffff;
-    }
-    body::-webkit-scrollbar-thumb {
-      background-color: #a8d5ba;
-      border-radius: 4px;
-    }
-  </style>
+  <title>Documentation App with MUI</title>
+  <!-- Import MUI CSS and JavaScript -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mui/material@5.0.0-alpha.29/dist/material.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.0.0-alpha.29/dist/material.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
 </head>
 <body>
   <div id="root"></div>
 
-  <!-- React, ReactDOM, Emotion, Material UI, and Babel Scripts -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <!-- Emotion (must be loaded before MUI) -->
-  <script src="https://unpkg.com/@emotion/react@11.11.1/dist/emotion-react.umd.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@emotion/styled@11.11.0/dist/emotion-styled.umd.min.js" crossorigin></script>
-  <!-- Material UI -->
-  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
-  <!-- Material UI Icons -->
-  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
-  <!-- Babel for JSX -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-
   <script type="text/babel">
     const {
-      ThemeProvider,
-      createTheme,
-      CssBaseline,
-      Box,
-      Grid,
+      AppBar,
+      Toolbar,
       Typography,
-      Button,
-      IconButton,
-      Avatar,
-      Modal,
-      Fade,
-      Backdrop,
-      Card,
-      CardContent,
-      Chip,
+      CssBaseline,
+      Drawer,
       List,
       ListItem,
       ListItemText,
+      Box,
+      Divider,
+      Button,
     } = MaterialUI;
 
-    const { default: styled } = window['@emotion/styled'];
-    const { default: MuiIcons } = window['MaterialUIIcons'];
+    const pages = {
+      Home: "Welcome to the Home Page. This is a simple documentation-style SPA.",
+      GettingStarted: "To get started, please follow these simple steps...",
+      Components: "Here, you will learn about all the reusable components...",
+      API: "API reference and details go here..."
+    };
 
-    // Custom Theme matching ONE Local's muted earthtone palette
-    const theme = createTheme({
-      palette: {
-        mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        background: {
-          default: '#f5f5f5',
-          paper: '#ffffff',
-        },
-        text: {
-          primary: '#333333',
-          secondary: '#555555',
-        },
-      },
-      typography: {
-        fontFamily: 'Montserrat, sans-serif',
-        h1: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-        },
-        h2: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-        },
-        h3: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-        },
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-            },
-            containedPrimary: {
-              backgroundColor: '#6d4c41',
-              '&:hover': {
-                backgroundColor: '#5a4033',
-              },
-            },
-            containedSecondary: {
-              backgroundColor: '#8d6e63',
-              '&:hover': {
-                backgroundColor: '#7a5e55',
-              },
-            },
-            outlinedPrimary: {
-              borderColor: '#6d4c41',
-              color: '#6d4c41',
-              '&:hover': {
-                backgroundColor: 'rgba(109, 76, 65, 0.1)',
-              },
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-              },
-            },
-          },
-        },
-      },
-    });
-
-    function UserProfile() {
-      // User Data
-      const user = {
-        name: "Cameron Ely-Murdock",
-        role: "Community Leader",
-        bio: "Connecting people and resources for a stronger local community.",
-        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-        location: "Boulder, CO",
-        contact: "cameron@example.com",
-        badges: ["Community Leader", "Event Organizer", "Volunteer", "Gardener"],
-        posts: [
-          { id: 1, content: "Excited for the upcoming community garden project!" },
-          { id: 2, content: "Looking for volunteers for our local park cleanup." },
-        ],
-        services: [
-          { id: 1, name: "Yoga Classes", description: "Weekly yoga sessions at the park." },
-          { id: 2, name: "Mediation Services", description: "Conflict resolution for community disputes." },
-        ],
-        connections: ["Emily Clark", "Tom Baker", "Sarah Johnson"],
-        activities: [
-          { id: 1, activity: "Hosted a community meetup at Central Park." },
-          { id: 2, activity: "Volunteered at the local food bank." },
-        ],
-      };
-
-      // State for Active Tab
-      const [activeTab, setActiveTab] = React.useState("Overview");
-
-      // State for Modals
-      const [openModal, setOpenModal] = React.useState(false);
-      const [modalContent, setModalContent] = React.useState({});
-
-      const handleOpenModal = (type, data) => {
-        setModalContent({ type, data });
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setModalContent({});
-      };
-
-      const renderContent = () => {
-        switch (activeTab) {
-          case "Overview":
-            return (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Badges
-                </Typography>
-                <Box display="flex" flexWrap="wrap">
-                  {user.badges.map((badge, index) => (
-                    <Chip
-                      key={index}
-                      label={badge}
-                      sx={{
-                        backgroundColor: '#ffeb3b', // Soft Yellow
-                        color: '#333333',
-                        margin: '0.3rem',
-                        fontWeight: 'bold',
-                      }}
-                    />
-                  ))}
-                </Box>
-              </Box>
-            );
-          case "Posts":
-            return (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Recent Posts
-                </Typography>
-                {user.posts.map(post => (
-                  <Card
-                    key={post.id}
-                    sx={{ marginBottom: '1rem', cursor: 'pointer' }}
-                    onClick={() => handleOpenModal('post', post)}
-                    aria-labelledby={`post-${post.id}`}
-                  >
-                    <CardContent>
-                      <Typography variant="body1">{post.content}</Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            );
-          case "Services":
-            return (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Services
-                </Typography>
-                {user.services.map(service => (
-                  <Card
-                    key={service.id}
-                    sx={{ marginBottom: '1rem', cursor: 'pointer' }}
-                    onClick={() => handleOpenModal('service', service)}
-                    aria-labelledby={`service-${service.id}`}
-                  >
-                    <CardContent>
-                      <Typography variant="h6">{service.name}</Typography>
-                      <Typography variant="body2" color="text.secondary">{service.description}</Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            );
-          case "Connections":
-            return (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Connections
-                </Typography>
-                <List>
-                  {user.connections.map((conn, index) => (
-                    <ListItem key={index}>
-                      <ListItemText primary={conn} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            );
-          case "Activities":
-            return (
-              <Box>
-                <Typography variant="h5" gutterBottom>
-                  Recent Activities
-                </Typography>
-                {user.activities.map(activity => (
-                  <Card
-                    key={activity.id}
-                    sx={{ marginBottom: '1rem', cursor: 'pointer' }}
-                    onClick={() => handleOpenModal('activity', activity)}
-                    aria-labelledby={`activity-${activity.id}`}
-                  >
-                    <CardContent>
-                      <Typography variant="body1">{activity.activity}</Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            );
-          default:
-            return null;
-        }
-      };
+    function App() {
+      const [selectedPage, setSelectedPage] = React.useState("Home");
 
       return (
-        <ThemeProvider theme={theme}>
+        <Box sx={{ display: 'flex' }}>
           <CssBaseline />
-          <Grid container className="profile-container">
-            {/* Sidebar */}
-            <Grid item xs={12} md={4} sx={{
-              padding: '2rem',
-              backgroundColor: '#ffffff',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              borderRight: { md: '2px solid #e0e0e0' },
-              height: { md: '100vh' },
-              overflowY: 'auto',
-            }}>
-              <Avatar src={user.avatar} alt={user.name} sx={{ width: 120, height: 120, border: '4px solid #6d4c41' }} />
-              <Box className="user-info" sx={{ textAlign: 'center', marginTop: '1rem' }}>
-                <Typography variant="h4" sx={{ fontFamily: 'Playfair Display, serif', color: '#6d4c41' }}>
-                  {user.name}
-                </Typography>
-                <Typography variant="h6" sx={{ color: '#8d6e63' }}>
-                  {user.role}
-                </Typography>
-                <Typography variant="body1" sx={{ color: '#555555', marginTop: '0.5rem' }}>
-                  {user.bio}
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#555555', marginTop: '0.3rem' }}>
-                  {user.location}
-                </Typography>
-                <Typography variant="body2" sx={{ color: '#555555', marginTop: '0.3rem' }}>
-                  {user.contact}
-                </Typography>
-              </Box>
-            </Grid>
+          <AppBar position="fixed" sx={{ zIndex: 1201 }}>
+            <Toolbar>
+              <Typography variant="h6" noWrap>
+                MUI Documentation SPA
+              </Typography>
+            </Toolbar>
+          </AppBar>
 
-            {/* Main Content */}
-            <Grid item xs={12} md={8} sx={{ padding: '2rem', overflowY: 'auto' }}>
-              {/* Tabs */}
-              <Box display="flex" flexWrap="wrap" sx={{ backgroundColor: '#ffffff', borderBottom: '2px solid #e0e0e0', padding: '1rem' }}>
-                {["Overview", "Posts", "Services", "Connections", "Activities"].map(tab => (
-                  <Box
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    sx={{
-                      cursor: 'pointer',
-                      padding: '0.5rem 1rem',
-                      marginRight: '1rem',
-                      borderBottom: activeTab === tab ? '2px solid #6d4c41' : '2px solid transparent',
-                      color: activeTab === tab ? '#6d4c41' : '#6d4c41',
-                      transition: 'border-bottom 0.3s',
-                    }}
-                  >
-                    <Typography variant="subtitle1" fontWeight={activeTab === tab ? 'bold' : 'regular'}>
-                      {tab}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-
-              {/* Content */}
-              <Box mt={4}>
-                {renderContent()}
-              </Box>
-            </Grid>
-          </Grid>
-
-          {/* Modal */}
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
+          <Drawer
+            variant="permanent"
+            sx={{
+              width: 240,
+              flexShrink: 0,
+              [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' },
             }}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
           >
-            <Fade in={openModal}>
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: { xs: '90%', sm: 400 },
-                  bgcolor: 'background.paper',
-                  boxShadow: 24,
-                  p: 4,
-                  borderRadius: '10px',
-                }}
-              >
-                {modalContent.type === 'post' && (
-                  <>
-                    <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-                      Post Details
-                    </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
-                      {modalContent.data.content}
-                    </Typography>
-                    <Box textAlign="right" mt={2}>
-                      <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                        Close
-                      </Button>
-                    </Box>
-                  </>
-                )}
-                {modalContent.type === 'service' && (
-                  <>
-                    <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-                      {modalContent.data.name}
-                    </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
-                      {modalContent.data.description}
-                    </Typography>
-                    <Box textAlign="right" mt={2}>
-                      <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                        Close
-                      </Button>
-                    </Box>
-                  </>
-                )}
-                {modalContent.type === 'activity' && (
-                  <>
-                    <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
-                      Activity Details
-                    </Typography>
-                    <Typography id="modal-description" sx={{ mt: 2 }}>
-                      {modalContent.data.activity}
-                    </Typography>
-                    <Box textAlign="right" mt={2}>
-                      <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                        Close
-                      </Button>
-                    </Box>
-                  </>
-                )}
-              </Box>
-            </Fade>
-          </Modal>
-        }
+            <Toolbar />
+            <Divider />
+            <List>
+              {Object.keys(pages).map((text) => (
+                <ListItem button key={text} onClick={() => setSelectedPage(text)}>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+            </List>
+          </Drawer>
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<UserProfile />);
-      </script>
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+          >
+            <Toolbar />
+            <Typography variant="h4" gutterBottom>
+              {selectedPage}
+            </Typography>
+            <Typography>
+              {pages[selectedPage]}
+            </Typography>
+          </Box>
+        </Box>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
 </body>
 </html>
