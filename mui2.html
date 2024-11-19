@@ -349,30 +349,35 @@
           name: 'Yellow Barn',
           logo: 'https://via.placeholder.com/150x100?text=Yellow+Barn',
           url: 'https://yellowbarn.org',
+          description: 'Yellow Barn is a community center fostering art and creativity.',
         },
         {
           id: 'aff2',
           name: 'Mystery Works',
           logo: 'https://via.placeholder.com/150x100?text=Mystery+Works',
           url: 'https://mysteryworks.com',
+          description: 'Mystery Works engages the community through interactive experiences.',
         },
         {
           id: 'aff3',
           name: 'Boulder Housing Coalition',
           logo: 'https://via.placeholder.com/150x100?text=Boulder+Housing+Coalition',
           url: 'https://boulderhousing.org',
+          description: 'Providing affordable housing solutions for the Boulder community.',
         },
         {
           id: 'aff4',
           name: 'Community Gardens',
           logo: 'https://via.placeholder.com/150x100?text=Community+Gardens',
           url: 'https://communitygardens.org',
+          description: 'Promoting sustainable agriculture and community bonding through gardening.',
         },
         {
           id: 'aff5',
           name: 'Local Art Collective',
           logo: 'https://via.placeholder.com/150x100?text=Local+Art+Collective',
           url: 'https://localartcollective.com',
+          description: 'A collective of local artists sharing and collaborating on creative projects.',
         },
       ],
     };
@@ -562,6 +567,7 @@
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
+            <Toolbar /> {/* This will push the content below the AppBar */}
             {renderPage()}
             <Footer setCurrentPage={setCurrentPage} />
           </Box>
@@ -587,7 +593,11 @@
       return (
         <AppBar position="fixed" sx={{ zIndex: 1300 }}>
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('home')}>
+            <Typography
+              variant="h4"
+              sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => setCurrentPage('home')}
+            >
               {organization.name}
             </Typography>
             {isMobile ? (
@@ -673,7 +683,7 @@
     // ======================= Landing Page =======================
     function LandingPage({ setCurrentPage }) {
       return (
-        <Container maxWidth="lg" sx={{ mt: 16 }}>
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
           <HeroSection setCurrentPage={setCurrentPage} />
           <LogoCollection />
           <FeaturesSection />
@@ -1280,6 +1290,21 @@
         height: '100px',
         margin: '0 20px',
         opacity: 0.8,
+        cursor: 'pointer',
+      };
+
+      // Modal state
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedOrganization, setSelectedOrganization] = React.useState(null);
+
+      const handleOpenModal = (org) => {
+        setSelectedOrganization(org);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setSelectedOrganization(null);
       };
 
       return (
@@ -1295,16 +1320,49 @@
           <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
             {organization.affiliatedOrganizations.map((aff) => (
               <Grid item key={aff.id}>
-                <a href={aff.url} target="_blank" rel="noopener noreferrer">
-                  <img
-                    src={aff.logo}
-                    alt={aff.name}
-                    style={logoStyle}
-                  />
-                </a>
+                <img
+                  src={aff.logo}
+                  alt={aff.name}
+                  style={logoStyle}
+                  onClick={() => handleOpenModal(aff)}
+                />
               </Grid>
             ))}
           </Grid>
+
+          {/* Organization Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="organization-modal-title"
+            aria-describedby="organization-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedOrganization && (
+                  <>
+                    <Typography id="organization-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedOrganization.name}
+                    </Typography>
+                    <Typography id="organization-modal-description" sx={{ mb: 4 }}>
+                      {selectedOrganization.description || 'No description available.'}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={() => window.open(selectedOrganization.url, '_blank')}>
+                      Visit Website
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Box>
       );
     }
