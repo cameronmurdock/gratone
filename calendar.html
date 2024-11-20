@@ -1,179 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>User Calendar</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- FullCalendar CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css" rel="stylesheet" integrity="sha512-+jYs6+zV6pKkRD8TEc4pSN4KrxqXW7AkQaE3kKk5Wf45Oe0O+Gu1mdbl3LcZJ/2ZIZGj6QZTwlV1JhVKB1mXQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- Material UI CSS for consistent styling -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-  <!-- Custom Styles -->
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    #calendar {
-      max-width: 900px;
-      margin: 50px auto;
-    }
-    .export-button {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 20px;
-      background-color: #1976d2;
-      color: #ffffff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .export-button:hover {
-      background-color: #1565c0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>User Calendar</title>
+    <!-- Meta Tag for Responsive Design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 10px;
+        }
+        /* Custom event styling */
+        .fc-event {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <div id="calendar"></div>
 
-  <div id="calendar"></div>
-  <button class="export-button" id="export-button">Export to Google Calendar</button>
+    <!-- User Data Script -->
+    <script>
+        // User Data Object
+        const user = {
+            id: "1",
+            name: "Alice Johnson",
+            email: "alice.johnson@example.com",
+            events: [
+                {
+                    id: "event1",
+                    title: "Community Meeting",
+                    start: "2024-11-22T10:00:00",
+                    end: "2024-11-22T11:30:00",
+                    description: "A meeting to discuss upcoming community projects.",
+                    location: "Community Center",
+                    url: ""
+                },
+                {
+                    id: "event2",
+                    title: "Urban Gardening Workshop",
+                    start: "2024-11-25T14:00:00",
+                    end: "2024-11-25T16:00:00",
+                    description: "Learn about sustainable gardening in urban spaces.",
+                    location: "City Park",
+                    url: ""
+                },
+                {
+                    id: "event3",
+                    title: "Festival Setup",
+                    start: "2024-11-28T09:00:00",
+                    end: "2024-11-28T12:00:00",
+                    description: "Preparing for the annual community festival.",
+                    location: "Main Street",
+                    url: ""
+                }
+            ]
+        };
+    </script>
 
-  <!-- FullCalendar JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js" integrity="sha512-mqmX6xnCqiv3kM+RPw4hd07c0jWWFZ7p0Qy1lNgrZpOsoAxPqY+oOJ1GrqTIYQaE4+Z5U6dFlzSB3Gz0tfxvFw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- FullCalendar DayGrid Plugin -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/locales-all.min.js" integrity="sha512-PUDcfJULmaozm0CUBY5RHhEObxvdc3VYYSgXb14ORWqKMvAbLhNwD6KIF9Ze7ozzQJBhYhzn1wouPFKNoAzapw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- Moment.js for date handling -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CNNqGMCwB5wwR6M/1sjKUnpjA6s+CClcVArqFGpduQ9jNEKwoEw9dk8xnTmvsYelQuVevmOz0uH1Z3q9Pa31Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- Script -->
-  <script>
-    // User object with events
-    const user = {
-      id: '1',
-      name: 'Alice Johnson',
-      email: 'alice.johnson@example.com',
-      events: [
-        {
-          id: 'event1',
-          title: 'Community Meeting',
-          start: '2024-11-22T10:00:00',
-          end: '2024-11-22T11:30:00',
-          description: 'A meeting to discuss upcoming community projects.',
-          location: 'Community Center, Main Hall',
-        },
-        {
-          id: 'event2',
-          title: 'Urban Gardening Workshop',
-          start: '2024-11-25T14:00:00',
-          end: '2024-11-25T16:00:00',
-          description: 'Learn about sustainable gardening in urban spaces.',
-          location: 'Green Park',
-        },
-        {
-          id: 'event3',
-          title: 'Festival Setup',
-          start: '2024-11-28T09:00:00',
-          end: '2024-11-28T12:00:00',
-          description: 'Preparing for the annual community festival.',
-          location: 'Town Square',
-        },
-      ],
-    };
+    <!-- FullCalendar and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+    <!-- Date Formatting Library (optional, for better date handling) -->
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.0/build/global/luxon.min.js"></script>
 
-    // Initialize FullCalendar
-    document.addEventListener('DOMContentLoaded', function() {
-      const calendarEl = document.getElementById('calendar');
+    <!-- Main Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
 
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        },
-        locale: 'en',
-        navLinks: true, // can click day/week names to navigate views
-        editable: false,
-        selectable: true,
-        eventClick: function(info) {
-          alert(`Event: ${info.event.title}\nDescription: ${info.event.extendedProps.description}\nLocation: ${info.event.extendedProps.location}`);
-        },
-        dateClick: function(info) {
-          alert(`Clicked on date: ${info.dateStr}`);
-        },
-        events: user.events.map(event => ({
-          id: event.id,
-          title: event.title,
-          start: event.start,
-          end: event.end,
-          description: event.description,
-          location: event.location,
-        })),
-        eventColor: '#6d4c41', // Custom event color
-      });
+            // Initialize the calendar
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                selectable: true,
+                editable: true,
+                eventClick: function (info) {
+                    // Display event details
+                    const eventObj = info.event.extendedProps;
+                    alert(
+                        `Title: ${info.event.title}\n` +
+                        `Start: ${info.event.start.toLocaleString()}\n` +
+                        `End: ${info.event.end.toLocaleString()}\n` +
+                        `Description: ${eventObj.description}\n` +
+                        `Location: ${eventObj.location}`
+                    );
+                },
+                select: function (info) {
+                    // Create a new event
+                    const title = prompt('Enter event title:');
+                    if (title) {
+                        const newEvent = {
+                            id: `event${Date.now()}`,
+                            title: title,
+                            start: info.startStr,
+                            end: info.endStr,
+                            description: '',
+                            location: '',
+                            url: ''
+                        };
+                        calendar.addEvent(newEvent);
+                        user.events.push(newEvent);
+                    }
+                    calendar.unselect();
+                },
+                events: user.events,
+                eventDataTransform: function (eventData) {
+                    // Transform event data to match FullCalendar's schema
+                    return {
+                        id: eventData.id,
+                        title: eventData.title,
+                        start: eventData.start,
+                        end: eventData.end,
+                        description: eventData.description,
+                        location: eventData.location,
+                        url: eventData.url
+                    };
+                },
+                eventDidMount: function (info) {
+                    // Tooltip or other customizations can be added here
+                }
+            });
 
-      calendar.render();
+            calendar.render();
 
-      // Export to Google Calendar
-      const exportButton = document.getElementById('export-button');
-      exportButton.addEventListener('click', function() {
-        const icsContent = generateICS(user.events);
-        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const filename = 'events.ics';
-
-        // Create a temporary link to download the ICS file
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Open Google Calendar import URL
-        const googleCalendarUrl = 'https://calendar.google.com/calendar/u/0/r/settings/import';
-        window.open(googleCalendarUrl, '_blank');
-      });
-    });
-
-    // Function to generate ICS content
-    function generateICS(events) {
-      let icsData = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Your Organization//Your Product//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-`;
-
-      events.forEach(event => {
-        icsData += `BEGIN:VEVENT
+            // Function to export calendar to iCal format
+            function exportToICal() {
+                let icsEvents = user.events.map(event => {
+                    return `BEGIN:VEVENT
 UID:${event.id}
-SUMMARY:${escapeICS(event.title)}
-DESCRIPTION:${escapeICS(event.description)}
-DTSTART:${formatDateICS(event.start)}
-DTEND:${formatDateICS(event.end)}
-LOCATION:${escapeICS(event.location)}
-END:VEVENT
-`;
-      });
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+LOCATION:${event.location}
+DTSTART:${formatDateForICal(event.start)}
+DTEND:${formatDateForICal(event.end)}
+END:VEVENT`;
+                }).join('\n');
 
-      icsData += 'END:VCALENDAR';
+                let icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//YourAppName//EN
+${icsEvents}
+END:VCALENDAR`;
 
-      return icsData;
-    }
+                // Create a blob and download the iCal file
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${user.name.replace(' ', '_')}_Calendar.ics`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
 
-    // Helper functions
-    function formatDateICS(dateStr) {
-      const date = new Date(dateStr);
-      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-    }
+            // Helper function to format date for iCal
+            function formatDateForICal(dateStr) {
+                const date = new Date(dateStr);
+                const pad = (num) => String(num).padStart(2, '0');
+                const YYYY = date.getUTCFullYear();
+                const MM = pad(date.getUTCMonth() + 1);
+                const DD = pad(date.getUTCDate());
+                const HH = pad(date.getUTCHours());
+                const mm = pad(date.getUTCMinutes());
+                const ss = pad(date.getUTCSeconds());
+                return `${YYYY}${MM}${DD}T${HH}${mm}${ss}Z`;
+            }
 
-    function escapeICS(text) {
-      return text.replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
-    }
-  </script>
+            // Add Export to Google Calendar Button
+            const exportBtn = document.createElement('button');
+            exportBtn.textContent = 'Export to Google Calendar';
+            exportBtn.style.display = 'block';
+            exportBtn.style.margin = '20px auto';
+            exportBtn.style.padding = '10px 20px';
+            exportBtn.style.fontSize = '16px';
+            exportBtn.onclick = function () {
+                const url = generateGoogleCalendarURL(user.events);
+                window.open(url, '_blank');
+            };
+            document.body.insertBefore(exportBtn, calendarEl);
+
+            // Function to generate Google Calendar URL for importing events
+            function generateGoogleCalendarURL(events) {
+                // Create a base URL
+                let url = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
+                if (events.length > 0) {
+                    const event = events[0]; // For simplicity, we will export only the first event
+                    const start = new Date(event.start).toISOString().replace(/-|:|\.\d\d\d/g, '');
+                    const end = new Date(event.end).toISOString().replace(/-|:|\.\d\d\d/g, '');
+                    url += `&text=${encodeURIComponent(event.title)}`;
+                    url += `&dates=${start}/${end}`;
+                    url += `&details=${encodeURIComponent(event.description)}`;
+                    url += `&location=${encodeURIComponent(event.location)}`;
+                }
+                return url;
+            }
+        });
+    </script>
 </body>
 </html>
