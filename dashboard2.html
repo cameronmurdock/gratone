@@ -1,240 +1,632 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentation</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js"></script>
-    
-    <!-- React and ReactDOM -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    
-    <!-- Babel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
-    
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .prose {
-            max-width: 65ch;
-        }
-        
-        .prose p {
-            margin-bottom: 1.5em;
-            line-height: 1.75;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+    }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
+      padding: 20px;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+  </style>
 </head>
-<body>
-    <div id="root"></div>
+<body style="margin: 0;">
+  <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-        const { createRoot } = ReactDOM;
-        const { Search, Menu, Sun, Moon, ChevronRight, ChevronDown } = lucide;
+  <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
-        // Documentation data
-        const sections = {
-            'getting-started': {
-                title: 'Getting Started',
-                pages: {
-                    'introduction': {
-                        title: 'Introduction',
-                        content: 'Welcome to our documentation. This guide will help you get started with our platform. We provide comprehensive documentation to help you understand and make the most of our features.'
-                    },
-                    'quick-start': {
-                        title: 'Quick Start',
-                        content: 'Follow these steps to quickly get up and running with our platform. This guide assumes you have basic familiarity with web development and modern JavaScript frameworks.'
-                    },
-                    'installation': {
-                        title: 'Installation',
-                        content: 'Our platform can be installed via npm, yarn, or directly from CDN. Choose the installation method that best suits your project needs and development environment.'
-                    }
-                }
+  <script type="text/babel">
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Button,
+      IconButton,
+      Container,
+      Box,
+      Grid,
+      Card,
+      CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Tabs,
+      Tab,
+      InputBase,
+      Paper,
+      ListItemAvatar,
+      ListItemIcon,
+      Badge,
+      Chip,
+      Tooltip,
+      Drawer,
+    } = MaterialUI;
+
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
             },
-            'core-concepts': {
-                title: 'Core Concepts',
-                pages: {
-                    'architecture': {
-                        title: 'Architecture',
-                        content: 'Our platform follows a modular architecture designed for scalability and maintainability. Understanding these core concepts will help you build better applications.'
-                    },
-                    'configuration': {
-                        title: 'Configuration',
-                        content: 'Learn how to configure the platform for your specific needs. We provide extensive configuration options to customize behavior, appearance, and functionality.'
-                    },
-                    'plugins': {
-                        title: 'Plugins',
-                        content: 'Extend functionality using our plugin system. Create custom plugins to add new features or integrate with other services and platforms.'
-                    }
-                }
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#BF820A',
+              },
             },
-            'advanced': {
-                title: 'Advanced',
-                pages: {
-                    'custom-themes': {
-                        title: 'Custom Themes',
-                        content: 'Create and customize themes to match your brand identity. Our theming system provides powerful options for visual customization.'
-                    },
-                    'api-reference': {
-                        title: 'API Reference',
-                        content: 'Complete API documentation with examples. Learn about all available methods, properties, and events to make the most of our platform.'
-                    },
-                    'migration': {
-                        title: 'Migration Guide',
-                        content: 'Follow our migration guide when upgrading between major versions. We provide detailed steps and notes about breaking changes.'
-                    }
-                }
-            }
-        };
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
 
-        function Documentation() {
-            const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-            const [isDarkMode, setIsDarkMode] = useState(false);
-            const [searchTerm, setSearchTerm] = useState('');
-            const [activeGroup, setActiveGroup] = useState('getting-started');
-            const [activePage, setActivePage] = useState('introduction');
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('dashboard');
+      const [currentChapter, setCurrentChapter] = React.useState('ONE Boulder');
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-            useEffect(() => {
-                const handleResize = () => {
-                    setIsSidebarOpen(window.innerWidth > 768);
-                };
-                window.addEventListener('resize', handleResize);
-                handleResize();
-                return () => window.removeEventListener('resize', handleResize);
-            }, []);
+      const chapters = {
+        'ONE Boulder': {
+          name: 'ONE Boulder',
+          orgs: [],
+          groups: [],
+          members: [],
+        },
+        'ONE Austin': {
+          name: 'ONE Austin',
+          orgs: [],
+          groups: [],
+          members: [],
+        },
+        'ONE Hawaii': {
+          name: 'ONE Hawaii',
+          orgs: [],
+          groups: [],
+          members: [],
+        },
+      };
 
-            useEffect(() => {
-                document.documentElement.classList.toggle('dark', isDarkMode);
-            }, [isDarkMode]);
-
-            const filterContent = (pages) => {
-                if (!searchTerm) return pages;
-                return Object.entries(pages).reduce((filtered, [key, page]) => {
-                    if (
-                        page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        page.content.toLowerCase().includes(searchTerm.toLowerCase())
-                    ) {
-                        filtered[key] = page;
-                    }
-                    return filtered;
-                }, {});
-            };
-
-            return (
-                <div className="min-h-screen bg-white dark:bg-slate-900">
-                    {/* Header */}
-                    <header className="fixed top-0 left-0 right-0 h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-50">
-                        <div className="h-full flex items-center px-6">
-                            <button
-                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md"
-                            >
-                                <Menu className="h-5 w-5 text-slate-900 dark:text-slate-100" />
-                            </button>
-                            
-                            <a href="#" className="text-xl font-semibold ml-4 text-slate-900 dark:text-slate-100">
-                                Documentation
-                            </a>
-                            
-                            <div className="relative flex-1 max-w-md ml-4">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                                <input
-                                    type="text"
-                                    placeholder="Search documentation..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full py-2 pl-10 pr-4 bg-slate-100 dark:bg-slate-800 rounded-md text-sm text-slate-900 dark:text-slate-100"
-                                />
-                            </div>
-                            
-                            <button
-                                onClick={() => setIsDarkMode(!isDarkMode)}
-                                className="p-2 ml-4 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md"
-                            >
-                                {isDarkMode ? (
-                                    <Sun className="h-5 w-5 text-slate-900 dark:text-slate-100" />
-                                ) : (
-                                    <Moon className="h-5 w-5 text-slate-900 dark:text-slate-100" />
-                                )}
-                            </button>
-                        </div>
-                    </header>
-
-                    {/* Sidebar */}
-                    <aside className={`fixed top-16 bottom-0 w-64 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 overflow-y-auto transition-transform duration-300 ${
-                        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                    }`}>
-                        {Object.entries(sections).map(([groupId, group]) => (
-                            <div key={groupId} className="py-2">
-                                <button
-                                    onClick={() => setActiveGroup(groupId)}
-                                    className="w-full px-4 py-2 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700"
-                                >
-                                    <span className="font-semibold text-slate-900 dark:text-slate-100">{group.title}</span>
-                                    {activeGroup === groupId ? (
-                                        <ChevronDown className="h-4 w-4 text-slate-500" />
-                                    ) : (
-                                        <ChevronRight className="h-4 w-4 text-slate-500" />
-                                    )}
-                                </button>
-                                
-                                {activeGroup === groupId && (
-                                    <div>
-                                        {Object.entries(filterContent(group.pages)).map(([pageId, page]) => (
-                                            <button
-                                                key={pageId}
-                                                onClick={() => {
-                                                    setActivePage(pageId);
-                                                    if (window.innerWidth <= 768) {
-                                                        setIsSidebarOpen(false);
-                                                    }
-                                                }}
-                                                className={`w-full px-6 py-2 text-left text-sm ${
-                                                    activePage === pageId
-                                                        ? 'bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-slate-100'
-                                                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
-                                                }`}
-                                            >
-                                                {page.title}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </aside>
-
-                    {/* Main Content */}
-                    <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
-                        <div className="max-w-4xl mx-auto px-6 pt-24 pb-16">
-                            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-8">
-                                <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">
-                                    {sections[activeGroup]?.pages[activePage]?.title}
-                                </h1>
-                                <div className="prose dark:prose-invert">
-                                    <p>{sections[activeGroup]?.pages[activePage]?.content}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                </div>
-            );
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'dashboard':
+            return <DashboardPage chapter={chapters[currentChapter]} />;
+          // Include other pages here...
+          default:
+            return <DashboardPage chapter={chapters[currentChapter]} />;
         }
+      };
 
-        const root = createRoot(document.getElementById('root'));
-        root.render(<Documentation />);
-    </script>
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <NavigationBar setCurrentPage={setCurrentPage} setCurrentChapter={setCurrentChapter} isMobile={isMobile} />
+            {renderPage()}
+          </Box>
+        </ThemeProvider>
+      );
+    }
+
+    function NavigationBar({ setCurrentPage, setCurrentChapter, isMobile }) {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+
+      const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
+      };
+
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setCurrentPage('dashboard')}>
+              ONE Local
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')} aria-label="menu">
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  <MenuItem onClick={() => { setCurrentPage('dashboard'); handleMenuClose(); }}>Dashboard</MenuItem>
+                  <MenuItem onClick={() => { setCurrentChapter('ONE Boulder'); handleMenuClose(); }}>ONE Boulder</MenuItem>
+                  <MenuItem onClick={() => { setCurrentChapter('ONE Austin'); handleMenuClose(); }}>ONE Austin</MenuItem>
+                  <MenuItem onClick={() => { setCurrentChapter('ONE Hawaii'); handleMenuClose(); }}>ONE Hawaii</MenuItem>
+                  {/* Add other menu items here */}
+                </Menu>
+              </>
+            ) : (
+              <div className="desktopMenu">
+                <Button color="primary" onClick={() => setCurrentPage('dashboard')}>Dashboard</Button>
+                <Button color="primary" onClick={() => setCurrentChapter('ONE Boulder')}>ONE Boulder</Button>
+                <Button color="primary" onClick={() => setCurrentChapter('ONE Austin')}>ONE Austin</Button>
+                <Button color="primary" onClick={() => setCurrentChapter('ONE Hawaii')}>ONE Hawaii</Button>
+                {/* Add other buttons here */}
+              </div>
+            )}
+            {/* Add menus for other options if needed */}
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    function DashboardPage({ chapter }) {
+      const avatars = [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/65.jpg",
+        "https://randomuser.me/api/portraits/men/85.jpg",
+        "https://randomuser.me/api/portraits/women/25.jpg",
+        "https://randomuser.me/api/portraits/men/41.jpg",
+      ];
+
+      const allPosts = {
+        Events: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+        ],
+        Orgs: chapter.orgs,
+        Groups: chapter.groups,
+        Sharing: [
+          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
+        ],
+        Services: [
+          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
+          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+        ],
+      };
+
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
+      const [selectedPost, setSelectedPost] = React.useState(null);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
+
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
+
+      return (
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
+          <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  Dashboard
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <InputBase
+                  fullWidth
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  startAdornment={<Icon sx={{ mr: 1 }}>search</Icon>}
+                  sx={{ backgroundColor: '#f0f0f0', px: 2, borderRadius: '20px' }}
+                />
+              </Grid>
+              <Grid item>
+                <IconButton>
+                  <Badge badgeContent={4} color="secondary">
+                    <Icon>notifications</Icon>
+                  </Badge>
+                </IconButton>
+                <IconButton>
+                  <Avatar>
+                    <Icon>account_circle</Icon>
+                  </Avatar>
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Box sx={{ overflowX: 'auto', mb: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {avatars.map((src, index) => (
+                <Avatar key={index} src={src} />
+              ))}
+            </Box>
+          </Box>
+
+          <Tabs
+            value={activeTab}
+            onChange={(e, newValue) => setActiveTab(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2 }}
+          >
+            {Object.keys(allPosts).map((tab) => (
+              <Tab key={tab} label={tab} value={tab} />
+            ))}
+          </Tabs>
+
+          <Grid container spacing={2}>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Chats
+                  </Typography>
+                  <List>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Working Group" secondary="Last message..." />
+                    </ListItem>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Sales" secondary="New idea..." />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+            )}
+            <Grid item xs={12} md={isMobile ? 12 : 6}>
+              {filteredPosts.map(post => (
+                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item>
+                        <Avatar src={post.avatar} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {post.user}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {post.date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                      {post.content}
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
+                      <Chip icon={<Icon>comment</Icon>} label="Comment" />
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Grid>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Map
+                  </Typography>
+                  <Box sx={{ height: 200, backgroundColor: '#e0e0e0', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+                      Map Placeholder
+                    </Typography>
+                  </Box>
+                </Paper>
+              </Grid>
+            )}
+          </Grid>
+
+          {/* Post Details Modal */}
+          <Modal
+            open={Boolean(selectedPost)}
+            onClose={closeModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="post-modal-title"
+            aria-describedby="post-modal-description"
+          >
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Grid container spacing={2} sx={{ mb: 2 }}>
+                      <Grid item>
+                        <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="h6" component="h2">
+                          {selectedPost.user}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {selectedPost.date}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton onClick={closeModal}>
+                          <Icon>close</Icon>
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mb: 4 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={closeModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
