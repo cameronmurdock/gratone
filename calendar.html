@@ -2,140 +2,178 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Calendar</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script src="https://unpkg.com/moment/moment.js"></script>
-  <script src="https://unpkg.com/react-big-calendar/lib/umd/react-big-calendar.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/react-big-calendar/lib/css/react-big-calendar.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- FullCalendar CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css" rel="stylesheet" integrity="sha512-+jYs6+zV6pKkRD8TEc4pSN4KrxqXW7AkQaE3kKk5Wf45Oe0O+Gu1mdbl3LcZJ/2ZIZGj6QZTwlV1JhVKB1mXQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Material UI CSS for consistent styling -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+  <!-- Custom Styles -->
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
     }
-    #root {
-      margin: 20px;
+    #calendar {
+      max-width: 900px;
+      margin: 50px auto;
     }
-    .rbc-event {
-      background-color: #6d4c41 !important;
-      color: white;
+    .export-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #1976d2;
+      color: #ffffff;
+      border: none;
       border-radius: 5px;
-    }
-    .rbc-toolbar button {
-      background-color: #8d6e63 !important;
-      color: white;
-      border-radius: 5px;
-      padding: 5px 10px;
-    }
-    .export-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .export-link a {
-      color: #6d4c41;
+      cursor: pointer;
+      font-size: 16px;
       font-weight: bold;
-      text-decoration: none;
-      margin-right: 10px;
     }
-    .export-link a:hover {
-      text-decoration: underline;
+    .export-button:hover {
+      background-color: #1565c0;
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script type="text/babel">
-    const { Calendar, momentLocalizer } = ReactBigCalendar;
-    const localizer = momentLocalizer(moment);
+  <div id="calendar"></div>
+  <button class="export-button" id="export-button">Export to Google Calendar</button>
 
+  <!-- FullCalendar JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js" integrity="sha512-mqmX6xnCqiv3kM+RPw4hd07c0jWWFZ7p0Qy1lNgrZpOsoAxPqY+oOJ1GrqTIYQaE4+Z5U6dFlzSB3Gz0tfxvFw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- FullCalendar DayGrid Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/locales-all.min.js" integrity="sha512-PUDcfJULmaozm0CUBY5RHhEObxvdc3VYYSgXb14ORWqKMvAbLhNwD6KIF9Ze7ozzQJBhYhzn1wouPFKNoAzapw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Moment.js for date handling -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" integrity="sha512-CNNqGMCwB5wwR6M/1sjKUnpjA6s+CClcVArqFGpduQ9jNEKwoEw9dk8xnTmvsYelQuVevmOz0uH1Z3q9Pa31Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Script -->
+  <script>
+    // User object with events
     const user = {
-      id: "1",
-      name: "Alice Johnson",
+      id: '1',
+      name: 'Alice Johnson',
+      email: 'alice.johnson@example.com',
       events: [
         {
-          id: 1,
-          title: "Community Meeting",
-          start: new Date(2024, 10, 22, 10, 0), // November 22, 2024, 10:00 AM
-          end: new Date(2024, 10, 22, 11, 30), // November 22, 2024, 11:30 AM
-          description: "Discussing community projects and updates.",
-          location: "Community Hall",
+          id: 'event1',
+          title: 'Community Meeting',
+          start: '2024-11-22T10:00:00',
+          end: '2024-11-22T11:30:00',
+          description: 'A meeting to discuss upcoming community projects.',
+          location: 'Community Center, Main Hall',
         },
         {
-          id: 2,
-          title: "Urban Gardening Workshop",
-          start: new Date(2024, 10, 25, 14, 0), // November 25, 2024, 2:00 PM
-          end: new Date(2024, 10, 25, 16, 0), // November 25, 2024, 4:00 PM
-          description: "Learn sustainable urban gardening practices.",
-          location: "Local Park",
+          id: 'event2',
+          title: 'Urban Gardening Workshop',
+          start: '2024-11-25T14:00:00',
+          end: '2024-11-25T16:00:00',
+          description: 'Learn about sustainable gardening in urban spaces.',
+          location: 'Green Park',
         },
         {
-          id: 3,
-          title: "Festival Setup",
-          start: new Date(2024, 10, 28, 9, 0), // November 28, 2024, 9:00 AM
-          end: new Date(2024, 10, 28, 12, 0), // November 28, 2024, 12:00 PM
-          description: "Preparing for the annual festival.",
-          location: "Main Square",
+          id: 'event3',
+          title: 'Festival Setup',
+          start: '2024-11-28T09:00:00',
+          end: '2024-11-28T12:00:00',
+          description: 'Preparing for the annual community festival.',
+          location: 'Town Square',
         },
       ],
     };
 
-    function generateGCalURL(event) {
-      const baseUrl = "https://calendar.google.com/calendar/render";
-      const params = new URLSearchParams({
-        action: "TEMPLATE",
-        text: event.title,
-        details: event.description,
-        location: event.location,
-        dates: `${moment(event.start).format("YYYYMMDDTHHmmssZ")}/${moment(event.end).format("YYYYMMDDTHHmmssZ")}`,
+    // Initialize FullCalendar
+    document.addEventListener('DOMContentLoaded', function() {
+      const calendarEl = document.getElementById('calendar');
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        locale: 'en',
+        navLinks: true, // can click day/week names to navigate views
+        editable: false,
+        selectable: true,
+        eventClick: function(info) {
+          alert(`Event: ${info.event.title}\nDescription: ${info.event.extendedProps.description}\nLocation: ${info.event.extendedProps.location}`);
+        },
+        dateClick: function(info) {
+          alert(`Clicked on date: ${info.dateStr}`);
+        },
+        events: user.events.map(event => ({
+          id: event.id,
+          title: event.title,
+          start: event.start,
+          end: event.end,
+          description: event.description,
+          location: event.location,
+        })),
+        eventColor: '#6d4c41', // Custom event color
       });
-      return `${baseUrl}?${params.toString()}`;
+
+      calendar.render();
+
+      // Export to Google Calendar
+      const exportButton = document.getElementById('export-button');
+      exportButton.addEventListener('click', function() {
+        const icsContent = generateICS(user.events);
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const filename = 'events.ics';
+
+        // Create a temporary link to download the ICS file
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Open Google Calendar import URL
+        const googleCalendarUrl = 'https://calendar.google.com/calendar/u/0/r/settings/import';
+        window.open(googleCalendarUrl, '_blank');
+      });
+    });
+
+    // Function to generate ICS content
+    function generateICS(events) {
+      let icsData = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Your Organization//Your Product//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+`;
+
+      events.forEach(event => {
+        icsData += `BEGIN:VEVENT
+UID:${event.id}
+SUMMARY:${escapeICS(event.title)}
+DESCRIPTION:${escapeICS(event.description)}
+DTSTART:${formatDateICS(event.start)}
+DTEND:${formatDateICS(event.end)}
+LOCATION:${escapeICS(event.location)}
+END:VEVENT
+`;
+      });
+
+      icsData += 'END:VCALENDAR';
+
+      return icsData;
     }
 
-    function GCalLikeCalendar() {
-      const [events, setEvents] = React.useState(user.events);
-
-      const handleSelectEvent = (event) => {
-        alert(`Event: ${event.title}\nDescription: ${event.description}\nLocation: ${event.location}`);
-      };
-
-      return (
-        <div>
-          <h1 style={{ textAlign: "center" }}>{user.name}'s Calendar</h1>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 600 }}
-            popup
-            views={["month", "week", "day", "agenda"]}
-            onSelectEvent={handleSelectEvent}
-            eventPropGetter={(event) => ({
-              style: {
-                backgroundColor: "#6d4c41",
-                color: "white",
-                borderRadius: "5px",
-              },
-            })}
-          />
-          <div className="export-link">
-            {events.map((event) => (
-              <div key={event.id}>
-                <a href={generateGCalURL(event)} target="_blank" rel="noopener noreferrer">
-                  Export "{event.title}" to Google Calendar
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
+    // Helper functions
+    function formatDateICS(dateStr) {
+      const date = new Date(dateStr);
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<GCalLikeCalendar />);
+    function escapeICS(text) {
+      return text.replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+    }
   </script>
 </body>
 </html>
