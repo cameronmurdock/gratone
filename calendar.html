@@ -1,229 +1,326 @@
-import React, { useState } from 'react';
-import { 
-  AppBar,
-  Box,
-  Container,
-  IconButton,
-  Paper,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  Snackbar,
-  Alert
-} from '@mui/material';
-import {
-  ChevronLeft,
-  ChevronRight,
-  CalendarMonth,
-  ViewWeek,
-  ViewDay,
-  Share,
-  Add
-} from '@mui/icons-material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-// Create a theme instance
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
-
-const CalendarApp = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [view, setView] = useState('month');
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: 'Team Meeting',
-      start: new Date(2024, 10, 20, 10, 0),
-      end: new Date(2024, 10, 20, 11, 0),
-      description: 'Weekly team sync',
-      location: 'Conference Room A'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendar App</title>
+  <!-- Material-UI CSS -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+  <style>
+    /* Optional: Add some basic styling */
+    body {
+      margin: 0;
+      font-family: Roboto, sans-serif;
     }
-  ]);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  </style>
+</head>
+<body>
+  <!-- Root div for React -->
+  <div id="root"></div>
 
-  // Helper functions
-  const getDaysInMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-  };
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
-  const getFirstDayOfMonth = (date) => {
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-  };
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  const formatDate = (date) => {
-    return new Intl.DateTimeFormat('en-US', { 
-      month: 'long',
-      year: 'numeric'
-    }).format(date);
-  };
+  <!-- Material-UI (MUI) UMD Bundles -->
+  <script src="https://unpkg.com/@mui/material@latest/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@latest/umd/material-ui-icons.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@emotion/react@latest/umd/emotion-react.umd.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@emotion/styled@latest/umd/emotion-styled.umd.min.js" crossorigin></script>
 
-  // Google Calendar export function
-  const exportToGCal = (event) => {
-    const formatGCalDate = (date) => {
-      return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
-    };
+  <!-- Your React Component -->
+  <script type="text/babel">
+    const {
+      useState
+    } = React;
 
-    const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
-    const title = encodeURIComponent(event.title);
-    const dates = `${formatGCalDate(event.start)}/${formatGCalDate(event.end)}`;
-    const details = encodeURIComponent(event.description);
-    const location = encodeURIComponent(event.location);
+    const {
+      AppBar,
+      Box,
+      Container,
+      IconButton,
+      Paper,
+      Tab,
+      Tabs,
+      Toolbar,
+      Typography,
+      Button,
+      Card,
+      CardContent,
+      Snackbar,
+      Alert,
+      ThemeProvider,
+      createTheme
+    } = MaterialUI;
 
-    const url = `${baseUrl}&text=${title}&dates=${dates}&details=${details}&location=${location}`;
-    window.open(url, '_blank');
-    setOpenSnackbar(true);
-  };
+    const {
+      ChevronLeft,
+      ChevronRight,
+      CalendarMonth,
+      ViewWeek,
+      ViewDay,
+      Share,
+      Add
+    } = MaterialUIIcons;
 
-  // Navigation handlers
-  const prevPeriod = () => {
-    if (view === 'month') {
-      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
-    } else if (view === 'week') {
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() - 7);
-      setCurrentDate(newDate);
-    } else {
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() - 1);
-      setCurrentDate(newDate);
-    }
-  };
+    // Create a theme instance
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#1976d2',
+        },
+        secondary: {
+          main: '#dc004e',
+        },
+      },
+    });
 
-  const nextPeriod = () => {
-    if (view === 'month') {
-      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
-    } else if (view === 'week') {
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() + 7);
-      setCurrentDate(newDate);
-    } else {
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() + 1);
-      setCurrentDate(newDate);
-    }
-  };
+    const CalendarApp = () => {
+      const [currentDate, setCurrentDate] = useState(new Date());
+      const [view, setView] = useState('month');
+      const [events, setEvents] = useState([
+        {
+          id: 1,
+          title: 'Team Meeting',
+          start: new Date(2024, 10, 20, 10, 0),
+          end: new Date(2024, 10, 20, 11, 0),
+          description: 'Weekly team sync',
+          location: 'Conference Room A'
+        }
+      ]);
+      const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // View Components
-  const MonthView = () => {
-    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const days = [];
-    const daysInMonth = getDaysInMonth(currentDate);
-    const firstDay = getFirstDayOfMonth(currentDate);
+      // Helper functions
+      const getDaysInMonth = (date) => {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+      };
 
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
-    }
-    
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
+      const getFirstDayOfMonth = (date) => {
+        return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+      };
 
-    return (
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 1 }}>
-        {weekDays.map(day => (
-          <Box key={day} sx={{ textAlign: 'center', p: 2, typography: 'subtitle2' }}>
-            {day}
-          </Box>
-        ))}
-        {days.map((day, index) => (
-          <Paper
-            key={index}
-            elevation={0}
-            variant="outlined"
-            sx={{
-              p: 1,
-              height: 120,
-              bgcolor: day ? 'background.paper' : 'action.hover',
-              '&:hover': day ? { bgcolor: 'action.hover' } : {},
-              cursor: day ? 'pointer' : 'default'
-            }}
-          >
-            {day && (
-              <Box>
-                <Typography variant="body2">{day}</Typography>
-                {events.map(event => (
-                  event.start.getDate() === day && 
-                  event.start.getMonth() === currentDate.getMonth() && (
-                    <Card key={event.id} sx={{ mt: 1, bgcolor: 'primary.light' }}>
-                      <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <Typography variant="caption" color="primary.contrastText">
-                            {event.title}
-                          </Typography>
-                          <IconButton 
-                            size="small" 
-                            onClick={() => exportToGCal(event)}
-                            sx={{ color: 'primary.contrastText' }}
-                          >
-                            <Share fontSize="small" />
-                          </IconButton>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  )
-                ))}
-              </Box>
-            )}
-          </Paper>
-        ))}
-      </Box>
-    );
-  };
+      const formatDate = (date) => {
+        return new Intl.DateTimeFormat('en-US', { 
+          month: 'long',
+          year: 'numeric'
+        }).format(date);
+      };
 
-  const WeekView = () => {
-    const hours = Array.from({ length: 24 }, (_, i) => i);
-    const startOfWeek = new Date(currentDate);
-    startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-    
-    return (
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'auto repeat(7, 1fr)', gap: 1 }}>
-        <Box />
-        {Array.from({ length: 7 }, (_, i) => {
-          const day = new Date(startOfWeek);
-          day.setDate(startOfWeek.getDate() + i);
-          return (
-            <Typography key={i} variant="subtitle2" align="center">
-              {day.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}
-            </Typography>
-          );
-        })}
+      // Google Calendar export function
+      const exportToGCal = (event) => {
+        const formatGCalDate = (date) => {
+          return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
+        };
+
+        const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+        const title = encodeURIComponent(event.title);
+        const dates = `${formatGCalDate(event.start)}/${formatGCalDate(event.end)}`;
+        const details = encodeURIComponent(event.description);
+        const location = encodeURIComponent(event.location);
+
+        const url = `${baseUrl}&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+        window.open(url, '_blank');
+        setOpenSnackbar(true);
+      };
+
+      // Navigation handlers
+      const prevPeriod = () => {
+        if (view === 'month') {
+          setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
+        } else if (view === 'week') {
+          const newDate = new Date(currentDate);
+          newDate.setDate(currentDate.getDate() - 7);
+          setCurrentDate(newDate);
+        } else {
+          const newDate = new Date(currentDate);
+          newDate.setDate(currentDate.getDate() - 1);
+          setCurrentDate(newDate);
+        }
+      };
+
+      const nextPeriod = () => {
+        if (view === 'month') {
+          setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
+        } else if (view === 'week') {
+          const newDate = new Date(currentDate);
+          newDate.setDate(currentDate.getDate() + 7);
+          setCurrentDate(newDate);
+        } else {
+          const newDate = new Date(currentDate);
+          newDate.setDate(currentDate.getDate() + 1);
+          setCurrentDate(newDate);
+        }
+      };
+
+      // View Components
+      const MonthView = () => {
+        const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const days = [];
+        const daysInMonth = getDaysInMonth(currentDate);
+        const firstDay = getFirstDayOfMonth(currentDate);
+
+        for (let i = 0; i < firstDay; i++) {
+          days.push(null);
+        }
         
-        {hours.map(hour => (
-          <React.Fragment key={hour}>
-            <Typography variant="caption" sx={{ textAlign: 'right', pr: 2 }}>
-              {hour.toString().padStart(2, '0')}:00
-            </Typography>
-            {Array.from({ length: 7 }, (_, i) => (
+        for (let i = 1; i <= daysInMonth; i++) {
+          days.push(i);
+        }
+
+        return (
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 1 }}>
+            {weekDays.map(day => (
+              <Box key={day} sx={{ textAlign: 'center', p: 2, typography: 'subtitle2' }}>
+                {day}
+              </Box>
+            ))}
+            {days.map((day, index) => (
               <Paper
-                key={i}
+                key={index}
                 elevation={0}
                 variant="outlined"
-                sx={{ height: 60 }}
+                sx={{
+                  p: 1,
+                  height: 120,
+                  bgcolor: day ? 'background.paper' : 'action.hover',
+                  '&:hover': day ? { bgcolor: 'action.hover' } : {},
+                  cursor: day ? 'pointer' : 'default',
+                  overflow: 'hidden'
+                }}
               >
-                {events.map(event => {
-                  const eventDay = new Date(startOfWeek);
-                  eventDay.setDate(startOfWeek.getDate() + i);
-                  return (
+                {day && (
+                  <Box>
+                    <Typography variant="body2">{day}</Typography>
+                    {events.map(event => (
+                      event.start.getDate() === day && 
+                      event.start.getMonth() === currentDate.getMonth() && (
+                        <Card key={event.id} sx={{ mt: 1, bgcolor: 'primary.light' }}>
+                          <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography variant="caption" color="primary.contrastText">
+                                {event.title}
+                              </Typography>
+                              <IconButton 
+                                size="small" 
+                                onClick={() => exportToGCal(event)}
+                                sx={{ color: 'primary.contrastText' }}
+                              >
+                                <Share fontSize="small" />
+                              </IconButton>
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      )
+                    ))}
+                  </Box>
+                )}
+              </Paper>
+            ))}
+          </Box>
+        );
+      };
+
+      const WeekView = () => {
+        const hours = Array.from({ length: 24 }, (_, i) => i);
+        const startOfWeek = new Date(currentDate);
+        startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+        
+        return (
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'auto repeat(7, 1fr)', gap: 1 }}>
+            <Box />
+            {Array.from({ length: 7 }, (_, i) => {
+              const day = new Date(startOfWeek);
+              day.setDate(startOfWeek.getDate() + i);
+              return (
+                <Typography key={i} variant="subtitle2" align="center">
+                  {day.toLocaleDateString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric' })}
+                </Typography>
+              );
+            })}
+            
+            {hours.map(hour => (
+              <React.Fragment key={hour}>
+                <Typography variant="caption" sx={{ textAlign: 'right', pr: 2 }}>
+                  {hour.toString().padStart(2, '0')}:00
+                </Typography>
+                {Array.from({ length: 7 }, (_, i) => (
+                  <Paper
+                    key={i}
+                    elevation={0}
+                    variant="outlined"
+                    sx={{ height: 60, position: 'relative' }}
+                  >
+                    {events.map(event => {
+                      const eventDay = new Date(startOfWeek);
+                      eventDay.setDate(startOfWeek.getDate() + i);
+                      return (
+                        event.start.getHours() === hour &&
+                        event.start.getDate() === eventDay.getDate() && (
+                          <Card key={event.id} sx={{ m: 0.5, bgcolor: 'primary.light' }}>
+                            <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
+                              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography variant="caption" color="primary.contrastText">
+                                  {event.title}
+                                </Typography>
+                                <IconButton 
+                                  size="small" 
+                                  onClick={() => exportToGCal(event)}
+                                  sx={{ color: 'primary.contrastText' }}
+                                >
+                                  <Share fontSize="small" />
+                                </IconButton>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        )
+                      );
+                    })}
+                  </Paper>
+                ))}
+              </React.Fragment>
+            ))}
+          </Box>
+        );
+      };
+
+      const DayView = () => {
+        const hours = Array.from({ length: 24 }, (_, i) => i);
+        
+        return (
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 1 }}>
+            {hours.map(hour => (
+              <React.Fragment key={hour}>
+                <Typography variant="caption" sx={{ textAlign: 'right', pr: 2 }}>
+                  {hour.toString().padStart(2, '0')}:00
+                </Typography>
+                <Paper
+                  elevation={0}
+                  variant="outlined"
+                  sx={{ height: 80, position: 'relative' }}
+                >
+                  {events.map(event => (
                     event.start.getHours() === hour &&
-                    event.start.getDate() === eventDay.getDate() && (
-                      <Card key={event.id} sx={{ m: 0.5, bgcolor: 'primary.light' }}>
+                    event.start.getDate() === currentDate.getDate() && (
+                      <Card key={event.id} sx={{ m: 1, bgcolor: 'primary.light' }}>
                         <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
                           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Typography variant="caption" color="primary.contrastText">
-                              {event.title}
-                            </Typography>
+                            <Box>
+                              <Typography variant="body2" color="primary.contrastText">
+                                {event.title}
+                              </Typography>
+                              <Typography variant="caption" color="primary.contrastText">
+                                {event.location}
+                              </Typography>
+                            </Box>
                             <IconButton 
                               size="small" 
                               onClick={() => exportToGCal(event)}
@@ -235,133 +332,90 @@ const CalendarApp = () => {
                         </CardContent>
                       </Card>
                     )
-                  );
-                })}
-              </Paper>
+                  ))}
+                </Paper>
+              </React.Fragment>
             ))}
-          </React.Fragment>
-        ))}
-      </Box>
-    );
-  };
-
-  const DayView = () => {
-    const hours = Array.from({ length: 24 }, (_, i) => i);
-    
-    return (
-      <Box sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: 1 }}>
-        {hours.map(hour => (
-          <React.Fragment key={hour}>
-            <Typography variant="caption" sx={{ textAlign: 'right', pr: 2 }}>
-              {hour.toString().padStart(2, '0')}:00
-            </Typography>
-            <Paper
-              elevation={0}
-              variant="outlined"
-              sx={{ height: 80 }}
-            >
-              {events.map(event => (
-                event.start.getHours() === hour &&
-                event.start.getDate() === currentDate.getDate() && (
-                  <Card key={event.id} sx={{ m: 1, bgcolor: 'primary.light' }}>
-                    <CardContent sx={{ p: 1, '&:last-child': { pb: 1 } }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Box>
-                          <Typography variant="body2" color="primary.contrastText">
-                            {event.title}
-                          </Typography>
-                          <Typography variant="caption" color="primary.contrastText">
-                            {event.location}
-                          </Typography>
-                        </Box>
-                        <IconButton 
-                          size="small" 
-                          onClick={() => exportToGCal(event)}
-                          sx={{ color: 'primary.contrastText' }}
-                        >
-                          <Share fontSize="small" />
-                        </IconButton>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                )
-              ))}
-            </Paper>
-          </React.Fragment>
-        ))}
-      </Box>
-    );
-  };
-
-  return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" color="default" elevation={0}>
-          <Toolbar>
-            <IconButton edge="start" onClick={prevPeriod}>
-              <ChevronLeft />
-            </IconButton>
-            <IconButton onClick={nextPeriod}>
-              <ChevronRight />
-            </IconButton>
-            <Typography variant="h6" sx={{ ml: 2, flexGrow: 1 }}>
-              {formatDate(currentDate)}
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<Add />}
-              sx={{ mr: 2 }}
-            >
-              Create
-            </Button>
-            <Tabs 
-              value={view} 
-              onChange={(_, newValue) => setView(newValue)}
-              textColor="primary"
-              indicatorColor="primary"
-            >
-              <Tab 
-                value="month" 
-                icon={<CalendarMonth />} 
-                label="Month" 
-                iconPosition="start"
-              />
-              <Tab 
-                value="week" 
-                icon={<ViewWeek />} 
-                label="Week" 
-                iconPosition="start"
-              />
-              <Tab 
-                value="day" 
-                icon={<ViewDay />} 
-                label="Day" 
-                iconPosition="start"
-              />
-            </Tabs>
-          </Toolbar>
-        </AppBar>
-
-        <Container maxWidth="xl" sx={{ mt: 3 }}>
-          <Box sx={{ overflow: 'auto' }}>
-            {view === 'month' && <MonthView />}
-            {view === 'week' && <WeekView />}
-            {view === 'day' && <DayView />}
           </Box>
-        </Container>
+        );
+      };
 
-        <Snackbar 
-          open={openSnackbar} 
-          autoHideDuration={3000} 
-          onClose={() => setOpenSnackbar(false)}
-        >
-          <Alert severity="success" onClose={() => setOpenSnackbar(false)}>
-            Event exported to Google Calendar
-          </Alert>
-        </Snackbar>
-      </Box>
-    </ThemeProvider>
-  );
-};
+      return (
+        <ThemeProvider theme={theme}>
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" color="default" elevation={0}>
+              <Toolbar>
+                <IconButton edge="start" onClick={prevPeriod}>
+                  <ChevronLeft />
+                </IconButton>
+                <IconButton onClick={nextPeriod}>
+                  <ChevronRight />
+                </IconButton>
+                <Typography variant="h6" sx={{ ml: 2, flexGrow: 1 }}>
+                  {formatDate(currentDate)}
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<Add />}
+                  sx={{ mr: 2 }}
+                >
+                  Create
+                </Button>
+                <Tabs 
+                  value={view} 
+                  onChange={(_, newValue) => setView(newValue)}
+                  textColor="primary"
+                  indicatorColor="primary"
+                >
+                  <Tab 
+                    value="month" 
+                    icon={<CalendarMonth />} 
+                    label="Month" 
+                    iconPosition="start"
+                  />
+                  <Tab 
+                    value="week" 
+                    icon={<ViewWeek />} 
+                    label="Week" 
+                    iconPosition="start"
+                  />
+                  <Tab 
+                    value="day" 
+                    icon={<ViewDay />} 
+                    label="Day" 
+                    iconPosition="start"
+                  />
+                </Tabs>
+              </Toolbar>
+            </AppBar>
 
-export default CalendarApp;
+            <Container maxWidth="xl" sx={{ mt: 3 }}>
+              <Box sx={{ overflow: 'auto' }}>
+                {view === 'month' && <MonthView />}
+                {view === 'week' && <WeekView />}
+                {view === 'day' && <DayView />}
+              </Box>
+            </Container>
+
+            <Snackbar 
+              open={openSnackbar} 
+              autoHideDuration={3000} 
+              onClose={() => setOpenSnackbar(false)}
+            >
+              <Alert severity="success" onClose={() => setOpenSnackbar(false)}>
+                Event exported to Google Calendar
+              </Alert>
+            </Snackbar>
+          </Box>
+        </ThemeProvider>
+      );
+    };
+
+    // Render the CalendarApp component
+    const rootElement = document.getElementById('root');
+    const root = ReactDOM.createRoot(rootElement);
+    root.render(<CalendarApp />);
+  </script>
+</body>
+</html>
+
