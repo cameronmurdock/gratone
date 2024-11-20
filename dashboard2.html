@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image-x-icon">
   <style>
     /* Responsive Menu Styling */
     @media (max-width: 960px) {
@@ -198,6 +198,9 @@
       Chip,
       Tooltip,
       Drawer,
+      Select,
+      FormControl,
+      InputLabel,
     } = MaterialUI;
 
     // Custom Theme with Muted Earthtone Rainbow Pastel Palette
@@ -319,14 +322,22 @@
       const chapters = {
         'ONE Boulder': {
           name: 'ONE Boulder',
-          orgs: [],
-          groups: [],
+          orgs: [
+            { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank", chapter: 'ONE Boulder' },
+          ],
+          groups: [
+            { id: 5, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Monthly safety meeting on Thursday. All are welcome.", avatar: "https://randomuser.me/api/portraits/men/85.jpg", chapter: 'ONE Boulder' },
+          ],
           members: [],
         },
         'ONE Austin': {
           name: 'ONE Austin',
-          orgs: [],
-          groups: [],
+          orgs: [
+            { id: 4, user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter", chapter: 'ONE Austin' },
+          ],
+          groups: [
+            { id: 6, user: "Book Club", date: "Nov 16, 2024", content: "Join us for a discussion on our latest book choice!", avatar: "https://randomuser.me/api/portraits/women/25.jpg", chapter: 'ONE Austin' },
+          ],
           members: [],
         },
         'ONE Hawaii': {
@@ -390,18 +401,38 @@
                   PaperProps={{ style: { zIndex: 1400 } }}
                 >
                   <MenuItem onClick={() => { setCurrentPage('dashboard'); handleMenuClose(); }}>Dashboard</MenuItem>
-                  <MenuItem onClick={() => { setCurrentChapter('ONE Boulder'); handleMenuClose(); }}>ONE Boulder</MenuItem>
-                  <MenuItem onClick={() => { setCurrentChapter('ONE Austin'); handleMenuClose(); }}>ONE Austin</MenuItem>
-                  <MenuItem onClick={() => { setCurrentChapter('ONE Hawaii'); handleMenuClose(); }}>ONE Hawaii</MenuItem>
+                  <MenuItem>
+                    <FormControl fullWidth>
+                      <InputLabel>Chapter</InputLabel>
+                      <Select
+                        value={currentChapter}
+                        onChange={(e) => setCurrentChapter(e.target.value)}
+                        label="Chapter"
+                      >
+                        <MenuItem value="ONE Boulder">ONE Boulder</MenuItem>
+                        <MenuItem value="ONE Austin">ONE Austin</MenuItem>
+                        <MenuItem value="ONE Hawaii">ONE Hawaii</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </MenuItem>
                   {/* Add other menu items here */}
                 </Menu>
               </>
             ) : (
               <div className="desktopMenu">
                 <Button color="primary" onClick={() => setCurrentPage('dashboard')}>Dashboard</Button>
-                <Button color="primary" onClick={() => setCurrentChapter('ONE Boulder')}>ONE Boulder</Button>
-                <Button color="primary" onClick={() => setCurrentChapter('ONE Austin')}>ONE Austin</Button>
-                <Button color="primary" onClick={() => setCurrentChapter('ONE Hawaii')}>ONE Hawaii</Button>
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel>Chapter</InputLabel>
+                  <Select
+                    value={currentChapter}
+                    onChange={(e) => setCurrentChapter(e.target.value)}
+                    label="Chapter"
+                  >
+                    <MenuItem value="ONE Boulder">ONE Boulder</MenuItem>
+                    <MenuItem value="ONE Austin">ONE Austin</MenuItem>
+                    <MenuItem value="ONE Hawaii">ONE Hawaii</MenuItem>
+                  </Select>
+                </FormControl>
                 {/* Add other buttons here */}
               </div>
             )}
@@ -422,18 +453,18 @@
 
       const allPosts = {
         Events: [
-          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg", chapter: 'ONE Boulder' },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg", chapter: 'ONE Austin' },
         ],
         Orgs: chapter.orgs,
         Groups: chapter.groups,
         Sharing: [
-          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
-          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
+          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg", chapter: 'ONE Boulder' },
+          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg", chapter: 'ONE Austin' },
         ],
         Services: [
-          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
-          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop", chapter: 'ONE Boulder' },
+          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness", chapter: 'ONE Austin' },
         ],
       };
 
