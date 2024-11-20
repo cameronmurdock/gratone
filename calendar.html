@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Calendar</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <script src="https://unpkg.com/moment/moment.js"></script>
+  <script src="https://unpkg.com/react-big-calendar/lib/umd/react-big-calendar.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/react-big-calendar/lib/css/react-big-calendar.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #root {
+      margin: 20px;
+    }
+    .rbc-event {
+      background-color: #6d4c41 !important;
+      color: white;
+      border-radius: 5px;
+    }
+    .rbc-toolbar button {
+      background-color: #8d6e63 !important;
+      color: white;
+      border-radius: 5px;
+      padding: 5px 10px;
+    }
+    .export-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .export-link a {
+      color: #6d4c41;
+      font-weight: bold;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+    .export-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { Calendar, momentLocalizer } = ReactBigCalendar;
+    const localizer = momentLocalizer(moment);
+
+    const user = {
+      id: "1",
+      name: "Alice Johnson",
+      events: [
+        {
+          id: 1,
+          title: "Community Meeting",
+          start: new Date(2024, 10, 22, 10, 0), // November 22, 2024, 10:00 AM
+          end: new Date(2024, 10, 22, 11, 30), // November 22, 2024, 11:30 AM
+          description: "Discussing community projects and updates.",
+          location: "Community Hall",
+        },
+        {
+          id: 2,
+          title: "Urban Gardening Workshop",
+          start: new Date(2024, 10, 25, 14, 0), // November 25, 2024, 2:00 PM
+          end: new Date(2024, 10, 25, 16, 0), // November 25, 2024, 4:00 PM
+          description: "Learn sustainable urban gardening practices.",
+          location: "Local Park",
+        },
+        {
+          id: 3,
+          title: "Festival Setup",
+          start: new Date(2024, 10, 28, 9, 0), // November 28, 2024, 9:00 AM
+          end: new Date(2024, 10, 28, 12, 0), // November 28, 2024, 12:00 PM
+          description: "Preparing for the annual festival.",
+          location: "Main Square",
+        },
+      ],
+    };
+
+    function generateGCalURL(event) {
+      const baseUrl = "https://calendar.google.com/calendar/render";
+      const params = new URLSearchParams({
+        action: "TEMPLATE",
+        text: event.title,
+        details: event.description,
+        location: event.location,
+        dates: `${moment(event.start).format("YYYYMMDDTHHmmssZ")}/${moment(event.end).format("YYYYMMDDTHHmmssZ")}`,
+      });
+      return `${baseUrl}?${params.toString()}`;
+    }
+
+    function GCalLikeCalendar() {
+      const [events, setEvents] = React.useState(user.events);
+
+      const handleSelectEvent = (event) => {
+        alert(`Event: ${event.title}\nDescription: ${event.description}\nLocation: ${event.location}`);
+      };
+
+      return (
+        <div>
+          <h1 style={{ textAlign: "center" }}>{user.name}'s Calendar</h1>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 600 }}
+            popup
+            views={["month", "week", "day", "agenda"]}
+            onSelectEvent={handleSelectEvent}
+            eventPropGetter={(event) => ({
+              style: {
+                backgroundColor: "#6d4c41",
+                color: "white",
+                borderRadius: "5px",
+              },
+            })}
+          />
+          <div className="export-link">
+            {events.map((event) => (
+              <div key={event.id}>
+                <a href={generateGCalURL(event)} target="_blank" rel="noopener noreferrer">
+                  Export "{event.title}" to Google Calendar
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<GCalLikeCalendar />);
+  </script>
+</body>
+</html>
