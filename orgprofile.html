@@ -1,1 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
+  <!-- Google Fonts and Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
+    body {
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333333;
+      position: relative; /* Ensure proper stacking context */
+    }
+    /* Carousel Styling */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 1;
+    }
+    .carousel-button.left {
+      left: 10px;
+    }
+    .carousel-button.right {
+      right: 10px;
+    }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
+    /* Testimonials Styling */
+    .testimonial {
+      text-align: center;
+      padding: 20px;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-link {
+      cursor: pointer;
+    }
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+    .modalTitle {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .modalBody {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555555;
+    }
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+  </style>
+</head>
+<body style="margin: 0;">
+  <div id="root"></div>
 
+  <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <!-- Material UI Icons -->
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+
+  <script type="text/babel">
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Button,
+      IconButton,
+      Container,
+      Box,
+      Grid,
+      Card,
+      CardContent,
+      CardActions,
+      Icon,
+      Menu,
+      MenuItem,
+      Link,
+      Divider,
+      Avatar,
+      List,
+      ListItem,
+      ListItemText,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails,
+      TextField,
+      useMediaQuery,
+      Modal,
+      Fade,
+      Backdrop,
+      Tabs,
+      Tab,
+      InputBase,
+      Paper,
+      ListItemAvatar,
+      ListItemIcon,
+      Badge,
+      Chip,
+      Tooltip,
+      Drawer,
+    } = MaterialUI;
+
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        error: {
+          main: '#e57373', // Soft Red
+        },
+        background: {
+          default: '#f5f5f5', // Light Gray
+          paper: '#ffffff', // White
+        },
+        text: {
+          primary: '#333333', // Dark Gray
+          secondary: '#555555', // Medium Gray
+        },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeightBold: 700,
+        h2: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '3rem',
+        },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+        body2: {
+          fontSize: '1rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+            containedPrimary: {
+              backgroundColor: '#6d4c41',
+              '&:hover': {
+                backgroundColor: '#BF820A',
+              },
+            },
+            containedSecondary: {
+              backgroundColor: '#8d6e63',
+              '&:hover': {
+                backgroundColor: '#7a5e55',
+              },
+            },
+            outlinedPrimary: {
+              borderColor: '#6d4c41',
+              color: '#6d4c41',
+              '&:hover': {
+                backgroundColor: 'rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              },
+            },
+          },
+        },
+        MuiAccordion: {
+          styleOverrides: {
+            root: {
+              boxShadow: 'none',
+              '&::before': {
+                display: 'none',
+              },
+            },
+          },
+        },
+      },
+    });
+
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('dashboard');
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'dashboard':
+            return <DashboardPage />;
+          case 'orgProfile':
+            return <OrgProfilePage />;
+          default:
+            return <DashboardPage />;
+        }
+      };
+
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
+            {renderPage()}
+          </Box>
+        </ThemeProvider>
+      );
+    }
+
+    function NavigationBar({ setCurrentPage, isMobile }) {
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+
+      const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
+      };
+
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => setCurrentPage('dashboard')}
+            >
+              ONE Local
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  onClick={(e) => handleMenuOpen(e, 'mobileMenu')}
+                  aria-label="menu"
+                >
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setCurrentPage('dashboard');
+                      handleMenuClose();
+                    }}
+                  >
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setCurrentPage('orgProfile');
+                      handleMenuClose();
+                    }}
+                  >
+                    Org Profile
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <div className="desktopMenu">
+                <Button color="primary" onClick={() => setCurrentPage('dashboard')}>
+                  Dashboard
+                </Button>
+                <Button color="primary" onClick={() => setCurrentPage('orgProfile')}>
+                  Org Profile
+                </Button>
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    function DashboardPage() {
+      const avatars = [
+        "https://randomuser.me/api/portraits/men/32.jpg",
+        "https://randomuser.me/api/portraits/women/65.jpg",
+        "https://randomuser.me/api/portraits/men/85.jpg",
+        "https://randomuser.me/api/portraits/women/25.jpg",
+        "https://randomuser.me/api/portraits/men/41.jpg",
+      ];
+
+      const allPosts = {
+        Events: [
+          { id: 1, user: "Cameron Ely-Murdock", date: "Nov 13, 2024", content: "Join our yoga session at the park!", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+          { id: 2, user: "Emily Clark", date: "Nov 14, 2024", content: "Community cleanup event this Saturday. Volunteers needed!", avatar: "https://randomuser.me/api/portraits/women/65.jpg" },
+        ],
+        Orgs: [
+          { id: 3, user: "Local Food Bank", date: "Nov 14, 2024", content: "We need extra hands for sorting donations this weekend.", avatar: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Food+Bank" },
+          { id: 4, user: "Animal Shelter", date: "Nov 15, 2024", content: "Adoption drive this weekend! Meet your new furry friend.", avatar: "https://via.placeholder.com/150/28B463/FFFFFF?text=Shelter" },
+        ],
+        Groups: [
+          { id: 5, user: "Neighborhood Watch", date: "Nov 13, 2024", content: "Monthly safety meeting on Thursday. All are welcome.", avatar: "https://randomuser.me/api/portraits/men/85.jpg" },
+          { id: 6, user: "Book Club", date: "Nov 16, 2024", content: "Join us for a discussion on our latest book choice!", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+        ],
+        Sharing: [
+          { id: 7, user: "Sarah Johnson", date: "Nov 14, 2024", content: "I have extra gardening tools to share. Anyone interested?", avatar: "https://randomuser.me/api/portraits/women/25.jpg" },
+          { id: 8, user: "Tom Baker", date: "Nov 15, 2024", content: "Giving away some potted plants. Let me know if you want one!", avatar: "https://randomuser.me/api/portraits/men/41.jpg" },
+        ],
+        Services: [
+          { id: 9, user: "Mike's Repair Shop", date: "Nov 13, 2024", content: "Offering free bike maintenance workshop this weekend.", avatar: "https://via.placeholder.com/150/1F618D/FFFFFF?text=Repair+Shop" },
+          { id: 10, user: "Wellness Center", date: "Nov 14, 2024", content: "Free wellness check-ups for the community on Sunday.", avatar: "https://via.placeholder.com/150/7D3C98/FFFFFF?text=Wellness" },
+        ],
+      };
+
+      const [activeTab, setActiveTab] = React.useState('Events');
+      const [searchText, setSearchText] = React.useState('');
+      const [selectedPost, setSelectedPost] = React.useState(null);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+      const filteredPosts = allPosts[activeTab]?.filter(post =>
+        post.content.toLowerCase().includes(searchText.toLowerCase()) ||
+        post.user.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
+
+      const openModal = (post) => setSelectedPost(post);
+      const closeModal = () => setSelectedPost(null);
+
+      return (
+        <Container maxWidth="lg" sx={{ pt: 12, pb: 8 }}>
+          <Paper elevation={3} sx={{ mb: 4, p: 2 }}>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  Dashboard
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <InputBase
+                  fullWidth
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  startAdornment={<Icon sx={{ mr: 1 }}>search</Icon>}
+                  sx={{ backgroundColor: '#f0f0f0', px: 2, borderRadius: '20px' }}
+                />
+              </Grid>
+              <Grid item>
+                <IconButton>
+                  <Badge badgeContent={4} color="secondary">
+                    <Icon>notifications</Icon>
+                  </Badge>
+                </IconButton>
+                <IconButton>
+                  <Avatar>
+                    <Icon>account_circle</Icon>
+                  </Avatar>
+                </IconButton>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Box sx={{ overflowX: 'auto', mb: 2 }}>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {avatars.map((src, index) => (
+                <Avatar key={index} src={src} />
+              ))}
+            </Box>
+          </Box>
+
+          <Tabs
+            value={activeTab}
+            onChange={(e, newValue) => setActiveTab(newValue)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2 }}
+          >
+            {Object.keys(allPosts).map((tab) => (
+              <Tab key={tab} label={tab} value={tab} />
+            ))}
+          </Tabs>
+
+          <Grid container spacing={2}>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2, height: '100%' }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Chats
+                  </Typography>
+                  <List>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Working Group" secondary="Last message..." />
+                    </ListItem>
+                    <ListItem button>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <Icon>group</Icon>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary="Sales" secondary="New idea..." />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+            )}
+            <Grid item xs={12} md={isMobile ? 12 : 6}>
+              {filteredPosts.map(post => (
+                <Card key={post.id} sx={{ mb: 2 }} onClick={() => openModal(post)}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item>
+                        <Avatar src={post.avatar} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                          {post.user}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {post.date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                      {post.content}
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                      <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
+                      <Chip icon={<Icon>comment</Icon>} label="Comment" />
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))}
+            </Grid>
+            {!isMobile && (
+              <Grid item xs={12} md={3}>
+                <Paper elevation={3} sx={{ p: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    Map
+                  </Typography>
+                  <Box
+                    sx={{
+                      height: 200,
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: '10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+                      Map Placeholder
+                    </Typography>
+                  </Box>
+                </Paper>
+              </Grid>
+            )}
+          </Grid>
+
+          {/* Post Details Modal */}
+          <Modal
+            open={Boolean(selectedPost)}
+            onClose={closeModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="post-modal-title"
+            aria-describedby="post-modal-description"
+          >
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Grid container spacing={2} sx={{ mb: 2 }}>
+                      <Grid item>
+                        <Avatar src={selectedPost.avatar} sx={{ width: 56, height: 56 }} />
+                      </Grid>
+                      <Grid item xs>
+                        <Typography variant="h6" component="h2">
+                          {selectedPost.user}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {selectedPost.date}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton onClick={closeModal}>
+                          <Icon>close</Icon>
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="body1" sx={{ mb: 4 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={closeModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    // --- NEW ORG PROFILE PAGE ---
+    function OrgProfilePage() {
+      // Hard-coded sample data
+      const orgLogo =
+        "https://via.placeholder.com/150/23a6d5/FFFFFF?text=Org+Logo";
+      const groupPhoto =
+        "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Group+Photo"; // Or your black/white hat photo
+      const adminAvatar =
+        "https://randomuser.me/api/portraits/women/39.jpg"; // Example admin
+
+      return (
+        <Container maxWidth="md" sx={{ pt: 12, pb: 8 }}>
+          {/* Top section with background, group photo, org logo, etc. */}
+          <Paper elevation={3} sx={{ mb: 2, p: 2 }}>
+            <Grid container spacing={2} alignItems="center">
+              {/* Left: group photo or a big circle image */}
+              <Grid item>
+                <Avatar
+                  src={groupPhoto}
+                  sx={{ width: 80, height: 80, borderRadius: 2 }}
+                  variant="square"
+                />
+              </Grid>
+              {/* Center: Org name + short description */}
+              <Grid item xs>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                  Group Name
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Short description of group
+                </Typography>
+              </Grid>
+              {/* Right: Admin avatar & maybe org brand logo */}
+              <Grid item>
+                <Avatar src={adminAvatar} sx={{ width: 56, height: 56 }} />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
+              <Grid item>
+                <img
+                  src={orgLogo}
+                  alt="Organization Logo"
+                  style={{ width: '50px', borderRadius: '10px' }}
+                />
+              </Grid>
+              <Grid item>
+                <Button variant="contained" color="primary" size="small">
+                  Join This Org
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* Secondary Nav (About, Posts, Events, etc.) */}
+          <Box sx={{ display: 'flex', gap: 3, mb: 2, flexWrap: 'wrap' }}>
+            {['About', 'Posts', 'Events', 'Chat', 'Groups', 'Members', 'Job-Board'].map(
+              (item) => (
+                <Typography
+                  key={item}
+                  variant="body1"
+                  sx={{
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    color: 'text.secondary',
+                    '&:hover': { color: 'primary.main' },
+                  }}
+                >
+                  {item}
+                </Typography>
+              )
+            )}
+          </Box>
+
+          {/* "Create a job" input */}
+          <Paper
+            variant="outlined"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mb: 2,
+              p: 1,
+              borderRadius: '10px',
+              backgroundColor: '#f9f9f9',
+            }}
+          >
+            <InputBase
+              fullWidth
+              placeholder="Create a job"
+              sx={{ ml: 1 }}
+            />
+            <IconButton color="primary">
+              <Icon>add_circle</Icon>
+            </IconButton>
+          </Paper>
+
+          {/* Example job listing */}
+          <Paper
+            elevation={1}
+            sx={{
+              p: 2,
+              borderRadius: '10px',
+              border: '1px solid #f0f0f0',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+              Water Plants
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                30 pts
+              </Typography>
+              <IconButton color="primary">
+                <Icon>check_circle</Icon>
+              </IconButton>
+            </Box>
+          </Paper>
+        </Container>
+      );
+    }
+
+    // Render the App
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
