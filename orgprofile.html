@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Org Profile</title>
+  <title>ONE Local - The Stand</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google Fonts and Material Icons -->
@@ -14,8 +14,6 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
   >
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     /* Scrollbar Styling */
     body {
@@ -49,12 +47,7 @@
       color: #333;
     }
 
-    /* Hide default margin for the root React node */
-    #root {
-      padding-top: 80px; /* reserve space for AppBar */
-    }
-
-    /* Enhanced Card Hover Effect (optional) */
+    /* Enhanced Card Hover Effect */
     .MuiCard-root:hover {
       transform: translateY(-5px);
       transition: transform 0.3s;
@@ -72,11 +65,6 @@
   <!-- Material UI v5 -->
   <script
     src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
-    crossorigin
-  ></script>
-  <!-- Material UI Icons -->
-  <script
-    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
     crossorigin
   ></script>
 
@@ -99,23 +87,18 @@
       Tabs,
       Tab,
       InputBase,
-      Chip,
       Card,
       CardContent,
-      List,
-      ListItem,
-      ListItemText,
-      Divider
+      Divider,
     } = MaterialUI;
 
-    // Custom Theme (earthtone style)
     const theme = createTheme({
       palette: {
         primary: {
-          main: '#6d4c41', // Muted Brown
+          main: '#6d4c41',
         },
         secondary: {
-          main: '#8d6e63', // Muted Coral
+          main: '#8d6e63',
         },
         background: {
           default: '#f5f5f5',
@@ -130,26 +113,6 @@
       },
       shape: {
         borderRadius: 10,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            },
-          },
-        },
       },
     });
 
@@ -167,57 +130,69 @@
     function OrgProfilePage() {
       const [currentTab, setCurrentTab] = React.useState(0);
 
-      // Example data for each tab
       const aboutData = {
-        description: "We are a community organization dedicated to supporting local gardeners, families, and wildlife habitats through shared resources and volunteer activities."
+        description: "The Stand is a vibrant community hub in Boulder that fosters creativity, collaboration, and connection. It hosts events, supports local artists and entrepreneurs, and provides a welcoming space for gatherings."
       };
 
       const postsData = [
-        { id: 1, user: "Alice", content: "Check out our new greenhouse update!", date: "Dec 26, 2024" },
-        { id: 2, user: "Bob", content: "We need a few volunteers to help with planting next week.", date: "Dec 25, 2024" }
+        { id: 1, user: "Leif", content: "We're hosting a jam session this Friday—bring your instruments!", date: "Dec 26, 2024" },
+        { id: 2, user: "Nate", content: "Check out our new local art gallery opening this weekend!", date: "Dec 25, 2024" },
+        { id: 3, user: "Kathleen", content: "Volunteers needed for the weekend farmer's market!", date: "Dec 24, 2024" },
+        { id: 4, user: "Miranda", content: "Join us for a knitting circle next Tuesday!", date: "Dec 23, 2024" },
+        { id: 5, user: "Grig", content: "New compost bins are ready for use!", date: "Dec 22, 2024" },
+        { id: 6, user: "Emily", content: "Looking for someone to lead yoga sessions.", date: "Dec 21, 2024" },
       ];
 
       const eventsData = [
-        { id: 101, title: "Garden Workshop", date: "Jan 5, 2025" },
-        { id: 102, title: "Seed Exchange", date: "Jan 12, 2025" }
-      ];
-
-      const chatData = [
-        { id: 201, from: "Carol", message: "Hey, can someone share extra seeds?" },
-        { id: 202, from: "Dave", message: "I have some tomato seeds if needed." }
+        { id: 101, title: "Community Potluck", date: "Jan 5, 2025" },
+        { id: 102, title: "Live Music Night", date: "Jan 12, 2025" },
+        { id: 103, title: "Film Screening: The Regenerative City", date: "Jan 19, 2025" },
+        { id: 104, title: "Repair Cafe", date: "Jan 26, 2025" },
+        { id: 105, title: "Poetry Slam", date: "Feb 2, 2025" },
+        { id: 106, title: "Seed Swap & Gardening Tips", date: "Feb 9, 2025" },
       ];
 
       const groupsData = [
-        { id: 301, name: "Community Gardeners" },
-        { id: 302, name: "Junior Green Thumbs" },
+        { id: 301, name: "Artists Collective" },
+        { id: 302, name: "Volunteer Network" },
+        { id: 303, name: "Eco-Living Advocates" },
+        { id: 304, name: "Makerspace Innovators" },
+        { id: 305, name: "Community Organizers" },
+        { id: 306, name: "Wellness & Yoga Enthusiasts" },
       ];
 
       const membersData = [
-        { id: 401, name: "Emily", role: "Admin" },
-        { id: 402, name: "Frank", role: "Member" },
-        { id: 403, name: "Grace", role: "Member" },
+        { id: 401, name: "Miranda", role: "Finance Treasurer" },
+        { id: 402, name: "Kathleen", role: "Outreach Secretary" },
+        { id: 403, name: "Grig", role: "Operations Manager" },
+        { id: 404, name: "Emily", role: "Community Organizer" },
+        { id: 405, name: "Leif", role: "Event Coordinator" },
+        { id: 406, name: "Nate", role: "Creative Director" },
+        { id: 407, name: "Sally", role: "Volunteer" },
+        { id: 408, name: "Tom", role: "Volunteer" },
       ];
 
       const jobBoardData = [
-        { id: 501, job: "Water Plants", points: 30 },
-        { id: 502, job: "Deliver Compost", points: 50 },
+        { id: 501, job: "Set up chairs for the potluck", points: 20 },
+        { id: 502, job: "Help with cleanup after music night", points: 30 },
+        { id: 503, job: "Facilitate seed swap table", points: 40 },
+        { id: 504, job: "Distribute event flyers around Boulder", points: 25 },
+        { id: 505, job: "Organize storage room", points: 35 },
+        { id: 506, job: "Assist with gardening workshop", points: 50 },
       ];
 
-      // For your secondary nav tabs
       const tabLabels = [
         "About",
         "Posts",
         "Events",
-        "Chat",
         "Groups",
         "Members",
         "Job-Board"
       ];
 
-      // Renders content based on the current tab
       const renderTabContent = () => {
         switch (currentTab) {
-          case 0: // About
+          case 0:
             return (
               <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="body1">
@@ -225,7 +200,7 @@
                 </Typography>
               </Paper>
             );
-          case 1: // Posts
+          case 1:
             return postsData.map((post) => (
               <Paper key={post.id} elevation={2} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
@@ -239,7 +214,7 @@
                 </Typography>
               </Paper>
             ));
-          case 2: // Events
+          case 2:
             return eventsData.map((event) => (
               <Paper key={event.id} elevation={2} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
@@ -250,18 +225,7 @@
                 </Typography>
               </Paper>
             ));
-          case 3: // Chat
-            return chatData.map((msg) => (
-              <Paper key={msg.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-                  {msg.from}
-                </Typography>
-                <Typography variant="body1">
-                  {msg.message}
-                </Typography>
-              </Paper>
-            ));
-          case 4: // Groups
+          case 3:
             return groupsData.map((grp) => (
               <Paper key={grp.id} elevation={2} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
@@ -269,7 +233,7 @@
                 </Typography>
               </Paper>
             ));
-          case 5: // Members
+          case 4:
             return membersData.map((member) => (
               <Paper key={member.id} elevation={2} sx={{ p: 2, mb: 2 }}>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
@@ -280,69 +244,41 @@
                 </Typography>
               </Paper>
             ));
-          case 6: // Job-Board
-            return (
-              <Box>
-                {/* "Create a job" input */}
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    mb: 2,
-                    p: 1,
-                    borderRadius: '10px',
-                    backgroundColor: '#f9f9f9',
-                  }}
-                >
-                  <InputBase
-                    fullWidth
-                    placeholder="Create a job"
-                    sx={{ ml: 1 }}
-                  />
+          case 5:
+            return jobBoardData.map((job) => (
+              <Paper
+                key={job.id}
+                elevation={1}
+                sx={{
+                  p: 2,
+                  borderRadius: '10px',
+                  border: '1px solid #f0f0f0',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 2
+                }}
+              >
+                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                  {job.job}
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    {job.points} pts
+                  </Typography>
                   <IconButton color="primary">
-                    <Icon>add_circle</Icon>
+                    <Icon>check_circle</Icon>
                   </IconButton>
-                </Paper>
-                {jobBoardData.map((jobItem) => (
-                  <Paper
-                    key={jobItem.id}
-                    elevation={1}
-                    sx={{
-                      p: 2,
-                      borderRadius: '10px',
-                      border: '1px solid #f0f0f0',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      mb: 2
-                    }}
-                  >
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                      {jobItem.job}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" color="text.secondary">
-                        {jobItem.points} pts
-                      </Typography>
-                      <IconButton color="primary">
-                        <Icon>check_circle</Icon>
-                      </IconButton>
-                    </Box>
-                  </Paper>
-                ))}
-              </Box>
-            );
+                </Box>
+              </Paper>
+            ));
           default:
             return <></>;
         }
       };
 
-      // Demo images
       const groupPhoto =
-        "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Group+Photo";
-      const adminAvatar =
-        "https://randomuser.me/api/portraits/women/39.jpg";
+        "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand";
       const orgLogo =
         "https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo";
 
@@ -359,7 +295,6 @@
             </Toolbar>
           </AppBar>
 
-          {/* Org Header */}
           <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
             <Grid container spacing={2} alignItems="center">
               <Grid item>
@@ -371,14 +306,14 @@
               </Grid>
               <Grid item xs>
                 <Typography variant="h5">
-                  Group Name
+                  The Stand
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Short description of group
+                  Community hub for creativity, collaboration, and connection
                 </Typography>
               </Grid>
               <Grid item>
-                <Avatar src={adminAvatar} sx={{ width: 56, height: 56 }} />
+                <Avatar src="https://randomuser.me/api/portraits/men/32.jpg" sx={{ width: 56, height: 56 }} />
               </Grid>
             </Grid>
 
@@ -398,7 +333,6 @@
             </Grid>
           </Paper>
 
-          {/* Tabs */}
           <Tabs
             value={currentTab}
             onChange={(e, newVal) => setCurrentTab(newVal)}
@@ -411,13 +345,11 @@
             ))}
           </Tabs>
 
-          {/* Tab Content */}
           {renderTabContent()}
         </Container>
       );
     }
 
-    // Render the single-page Org Profile
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
