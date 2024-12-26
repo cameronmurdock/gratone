@@ -156,7 +156,6 @@
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
-
     const {
       ThemeProvider,
       createTheme,
@@ -193,7 +192,7 @@
 
     // ======================= Data Objects =======================
 
-    // ========== 1. Users Data ==========
+    // Users Data (real members + open positions)
     const users = [
       {
         id: '1',
@@ -240,15 +239,43 @@
         image: 'https://via.placeholder.com/300?text=Shawn',
         bio: 'Product Development team member leading innovation and maintaining the platform’s technical excellence.',
       },
+      // === Open Positions (Unfilled) ===
+      {
+        id: 'open_1',
+        name: 'Open Position',
+        email: '',
+        role: 'Assistant Operations Manager',
+        groups: ['Operations'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'This role is currently unfilled. Click to claim it!',
+      },
+      {
+        id: 'open_2',
+        name: 'Open Position',
+        email: '',
+        role: 'Volunteer Coordinator',
+        groups: ['Community Outreach'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'This role is currently unfilled. Click to claim it!',
+      },
+      {
+        id: 'open_3',
+        name: 'Open Position',
+        email: '',
+        role: 'Additional Governance Advisor',
+        groups: ['Governance'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'This role is currently unfilled. Click to claim it!',
+      },
     ];
 
-    // ========== 2. Groups Data ==========
+    // Groups Data (with open positions included)
     const groups = [
       {
         id: 'group1',
         name: 'Admin + Org Structure',
-        description: 'Managing organizational structure and operations.',
-        members: ['1'], // Cameron
+        description: 'Overseeing organizational strategy and administration.',
+        members: ['1'], // Cameron is in "Admin + Org Structure" (and can also appear in Governance)
       },
       {
         id: 'group2',
@@ -259,14 +286,14 @@
       {
         id: 'group3',
         name: 'Community Outreach',
-        description: 'Fostering engagement and building relationships with the community.',
-        members: ['3'], // Kathleen
+        description: 'Connecting with community members and building relationships.',
+        members: ['3', 'open_2'], // Kathleen + open position for Volunteer Coordinator
       },
       {
         id: 'group4',
         name: 'Operations',
-        description: 'Overseeing day-to-day processes and ensuring efficiency across departments.',
-        members: ['4'], // Grig
+        description: 'Ensuring day-to-day processes run efficiently.',
+        members: ['4', 'open_1'], // Grig + open position for Assistant Operations Manager
       },
       {
         id: 'group5',
@@ -276,25 +303,13 @@
       },
       {
         id: 'group6',
-        name: 'Open Positions',
-        description: 'Unfilled roles waiting to be claimed.',
-        members: [], // no one yet
-        openRoles: [
-          {
-            id: 'open1',
-            role: 'Legal Advisor',
-            description: 'Provide legal guidance to the organization.',
-          },
-          {
-            id: 'open2',
-            role: 'HR Manager',
-            description: 'Oversee human resources and recruit new talent.',
-          },
-        ],
+        name: 'Governance',
+        description: 'Guiding strategic vision and collective decision-making.',
+        members: ['1', 'open_3'], // Cameron + open position for Additional Governance Advisor
       },
     ];
 
-    // ========== 3. Organization Data ==========
+    // Organization Data
     const organization = {
       id: 'org1',
       name: 'ONE Local',
@@ -347,7 +362,7 @@
       ],
     };
 
-    // ========== 4. Blog Posts Data ==========
+    // Blog Posts Data
     const blogPosts = [
       {
         title: 'Building Sustainable Communities',
@@ -559,7 +574,7 @@
         <AppBar position="fixed" sx={{ zIndex: 1300 }}>
           <Toolbar>
             <img
-              src="https://i.imgur.com/NgdMMh5.png" 
+              src="https://i.imgur.com/NgdMMh5.png"
               alt="Logo"
               style={{ width: 40, height: 40, marginRight: '10px' }}
             />
@@ -694,13 +709,20 @@
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
 
-      // Modal State for Open Positions
+      // Modal for Claiming an Open Position
       const [openPositionModal, setOpenPositionModal] = React.useState(false);
-      const [selectedOpenPosition, setSelectedOpenPosition] = React.useState(null);
+      const [selectedPosition, setSelectedPosition] = React.useState(null);
 
       const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
+        // If it's an open position, show the "Claim Role" flow
+        if (member.name === 'Open Position') {
+          setSelectedPosition(member);
+          setOpenPositionModal(true);
+        } else {
+          // Else, show the normal user info
+          setSelectedMember(member);
+          setOpenModal(true);
+        }
       };
 
       const handleCloseModal = () => {
@@ -708,19 +730,15 @@
         setSelectedMember(null);
       };
 
-      const handleOpenPosition = (position) => {
-        setSelectedOpenPosition(position);
-        setOpenPositionModal(true);
-      };
-
       const handleClosePositionModal = () => {
         setOpenPositionModal(false);
-        setSelectedOpenPosition(null);
+        setSelectedPosition(null);
       };
 
-      const handleTakeRole = () => {
-        alert(`You have taken the role: ${selectedOpenPosition?.role}`);
-        // Here you could do any logic needed to fill the role.
+      // Simulate "taking" the role
+      const handleClaimRole = (position) => {
+        alert(`You have claimed the role: ${position.role}`);
+        // Here you could add logic to update the data, etc.
         handleClosePositionModal();
       };
 
@@ -734,11 +752,7 @@
               <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
                 {group.name}
               </Typography>
-              <Typography variant="body2" sx={{ mb: 4, color: 'text.secondary' }}>
-                {group.description}
-              </Typography>
               <Grid container spacing={6}>
-                {/* Existing Members */}
                 {group.members.map((memberId) => {
                   const member = users.find((user) => user.id === memberId);
                   if (!member) return null;
@@ -755,17 +769,16 @@
                             alt={member.name}
                             sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }}
                           />
-                          <Typography
-                            variant="h6"
-                            sx={{ fontWeight: 'bold', textAlign: 'center' }}
-                          >
-                            {member.name}
+                          <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                            {member.name === 'Open Position'
+                              ? `Open Position: ${member.role}`
+                              : member.name}
                           </Typography>
                           <Typography
                             variant="body1"
                             sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}
                           >
-                            {member.role}
+                            {member.name === 'Open Position' ? '' : member.role}
                           </Typography>
                           <Typography variant="body2" sx={{ textAlign: 'center' }}>
                             {member.bio}
@@ -775,47 +788,6 @@
                     </Grid>
                   );
                 })}
-
-                {/* Open Positions in this Group */}
-                {group.openRoles?.map((openRole) => (
-                  <Grid item xs={12} sm={6} md={3} key={openRole.id}>
-                    <Card
-                      onClick={() => handleOpenPosition(openRole)}
-                      sx={{ cursor: 'pointer' }}
-                      aria-labelledby={`open-role-${openRole.role}`}
-                    >
-                      <CardContent>
-                        <Avatar
-                          alt="Open Position"
-                          sx={{
-                            width: 120,
-                            height: 120,
-                            mx: 'auto',
-                            mb: 4,
-                            backgroundColor: '#ccc',
-                          }}
-                        >
-                          <Icon sx={{ fontSize: 50 }}>help_outline</Icon>
-                        </Avatar>
-                        <Typography
-                          variant="h6"
-                          sx={{ fontWeight: 'bold', textAlign: 'center' }}
-                        >
-                          Open Position
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}
-                        >
-                          {openRole.role}
-                        </Typography>
-                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                          {openRole.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
               </Grid>
             </Box>
           ))}
@@ -844,20 +816,13 @@
                     >
                       {selectedMember.name}
                     </Typography>
-                    <Typography
-                      id="team-modal-description"
-                      sx={{ mb: 4 }}
-                    >
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
                       <strong>Role:</strong> {selectedMember.role}
                       <br />
                       <br />
                       {selectedMember.bio}
                     </Typography>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleCloseModal}
-                    >
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
                     </Button>
                   </>
@@ -875,33 +840,32 @@
             BackdropProps={{
               timeout: 500,
             }}
-            aria-labelledby="position-modal-title"
-            aria-describedby="position-modal-description"
+            aria-labelledby="open-position-modal-title"
+            aria-describedby="open-position-modal-description"
           >
             <Fade in={openPositionModal}>
               <Box className="modalContent">
-                {selectedOpenPosition && (
+                {selectedPosition && (
                   <>
                     <Typography
-                      id="position-modal-title"
+                      id="open-position-modal-title"
                       variant="h5"
                       component="h2"
                       sx={{ mb: 2 }}
                     >
-                      {selectedOpenPosition.role}
+                      Claim This Open Position
                     </Typography>
-                    <Typography
-                      id="position-modal-description"
-                      sx={{ mb: 4 }}
-                    >
-                      {selectedOpenPosition.description}
+                    <Typography id="open-position-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role: </strong> {selectedPosition.role}
+                      <br />
+                      Are you ready to take on this position?
                     </Typography>
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={handleTakeRole}
+                      onClick={() => handleClaimRole(selectedPosition)}
                     >
-                      Take This Role
+                      Claim Role
                     </Button>
                     <Button
                       variant="text"
@@ -909,7 +873,7 @@
                       onClick={handleClosePositionModal}
                       sx={{ ml: 2 }}
                     >
-                      Close
+                      Cancel
                     </Button>
                   </>
                 )}
@@ -952,9 +916,15 @@
             By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
           </Typography>
           <Typography variant="body1" sx={{ mb: 8 }}>
-            For investment inquiries, please contact us at <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
+            For investment inquiries, please contact us at{' '}
+            <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
           </Typography>
-          <Button variant="contained" color="secondary" size="large" onClick={() => window.alert('Invest Now')}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            onClick={() => window.alert('Invest Now')}
+          >
             Join the Movement — Invest Today
           </Button>
         </Container>
@@ -1076,7 +1046,7 @@
       React.useEffect(() => {
         const timer = setInterval(() => {
           nextSlide();
-        }, 7000); // Change slide every 7 seconds
+        }, 7000);
         return () => clearInterval(timer);
       }, []);
 
@@ -1126,7 +1096,7 @@
       React.useEffect(() => {
         const timer = setInterval(() => {
           nextPost();
-        }, 8000); // Change post every 8 seconds
+        }, 8000);
         return () => clearInterval(timer);
       }, []);
 
@@ -1269,7 +1239,6 @@
           <Typography variant="body1" sx={{ mb: 6 }}>
             Please read these terms of service carefully before using the ONE Local platform.
           </Typography>
-          {/* Add actual legal text here */}
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             [Legal text outlining user rights, privacy protections, and data usage.]
           </Typography>
@@ -1286,7 +1255,6 @@
           <Typography variant="body1" sx={{ mb: 6 }}>
             Your privacy is important to us. This policy explains how we handle your personal data.
           </Typography>
-          {/* Add actual privacy policy text here */}
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             [Detailed information about data collection, usage, and user rights.]
           </Typography>
@@ -1359,11 +1327,17 @@
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>email</Icon>
-                Email: <Link href={`mailto:${organization.contact.email}`} color="secondary">{organization.contact.email}</Link>
+                Email:{' '}
+                <Link href={`mailto:${organization.contact.email}`} color="secondary">
+                  {organization.contact.email}
+                </Link>
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>phone</Icon>
-                Phone: <Link href={`tel:${organization.contact.phone}`} color="secondary">{organization.contact.phone}</Link>
+                Phone:{' '}
+                <Link href={`tel:${organization.contact.phone}`} color="secondary">
+                  {organization.contact.phone}
+                </Link>
               </Typography>
               <Typography variant="body1" sx={{ mb: 2 }}>
                 <Icon sx={{ verticalAlign: 'middle', mr: 1 }}>location_on</Icon>
@@ -1471,7 +1445,11 @@
                     <Typography id="organization-modal-description" sx={{ mb: 4 }}>
                       {selectedOrganization.description || 'No description available.'}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={() => window.open(selectedOrganization.url, '_blank')}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => window.open(selectedOrganization.url, '_blank')}
+                    >
                       Visit Website
                     </Button>
                     <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
@@ -1645,7 +1623,11 @@
           <Grid container spacing={6}>
             {membershipsData.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
-                <Card onClick={() => handleOpenModal(membership)} sx={{ cursor: 'pointer' }} aria-labelledby={`membership-${membership.title}`}>
+                <Card
+                  onClick={() => handleOpenModal(membership)}
+                  sx={{ cursor: 'pointer' }}
+                  aria-labelledby={`membership-${membership.title}`}
+                >
                   <CardContent>
                     <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center' }}>
                       {membership.title}
@@ -1686,7 +1668,14 @@
                     <Typography id="membership-modal-description" sx={{ mb: 4 }}>
                       {selectedMembership.details}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={() => { setCurrentPage(selectedMembership.page); handleCloseModal(); }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        setCurrentPage(selectedMembership.page);
+                        handleCloseModal();
+                      }}
+                    >
                       Learn More
                     </Button>
                     <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
@@ -1702,21 +1691,41 @@
     }
 
     function TeamSection() {
-      // We reuse part of TeamPage for the Landing Page but show only some groups or a preview
-      // For simplicity, let's just show the first group or two.
-      const displayGroups = groups.slice(0, 2); // Only show first 2 groups as a preview
+      // Reusing partial TeamPage logic for the Landing Page
+      const displayGroups = groups.slice(0, 2); // Only first two groups for the Landing Page preview
 
+      // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
 
+      // Modal for Claiming an Open Position
+      const [openPositionModal, setOpenPositionModal] = React.useState(false);
+      const [selectedPosition, setSelectedPosition] = React.useState(null);
+
       const handleOpenModal = (member) => {
-        setSelectedMember(member);
-        setOpenModal(true);
+        if (member.name === 'Open Position') {
+          setSelectedPosition(member);
+          setOpenPositionModal(true);
+        } else {
+          setSelectedMember(member);
+          setOpenModal(true);
+        }
       };
 
       const handleCloseModal = () => {
         setOpenModal(false);
         setSelectedMember(null);
+      };
+
+      const handleClosePositionModal = () => {
+        setOpenPositionModal(false);
+        setSelectedPosition(null);
+      };
+
+      // Simulate claiming the open role
+      const handleClaimRole = (position) => {
+        alert(`You have claimed the role: ${position.role}`);
+        handleClosePositionModal();
       };
 
       return (
@@ -1747,10 +1756,15 @@
                             sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }}
                           />
                           <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                            {member.name}
+                            {member.name === 'Open Position'
+                              ? `Open Position: ${member.role}`
+                              : member.name}
                           </Typography>
-                          <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
-                            {member.role}
+                          <Typography
+                            variant="body1"
+                            sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}
+                          >
+                            {member.name === 'Open Position' ? '' : member.role}
                           </Typography>
                           <Typography variant="body2" sx={{ textAlign: 'center' }}>
                             {member.bio}
@@ -1764,7 +1778,7 @@
             </Box>
           ))}
 
-          {/* Modal to show details of selected team member */}
+          {/* Team Member Details Modal */}
           <Modal
             open={openModal}
             onClose={handleCloseModal}
@@ -1773,22 +1787,74 @@
             BackdropProps={{
               timeout: 500,
             }}
-            aria-labelledby="team-modal-preview-title"
-            aria-describedby="team-modal-preview-description"
+            aria-labelledby="team-modal-title-landing"
+            aria-describedby="team-modal-description-landing"
           >
             <Fade in={openModal}>
               <Box className="modalContent">
                 {selectedMember && (
                   <>
-                    <Typography id="team-modal-preview-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                    <Typography id="team-modal-title-landing" variant="h5" component="h2" sx={{ mb: 2 }}>
                       {selectedMember.name}
                     </Typography>
-                    <Typography id="team-modal-preview-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}<br /><br />
+                    <Typography id="team-modal-description-landing" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}
+                      <br />
+                      <br />
                       {selectedMember.bio}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+
+          {/* Open Position Modal */}
+          <Modal
+            open={openPositionModal}
+            onClose={handleClosePositionModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="open-position-modal-title-landing"
+            aria-describedby="open-position-modal-description-landing"
+          >
+            <Fade in={openPositionModal}>
+              <Box className="modalContent">
+                {selectedPosition && (
+                  <>
+                    <Typography
+                      id="open-position-modal-title-landing"
+                      variant="h5"
+                      component="h2"
+                      sx={{ mb: 2 }}
+                    >
+                      Claim This Open Position
+                    </Typography>
+                    <Typography id="open-position-modal-description-landing" sx={{ mb: 4 }}>
+                      <strong>Role: </strong> {selectedPosition.role}
+                      <br />
+                      Are you ready to take on this position?
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleClaimRole(selectedPosition)}
+                    >
+                      Claim Role
+                    </Button>
+                    <Button
+                      variant="text"
+                      color="secondary"
+                      onClick={handleClosePositionModal}
+                      sx={{ ml: 2 }}
+                    >
+                      Cancel
                     </Button>
                   </>
                 )}
@@ -1901,7 +1967,7 @@
       React.useEffect(() => {
         const timer = setInterval(() => {
           nextTestimonial();
-        }, 7000); // Change testimonial every 7 seconds
+        }, 7000);
         return () => clearInterval(timer);
       }, []);
 
@@ -1912,7 +1978,11 @@
           </Typography>
           <Box sx={{ maxWidth: 600, margin: '0 auto', position: 'relative' }}>
             <Box className="testimonial">
-              <Avatar src={testimonials[currentTestimonial].avatar} alt={testimonials[currentTestimonial].name} className="testimonial-avatar" />
+              <Avatar
+                src={testimonials[currentTestimonial].avatar}
+                alt={testimonials[currentTestimonial].name}
+                className="testimonial-avatar"
+              />
               <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
                 {testimonials[currentTestimonial].name}
               </Typography>
@@ -1954,13 +2024,31 @@
           <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
             “Every dollar sown grows a forest of connection.”
           </Typography>
-          <Button variant="contained" color="secondary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Donate Now')}>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            sx={{ m: 2 }}
+            onClick={() => window.alert('Donate Now')}
+          >
             Donate Now
           </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => window.alert('Take the Survey')}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            sx={{ m: 2 }}
+            onClick={() => window.alert('Take the Survey')}
+          >
             Take the Survey
           </Button>
-          <Button variant="outlined" color="primary" size="large" sx={{ m: 2 }} onClick={() => setCurrentPage('investors')}>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            sx={{ m: 2 }}
+            onClick={() => setCurrentPage('investors')}
+          >
             Become an Investor
           </Button>
         </Box>
