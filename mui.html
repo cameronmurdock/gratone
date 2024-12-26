@@ -192,14 +192,14 @@
 
     // ======================= Data Objects =======================
 
-    // Updated Users Data: Real Team + Open Positions
+    // Users Data
     const users = [
       {
         id: '1',
         name: 'Cameron Ely-Murdock',
         email: 'cameron@onelocal.com',
         role: 'Strategy Director',
-        groups: ['Admin + Org Structure'],
+        groups: ['Admin + Org Structure', 'Governance'],
         image: 'https://via.placeholder.com/300?text=Cameron',
         bio: 'Strategy Director of ONE Local, focused on empowering communities, shared governance, and platform development.',
       },
@@ -234,14 +234,14 @@
         id: '5',
         name: 'Shawn Lauzon',
         email: 'shawn@onelocal.com',
-        role: 'Product Development',
+        role: 'Product Development Team',
         groups: ['Tech Development'],
         image: 'https://via.placeholder.com/300?text=Shawn',
-        bio: 'Focuses on innovative product development, ensuring smooth technical implementations.',
+        bio: 'Product Development team member leading innovation and maintaining the platform’s technical excellence.',
       },
-      // -------- Open Positions --------
+      // Open Positions
       {
-        id: 'open1',
+        id: '6',
         name: 'Open Position',
         email: '',
         role: 'Marketing Specialist',
@@ -250,7 +250,7 @@
         bio: 'This role is currently unfilled. Click to apply for this position.',
       },
       {
-        id: 'open2',
+        id: '7',
         name: 'Open Position',
         email: '',
         role: 'Volunteer Coordinator',
@@ -258,52 +258,93 @@
         image: 'https://via.placeholder.com/300?text=Open+Position',
         bio: 'Help organize and manage volunteers for events and community outreach.',
       },
+      {
+        id: '8',
+        name: 'Open Position',
+        email: '',
+        role: 'Community Manager',
+        groups: ['Community Outreach'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'Manage community interactions and ensure a positive environment.',
+      },
+      {
+        id: '9',
+        name: 'Open Position',
+        email: '',
+        role: 'Technical Lead',
+        groups: ['Tech Development'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'Lead the technical team in developing and maintaining the platform.',
+      },
+      {
+        id: '10',
+        name: 'Open Position',
+        email: '',
+        role: 'Content Creator',
+        groups: ['Marketing Team'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'Create engaging content to promote community initiatives.',
+      },
+      {
+        id: '11',
+        name: 'Open Position',
+        email: '',
+        role: 'Event Coordinator',
+        groups: ['Event Management'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'Coordinate and manage community events to foster engagement.',
+      },
     ];
 
-    // Updated Groups Data: Existing + New Groups with Open Positions
+    // Groups Data
     const groups = [
       {
         id: 'group1',
         name: 'Admin + Org Structure',
         description: 'Managing organizational structure and operations.',
-        members: ['1'], // Cameron only here
+        members: ['1', '2'],
       },
       {
         id: 'group2',
-        name: 'Funding and Finance',
-        description: 'Managing financial planning and resource allocation.',
-        members: ['2'], // Miranda
+        name: 'Community Outreach',
+        description: 'Connecting with community members and spreading awareness.',
+        members: ['3', '4', '8'], // Added '8' for Community Manager
       },
       {
         id: 'group3',
-        name: 'Community Outreach',
-        description: 'Connecting with community members and spreading awareness.',
-        members: ['3'], // Kathleen
+        name: 'Directors',
+        description: 'Directing organizational strategies and initiatives.',
+        members: ['5'],
       },
       {
         id: 'group4',
-        name: 'Operations',
-        description: 'Overseeing day-to-day processes to keep the org running smoothly.',
-        members: ['4'], // Grig
+        name: 'Funding and Finance',
+        description: 'Managing financial planning and resource allocation.',
+        members: ['2'],
       },
       {
         id: 'group5',
         name: 'Tech Development',
         description: 'Building and maintaining the ONE Local platform.',
-        members: ['5'], // Shawn
+        members: ['5', '9'],
       },
-      // ---- New Groups with Open Positions ----
       {
         id: 'group6',
         name: 'Marketing Team',
         description: 'Creating marketing strategies and promotional materials.',
-        members: ['open1'], // Open Position
+        members: ['6', '10'],
       },
       {
         id: 'group7',
         name: 'Volunteer Coordination',
         description: 'Recruiting, training, and organizing volunteers for events.',
-        members: ['open2'], // Open Position
+        members: ['7'],
+      },
+      {
+        id: 'group8',
+        name: 'Event Management',
+        description: 'Planning and executing community events.',
+        members: ['11'],
       },
     ];
 
@@ -360,7 +401,7 @@
       ],
     };
 
-    // Blog Posts Data (Sample)
+    // Blog Posts Data
     const blogPosts = [
       {
         title: 'Building Sustainable Communities',
@@ -660,6 +701,7 @@
             </Menu>
           </Toolbar>
         </AppBar>
+      );
 
     // ======================= Landing Page =======================
     function LandingPage({ setCurrentPage }) {
@@ -701,16 +743,12 @@
     }
 
     function TeamPage() {
-      /**
-       * This page shows the full listing of groups + their members (including open positions).
-       * Clicking an "Open Position" shows a modal allowing the user to “take the role.”
-       */
+      // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
       const [isOpenPosition, setIsOpenPosition] = React.useState(false);
 
       const handleOpenModal = (member) => {
-        // If the member's ID starts with "open" or is labeled "Open Position," treat differently
         if (member.id.startsWith('open')) {
           setIsOpenPosition(true);
         } else {
@@ -721,9 +759,9 @@
       };
 
       const handleCloseModal = () => {
+        setOpenModal(false);
         setSelectedMember(null);
         setIsOpenPosition(false);
-        setOpenModal(false);
       };
 
       // Example function to "take" the open role
@@ -736,7 +774,7 @@
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Meet the Team (and Open Positions)
+            Meet the Team
           </Typography>
           {groups.map((group, index) => (
             <Box key={index} sx={{ mb: 8 }}>
@@ -746,7 +784,6 @@
               <Grid container spacing={6}>
                 {group.members.map((memberId) => {
                   const member = users.find((user) => user.id === memberId);
-                  // If a user isn't found, you might skip or handle differently
                   if (!member) return null;
 
                   return (
@@ -763,7 +800,7 @@
                             sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }}
                           />
                           <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                            {member.name === 'Open Position' || member.id.startsWith('open') ? 'Open Position' : member.name}
+                            {member.name}
                           </Typography>
                           <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
                             {member.role}
@@ -780,7 +817,7 @@
             </Box>
           ))}
 
-          {/* Modal to show user or open position details */}
+          {/* Team Member Details Modal */}
           <Modal
             open={openModal}
             onClose={handleCloseModal}
@@ -800,9 +837,7 @@
                       {selectedMember.name}
                     </Typography>
                     <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}
-                      <br />
-                      <br />
+                      <strong>Role:</strong> {selectedMember.role}<br /><br />
                       {selectedMember.bio}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
@@ -1054,8 +1089,8 @@
       };
 
       const handleCloseModal = () => {
-        setSelectedPost(null);
         setOpenModal(false);
+        setSelectedPost(null);
       };
 
       return (
@@ -1326,14 +1361,14 @@
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedOrganization, setSelectedOrganization] = React.useState(null);
 
-      const handleOpenModal = (aff) => {
-        setSelectedOrganization(aff);
+      const handleOpenModal = (org) => {
+        setSelectedOrganization(org);
         setOpenModal(true);
       };
 
       const handleCloseModal = () => {
-        setSelectedOrganization(null);
         setOpenModal(false);
+        setSelectedOrganization(null);
       };
 
       return (
@@ -1434,8 +1469,8 @@
       };
 
       const handleCloseModal = () => {
-        setSelectedFeature(null);
         setOpenModal(false);
+        setSelectedFeature(null);
       };
 
       return (
@@ -1543,8 +1578,8 @@
       };
 
       const handleCloseModal = () => {
-        setSelectedMembership(null);
         setOpenModal(false);
+        setSelectedMembership(null);
       };
 
       return (
@@ -1619,27 +1654,15 @@
       // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
-      const [isOpenPosition, setIsOpenPosition] = React.useState(false);
 
       const handleOpenModal = (member) => {
-        if (member.id.startsWith('open')) {
-          setIsOpenPosition(true);
-        } else {
-          setIsOpenPosition(false);
-        }
         setSelectedMember(member);
         setOpenModal(true);
       };
 
       const handleCloseModal = () => {
-        setSelectedMember(null);
-        setIsOpenPosition(false);
         setOpenModal(false);
-      };
-
-      const handleTakeRole = () => {
-        window.alert(`You have applied to take on the role: ${selectedMember.role}`);
-        handleCloseModal();
+        setSelectedMember(null);
       };
 
       return (
@@ -1662,7 +1685,7 @@
                         <CardContent>
                           <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
                           <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                            {member.name === 'Open Position' || member.id.startsWith('open') ? 'Open Position' : member.name}
+                            {member.name}
                           </Typography>
                           <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
                             {member.role}
@@ -1693,36 +1716,17 @@
           >
             <Fade in={openModal}>
               <Box className="modalContent">
-                {selectedMember && !isOpenPosition && (
+                {selectedMember && (
                   <>
                     <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
                       {selectedMember.name}
                     </Typography>
                     <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      <strong>Role:</strong> {selectedMember.role}
-                      <br />
-                      <br />
+                      <strong>Role:</strong> {selectedMember.role}<br /><br />
                       {selectedMember.bio}
                     </Typography>
                     <Button variant="contained" color="primary" onClick={handleCloseModal}>
                       Close
-                    </Button>
-                  </>
-                )}
-
-                {selectedMember && isOpenPosition && (
-                  <>
-                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                      Apply for: {selectedMember.role}
-                    </Typography>
-                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
-                      {selectedMember.bio}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleTakeRole}>
-                      Take This Role
-                    </Button>
-                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
-                      Cancel
                     </Button>
                   </>
                 )}
@@ -1912,79 +1916,37 @@
                 </Typography>
                 <List>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('home')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('home')} className="footer-link">
                       <ListItemText primary="Home" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('manifesto')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('manifesto')} className="footer-link">
                       <ListItemText primary="About" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('features-overview')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('features-overview')} className="footer-link">
                       <ListItemText primary="Features" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('impact-stories')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('impact-stories')} className="footer-link">
                       <ListItemText primary="Community" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('investors')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('investors')} className="footer-link">
                       <ListItemText primary="Investors" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('contact-us')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('contact-us')} className="footer-link">
                       <ListItemText primary="Contact Us" />
                     </Link>
                   </ListItem>
                   <ListItem disableGutters>
-                    <Link
-                      href="#"
-                      color="inherit"
-                      underline="none"
-                      onClick={() => setCurrentPage('faq')}
-                      className="footer-link"
-                    >
+                    <Link href="#" color="inherit" underline="none" onClick={() => setCurrentPage('faq')} className="footer-link">
                       <ListItemText primary="FAQ" />
                     </Link>
                   </ListItem>
@@ -2048,7 +2010,6 @@
           </Container>
         </Box>
       );
-    }
 
     // ======================= Render App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
