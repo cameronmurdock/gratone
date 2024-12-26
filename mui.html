@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <!-- Custom Styles -->
   <style>
     /* Responsive Menu Styling */
     @media (max-width: 960px) {
@@ -86,6 +85,16 @@
     .carousel-button.right {
       right: 10px;
     }
+    /* Button Hover Effect */
+    .MuiButton-containedPrimary:hover {
+      background-color: #5a9e5a;
+    }
+    .MuiButton-containedSecondary:hover {
+      background-color: #e57373;
+    }
+    .MuiButton-outlinedPrimary:hover {
+      background-color: rgba(109, 76, 65, 0.1);
+    }
     /* Testimonials Styling */
     .testimonial {
       text-align: center;
@@ -136,12 +145,12 @@
 <body style="margin: 0;">
   <div id="root"></div>
 
-  <!-- React and ReactDOM -->
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <!-- Material UI -->
+  <!-- Material UI v5 -->
   <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <!-- Material UI Icons -->
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
@@ -179,34 +188,123 @@
       Modal,
       Fade,
       Backdrop,
-      useTheme,
     } = MaterialUI;
 
     // ======================= Data Objects =======================
 
-    // Users Data
+    // Updated Users Data: Real Team + Open Positions
     const users = [
       {
         id: '1',
-        name: 'Alice Johnson',
-        email: 'alice.johnson@example.com',
-        role: 'Founder & CEO',
+        name: 'Cameron Ely-Murdock',
+        email: 'cameron@onelocal.com',
+        role: 'Strategy Director',
         groups: ['Admin + Org Structure'],
-        image: 'https://i.pravatar.cc/300?img=5',
-        bio: 'Alice is passionate about community building and has over 15 years of experience in social entrepreneurship.',
+        image: 'https://via.placeholder.com/300?text=Cameron',
+        bio: 'Strategy Director of ONE Local, focused on empowering communities, shared governance, and platform development.',
       },
-      // ... (Other user objects)
+      {
+        id: '2',
+        name: 'Miranda Clendening',
+        email: 'miranda@onelocal.com',
+        role: 'Finance Treasurer',
+        groups: ['Funding and Finance'],
+        image: 'https://via.placeholder.com/300?text=Miranda',
+        bio: 'Finance Treasurer ensuring sustainable financial growth and resource allocation.',
+      },
+      {
+        id: '3',
+        name: 'Kathleen Gafney',
+        email: 'kathleen@onelocal.com',
+        role: 'Outreach Secretary',
+        groups: ['Community Outreach'],
+        image: 'https://via.placeholder.com/300?text=Kathleen',
+        bio: 'Outreach Secretary fostering engagement and building relationships with the community.',
+      },
+      {
+        id: '4',
+        name: 'Grig Bilham',
+        email: 'grig@onelocal.com',
+        role: 'Operations Manager',
+        groups: ['Operations'],
+        image: 'https://via.placeholder.com/300?text=Grig',
+        bio: 'Operations Manager overseeing day-to-day processes and ensuring efficiency across departments.',
+      },
+      {
+        id: '5',
+        name: 'Shawn Lauzon',
+        email: 'shawn@onelocal.com',
+        role: 'Product Development',
+        groups: ['Tech Development'],
+        image: 'https://via.placeholder.com/300?text=Shawn',
+        bio: 'Focuses on innovative product development, ensuring smooth technical implementations.',
+      },
+      // -------- Open Positions --------
+      {
+        id: 'open1',
+        name: 'Open Position',
+        email: '',
+        role: 'Marketing Specialist',
+        groups: ['Marketing Team'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'This role is currently unfilled. Click to apply for this position.',
+      },
+      {
+        id: 'open2',
+        name: 'Open Position',
+        email: '',
+        role: 'Volunteer Coordinator',
+        groups: ['Volunteer Coordination'],
+        image: 'https://via.placeholder.com/300?text=Open+Position',
+        bio: 'Help organize and manage volunteers for events and community outreach.',
+      },
     ];
 
-    // Groups Data
+    // Updated Groups Data: Existing + New Groups with Open Positions
     const groups = [
       {
         id: 'group1',
         name: 'Admin + Org Structure',
         description: 'Managing organizational structure and operations.',
-        members: ['1', '2'],
+        members: ['1'], // Cameron only here
       },
-      // ... (Other group objects)
+      {
+        id: 'group2',
+        name: 'Funding and Finance',
+        description: 'Managing financial planning and resource allocation.',
+        members: ['2'], // Miranda
+      },
+      {
+        id: 'group3',
+        name: 'Community Outreach',
+        description: 'Connecting with community members and spreading awareness.',
+        members: ['3'], // Kathleen
+      },
+      {
+        id: 'group4',
+        name: 'Operations',
+        description: 'Overseeing day-to-day processes to keep the org running smoothly.',
+        members: ['4'], // Grig
+      },
+      {
+        id: 'group5',
+        name: 'Tech Development',
+        description: 'Building and maintaining the ONE Local platform.',
+        members: ['5'], // Shawn
+      },
+      // ---- New Groups with Open Positions ----
+      {
+        id: 'group6',
+        name: 'Marketing Team',
+        description: 'Creating marketing strategies and promotional materials.',
+        members: ['open1'], // Open Position
+      },
+      {
+        id: 'group7',
+        name: 'Volunteer Coordination',
+        description: 'Recruiting, training, and organizing volunteers for events.',
+        members: ['open2'], // Open Position
+      },
     ];
 
     // Organization Data
@@ -222,38 +320,15 @@
         phone: '+1 (234) 567-890',
         address: '123 Community Lane, Townsville, USA',
       },
-      logo: 'https://i.imgur.com/NgdMMh5.png',
-      affiliatedOrganizations: [
-        {
-          id: 'aff1',
-          name: 'Yellow Barn',
-          logo: 'https://via.placeholder.com/150x100?text=Yellow+Barn',
-          url: 'https://yellowbarn.org',
-          description: 'Yellow Barn is a community center fostering art and creativity.',
-        },
-        // ... (Other affiliated organizations)
-      ],
+      logo: 'https://via.placeholder.com/150x100?text=ONE+Local',
+      affiliatedOrganizations: [],
     };
 
-    // Blog Posts Data
-    const blogPosts = [
-      {
-        title: 'Building Sustainable Communities',
-        excerpt: 'Discover how ONE Local promotes sustainability through shared resources and community engagement.',
-        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-        content: 'Full content for Building Sustainable Communities...',
-      },
-      // ... (Other blog posts)
-    ];
-
-    // Images for Hero Section Carousel
-    const heroImages = [
-      { src: 'https://via.placeholder.com/1200x600?text=Mobile+App+in+Hand', alt: 'Mobile App in Hand' },
-      { src: 'https://via.placeholder.com/1200x600?text=App+Screenshot', alt: 'App Screenshot' },
-      { src: 'https://via.placeholder.com/1200x600?text=Call+to+Action', alt: 'Call to Action' },
-    ];
+    // Blog Posts Data (unchanged for brevity, empty or sample)
+    const blogPosts = [];
 
     // ======================= Custom Theme =======================
+    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
       palette: {
         mode: 'light',
@@ -373,7 +448,38 @@
         switch (currentPage) {
           case 'home':
             return <LandingPage setCurrentPage={setCurrentPage} />;
-          // ... (Other cases)
+          case 'manifesto':
+            return <ManifestoPage />;
+          case 'team':
+            return <TeamPage />;
+          case 'whitepaper':
+            return <WhitepaperPage />;
+          case 'investors':
+            return <InvestorsPage />;
+          case 'features-overview':
+            return <FeaturesOverviewPage />;
+          case 'local-members':
+            return <LocalMembersPage setCurrentPage={setCurrentPage} />;
+          case 'event-hosts':
+            return <EventHostsPage setCurrentPage={setCurrentPage} />;
+          case 'sellers':
+            return <SellersPage setCurrentPage={setCurrentPage} />;
+          case 'organizations':
+            return <OrganizationsPage setCurrentPage={setCurrentPage} />;
+          case 'impact-stories':
+            return <ImpactStoriesPage />;
+          case 'blog':
+            return <BlogPage />;
+          case 'download-app':
+            return <DownloadAppPage />;
+          case 'terms-of-service':
+            return <TermsOfServicePage />;
+          case 'privacy-policy':
+            return <PrivacyPolicyPage />;
+          case 'faq':
+            return <FAQPage />;
+          case 'contact-us':
+            return <ContactUsPage />;
           default:
             return <LandingPage setCurrentPage={setCurrentPage} />;
         }
@@ -384,7 +490,7 @@
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
-            <Toolbar />
+            <Toolbar /> {/* This will push the content below the AppBar */}
             {renderPage()}
             <Footer setCurrentPage={setCurrentPage} />
           </Box>
@@ -394,7 +500,112 @@
 
     // ======================= Navigation Bar =======================
     function NavigationBar({ setCurrentPage, isMobile }) {
-      // ... (Same as before)
+      const [anchorEl, setAnchorEl] = React.useState(null);
+      const [menuId, setMenuId] = React.useState(null);
+
+      const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setMenuId(id);
+      };
+
+      const handleMenuClose = () => {
+        setAnchorEl(null);
+        setMenuId(null);
+      };
+
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <img
+              src="https://i.imgur.com/NgdMMh5.png" // Placeholder or custom logo
+              alt="Logo"
+              style={{ width: 40, height: 40, marginRight: '10px' }}
+            />
+            <Typography
+              variant="h4"
+              sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer', color: 'black' }}
+              onClick={() => setCurrentPage('home')}
+            >
+              {organization.name}
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton color="inherit" onClick={(e) => handleMenuOpen(e, 'mobileMenu')} aria-label="menu">
+                  <Icon>menu</Icon>
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuId === 'mobileMenu'}
+                  onClose={handleMenuClose}
+                  PaperProps={{ style: { zIndex: 1400 } }}
+                >
+                  <MenuItem onClick={() => { setCurrentPage('home'); handleMenuClose(); }}>Home</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'about'); }}>About</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'features'); }}>Features</MenuItem>
+                  <MenuItem onClick={(e) => { handleMenuOpen(e, 'community'); }}>Community</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('download-app'); handleMenuClose(); }}>Download App</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <div className="desktopMenu">
+                <Button color="primary" onClick={() => setCurrentPage('home')}>Home</Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'about')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  About
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'features')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  Features
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={(e) => handleMenuOpen(e, 'community')}
+                  endIcon={<Icon>expand_more</Icon>}
+                >
+                  Community
+                </Button>
+                <Button color="primary" onClick={() => setCurrentPage('download-app')}>Download App</Button>
+              </div>
+            )}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && menuId !== 'mobileMenu'}
+              onClose={handleMenuClose}
+              PaperProps={{ style: { zIndex: 1400 } }}
+            >
+              {menuId === 'about' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('manifesto'); handleMenuClose(); }}>Manifesto</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('team'); handleMenuClose(); }}>Team</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('whitepaper'); handleMenuClose(); }}>Whitepaper</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('investors'); handleMenuClose(); }}>Investors</MenuItem>
+                </>
+              )}
+              {menuId === 'features' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('features-overview'); handleMenuClose(); }}>Overview</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('local-members'); handleMenuClose(); }}>For Local Members</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('event-hosts'); handleMenuClose(); }}>For Event Hosts</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('sellers'); handleMenuClose(); }}>For Sellers</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('organizations'); handleMenuClose(); }}>For Organizations</MenuItem>
+                </>
+              )}
+              {menuId === 'community' && (
+                <>
+                  <MenuItem onClick={() => { setCurrentPage('impact-stories'); handleMenuClose(); }}>Impact Stories</MenuItem>
+                  <MenuItem onClick={() => { setCurrentPage('blog'); handleMenuClose(); }}>Blog</MenuItem>
+                </>
+              )}
+            </Menu>
+          </Toolbar>
+        </AppBar>
+      );
     }
 
     // ======================= Landing Page =======================
@@ -402,66 +613,321 @@
       return (
         <Container maxWidth="lg" sx={{ mt: 4 }}>
           <HeroSection setCurrentPage={setCurrentPage} />
-          <LogoCollection />
           <FeaturesSection />
-          <MembershipTypes setCurrentPage={setCurrentPage} />
           <TeamSection />
-          <CommunityImpact />
-          <TestimonialsCarousel />
-          <CallToAction setCurrentPage={setCurrentPage} />
         </Container>
       );
     }
 
-    // ======================= Hero Section =======================
-    function HeroSection({ setCurrentPage }) {
-      const [currentSlide, setCurrentSlide] = React.useState(0);
-      const theme = useTheme();
+    // ======================= Other Pages (Shortened for Brevity) =======================
+    function ManifestoPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Manifesto
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
 
-      const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    function TeamPage() {
+      /**
+       * This page shows the full listing of groups + their members (including open positions).
+       * Clicking an "Open Position" shows a modal allowing the user to “take the role.”
+       */
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMember, setSelectedMember] = React.useState(null);
+      const [isOpenPosition, setIsOpenPosition] = React.useState(false);
+
+      const handleOpenModal = (member) => {
+        // If the member's ID starts with "open" or is labeled "Open Position," treat differently
+        if (member.id.startsWith('open')) {
+          setIsOpenPosition(true);
+        } else {
+          setIsOpenPosition(false);
+        }
+        setSelectedMember(member);
+        setOpenModal(true);
       };
 
-      const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+      const handleCloseModal = () => {
+        setSelectedMember(null);
+        setIsOpenPosition(false);
+        setOpenModal(false);
       };
 
-      React.useEffect(() => {
-        const timer = setInterval(() => {
-          nextSlide();
-        }, 5000); // Change slide every 5 seconds
-        return () => clearInterval(timer);
-      }, []);
-
-      const captions = [
-        'Your Events, Gig Economy, Community Organization Are Gonna Take Off from This Platform.',
-        'Connect. Share. Grow.',
-        'Empower Your Community, Enrich Your Life.',
-      ];
+      // Example function to "take" the open role
+      const handleTakeRole = () => {
+        window.alert(`You have applied to take on the role: ${selectedMember.role}`);
+        // Additional logic could go here (e.g., updating a database or user profile)
+        handleCloseModal();
+      };
 
       return (
-        <Box sx={{ textAlign: 'center', py: 6 }}>
-          <Box className="carousel" sx={{ position: 'relative', mb: 4 }}>
-            <img src={heroImages[currentSlide].src} alt={heroImages[currentSlide].alt} />
-            <IconButton
-              className="carousel-button left"
-              onClick={prevSlide}
-              aria-label="Previous Slide"
-              sx={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}
-            >
-              <Icon>chevron_left</Icon>
-            </IconButton>
-            <IconButton
-              className="carousel-button right"
-              onClick={nextSlide}
-              aria-label="Next Slide"
-              sx={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}
-            >
-              <Icon>chevron_right</Icon>
-            </IconButton>
-          </Box>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
-            {captions[currentSlide]}
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team (and Open Positions)
+          </Typography>
+          {groups.map((group, index) => (
+            <Box key={index} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {group.name}
+              </Typography>
+              <Grid container spacing={6}>
+                {group.members.map((memberId) => {
+                  const member = users.find((user) => user.id === memberId);
+                  // If a user isn't found, you might skip or handle differently
+                  if (!member) return null;
+
+                  return (
+                    <Grid item xs={12} sm={6} md={3} key={member.id}>
+                      <Card
+                        onClick={() => handleOpenModal(member)}
+                        sx={{ cursor: 'pointer' }}
+                        aria-labelledby={`member-${member.name}`}
+                      >
+                        <CardContent>
+                          <Avatar
+                            src={member.image}
+                            alt={member.name}
+                            sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }}
+                          />
+                          <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                            {member.name === 'Open Position' ? 'Open Position' : member.name}
+                          </Typography>
+                          <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                            {member.role}
+                          </Typography>
+                          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                            {member.bio}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          ))}
+
+          {/* Modal to show user or open position details */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="team-modal-title"
+            aria-describedby="team-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMember && !isOpenPosition && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMember.name}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}
+                      <br />
+                      <br />
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+
+                {selectedMember && isOpenPosition && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      Apply for: {selectedMember.role}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleTakeRole}>
+                      Take This Role
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Cancel
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    function WhitepaperPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Whitepaper
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function InvestorsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Invest in a New Kind of Social Infrastructure
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function FeaturesOverviewPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Discover What’s Possible with ONE Local
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function LocalMembersPage({ setCurrentPage }) {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Local Members
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function EventHostsPage({ setCurrentPage }) {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Event Hosts
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function SellersPage({ setCurrentPage }) {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Sellers
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function OrganizationsPage({ setCurrentPage }) {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            For Organizations
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function ImpactStoriesPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Impact Stories
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function BlogPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Blog
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function DownloadAppPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Download the App
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function TermsOfServicePage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Terms of Service
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function PrivacyPolicyPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Privacy Policy
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function FAQPage() {
+      return (
+        <Container id="faq" sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Frequently Asked Questions
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    function ContactUsPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Contact Us
+          </Typography>
+          {/* ... */}
+        </Container>
+      );
+    }
+
+    // ======================= Reusable Components (Shortened) =======================
+    function HeroSection({ setCurrentPage }) {
+      return (
+        <Box sx={{ textAlign: 'center', py: 12 }}>
+          <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 4 }}>
+            {organization.tagline}
+          </Typography>
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 6 }}>
+            {organization.mission}
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
             Download the App
@@ -470,69 +936,264 @@
       );
     }
 
-    // ======================= Other Components =======================
-    // ... (Implement other components similarly, adding images to sections)
-
-    // For example, in FeaturesSection, include images that tell the story without words.
     function FeaturesSection() {
-      const featuresData = [
-        {
-          title: 'Connect',
-          description: 'A message away from neighbors you haven’t met yet.',
-          iconName: 'connect_without_contact',
-          image: 'https://via.placeholder.com/400x300?text=Connect',
-          details: 'Connect with your local community members through our integrated messaging system...',
-        },
-        // ... (Other features)
-      ];
-
-      // Modal State
-      const [openModal, setOpenModal] = React.useState(false);
-      const [selectedFeature, setSelectedFeature] = React.useState(null);
-
-      const handleOpenModal = (feature) => {
-        setSelectedFeature(feature);
-        setOpenModal(true);
-      };
-
-      const handleCloseModal = () => {
-        setOpenModal(false);
-        setSelectedFeature(null);
-      };
-
+      // Minimal placeholder
       return (
         <Box mt={12} mb={12}>
           <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             Explore What We Offer
           </Typography>
-          <Grid container spacing={6}>
-            {featuresData.map((feature) => (
-              <Grid item xs={12} sm={6} md={3} key={feature.title}>
-                <Card onClick={() => handleOpenModal(feature)} sx={{ cursor: 'pointer' }}>
-                  <CardContent>
-                    <img src={feature.image} alt={feature.title} style={{ width: '100%', borderRadius: '10px' }} />
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mt: 4 }}>
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', mt: 2, textAlign: 'center' }}>
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Feature Details Modal */}
-          {/* ... (Modal implementation remains the same) */}
+          {/* ... */}
         </Box>
       );
     }
 
-    // Similarly, add images to other sections like MembershipTypes, TeamSection, etc.
+    function TeamSection() {
+      // Short preview of the team on the landing page
+      const displayGroups = groups.slice(0, 2); // Just a couple for the landing page
+      const [openModal, setOpenModal] = React.useState(false);
+      const [selectedMember, setSelectedMember] = React.useState(null);
+      const [isOpenPosition, setIsOpenPosition] = React.useState(false);
 
-    // ======================= Render App =======================
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
-</body>
-</html>
+      const handleOpenModal = (member) => {
+        if (member.id.startsWith('open')) {
+          setIsOpenPosition(true);
+        } else {
+          setIsOpenPosition(false);
+        }
+        setSelectedMember(member);
+        setOpenModal(true);
+      };
+
+      const handleCloseModal = () => {
+        setSelectedMember(null);
+        setIsOpenPosition(false);
+        setOpenModal(false);
+      };
+
+      const handleTakeRole = () => {
+        window.alert(`You have applied to take on the role: ${selectedMember.role}`);
+        handleCloseModal();
+      };
+
+      return (
+        <Box mt={12} mb={12}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }} align="center">
+            Meet the Team
+          </Typography>
+          {displayGroups.map((group, index) => (
+            <Box key={index} sx={{ mb: 8 }}>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+                {group.name}
+              </Typography>
+              <Grid container spacing={6}>
+                {group.members.map((memberId) => {
+                  const member = users.find((user) => user.id === memberId);
+                  if (!member) return null;
+                  return (
+                    <Grid item xs={12} sm={6} md={3} key={member.id}>
+                      <Card onClick={() => handleOpenModal(member)} sx={{ cursor: 'pointer' }} aria-labelledby={`member-${member.name}`}>
+                        <CardContent>
+                          <Avatar src={member.image} alt={member.name} sx={{ width: 120, height: 120, mx: 'auto', mb: 4 }} />
+                          <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                            {member.name === 'Open Position' ? 'Open Position' : member.name}
+                          </Typography>
+                          <Typography variant="body1" sx={{ textAlign: 'center', color: 'text.secondary', mb: 2 }}>
+                            {member.role}
+                          </Typography>
+                          <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                            {member.bio}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          ))}
+
+          {/* Team Member Details Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="team-modal-title"
+            aria-describedby="team-modal-description"
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {selectedMember && !isOpenPosition && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {selectedMember.name}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      <strong>Role:</strong> {selectedMember.role}
+                      <br />
+                      <br />
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+
+                {selectedMember && isOpenPosition && (
+                  <>
+                    <Typography id="team-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                      Apply for: {selectedMember.role}
+                    </Typography>
+                    <Typography id="team-modal-description" sx={{ mb: 4 }}>
+                      {selectedMember.bio}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleTakeRole}>
+                      Take This Role
+                    </Button>
+                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
+                      Cancel
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Box>
+      );
+    }
+
+    function Footer({ setCurrentPage }) {
+      return (
+        <Box py={6} sx={{ backgroundColor: '#f5f5f5' }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={6}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  {organization.name}
+                </Typography>
+                <List>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('home')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="Home" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('manifesto')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="About" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('features-overview')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="Features" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('impact-stories')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="Community" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('investors')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="Investors" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('contact-us')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="Contact Us" />
+                    </Link>
+                  </ListItem>
+                  <ListItem disableGutters>
+                    <Link
+                      href="#"
+                      color="inherit"
+                      underline="none"
+                      onClick={() => setCurrentPage('faq')}
+                      className="footer-link"
+                    >
+                      <ListItemText primary="FAQ" />
+                    </Link>
+                  </ListItem>
+                </List>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Follow Us
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Join the conversation.
+                </Typography>
+                <Box display="flex" justifyContent="flex-start">
+                  <IconButton href="#" color="primary" aria-label="Facebook">
+                    <Icon>facebook</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Twitter">
+                    <Icon>twitter</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="Instagram">
+                    <Icon>instagram</Icon>
+                  </IconButton>
+                  <IconButton href="#" color="primary" aria-label="LinkedIn">
+                    <Icon>linkedin</Icon>
+                  </IconButton>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 4 }}>
+                  Newsletter Signup
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                  Get the Latest Stories and Updates — Sign Up Here.
+                </Typography>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{ style: { color: '#6d4c41' } }}
+                  InputProps={{ style: { color: '#333333', backgroundColor: '#ffffff' } }}
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Subscribe
+                </Button>
+            
