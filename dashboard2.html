@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Org Profile</title>
+  <title>ONE Local - The Stand</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Meta Descriptions for SEO -->
-  <meta name="description" content="ONE Local - Organization Profile">
   <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -47,7 +45,6 @@
       color: #333;
     }
 
-    /* Modal */
     .modalContent {
       position: absolute;
       top: 50%;
@@ -61,8 +58,6 @@
       padding: 20px;
       outline: none;
     }
-
-    /* Card Hover */
     .MuiCard-root:hover {
       transform: translateY(-5px);
       transition: transform 0.3s;
@@ -73,20 +68,12 @@
   <div id="root"></div>
 
   <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
-  <script
-    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
-    crossorigin
-  ></script>
-  <!-- Material UI Icons -->
-  <script
-    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
@@ -102,21 +89,18 @@
       Paper,
       Avatar,
       Button,
-      IconButton,
-      Icon,
       Tabs,
       Tab,
-      InputBase,
+      Card,
+      CardContent,
       Modal,
       Fade,
-      Backdrop,
-      Chip,
+      Backdrop
     } = MaterialUI;
 
-    // Same theme
+    // ---------- Shared Theme ---------- //
     const theme = createTheme({
       palette: {
-        mode: 'light',
         primary: {
           main: '#6d4c41',
         },
@@ -125,10 +109,6 @@
         },
         background: {
           default: '#f5f5f5',
-        },
-        text: {
-          primary: '#333333',
-          secondary: '#555555',
         },
       },
       typography: {
@@ -143,174 +123,227 @@
       },
     });
 
-    // Example data
-    const orgData = {
-      name: 'Community Garden Collective',
-      description: 'Growing together, nurturing nature, cultivating community.',
-      logo: 'https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo',
-      coverPhoto: 'https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Org+Cover',
-      adminAvatar: 'https://randomuser.me/api/portraits/women/39.jpg',
-    };
-
-    const tabLabels = ['About', 'Posts', 'Events', 'Groups', 'Members', 'Job-Board'];
-
+    // ---------- "The Stand" Data with Extra Fields ---------- //
     const aboutData = {
-      description:
-        "We are a collective of urban gardeners and volunteers working together to cultivate greenspaces and share fresh produce with local communities. Join us to learn, to grow, and to foster a healthier environment.",
+      description: "The Stand is a vibrant community hub in Boulder that fosters creativity, collaboration, and connection. It hosts events, supports local artists and entrepreneurs, and provides a welcoming space for gatherings.",
+      contact: "Email: thestand@community.org | Phone: (555) 123-4567",
     };
 
-    // Sample posts
     const postsData = [
       {
         id: 1,
-        user: 'Alice',
-        content: 'Check out our new greenhouse build progress!',
-        date: 'Dec 29, 2024',
-        avatar: 'https://randomuser.me/api/portraits/women/32.jpg',
+        user: "Leif",
+        content: "We're hosting a jam session this Friday—bring your instruments!",
+        date: "Dec 26, 2024",
+        location: "The Stand Main Hall",
+        details: "Free entry, open to all. We'll have amps, a basic drum kit, and plenty of chairs. Let's make music!",
       },
       {
         id: 2,
-        user: 'Bob',
-        content: 'Volunteers needed for a composting workshop this Sunday!',
-        date: 'Dec 28, 2024',
-        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
+        user: "Nate",
+        content: "Check out our new local art gallery opening this weekend!",
+        date: "Dec 25, 2024",
+        location: "The Stand Gallery Corner",
+        details: "Featuring works by local artists, plus free refreshments. Support Boulder’s art scene!",
       },
+      // More posts...
     ];
 
-    // Sample events
     const eventsData = [
-      { id: 101, title: 'Seed Swap', date: 'Jan 15, 2025' },
-      { id: 102, title: 'Spring Planting Day', date: 'Feb 5, 2025' },
-      { id: 103, title: 'Compost Workshop', date: 'Feb 20, 2025' },
+      { 
+        id: 101, 
+        title: "Community Potluck", 
+        date: "Jan 5, 2025", 
+        location: "Garden Courtyard", 
+        details: "Bring a dish to share! We'll have games, music, and community bonding." 
+      },
+      { 
+        id: 102, 
+        title: "Live Music Night", 
+        date: "Jan 12, 2025", 
+        location: "The Stand Auditorium", 
+        details: "Local bands performing. Tickets $5 at the door. All ages welcome." 
+      },
+      // More events...
     ];
 
-    // Sample groups
     const groupsData = [
-      { id: 201, name: 'Rookie Gardeners' },
-      { id: 202, name: 'Permaculture Enthusiasts' },
-      { id: 203, name: 'Veggie Cooks' },
+      { 
+        id: 301, 
+        name: "Artists Collective", 
+        description: "A group for local painters, sculptors, digital artists, and more.", 
+        count: 14 
+      },
+      { 
+        id: 302, 
+        name: "Volunteer Network", 
+        description: "Helping out at events, assisting with admin tasks, and daily operations.", 
+        count: 20 
+      },
+      // More groups...
     ];
 
-    // Sample members
     const membersData = [
-      { id: 301, name: 'Carlos', role: 'Volunteer Coordinator' },
-      { id: 302, name: 'Diana', role: 'Lead Gardener' },
-      { id: 303, name: 'Eliza', role: 'Compost Specialist' },
+      { id: 401, name: "Miranda", role: "Finance Treasurer", joined: "Feb 2023" },
+      { id: 402, name: "Kathleen", role: "Outreach Secretary", joined: "Mar 2023" },
+      { id: 403, name: "Grig", role: "Operations Manager", joined: "Jun 2023" },
+      // More members...
     ];
 
-    // Sample job board
     const jobBoardData = [
-      { id: 401, job: 'Water the seedlings', points: 20 },
-      { id: 402, job: 'Collect and turn compost', points: 30 },
+      { 
+        id: 501, 
+        job: "Set up chairs for the potluck", 
+        points: 20, 
+        location: "Garden Courtyard", 
+        extra: "We have 50 folding chairs in storage. Need them arranged by 10 AM." 
+      },
+      { 
+        id: 502, 
+        job: "Help with cleanup after music night", 
+        points: 30, 
+        location: "Auditorium and Lobby", 
+        extra: "Tasks include folding chairs, picking up trash, wiping down tables, etc." 
+      },
+      // More jobs...
     ];
 
+    // ---------- The Stand Page Component ---------- //
     function App() {
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box className="animatedBackground">
-            <OrgProfilePage />
+            <TheStandPage />
           </Box>
         </ThemeProvider>
       );
     }
 
-    function OrgProfilePage() {
+    function TheStandPage() {
       const [currentTab, setCurrentTab] = React.useState(0);
+
+      const tabLabels = ["About", "Posts", "Events", "Groups", "Members", "Job-Board"];
+
+      // Modal
+      const [openModal, setOpenModal] = React.useState(false);
+      const [modalItem, setModalItem] = React.useState(null);
+
+      const handleOpenModal = (item) => {
+        setModalItem(item);
+        setOpenModal(true);
+      };
+      const handleCloseModal = () => {
+        setOpenModal(false);
+        setModalItem(null);
+      };
 
       const renderTabContent = () => {
         switch (currentTab) {
-          case 0: // About
+          case 0:
             return (
               <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1">{aboutData.description}</Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  {aboutData.description}
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  {aboutData.contact}
+                </Typography>
               </Paper>
             );
           case 1: // Posts
             return postsData.map((post) => (
-              <Paper key={post.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <Avatar src={post.avatar} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                      {post.user}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {post.date}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  {post.content}
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
-                  <Chip icon={<Icon>comment</Icon>} label="Comment" />
-                </Box>
-              </Paper>
+              <Card
+                key={post.id}
+                className="MuiCard-root"
+                sx={{ mb: 2, cursor: 'pointer' }}
+                onClick={() => handleOpenModal(post)}
+              >
+                <CardContent>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                    {post.user} - {post.date}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    {post.location}
+                  </Typography>
+                  <Typography variant="body1">{post.content}</Typography>
+                </CardContent>
+              </Card>
             ));
           case 2: // Events
             return eventsData.map((event) => (
-              <Paper key={event.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  {event.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {event.date}
-                </Typography>
-              </Paper>
+              <Card
+                key={event.id}
+                className="MuiCard-root"
+                sx={{ mb: 2, cursor: 'pointer' }}
+                onClick={() => handleOpenModal(event)}
+              >
+                <CardContent>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {event.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {event.date} — {event.location}
+                  </Typography>
+                </CardContent>
+              </Card>
             ));
           case 3: // Groups
             return groupsData.map((grp) => (
-              <Paper key={grp.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {grp.name}
-                </Typography>
-              </Paper>
+              <Card
+                key={grp.id}
+                className="MuiCard-root"
+                sx={{ mb: 2, cursor: 'pointer' }}
+                onClick={() => handleOpenModal(grp)}
+              >
+                <CardContent>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    {grp.name} ({grp.count} members)
+                  </Typography>
+                  <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
+                    {grp.description}
+                  </Typography>
+                </CardContent>
+              </Card>
             ));
           case 4: // Members
             return membersData.map((member) => (
-              <Paper key={member.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {member.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {member.role}
-                </Typography>
-              </Paper>
+              <Card
+                key={member.id}
+                className="MuiCard-root"
+                sx={{ mb: 2, cursor: 'pointer' }}
+                onClick={() => handleOpenModal(member)}
+              >
+                <CardContent>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    {member.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {member.role} — Joined {member.joined}
+                  </Typography>
+                </CardContent>
+              </Card>
             ));
           case 5: // Job Board
             return jobBoardData.map((job) => (
-              <Paper
+              <Card
                 key={job.id}
-                elevation={1}
-                sx={{
-                  p: 2,
-                  borderRadius: '10px',
-                  border: '1px solid #f0f0f0',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  mb: 2,
-                }}
+                className="MuiCard-root"
+                sx={{ mb: 2, cursor: 'pointer' }}
+                onClick={() => handleOpenModal(job)}
               >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {job.job}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {job.points} pts
+                <CardContent>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    {job.job} ({job.points} pts)
                   </Typography>
-                  <IconButton color="primary">
-                    <Icon>check_circle</Icon>
-                  </IconButton>
-                </Box>
-              </Paper>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    {job.location}
+                  </Typography>
+                </CardContent>
+              </Card>
             ));
           default:
-            return <></>;
+            return null;
         }
       };
 
@@ -324,30 +357,31 @@
             </Toolbar>
           </AppBar>
 
+          {/* Header with The Stand info */}
           <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
             <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar
-                  src={orgData.coverPhoto}
+                  src="https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand"
                   sx={{ width: 80, height: 80, borderRadius: 2 }}
                   variant="square"
                 />
               </Grid>
               <Grid item xs>
-                <Typography variant="h5">{orgData.name}</Typography>
+                <Typography variant="h5">The Stand</Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {orgData.description}
+                  Community hub for creativity, collaboration, and connection
                 </Typography>
               </Grid>
               <Grid item>
-                <Avatar src={orgData.adminAvatar} sx={{ width: 56, height: 56 }} />
+                <Avatar src="https://randomuser.me/api/portraits/men/32.jpg" sx={{ width: 56, height: 56 }} />
               </Grid>
             </Grid>
 
             <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
               <Grid item>
                 <img
-                  src={orgData.logo}
+                  src="https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo"
                   alt="Organization Logo"
                   style={{ width: '50px', borderRadius: '10px' }}
                 />
@@ -360,6 +394,7 @@
             </Grid>
           </Paper>
 
+          {/* Tabs */}
           <Tabs
             value={currentTab}
             onChange={(e, newVal) => setCurrentTab(newVal)}
@@ -373,10 +408,73 @@
           </Tabs>
 
           {renderTabContent()}
+
+          {/* Modal */}
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{ timeout: 500 }}
+          >
+            <Fade in={openModal}>
+              <Box className="modalContent">
+                {modalItem && (
+                  <>
+                    {'title' in modalItem && (
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {modalItem.title}
+                      </Typography>
+                    )}
+                    {'user' in modalItem && (
+                      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                        Posted by {modalItem.user} — {modalItem.date}
+                      </Typography>
+                    )}
+                    {'name' in modalItem && (
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {modalItem.name}
+                      </Typography>
+                    )}
+                    {'job' in modalItem && (
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {modalItem.job}
+                      </Typography>
+                    )}
+                    {'location' in modalItem && (
+                      <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
+                        Location: {modalItem.location}
+                      </Typography>
+                    )}
+                    {'role' in modalItem && (
+                      <Typography variant="body2" sx={{ mb: 1 }}>
+                        Role: {modalItem.role}
+                      </Typography>
+                    )}
+                    {'points' in modalItem && (
+                      <Typography variant="body2" sx={{ mb: 1 }}>
+                        Points: {modalItem.points}
+                      </Typography>
+                    )}
+                    <Typography variant="body1" sx={{ mt: 2, mb: 3 }}>
+                      {modalItem.details ||
+                        modalItem.description ||
+                        modalItem.extra ||
+                        'No further details provided.'}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Container>
       );
     }
 
+    // ---------- Render ---------- //
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
