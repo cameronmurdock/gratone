@@ -568,7 +568,7 @@
           case 5: // Job Board
             return (
               <Box>
-                {/* "Create a job" input */}
+                {/* Job Creation Input */}
                 <Paper
                   variant="outlined"
                   sx={{
@@ -590,6 +590,7 @@
                   </IconButton>
                 </Paper>
           
+                {/* Task List */}
                 <Typography variant="h5" sx={{ mb: 2 }}>Available Jobs</Typography>
                 <Box sx={{ p: 2, backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: 1 }}>
                   {orgData.jobBoardData.map((job) => (
@@ -608,9 +609,7 @@
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Checkbox
                           color="primary"
-                          onChange={() => {
-                            console.log(`Task "${job.job}" completed!`);
-                          }}
+                          onChange={() => alert(`Task "${job.job}" marked as completed!`)}
                         />
                         <Box>
                           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
@@ -634,6 +633,7 @@
                 </Box>
               </Box>
             );
+
           case 6: // Chat
             return <ChatTab initialMessages={orgData.chatMessages} />;
           default:
