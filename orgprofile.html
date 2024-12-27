@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Org Profile</title>
+  <title>The Stand - Org Profile</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google Fonts and Material Icons -->
@@ -14,7 +14,7 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
   >
-  <!-- Favicon -->
+  <!-- Favicon (optional) -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     /* Scrollbar & Body Styling */
@@ -75,7 +75,7 @@
       outline: none;
     }
 
-    /* === Chat Tab Styles (from your snippet) === */
+    /* === Chat Tab Styles === */
     .chatContainer {
       max-height: 60vh;
       overflow-y: auto;
@@ -179,153 +179,146 @@
       Modal,
       Fade,
       Backdrop,
-      InputBase,
-      useMediaQuery
+      InputBase
     } = MaterialUI;
 
-    // ======================= Example Org & Data Objects =======================
-    const org = {
-      name: "ONE Local",
-      tagline: "Empower Your Community, Enrich Your Life.",
+    // ======================= "The Stand" Unified Org Object =======================
+    const theStand = {
+      name: "The Stand",
+      tagline: "A Boulder-based community hub",
       description:
-        "ONE Local is a platform that connects community members, encourages resource sharing, and fosters collaboration between local residents, event hosts, sellers, and organizations. Together, we build the future — one connection at a time.",
+        "The Stand is a vibrant community hub in Boulder that fosters creativity, collaboration, and connection. We host events, support local artists, and provide a welcoming space for gatherings.",
       logo: "https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo",
-      headerImage: "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Org+Photo",
-      adminAvatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      headerImage: "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand",
+      adminAvatar: "https://randomuser.me/api/portraits/women/39.jpg",
+
+      aboutData: {
+        mission:
+          "We’re dedicated to building a thriving local ecosystem for artists, entrepreneurs, and neighbors alike.",
+        orgWebsite: "https://example.com/the-stand",
+        contactEmail: "the_stand@community.org",
+      },
+
+      postsData: [
+        {
+          id: 1,
+          user: "Leif",
+          title: "Jam Session This Friday",
+          content: "We're hosting a jam session—bring your instruments to The Stand at 7pm!",
+          date: "Dec 26, 2024",
+          image: "https://via.placeholder.com/600x400?text=Jam+Session"
+        },
+        {
+          id: 2,
+          user: "Nate",
+          title: "Art Gallery Grand Opening",
+          content: "We’re featuring local artists’ work in our new exhibit hall. Come check it out!",
+          date: "Dec 25, 2024",
+          image: "https://via.placeholder.com/600x400?text=Art+Gallery"
+        },
+      ],
+
+      eventsData: [
+        {
+          id: 101,
+          title: "Community Potluck",
+          host: "Miranda",
+          description: "Bring your favorite dish and come meet neighbors, artists, and local entrepreneurs.",
+          date: "Jan 5, 2025",
+          image: "https://via.placeholder.com/600x400?text=Potluck"
+        },
+        {
+          id: 102,
+          title: "Live Music Night",
+          host: "Cameron",
+          description: "Multiple local bands will perform. Let’s celebrate Boulder’s music talent!",
+          date: "Jan 12, 2025",
+          image: "https://via.placeholder.com/600x400?text=Live+Music"
+        },
+      ],
+
+      groupsData: [
+        {
+          id: 301,
+          name: "Artists Collective",
+          description: "A place for local artists to collaborate, share techniques, and plan exhibits.",
+          image: "https://via.placeholder.com/400x250?text=Artists+Collective"
+        },
+        {
+          id: 302,
+          name: "Volunteer Network",
+          description: "Organize volunteer projects and connect helpers with community needs.",
+          image: "https://via.placeholder.com/400x250?text=Volunteer+Network"
+        },
+      ],
+
+      membersData: [
+        {
+          id: 401,
+          name: "Miranda Clendening",
+          role: "Finance Treasurer",
+          bio: "Ensuring sustainable resource allocation. Passionate about supporting local talent.",
+          avatar: "https://randomuser.me/api/portraits/women/24.jpg"
+        },
+        {
+          id: 402,
+          name: "Kathleen Gafney",
+          role: "Outreach Coordinator",
+          bio: "Connecting local organizations, reaching out to new community members.",
+          avatar: "https://randomuser.me/api/portraits/women/25.jpg"
+        },
+        {
+          id: 403,
+          name: "Grig Bilham",
+          role: "Operations Manager",
+          bio: "Keeping everything running smoothly at The Stand’s events and daily programs.",
+          avatar: "https://randomuser.me/api/portraits/men/85.jpg"
+        },
+        {
+          id: 404,
+          name: "Volunteer Needed",
+          role: "Open Volunteer Position",
+          bio: "Ready to help out? Join us to keep The Stand vibrant and active!",
+          avatar: "https://via.placeholder.com/150?text=Open+Volunteer"
+        },
+      ],
+
+      jobBoardData: [
+        {
+          id: 501,
+          job: "Set Up Chairs for Music Night",
+          points: 20,
+          description: "Need a few hands arranging seating for Live Music Night. Takes about 30 minutes."
+        },
+        {
+          id: 502,
+          job: "Assist with Cleanup After Gallery",
+          points: 30,
+          description: "Help pack up supplies and tidy the exhibit hall once the event wraps up."
+        },
+      ],
+
+      chatMessages: [
+        {
+          id: 1,
+          sender: "Leif",
+          avatar: "https://randomuser.me/api/portraits/men/31.jpg",
+          message: "Hi everyone! So stoked for the potluck. Anyone bringing dessert?"
+        },
+        {
+          id: 2,
+          sender: "Miranda",
+          avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+          message: "Yes! I’ll bring cookies from that new bakery. They’re so good."
+        },
+        {
+          id: 3,
+          sender: "Cameron",
+          avatar: "https://randomuser.me/api/portraits/men/33.jpg",
+          message: "Great! I’ll make homemade lemonade. Squeeze you all soon."
+        },
+      ],
     };
-
-    // ABOUT data
-    const aboutData = {
-      mission: "Our mission is to bring neighbors together, encourage mutual aid, and grow thriving local economies.",
-      orgWebsite: "https://example.com",
-      contactEmail: "contact@onelocal.org"
-    };
-
-    // POSTS data
-    const postsData = [
-      {
-        id: 1,
-        user: "Leif",
-        title: "Jam Session This Friday",
-        content: "Bring your instruments to the community space at 7pm!",
-        date: "Dec 26, 2024",
-        image: "https://via.placeholder.com/600x400?text=Jam+Session"
-      },
-      {
-        id: 2,
-        user: "Nate",
-        title: "New Art Gallery Opening",
-        content: "Local artists will showcase their work this weekend.",
-        date: "Dec 25, 2024",
-        image: "https://via.placeholder.com/600x400?text=Art+Gallery"
-      },
-    ];
-
-    // EVENTS data
-    const eventsData = [
-      {
-        id: 101,
-        title: "Community Potluck",
-        host: "Miranda",
-        description: "Bring your favorite dish and meet the neighbors.",
-        date: "Jan 5, 2025",
-        image: "https://via.placeholder.com/600x400?text=Potluck"
-      },
-      {
-        id: 102,
-        title: "Live Music Night",
-        host: "Cameron",
-        description: "Local bands perform for a great evening of music.",
-        date: "Jan 12, 2025",
-        image: "https://via.placeholder.com/600x400?text=Live+Music"
-      },
-    ];
-
-    // GROUPS data
-    const groupsData = [
-      {
-        id: 301,
-        name: "Artists Collective",
-        description: "A place for local artists to collaborate and share their work.",
-        image: "https://via.placeholder.com/400x250?text=Artists+Collective"
-      },
-      {
-        id: 302,
-        name: "Volunteer Network",
-        description: "Organize volunteer projects and connect helpers with those in need.",
-        image: "https://via.placeholder.com/400x250?text=Volunteer+Network"
-      },
-    ];
-
-    // MEMBERS data
-    const membersData = [
-      {
-        id: 401,
-        name: "Miranda Clendening",
-        role: "Finance Treasurer",
-        bio: "Ensuring sustainable financial growth and resource allocation.",
-        avatar: "https://via.placeholder.com/150?text=Miranda"
-      },
-      {
-        id: 402,
-        name: "Kathleen Gafney",
-        role: "Outreach Secretary",
-        bio: "Building partnerships and connecting with local organizations.",
-        avatar: "https://via.placeholder.com/150?text=Kathleen"
-      },
-      {
-        id: 403,
-        name: "Grig Bilham",
-        role: "Operations Manager",
-        bio: "Overseeing daily processes to keep everything running smoothly.",
-        avatar: "https://via.placeholder.com/150?text=Grig"
-      },
-      {
-        id: 404,
-        name: "You?",
-        role: "Open Volunteer Position",
-        bio: "Ready to help your local community? Join us!",
-        avatar: "https://via.placeholder.com/150?text=Open+Volunteer"
-      },
-    ];
-
-    // JOB BOARD data
-    const jobBoardData = [
-      {
-        id: 501,
-        job: "Set up chairs for potluck",
-        points: 20,
-        description: "Need help arranging chairs before the community potluck event.",
-      },
-      {
-        id: 502,
-        job: "Cleanup after music night",
-        points: 30,
-        description: "Volunteers needed to restore the venue to its original state.",
-      },
-    ];
-
-    // === CHAT data
-    const initialChatMessages = [
-      {
-        id: 1,
-        sender: "Leif",
-        avatar: "https://randomuser.me/api/portraits/men/31.jpg",
-        message: "Hi everyone! Excited for the potluck this weekend?",
-      },
-      {
-        id: 2,
-        sender: "Miranda",
-        avatar: "https://randomuser.me/api/portraits/women/32.jpg",
-        message: "Yes! I'll be bringing a vegan lasagna. How about you?",
-      },
-      {
-        id: 3,
-        sender: "Cameron",
-        avatar: "https://randomuser.me/api/portraits/men/33.jpg",
-        message: "I'm in charge of drinks. Any preferences?",
-      },
-    ];
 
     // ======================= Custom Theme =======================
     const theme = createTheme({
@@ -397,7 +390,7 @@
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar />
-            <OrgProfilePage />
+            <OrgProfilePage orgData={theStand} />
           </Box>
         </ThemeProvider>
       );
@@ -409,7 +402,7 @@
         <AppBar position="fixed">
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
-              {org.name}
+              The Stand
             </Typography>
           </Toolbar>
         </AppBar>
@@ -417,7 +410,7 @@
     }
 
     // ======================= Org Profile Page =======================
-    function OrgProfilePage() {
+    function OrgProfilePage({ orgData }) {
       const [currentTab, setCurrentTab] = React.useState(0);
 
       // For Modals
@@ -442,23 +435,23 @@
                   Mission
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 4 }}>
-                  {aboutData.mission}
+                  {orgData.aboutData.mission}
                 </Typography>
                 <Typography variant="body1">
                   <strong>Website:</strong>{" "}
-                  <a href={aboutData.orgWebsite} target="_blank" rel="noreferrer">
-                    {aboutData.orgWebsite}
+                  <a href={orgData.aboutData.orgWebsite} target="_blank" rel="noreferrer">
+                    {orgData.aboutData.orgWebsite}
                   </a>
                 </Typography>
                 <Typography variant="body1">
-                  <strong>Contact Email:</strong> {aboutData.contactEmail}
+                  <strong>Contact Email:</strong> {orgData.aboutData.contactEmail}
                 </Typography>
               </Paper>
             );
           case 1: // Posts
             return (
               <Grid container spacing={2}>
-                {postsData.map((post) => (
+                {orgData.postsData.map((post) => (
                   <Grid item xs={12} sm={6} md={4} key={post.id}>
                     <Card
                       onClick={() => handleOpenModal(post)}
@@ -474,7 +467,11 @@
                         <Typography variant="body1" sx={{ mb: 2 }}>
                           {post.content.slice(0, 60)}...
                         </Typography>
-                        <img src={post.image} alt={post.title} style={{ width: '100%', borderRadius: '8px' }} />
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          style={{ width: '100%', borderRadius: '8px' }}
+                        />
                       </CardContent>
                     </Card>
                   </Grid>
@@ -484,7 +481,7 @@
           case 2: // Events
             return (
               <Grid container spacing={2}>
-                {eventsData.map((evt) => (
+                {orgData.eventsData.map((evt) => (
                   <Grid item xs={12} sm={6} md={4} key={evt.id}>
                     <Card
                       onClick={() => handleOpenModal(evt)}
@@ -500,7 +497,11 @@
                         <Typography variant="body1" sx={{ mb: 2 }}>
                           {evt.description.slice(0, 60)}...
                         </Typography>
-                        <img src={evt.image} alt={evt.title} style={{ width: '100%', borderRadius: '8px' }} />
+                        <img
+                          src={evt.image}
+                          alt={evt.title}
+                          style={{ width: '100%', borderRadius: '8px' }}
+                        />
                       </CardContent>
                     </Card>
                   </Grid>
@@ -510,7 +511,7 @@
           case 3: // Groups
             return (
               <Grid container spacing={2}>
-                {groupsData.map((grp) => (
+                {orgData.groupsData.map((grp) => (
                   <Grid item xs={12} sm={6} md={4} key={grp.id}>
                     <Card
                       onClick={() => handleOpenModal(grp)}
@@ -523,7 +524,11 @@
                         <Typography variant="body1" sx={{ mb: 2 }}>
                           {grp.description.slice(0, 60)}...
                         </Typography>
-                        <img src={grp.image} alt={grp.name} style={{ width: '100%', borderRadius: '8px' }} />
+                        <img
+                          src={grp.image}
+                          alt={grp.name}
+                          style={{ width: '100%', borderRadius: '8px' }}
+                        />
                       </CardContent>
                     </Card>
                   </Grid>
@@ -533,7 +538,7 @@
           case 4: // Members
             return (
               <Grid container spacing={2}>
-                {membersData.map((mem) => (
+                {orgData.membersData.map((mem) => (
                   <Grid item xs={12} sm={6} md={4} key={mem.id}>
                     <Card
                       onClick={() => handleOpenModal(mem)}
@@ -586,7 +591,7 @@
                 </Paper>
 
                 <Grid container spacing={2}>
-                  {jobBoardData.map((job) => (
+                  {orgData.jobBoardData.map((job) => (
                     <Grid item xs={12} sm={6} md={4} key={job.id}>
                       <Card onClick={() => handleOpenModal(job)} sx={{ cursor: 'pointer', height: '100%' }}>
                         <CardContent>
@@ -607,7 +612,7 @@
               </Box>
             );
           case 6: // Chat
-            return <ChatTab />;
+            return <ChatTab initialMessages={orgData.chatMessages} />;
           default:
             return null;
         }
@@ -620,28 +625,28 @@
             <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar
-                  src={org.headerImage}
+                  src={orgData.headerImage}
                   sx={{ width: 80, height: 80, borderRadius: 2 }}
                   variant="square"
                 />
               </Grid>
               <Grid item xs>
                 <Typography variant="h4">
-                  {org.name}
+                  {orgData.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {org.tagline}
+                  {orgData.tagline}
                 </Typography>
               </Grid>
               <Grid item>
-                <Avatar src={org.adminAvatar} sx={{ width: 56, height: 56 }} />
+                <Avatar src={orgData.adminAvatar} sx={{ width: 56, height: 56 }} />
               </Grid>
             </Grid>
 
             <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
               <Grid item>
                 <img
-                  src={org.logo}
+                  src={orgData.logo}
                   alt="Organization Logo"
                   style={{ width: '50px', borderRadius: '10px' }}
                 />
@@ -655,7 +660,7 @@
 
             <Box sx={{ mt: 2 }}>
               <Typography variant="body1">
-                {org.description}
+                {orgData.description}
               </Typography>
             </Box>
           </Paper>
@@ -737,8 +742,8 @@
     }
 
     // ======================= Chat Tab Component =======================
-    function ChatTab() {
-      const [messages, setMessages] = React.useState(initialChatMessages);
+    function ChatTab({ initialMessages }) {
+      const [messages, setMessages] = React.useState(initialMessages || []);
       const [newMessage, setNewMessage] = React.useState("");
 
       const handleSendMessage = () => {
