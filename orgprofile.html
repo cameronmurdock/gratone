@@ -568,7 +568,7 @@
           case 5: // Job Board
             return (
               <Box>
-                {/* "Create a job" input (example - not fully functional) */}
+                {/* "Create a job" input */}
                 <Paper
                   variant="outlined"
                   sx={{
@@ -589,26 +589,49 @@
                     <Icon>add_circle</Icon>
                   </IconButton>
                 </Paper>
-
-                <Grid container spacing={2}>
+          
+                <Typography variant="h5" sx={{ mb: 2 }}>Available Jobs</Typography>
+                <Box sx={{ p: 2, backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: 1 }}>
                   {orgData.jobBoardData.map((job) => (
-                    <Grid item xs={12} sm={6} md={4} key={job.id}>
-                      <Card onClick={() => handleOpenModal(job)} sx={{ cursor: 'pointer', height: '100%' }}>
-                        <CardContent>
+                    <Box
+                      key={job.id}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        mb: 2,
+                        p: 1,
+                        border: '1px solid #d9d9d9',
+                        borderRadius: '10px',
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Checkbox
+                          color="primary"
+                          onChange={() => {
+                            console.log(`Task "${job.job}" completed!`);
+                          }}
+                        />
+                        <Box>
                           <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                             {job.job}
                           </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                            {job.points} pts
+                          <Typography variant="body2" color="text.secondary">
+                            {job.points} points
                           </Typography>
-                          <Typography variant="body1">
-                            {job.description.slice(0, 60)}...
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Grid>
+                          <Typography variant="body1">{job.description}</Typography>
+                        </Box>
+                      </Box>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleOpenModal(job)}
+                      >
+                        Details
+                      </Button>
+                    </Box>
                   ))}
-                </Grid>
+                </Box>
               </Box>
             );
           case 6: // Chat
