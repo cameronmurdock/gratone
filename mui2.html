@@ -2,26 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Empower Your Community</title>
-  <!-- Responsive Meta Tag -->
+  <title>ONE Local - Meta-Style Landing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Meta Descriptions for SEO -->
-  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
   <!-- Google Fonts and Material Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-
   <style>
-    /* Reset & Scrollbar */
     body {
       margin: 0;
       overflow-x: hidden;
-      scrollbar-color: #a8d5ba #ffffff;
-      scrollbar-width: thin;
-      font-family: 'Montserrat', sans-serif;
     }
+    /* Scrollbar styling */
     body::-webkit-scrollbar {
       width: 8px;
     }
@@ -33,40 +32,52 @@
       border-radius: 4px;
     }
 
-    /* Animated Gradient Background */
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .animatedBackground {
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
-      color: #333333;
-      position: relative;
-    }
-
-    /* Card Hover Effect */
+    /* Card hover effect */
     .MuiCard-root:hover {
       transform: translateY(-5px);
       transition: transform 0.3s;
     }
 
-    /* Modal Content */
-    .modalContent {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      max-width: 600px;
-      background-color: #ffffff;
+    /* Large hero images in separate sections */
+    .heroSection {
+      position: relative;
+      overflow: hidden;
+      color: #333;
+      padding: 80px 0;
+    }
+    .heroContent {
+      position: relative;
+      z-index: 10;
+    }
+    .heroImage {
+      max-width: 100%;
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      outline: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    /* Horizontal card carousel style (similar to Meta's horizontally sliding product sections) */
+    .horizontalSection {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 20px 0;
+    }
+    .horizontalSection .cardWrapper {
+      display: inline-block;
+      width: 300px;
+      margin-right: 20px;
+      vertical-align: top;
+    }
+
+    /* Minimal reset for container background */
+    .sectionContainer {
+      background-color: #fff;
+      padding: 60px 0;
+    }
+
+    /* Footer */
+    .footerContainer {
+      background-color: #f5f5f5;
+      padding: 40px 0;
     }
   </style>
 </head>
@@ -79,217 +90,318 @@
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
-  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script
+    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
+    crossorigin
+  ></script>
   <!-- Material UI Icons -->
-  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
+  <script
+    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
+    crossorigin
+  ></script>
 
   <script type="text/babel">
     const {
       ThemeProvider,
       createTheme,
       CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
       Container,
       Box,
-      Typography,
       Grid,
+      Paper,
+      Button,
       Card,
       CardContent,
       CardActions,
-      Button,
       IconButton,
       Icon,
       Modal,
       Fade,
-      Backdrop
+      Backdrop,
+      Link,
+      Avatar,
+      useMediaQuery
     } = MaterialUI;
 
-    // ------------------ Data: Blog Posts with Additional Fields ------------------ //
-    const blogPosts = [
+    // Example data for sections
+    const topHeroData = {
+      headline: "AI Glasses for a fresh perspective",
+      subheadline: "Capture, share and stay in the moment, completely hands-free.",
+      cta1: "Shop all styles",
+      cta2: "Learn more",
+      productImage: "https://via.placeholder.com/800x400/8B4513/FFFFFF?text=Ray-Ban+Meta+Glasses"
+    };
+
+    const secondHeroData = {
+      headline: "ONE Local: Connect & Empower",
+      subheadline: "The platform that brings your community together to share, learn, and grow.",
+      cta1: "Get the App",
+      cta2: "Sign Up Now",
+      productImage: "https://via.placeholder.com/800x400/2f2f2f/FFFFFF?text=ONE+Local+App"
+    };
+
+    // Horizontal product features
+    const productFeatures = [
       {
-        id: 101,
-        title: 'Building Sustainable Communities',
-        excerpt: 'Discover how ONE Local promotes sustainability through shared resources...',
-        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-        location: 'Boulder, CO',
-        date: 'Dec 26, 2024',
-        author: 'Cameron E.',
-        content: `Full content for Building Sustainable Communities. 
-        Explores how local connections reduce waste and strengthen community bonds. 
-        Discusses resource sharing, collaborative projects, and future initiatives in Boulder.`,
+        id: 1,
+        title: "Connect With Neighbors",
+        description: "Find nearby community members, share resources, and plan events together.",
+        image: "https://via.placeholder.com/300x200?text=Connect"
       },
       {
-        id: 102,
-        title: 'The Power of Local Events',
-        excerpt: 'How hosting local events can strengthen community bonds...',
-        image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-        location: 'Denver, CO',
-        date: 'Dec 20, 2024',
-        author: 'Miranda C.',
-        content: `Full content for The Power of Local Events. 
-        Showcases event-hosting best practices, success stories from the Denver region, 
-        and how to measure community engagement.`,
+        id: 2,
+        title: "Discover Local Skills",
+        description: "Browse and request services from local experts in your neighborhood.",
+        image: "https://via.placeholder.com/300x200?text=Skills"
       },
       {
-        id: 103,
-        title: 'Supporting Local Businesses',
-        excerpt: 'Why shopping local boosts the entire community...',
-        image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-        location: 'Online',
-        date: 'Dec 15, 2024',
-        author: 'Kathleen G.',
-        content: `Full content for Supporting Local Businesses.
-        Highlights local entrepreneurs' success stories, tips for marketing, 
-        and how the community can rally behind these ventures.`,
+        id: 3,
+        title: "Join Local Groups",
+        description: "Become part of focused groups to collaborate on shared initiatives.",
+        image: "https://via.placeholder.com/300x200?text=Groups"
+      },
+      {
+        id: 4,
+        title: "Earn & Reward",
+        description: "Exchange services, earn points, and reward helpful community members.",
+        image: "https://via.placeholder.com/300x200?text=Earn"
+      }
+    ];
+
+    const highlightSections = [
+      {
+        id: "entertainment",
+        title: "Events & Entertainment",
+        text: "Experience local shows, jam sessions, and community gatherings. Spark meaningful connections at every turn.",
+        image: "https://via.placeholder.com/800x400/444444/FFFFFF?text=Local+Event"
+      },
+      {
+        id: "social",
+        title: "Bring People Together",
+        text: "Hang out with friends around the corner or across town. Collaborate, share ideas, and create lasting memories.",
+        image: "https://via.placeholder.com/800x400/555555/FFFFFF?text=Social+Gatherings"
+      },
+      {
+        id: "wellness",
+        title: "Wellness & Growth",
+        text: "Access local wellness offerings, from yoga in the park to meditation circles. Find your balance, right at home.",
+        image: "https://via.placeholder.com/800x400/666666/FFFFFF?text=Wellness"
       },
     ];
 
-    // ------------------ Shared Theme ------------------ //
+    // Create a custom theme to match your brand
     const theme = createTheme({
       palette: {
         mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        background: {
-          default: '#f5f5f5',
-        },
-        text: {
-          primary: '#333333',
-        },
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        background: { default: '#f5f5f5' },
+        text: { primary: '#333' },
       },
       typography: {
         fontFamily: 'Montserrat, sans-serif',
-        h2: {
-          fontFamily: 'Playfair Display, serif',
-          fontWeight: 700,
-          fontSize: '3rem',
-        },
-      },
-      shape: {
-        borderRadius: 10,
+        h2: { fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '3rem' },
+        h4: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
       },
     });
 
-    // ------------------ Main App ------------------ //
     function App() {
+      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Box className="animatedBackground">
-            <OrgLandingPage />
+          <HeaderBar />
+          <Box sx={{ mt: 8, mb: 6 }}>
+            <HeroSection data={topHeroData} isMobile={isMobile} />
+            <HeroSection data={secondHeroData} isMobile={isMobile} reversed />
+            <HorizontalProducts data={productFeatures} />
+            <HighlightSection data={highlightSections} />
+            <CallToAction />
           </Box>
+          <Footer />
         </ThemeProvider>
       );
     }
 
-    // ------------------ Org Landing Page ------------------ //
-    function OrgLandingPage() {
-      const [selectedPost, setSelectedPost] = React.useState(null);
-
-      const handleOpenModal = (post) => {
-        setSelectedPost(post);
-      };
-
-      const handleCloseModal = () => {
-        setSelectedPost(null);
-      };
-
+    function HeaderBar() {
       return (
-        <Container maxWidth="lg" sx={{ pt: 8, pb: 8 }}>
-          <Typography variant="h2" align="center" sx={{ mb: 4, fontWeight: 'bold' }}>
-            Empower Your Community, Enrich Your Life
-          </Typography>
-          <Typography variant="h5" align="center" sx={{ mb: 6, color: 'text.secondary' }}>
-            Together, we build the future—one connection, one offering, one moment at a time.
-          </Typography>
-          <Box display="flex" justifyContent="center" sx={{ mb: 8 }}>
-            <Button variant="contained" color="primary" size="large">
-              Download the App
-            </Button>
-          </Box>
+        <AppBar position="fixed" color="inherit" sx={{ boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+              ONE Local
+            </Typography>
+            <Button color="primary" sx={{ mr: 2 }}>Download</Button>
+            <Button color="primary">Sign Up</Button>
+          </Toolbar>
+        </AppBar>
+      );
+    }
 
-          <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: 'bold' }}>
-            Recent Blog Posts
+    function HeroSection({ data, reversed, isMobile }) {
+      const { headline, subheadline, cta1, cta2, productImage } = data;
+      return (
+        <Box
+          className="heroSection"
+          sx={{
+            display: 'flex',
+            flexDirection: reversed ? 'row-reverse' : 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            px: isMobile ? 2 : 6,
+            py: 6,
+            gap: 4
+          }}
+        >
+          <Box className="heroContent" sx={{ flex: 1 }}>
+            <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
+              {headline}
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+              {subheadline}
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+              <Button variant="contained" color="primary">{cta1}</Button>
+              <Button variant="outlined" color="primary">{cta2}</Button>
+            </Box>
+          </Box>
+          <Box sx={{ flex: 1, textAlign: 'center' }}>
+            <img src={productImage} alt="Hero Product" className="heroImage" />
+          </Box>
+        </Box>
+      );
+    }
+
+    function HorizontalProducts({ data }) {
+      return (
+        <Container maxWidth="lg" sx={{ py: 6 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+            Shop the ONE Local Store and make it your world
           </Typography>
-          <Grid container spacing={4} justifyContent="center">
-            {blogPosts.map((post) => (
-              <Grid item xs={12} sm={6} md={4} key={post.id}>
-                <Card
-                  className="MuiCard-root"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => handleOpenModal(post)}
-                >
+          <Box className="horizontalSection">
+            {data.map((item) => (
+              <Box className="cardWrapper" key={item.id}>
+                <Card sx={{ width: 300 }}>
                   <CardContent>
-                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-                      {post.title}
+                    <img src={item.image} alt={item.title} style={{ width: '100%', borderRadius: 8, marginBottom: 8 }} />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      {item.title}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-                      By {post.author} | {post.location} | {post.date}
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      {item.description}
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
-                      {post.excerpt}
-                    </Typography>
-                    <Box sx={{ height: 180, overflow: 'hidden', borderRadius: 2 }}>
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        style={{ width: '100%', height: 'auto' }}
-                      />
-                    </Box>
                   </CardContent>
                   <CardActions>
-                    <Button variant="text" color="primary" sx={{ ml: 1, mb: 1 }}>
-                      Read More
-                    </Button>
+                    <Button variant="contained" color="primary" size="small">Shop now</Button>
                   </CardActions>
                 </Card>
-              </Grid>
-            ))}
-          </Grid>
-
-          {/* Modal for Blog Post Details */}
-          <Modal
-            open={Boolean(selectedPost)}
-            onClose={handleCloseModal}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{ timeout: 500 }}
-          >
-            <Fade in={Boolean(selectedPost)}>
-              <Box className="modalContent">
-                {selectedPost && (
-                  <>
-                    <Typography variant="h5" sx={{ mb: 2 }}>
-                      {selectedPost.title}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
-                      By {selectedPost.author} | {selectedPost.location} | {selectedPost.date}
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                      {selectedPost.content}
-                    </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
-                      Close
-                    </Button>
-                  </>
-                )}
               </Box>
-            </Fade>
-          </Modal>
-
-          <Box textAlign="center" sx={{ mt: 8 }}>
-            <Typography variant="body2" color="text.secondary">
-              © 2024 ONE Local. All rights reserved.
-            </Typography>
+            ))}
           </Box>
         </Container>
       );
     }
 
-    // ------------------ Render ------------------ //
+    function HighlightSection({ data }) {
+      return (
+        <Box className="sectionContainer">
+          <Container maxWidth="lg">
+            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+              Watch, do, and play like never before in ONE Local
+            </Typography>
+            <Grid container spacing={4}>
+              {data.map((item) => (
+                <Grid item xs={12} md={4} key={item.id}>
+                  <Paper sx={{ p: 2, height: '100%', borderRadius: '10px', overflow: 'hidden' }}>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      style={{ width: '100%', borderRadius: 8, marginBottom: 8 }}
+                    />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      {item.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      {item.text}
+                    </Typography>
+                    <Button variant="outlined" color="primary" size="small">Learn more</Button>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
+      );
+    }
+
+    function CallToAction() {
+      return (
+        <Container maxWidth="lg" sx={{ py: 8 }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Live all in, everywhere and every wear
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+            Find your style in local goods, or share your own.
+          </Typography>
+          <Button variant="contained" color="secondary" size="large">
+            Shop all
+          </Button>
+        </Container>
+      );
+    }
+
+    function Footer() {
+      return (
+        <Box className="footerContainer">
+          <Container maxWidth="lg">
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  ONE Local
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                  Empower Your Community, Enrich Your Life.
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                  © 2024 ONE Local. All rights reserved.
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Explore
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Link href="#" color="inherit" underline="hover">About ONE Local</Link>
+                  <Link href="#" color="inherit" underline="hover">Investors</Link>
+                  <Link href="#" color="inherit" underline="hover">Contact</Link>
+                  <Link href="#" color="inherit" underline="hover">FAQ</Link>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Follow Us
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <IconButton color="primary">
+                    <Icon>facebook</Icon>
+                  </IconButton>
+                  <IconButton color="primary">
+                    <Icon>twitter</Icon>
+                  </IconButton>
+                  <IconButton color="primary">
+                    <Icon>instagram</Icon>
+                  </IconButton>
+                </Box>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+      );
+    }
+
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
