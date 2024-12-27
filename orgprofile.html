@@ -14,13 +14,50 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
   >
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Scrollbar Styling */
+    /* Scrollbar & Body Styling */
     body {
       margin: 0;
       overflow-x: hidden;
       scrollbar-color: #a8d5ba #ffffff;
       scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    /* Hide default margin for the root React node */
+    #root {
+      padding-top: 70px; /* reserve space for AppBar if needed */
+    }
+
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
     }
 
     /* Modal Content Styling */
@@ -37,78 +74,22 @@
       padding: 20px;
       outline: none;
     }
-
-    /* Chat Styles */
-    .chatContainer {
-      display: flex;
-      flex-direction: column;
-      height: 400px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      overflow: hidden;
-      background-color: #ffffff;
-    }
-    .chatMessages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 10px;
-      background-color: #f9f9f9;
-      scrollbar-width: thin;
-    }
-    .chatMessages::-webkit-scrollbar {
-      width: 8px;
-    }
-    .chatMessages::-webkit-scrollbar-thumb {
-      background-color: #ddd;
-      border-radius: 10px;
-    }
-    .chatInputContainer {
-      display: flex;
-      padding: 10px;
-      background-color: #fff;
-    }
-    .chatInput {
-      flex: 1;
-      border: 1px solid #ddd;
-      border-radius: 20px;
-      padding: 10px;
-      font-size: 1rem;
-    }
-    .chatSendButton {
-      margin-left: 10px;
-      border: none;
-      background-color: #6d4c41;
-      color: white;
-      border-radius: 20px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-    .chatSendButton:hover {
-      background-color: #8d6e63;
-    }
-    .chatMessage {
-      margin-bottom: 10px;
-    }
-    .chatMessage.sender {
-      text-align: right;
-      color: #6d4c41;
-    }
-    .chatMessage.recipient {
-      text-align: left;
-      color: #333;
-    }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
   <script
     src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
     crossorigin
   ></script>
+  <!-- Material UI Icons -->
   <script
     src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
     crossorigin
@@ -124,25 +105,228 @@
       Typography,
       Container,
       Box,
+      Grid,
+      Paper,
+      Avatar,
+      Button,
+      IconButton,
+      Icon,
       Tabs,
       Tab,
-      Paper,
-      Button,
+      Card,
+      CardContent,
+      Modal,
+      Fade,
+      Backdrop,
+      InputBase,
+      useMediaQuery
     } = MaterialUI;
 
-    // ======================= Example Data =======================
+    // ======================= Example Org & Data Objects =======================
     const org = {
       name: "ONE Local",
       tagline: "Empower Your Community, Enrich Your Life.",
+      description:
+        "ONE Local is a platform that connects community members, encourages resource sharing, and fosters collaboration between local residents, event hosts, sellers, and organizations. Together, we build the future — one connection at a time.",
+      logo: "https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo",
+      headerImage: "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Org+Photo",
+      adminAvatar: "https://randomuser.me/api/portraits/men/32.jpg",
     };
+
+    // ABOUT data
+    const aboutData = {
+      mission: "Our mission is to bring neighbors together, encourage mutual aid, and grow thriving local economies.",
+      orgWebsite: "https://example.com",
+      contactEmail: "contact@onelocal.org"
+    };
+
+    // POSTS data
+    const postsData = [
+      {
+        id: 1,
+        user: "Leif",
+        title: "Jam Session This Friday",
+        content: "Bring your instruments to the community space at 7pm!",
+        date: "Dec 26, 2024",
+        image: "https://via.placeholder.com/600x400?text=Jam+Session"
+      },
+      {
+        id: 2,
+        user: "Nate",
+        title: "New Art Gallery Opening",
+        content: "Local artists will showcase their work this weekend.",
+        date: "Dec 25, 2024",
+        image: "https://via.placeholder.com/600x400?text=Art+Gallery"
+      },
+    ];
+
+    // EVENTS data
+    const eventsData = [
+      {
+        id: 101,
+        title: "Community Potluck",
+        host: "Miranda",
+        description: "Bring your favorite dish and meet the neighbors.",
+        date: "Jan 5, 2025",
+        image: "https://via.placeholder.com/600x400?text=Potluck"
+      },
+      {
+        id: 102,
+        title: "Live Music Night",
+        host: "Cameron",
+        description: "Local bands perform for a great evening of music.",
+        date: "Jan 12, 2025",
+        image: "https://via.placeholder.com/600x400?text=Live+Music"
+      },
+    ];
+
+    // GROUPS data
+    const groupsData = [
+      {
+        id: 301,
+        name: "Artists Collective",
+        description: "A place for local artists to collaborate and share their work.",
+        image: "https://via.placeholder.com/400x250?text=Artists+Collective"
+      },
+      {
+        id: 302,
+        name: "Volunteer Network",
+        description: "Organize volunteer projects and connect helpers with those in need.",
+        image: "https://via.placeholder.com/400x250?text=Volunteer+Network"
+      },
+    ];
+
+    // MEMBERS data
+    const membersData = [
+      {
+        id: 401,
+        name: "Miranda Clendening",
+        role: "Finance Treasurer",
+        bio: "Ensuring sustainable financial growth and resource allocation.",
+        avatar: "https://via.placeholder.com/150?text=Miranda"
+      },
+      {
+        id: 402,
+        name: "Kathleen Gafney",
+        role: "Outreach Secretary",
+        bio: "Building partnerships and connecting with local organizations.",
+        avatar: "https://via.placeholder.com/150?text=Kathleen"
+      },
+      {
+        id: 403,
+        name: "Grig Bilham",
+        role: "Operations Manager",
+        bio: "Overseeing daily processes to keep everything running smoothly.",
+        avatar: "https://via.placeholder.com/150?text=Grig"
+      },
+      {
+        id: 404,
+        name: "You?",
+        role: "Open Volunteer Position",
+        bio: "Ready to help your local community? Join us!",
+        avatar: "https://via.placeholder.com/150?text=Open+Volunteer"
+      },
+    ];
+
+    // JOB BOARD data
+    const jobBoardData = [
+      {
+        id: 501,
+        job: "Set up chairs for potluck",
+        points: 20,
+        description: "Need help arranging chairs before the community potluck event.",
+      },
+      {
+        id: 502,
+        job: "Cleanup after music night",
+        points: 30,
+        description: "Volunteers needed to restore the venue to its original state.",
+      },
+    ];
+
+    // CHAT data (NEW)
+    const chatData = [
+      {
+        id: 1,
+        from: "Miranda",
+        message: "Hey everyone, who’s bringing dessert to the potluck?",
+        timestamp: "Dec 27, 2024 - 10:15 AM"
+      },
+      {
+        id: 2,
+        from: "Kathleen",
+        message: "I can bring cookies! Also, do we have enough chairs?",
+        timestamp: "Dec 27, 2024 - 10:20 AM"
+      },
+      {
+        id: 3,
+        from: "Grig",
+        message: "I’ll grab extra chairs today. Anyone else need help with rides?",
+        timestamp: "Dec 27, 2024 - 10:25 AM"
+      },
+    ];
 
     // ======================= Custom Theme =======================
     const theme = createTheme({
       palette: {
-        primary: { main: "#6d4c41" },
-        secondary: { main: "#8d6e63" },
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        background: {
+          default: '#f5f5f5',
+        },
       },
-      typography: { fontFamily: "Montserrat, sans-serif" },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+          fontWeight: 700,
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+            },
+          },
+        },
+      },
     });
 
     // ======================= Main App =======================
@@ -150,25 +334,43 @@
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <OrgProfilePage />
+          <Box className="animatedBackground">
+            <NavigationBar />
+            <OrgProfilePage />
+          </Box>
         </ThemeProvider>
+      );
+    }
+
+    // ======================= Navigation Bar (simplified) =======================
+    function NavigationBar() {
+      return (
+        <AppBar position="fixed">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+              {org.name}
+            </Typography>
+          </Toolbar>
+        </AppBar>
       );
     }
 
     // ======================= Org Profile Page =======================
     function OrgProfilePage() {
       const [currentTab, setCurrentTab] = React.useState(0);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-      // Chat messages state
-      const [messages, setMessages] = React.useState([
-        { sender: "recipient", text: "Welcome to ONE Local chat!" },
-        { sender: "recipient", text: "How can we assist you today?" },
-      ]);
+      // For Modals
+      const [modalOpen, setModalOpen] = React.useState(false);
+      const [modalData, setModalData] = React.useState(null);
 
-      // Handle sending a chat message
-      const sendMessage = (text) => {
-        if (text.trim() === "") return;
-        setMessages((prev) => [...prev, { sender: "sender", text }]);
+      const handleOpenModal = (data) => {
+        setModalData(data);
+        setModalOpen(true);
+      };
+      const handleCloseModal = () => {
+        setModalOpen(false);
+        setModalData(null);
       };
 
       // Renders content for each tab
@@ -176,93 +378,333 @@
         switch (currentTab) {
           case 0: // About
             return (
-              <Paper elevation={2} sx={{ p: 2 }}>
-                <Typography variant="h5">About {org.name}</Typography>
-                <Typography variant="body1">{org.tagline}</Typography>
+              <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Mission
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 4 }}>
+                  {aboutData.mission}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Website:</strong>{" "}
+                  <a href={aboutData.orgWebsite} target="_blank" rel="noreferrer">
+                    {aboutData.orgWebsite}
+                  </a>
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Contact Email:</strong> {aboutData.contactEmail}
+                </Typography>
               </Paper>
             );
-          case 1: // Chat
-            return <Chat messages={messages} onSend={sendMessage} />;
+          case 1: // Posts
+            return (
+              <Grid container spacing={2}>
+                {postsData.map((post) => (
+                  <Grid item xs={12} sm={6} md={4} key={post.id}>
+                    <Card
+                      onClick={() => handleOpenModal(post)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {post.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          By {post.user} — {post.date}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {post.content.slice(0, 60)}...
+                        </Typography>
+                        <img src={post.image} alt={post.title} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 2: // Events
+            return (
+              <Grid container spacing={2}>
+                {eventsData.map((evt) => (
+                  <Grid item xs={12} sm={6} md={4} key={evt.id}>
+                    <Card
+                      onClick={() => handleOpenModal(evt)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {evt.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          Hosted by {evt.host} — {evt.date}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {evt.description.slice(0, 60)}...
+                        </Typography>
+                        <img src={evt.image} alt={evt.title} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 3: // Groups
+            return (
+              <Grid container spacing={2}>
+                {groupsData.map((grp) => (
+                  <Grid item xs={12} sm={6} md={4} key={grp.id}>
+                    <Card
+                      onClick={() => handleOpenModal(grp)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {grp.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {grp.description.slice(0, 60)}...
+                        </Typography>
+                        <img src={grp.image} alt={grp.name} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 4: // Members
+            return (
+              <Grid container spacing={2}>
+                {membersData.map((mem) => (
+                  <Grid item xs={12} sm={6} md={4} key={mem.id}>
+                    <Card
+                      onClick={() => handleOpenModal(mem)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <Avatar src={mem.avatar} sx={{ width: 50, height: 50, mr: 2 }} />
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                              {mem.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {mem.role}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Typography variant="body1">
+                          {mem.bio.slice(0, 60)}...
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 5: // Job Board
+            return (
+              <Box>
+                {/* "Create a job" input (example - not fully functional) */}
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mb: 2,
+                    p: 1,
+                    borderRadius: '10px',
+                    backgroundColor: '#f9f9f9',
+                  }}
+                >
+                  <InputBase
+                    fullWidth
+                    placeholder="Create a job"
+                    sx={{ ml: 1 }}
+                  />
+                  <IconButton color="primary">
+                    <Icon>add_circle</Icon>
+                  </IconButton>
+                </Paper>
+
+                <Grid container spacing={2}>
+                  {jobBoardData.map((job) => (
+                    <Grid item xs={12} sm={6} md={4} key={job.id}>
+                      <Card onClick={() => handleOpenModal(job)} sx={{ cursor: 'pointer', height: '100%' }}>
+                        <CardContent>
+                          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                            {job.job}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                            {job.points} pts
+                          </Typography>
+                          <Typography variant="body1">
+                            {job.description.slice(0, 60)}...
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            );
+          case 6: // Chat (NEW)
+            return (
+              <Grid container spacing={2}>
+                {chatData.map((chat) => (
+                  <Grid item xs={12} key={chat.id}>
+                    <Card
+                      onClick={() => handleOpenModal(chat)}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {chat.from}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          {chat.timestamp}
+                        </Typography>
+                        <Typography variant="body1">
+                          {chat.message.slice(0, 80)}...
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
           default:
             return null;
         }
       };
 
       return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
+        <Container maxWidth="md" sx={{ pb: 5 }}>
           {/* Org Header */}
-          <Box sx={{ mb: 4 }}>
-            <Typography variant="h4">{org.name}</Typography>
-            <Typography variant="body1" color="textSecondary">
-              {org.tagline}
-            </Typography>
-          </Box>
+          <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Avatar
+                  src={org.headerImage}
+                  sx={{ width: 80, height: 80, borderRadius: 2 }}
+                  variant="square"
+                />
+              </Grid>
+              <Grid item xs>
+                <Typography variant="h4">
+                  {org.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {org.tagline}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Avatar src={org.adminAvatar} sx={{ width: 56, height: 56 }} />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
+              <Grid item>
+                <img
+                  src={org.logo}
+                  alt="Organization Logo"
+                  style={{ width: '50px', borderRadius: '10px' }}
+                />
+              </Grid>
+              <Grid item>
+                <Button variant="contained" color="primary" size="small">
+                  Join This Org
+                </Button>
+              </Grid>
+            </Grid>
+
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body1">
+                {org.description}
+              </Typography>
+            </Box>
+          </Paper>
 
           {/* Tabs */}
           <Tabs
             value={currentTab}
             onChange={(e, newVal) => setCurrentTab(newVal)}
-            variant="fullWidth"
-            sx={{ mb: 2 }}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
           >
             <Tab label="About" />
-            <Tab label="Chat" />
+            <Tab label="Posts" />
+            <Tab label="Events" />
+            <Tab label="Groups" />
+            <Tab label="Members" />
+            <Tab label="Job Board" />
+            <Tab label="Chat" /><!-- NEW TAB -->
           </Tabs>
 
           {/* Tab Content */}
           {renderTabContent()}
+
+          {/* Modal for card detail */}
+          <Modal
+            open={modalOpen}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          >
+            <Fade in={modalOpen}>
+              <Box className="modalContent">
+                {modalData && (
+                  <>
+                    {/* We'll conditionally render fields based on the data shape */}
+                    {modalData.title && (
+                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                        {modalData.title}
+                      </Typography>
+                    )}
+                    {modalData.name && (
+                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                        {modalData.name}
+                      </Typography>
+                    )}
+                    {/* If there's an image */}
+                    {modalData.image && (
+                      <img
+                        src={modalData.image}
+                        alt={modalData.title || modalData.name || "Modal Image"}
+                        style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
+                      />
+                    )}
+                    <Typography id="modal-description" sx={{ mb: 4 }}>
+                      {modalData.content && <><strong>Content:</strong> {modalData.content}<br/><br/></>}
+                      {modalData.description && <><strong>Description:</strong> {modalData.description}<br/><br/></>}
+                      {modalData.from && <><strong>From:</strong> {modalData.from}<br/></>}
+                      {modalData.host && <><strong>Host:</strong> {modalData.host}<br/></>}
+                      {modalData.date && <><strong>Date:</strong> {modalData.date}<br/></>}
+                      {modalData.timestamp && <><strong>Timestamp:</strong> {modalData.timestamp}<br/></>}
+                      {modalData.message && <><strong>Message:</strong> {modalData.message}<br/><br/></>}
+                      {modalData.role && <><strong>Role:</strong> {modalData.role}<br/></>}
+                      {modalData.bio && <><strong>Bio:</strong> {modalData.bio}<br/></>}
+                      {modalData.points && <><strong>Points:</strong> {modalData.points}<br/></>}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Container>
       );
     }
 
-    // ======================= Chat Component =======================
-    function Chat({ messages, onSend }) {
-      const [input, setInput] = React.useState("");
-
-      const handleSend = () => {
-        onSend(input);
-        setInput(""); // Clear the input
-      };
-
-      const handleKeyPress = (e) => {
-        if (e.key === "Enter") handleSend();
-      };
-
-      return (
-        <Box className="chatContainer">
-          {/* Chat Messages */}
-          <Box className="chatMessages">
-            {messages.map((msg, index) => (
-              <Typography
-                key={index}
-                className={`chatMessage ${msg.sender}`}
-                variant="body2"
-              >
-                {msg.text}
-              </Typography>
-            ))}
-          </Box>
-
-          {/* Chat Input */}
-          <Box className="chatInputContainer">
-            <input
-              type="text"
-              className="chatInput"
-              placeholder="Type your message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
-            <button className="chatSendButton" onClick={handleSend}>
-              Send
-            </button>
-          </Box>
-        </Box>
-      );
-    }
-
     // ======================= Render the App =======================
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
