@@ -51,7 +51,7 @@
 
     /* Hide default margin for the root React node */
     #root {
-      padding-top: 70px; /* reserve space for AppBar if needed */
+      padding-top: 70px; /* reserve space for AppBar */
     }
 
     /* Enhanced Card Hover Effect */
@@ -73,6 +73,67 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       padding: 20px;
       outline: none;
+    }
+
+    /* === Chat Tab Styles (from your snippet) === */
+    .chatContainer {
+      max-height: 60vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+    .chatMessage {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .chatMessage .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    .chatMessage .bubble {
+      max-width: 80%;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      background: #e0f7fa;
+      color: #333;
+      font-size: 1rem;
+      word-wrap: break-word;
+    }
+    .chatInputContainer {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chatInput {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+    .chatSendButton {
+      margin-left: 0.5rem;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      outline: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .chatSendButton:hover {
+      background-color: #8d6e63;
     }
   </style>
 </head>
@@ -244,25 +305,25 @@
       },
     ];
 
-    // CHAT data (NEW)
-    const chatData = [
+    // === CHAT data
+    const initialChatMessages = [
       {
         id: 1,
-        from: "Miranda",
-        message: "Hey everyone, who’s bringing dessert to the potluck?",
-        timestamp: "Dec 27, 2024 - 10:15 AM"
+        sender: "Leif",
+        avatar: "https://randomuser.me/api/portraits/men/31.jpg",
+        message: "Hi everyone! Excited for the potluck this weekend?",
       },
       {
         id: 2,
-        from: "Kathleen",
-        message: "I can bring cookies! Also, do we have enough chairs?",
-        timestamp: "Dec 27, 2024 - 10:20 AM"
+        sender: "Miranda",
+        avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+        message: "Yes! I'll be bringing a vegan lasagna. How about you?",
       },
       {
         id: 3,
-        from: "Grig",
-        message: "I’ll grab extra chairs today. Anyone else need help with rides?",
-        timestamp: "Dec 27, 2024 - 10:25 AM"
+        sender: "Cameron",
+        avatar: "https://randomuser.me/api/portraits/men/33.jpg",
+        message: "I'm in charge of drinks. Any preferences?",
       },
     ];
 
@@ -358,7 +419,6 @@
     // ======================= Org Profile Page =======================
     function OrgProfilePage() {
       const [currentTab, setCurrentTab] = React.useState(0);
-      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
       // For Modals
       const [modalOpen, setModalOpen] = React.useState(false);
@@ -373,7 +433,6 @@
         setModalData(null);
       };
 
-      // Renders content for each tab
       const renderTabContent = () => {
         switch (currentTab) {
           case 0: // About
@@ -547,31 +606,8 @@
                 </Grid>
               </Box>
             );
-          case 6: // Chat (NEW)
-            return (
-              <Grid container spacing={2}>
-                {chatData.map((chat) => (
-                  <Grid item xs={12} key={chat.id}>
-                    <Card
-                      onClick={() => handleOpenModal(chat)}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                          {chat.from}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          {chat.timestamp}
-                        </Typography>
-                        <Typography variant="body1">
-                          {chat.message.slice(0, 80)}...
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            );
+          case 6: // Chat
+            return <ChatTab />;
           default:
             return null;
         }
@@ -638,7 +674,7 @@
             <Tab label="Groups" />
             <Tab label="Members" />
             <Tab label="Job Board" />
-            <Tab label="Chat" /><!-- NEW TAB -->
+            <Tab label="Chat" />
           </Tabs>
 
           {/* Tab Content */}
@@ -671,7 +707,6 @@
                         {modalData.name}
                       </Typography>
                     )}
-                    {/* If there's an image */}
                     {modalData.image && (
                       <img
                         src={modalData.image}
@@ -682,11 +717,9 @@
                     <Typography id="modal-description" sx={{ mb: 4 }}>
                       {modalData.content && <><strong>Content:</strong> {modalData.content}<br/><br/></>}
                       {modalData.description && <><strong>Description:</strong> {modalData.description}<br/><br/></>}
-                      {modalData.from && <><strong>From:</strong> {modalData.from}<br/></>}
+                      {modalData.user && <><strong>User:</strong> {modalData.user}<br/></>}
                       {modalData.host && <><strong>Host:</strong> {modalData.host}<br/></>}
                       {modalData.date && <><strong>Date:</strong> {modalData.date}<br/></>}
-                      {modalData.timestamp && <><strong>Timestamp:</strong> {modalData.timestamp}<br/></>}
-                      {modalData.message && <><strong>Message:</strong> {modalData.message}<br/><br/></>}
                       {modalData.role && <><strong>Role:</strong> {modalData.role}<br/></>}
                       {modalData.bio && <><strong>Bio:</strong> {modalData.bio}<br/></>}
                       {modalData.points && <><strong>Points:</strong> {modalData.points}<br/></>}
@@ -700,6 +733,60 @@
             </Fade>
           </Modal>
         </Container>
+      );
+    }
+
+    // ======================= Chat Tab Component =======================
+    function ChatTab() {
+      const [messages, setMessages] = React.useState(initialChatMessages);
+      const [newMessage, setNewMessage] = React.useState("");
+
+      const handleSendMessage = () => {
+        if (newMessage.trim() === "") return;
+
+        const newChatMessage = {
+          id: messages.length + 1,
+          sender: "You",
+          avatar: "https://via.placeholder.com/40?text=You",
+          message: newMessage,
+        };
+
+        setMessages([...messages, newChatMessage]);
+        setNewMessage("");
+      };
+
+      return (
+        <Box>
+          <Box className="chatContainer">
+            {messages.map((msg) => (
+              <Box key={msg.id} className="chatMessage">
+                <img
+                  src={msg.avatar}
+                  alt={`${msg.sender} avatar`}
+                  className="avatar"
+                />
+                <Box className="bubble">
+                  <Typography variant="body1">
+                    <strong>{msg.sender}:</strong> {msg.message}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+          <Box className="chatInputContainer">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className="chatInput"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+            />
+            <button className="chatSendButton" onClick={handleSendMessage}>
+              Send
+            </button>
+          </Box>
+        </Box>
       );
     }
 
