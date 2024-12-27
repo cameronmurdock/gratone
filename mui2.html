@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Meta-Style Landing</title>
+  <title>ONE Local - Meta-Style Full App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google Fonts and Material Icons -->
   <link
@@ -13,14 +13,13 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
   >
-  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
+    /* Scrollbar & Body Styling */
     body {
       margin: 0;
       overflow-x: hidden;
     }
-    /* Scrollbar styling */
     body::-webkit-scrollbar {
       width: 8px;
     }
@@ -55,7 +54,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
-    /* Horizontal card carousel style (similar to Meta's horizontally sliding product sections) */
+    /* Horizontal product “store” section */
     .horizontalSection {
       overflow-x: auto;
       white-space: nowrap;
@@ -74,10 +73,93 @@
       padding: 60px 0;
     }
 
+    /* For the big highlight images that might be in a grid */
+    .highlightImage {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
     /* Footer */
     .footerContainer {
       background-color: #f5f5f5;
       padding: 40px 0;
+    }
+
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+
+    /* Chat container from older snippet (if needed) */
+    .chatContainer {
+      max-height: 60vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+    .chatMessage {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .chatMessage .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    .chatMessage .bubble {
+      max-width: 80%;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      background: #e0f7fa;
+      color: #333;
+      font-size: 1rem;
+      word-wrap: break-word;
+    }
+    .chatInputContainer {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chatInput {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+    .chatSendButton {
+      margin-left: 0.5rem;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      outline: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .chatSendButton:hover {
+      background-color: #8d6e63;
     }
   </style>
 </head>
@@ -90,17 +172,14 @@
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
-  <script
-    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <!-- Material UI Icons -->
-  <script
-    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
+    /*********************************************
+     * Imports from Material UI
+     *********************************************/
     const {
       ThemeProvider,
       createTheme,
@@ -123,18 +202,50 @@
       Backdrop,
       Link,
       Avatar,
-      useMediaQuery
+      useMediaQuery,
+      Tabs,
+      Tab,
+      TextField,
+      Accordion,
+      AccordionSummary,
+      AccordionDetails
     } = MaterialUI;
 
-    // Example data for sections
+    /*********************************************
+     * Data & Content from Previous Code
+     *********************************************/
+    // ... your entire data objects from before, e.g., users, groups, org, blogPosts, etc.
+    const blogPosts = [
+      {
+        title: 'Building Sustainable Communities',
+        excerpt: 'Discover how ONE Local promotes sustainability...',
+        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+        content: 'Full content for Building Sustainable Communities...'
+      },
+      {
+        title: 'The Power of Local Events',
+        excerpt: 'Learn how hosting local events can strengthen community bonds...',
+        image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+        content: 'Full content for The Power of Local Events...'
+      },
+      {
+        title: 'Supporting Local Businesses',
+        excerpt: 'Explore the benefits of shopping local...',
+        image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+        content: 'Full content for Supporting Local Businesses...'
+      },
+    ];
+
+    // EXAMPLE data for big “meta style” hero sections
     const topHeroData = {
-      headline: "AI Glasses for a fresh perspective",
+      headline: "AI Glasses for a Fresh Perspective",
       subheadline: "Capture, share and stay in the moment, completely hands-free.",
       cta1: "Shop all styles",
       cta2: "Learn more",
       productImage: "https://via.placeholder.com/800x400/8B4513/FFFFFF?text=Ray-Ban+Meta+Glasses"
     };
 
+    // Another hero for "ONE Local"
     const secondHeroData = {
       headline: "ONE Local: Connect & Empower",
       subheadline: "The platform that brings your community together to share, learn, and grow.",
@@ -143,34 +254,35 @@
       productImage: "https://via.placeholder.com/800x400/2f2f2f/FFFFFF?text=ONE+Local+App"
     };
 
-    // Horizontal product features
+    // Horizontal product features (like a store row)
     const productFeatures = [
       {
         id: 1,
-        title: "Connect With Neighbors",
-        description: "Find nearby community members, share resources, and plan events together.",
-        image: "https://via.placeholder.com/300x200?text=Connect"
+        title: "Ray-Ban Meta Glasses",
+        description: "Hands-free capture & calls with the power of AI.",
+        image: "https://via.placeholder.com/300x200?text=Ray-Ban+Glasses"
       },
       {
         id: 2,
-        title: "Discover Local Skills",
-        description: "Browse and request services from local experts in your neighborhood.",
-        image: "https://via.placeholder.com/300x200?text=Skills"
+        title: "Meta Quest",
+        description: "Enter new realities, connect, and explore in VR.",
+        image: "https://via.placeholder.com/300x200?text=Meta+Quest"
       },
       {
         id: 3,
-        title: "Join Local Groups",
-        description: "Become part of focused groups to collaborate on shared initiatives.",
-        image: "https://via.placeholder.com/300x200?text=Groups"
+        title: "Quest Accessories",
+        description: "Upgrade your VR experience with premium accessories.",
+        image: "https://via.placeholder.com/300x200?text=Quest+Accessories"
       },
       {
         id: 4,
-        title: "Earn & Reward",
-        description: "Exchange services, earn points, and reward helpful community members.",
-        image: "https://via.placeholder.com/300x200?text=Earn"
+        title: "Community Tools",
+        description: "Tools to empower your local group on ONE Local.",
+        image: "https://via.placeholder.com/300x200?text=Community+Tools"
       }
     ];
 
+    // Some highlight sections for usage “like meta”
     const highlightSections = [
       {
         id: "entertainment",
@@ -192,7 +304,9 @@
       },
     ];
 
-    // Create a custom theme to match your brand
+    /*********************************************
+     * Create a custom Material UI theme
+     *********************************************/
     const theme = createTheme({
       palette: {
         mode: 'light',
@@ -204,44 +318,121 @@
       typography: {
         fontFamily: 'Montserrat, sans-serif',
         h2: { fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '3rem' },
+        h3: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
         h4: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
       },
     });
 
+    /*********************************************
+     * Main App with Nav & Pages
+     *********************************************/
     function App() {
-      const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+      const [currentPage, setCurrentPage] = React.useState('home');
+
+      // Renders sub-pages from your older code
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'home':
+            return <LandingPage setCurrentPage={setCurrentPage} />;
+          // other sub-pages
+          case 'manifesto':
+            return <ManifestoPage />;
+          case 'team':
+            return <TeamPage />;
+          case 'whitepaper':
+            return <WhitepaperPage />;
+          case 'investors':
+            return <InvestorsPage />;
+          case 'features-overview':
+            return <FeaturesOverviewPage />;
+          case 'local-members':
+            return <LocalMembersPage setCurrentPage={setCurrentPage} />;
+          case 'event-hosts':
+            return <EventHostsPage setCurrentPage={setCurrentPage} />;
+          case 'sellers':
+            return <SellersPage setCurrentPage={setCurrentPage} />;
+          case 'organizations':
+            return <OrganizationsPage setCurrentPage={setCurrentPage} />;
+          case 'impact-stories':
+            return <ImpactStoriesPage />;
+          case 'blog':
+            return <BlogPage />;
+          case 'download-app':
+            return <DownloadAppPage />;
+          case 'terms-of-service':
+            return <TermsOfServicePage />;
+          case 'privacy-policy':
+            return <PrivacyPolicyPage />;
+          case 'faq':
+            return <FAQPage />;
+          case 'contact-us':
+            return <ContactUsPage />;
+          default:
+            return <LandingPage setCurrentPage={setCurrentPage} />;
+        }
+      };
 
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <HeaderBar />
-          <Box sx={{ mt: 8, mb: 6 }}>
-            <HeroSection data={topHeroData} isMobile={isMobile} />
-            <HeroSection data={secondHeroData} isMobile={isMobile} reversed />
-            <HorizontalProducts data={productFeatures} />
-            <HighlightSection data={highlightSections} />
-            <CallToAction />
-          </Box>
-          <Footer />
+          <HeaderBar setCurrentPage={setCurrentPage} />
+          {renderPage()}
+          <Footer setCurrentPage={setCurrentPage} />
         </ThemeProvider>
       );
     }
 
-    function HeaderBar() {
+    /*********************************************
+     * The “HeaderBar” or Nav
+     *********************************************/
+    function HeaderBar({ setCurrentPage }) {
       return (
         <AppBar position="fixed" color="inherit" sx={{ boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+            <Typography
+              variant="h6"
+              sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}
+              onClick={() => setCurrentPage('home')}
+            >
               ONE Local
             </Typography>
-            <Button color="primary" sx={{ mr: 2 }}>Download</Button>
-            <Button color="primary">Sign Up</Button>
+            <Button color="primary" sx={{ mr: 2 }} onClick={() => setCurrentPage('download-app')}>Download</Button>
+            <Button color="primary" onClick={() => setCurrentPage('team')}>Team</Button>
           </Toolbar>
         </AppBar>
       );
     }
 
-    function HeroSection({ data, reversed, isMobile }) {
+    /*********************************************
+     * Landing Page (Meta-style)
+     *********************************************/
+    function LandingPage({ setCurrentPage }) {
+      return (
+        <Box sx={{ mt: 8 }}>
+          {/* Big Hero #1 */}
+          <HeroSection data={topHeroData} />
+
+          {/* Big Hero #2 */}
+          <HeroSection data={secondHeroData} reversed />
+
+          {/* Horizontal “Shop” Section */}
+          <HorizontalProducts data={productFeatures} />
+
+          {/* Another highlight “tabs” style section (like Meta) */}
+          <HighlightSection data={highlightSections} />
+
+          {/* CTA style section */}
+          <CallToAction />
+
+          {/* Then you can also include your older landing content below... or keep it separate */}
+        </Box>
+      );
+    }
+
+    /*********************************************
+     * Reusable Sections
+     *********************************************/
+    function HeroSection({ data, reversed }) {
       const { headline, subheadline, cta1, cta2, productImage } = data;
       return (
         <Box
@@ -251,8 +442,8 @@
             flexDirection: reversed ? 'row-reverse' : 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            px: isMobile ? 2 : 6,
-            py: 6,
+            px: 6,
+            py: 8,
             gap: 4
           }}
         >
@@ -290,7 +481,7 @@
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
                       {item.title}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
                       {item.description}
                     </Typography>
                   </CardContent>
@@ -319,7 +510,7 @@
                     <img
                       src={item.image}
                       alt={item.title}
-                      style={{ width: '100%', borderRadius: 8, marginBottom: 8 }}
+                      className="highlightImage"
                     />
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
                       {item.title}
@@ -353,7 +544,10 @@
       );
     }
 
-    function Footer() {
+    /*********************************************
+     * Footer
+     *********************************************/
+    function Footer({ setCurrentPage }) {
       return (
         <Box className="footerContainer">
           <Container maxWidth="lg">
@@ -374,10 +568,10 @@
                   Explore
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Link href="#" color="inherit" underline="hover">About ONE Local</Link>
-                  <Link href="#" color="inherit" underline="hover">Investors</Link>
-                  <Link href="#" color="inherit" underline="hover">Contact</Link>
-                  <Link href="#" color="inherit" underline="hover">FAQ</Link>
+                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('manifesto')}>Manifesto</Link>
+                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('investors')}>Investors</Link>
+                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('contact-us')}>Contact</Link>
+                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('faq')}>FAQ</Link>
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
@@ -402,6 +596,79 @@
       );
     }
 
+    /*********************************************
+     * All Sub-Pages from your older code
+     *********************************************/
+    function ManifestoPage() { /* same as your old code, keep everything in here. */ 
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Manifesto
+          </Typography>
+          {/* ... etc. */}
+          <Typography variant="body1">
+            Your full Manifesto text here...
+          </Typography>
+        </Container>
+      );
+    }
+
+    function TeamPage() {
+      // ... as in your old code
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          {/* etc. */}
+          <Typography variant="body1">[Team content from old code]</Typography>
+        </Container>
+      );
+    }
+
+    function WhitepaperPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Whitepaper</Container>; }
+    function InvestorsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Investors</Container>; }
+    function FeaturesOverviewPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Features Overview</Container>; }
+    function LocalMembersPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Local Members</Container>; }
+    function EventHostsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Event Hosts</Container>; }
+    function SellersPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Sellers</Container>; }
+    function OrganizationsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Organizations</Container>; }
+    function ImpactStoriesPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Impact Stories</Container>; }
+
+    function BlogPage() {
+      // you can integrate your blog snippet with modal, etc.
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Blog
+          </Typography>
+          {/* as in your old code */}
+        </Container>
+      );
+    }
+
+    function DownloadAppPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Download the App
+          </Typography>
+          {/* ... */}
+          <Button variant="contained" color="primary" size="large">
+            Get the App Now
+          </Button>
+        </Container>
+      );
+    }
+
+    function TermsOfServicePage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Terms of Service</Container>; }
+    function PrivacyPolicyPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Privacy Policy</Container>; }
+    function FAQPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>FAQ</Container>; }
+    function ContactUsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Contact Us</Container>; }
+
+    /*********************************************
+     * Render the app
+     *********************************************/
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
