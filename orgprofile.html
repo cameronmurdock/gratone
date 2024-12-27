@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The Stand - ONE Local Org Profile</title>
+  <title>ONE Local - Org Profile</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Google Fonts and Material Icons -->
@@ -17,6 +17,7 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
+    /* Scrollbar & Body Styling */
     body {
       margin: 0;
       overflow-x: hidden;
@@ -33,6 +34,8 @@
       background-color: #a8d5ba;
       border-radius: 4px;
     }
+
+    /* Animated Gradient Background */
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -45,21 +48,48 @@
       min-height: 100vh;
       color: #333;
     }
+
+    /* Hide default margin for the root React node */
     #root {
-      padding-top: 80px;
+      padding-top: 70px; /* reserve space for AppBar if needed */
+    }
+
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
+  <!-- React 18 and ReactDOM 18 -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
   <script
     src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
     crossorigin
   ></script>
+  <!-- Material UI Icons -->
   <script
     src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
     crossorigin
@@ -83,173 +113,471 @@
       Icon,
       Tabs,
       Tab,
-      InputBase,
       Card,
-      CardContent
+      CardContent,
+      Modal,
+      Fade,
+      Backdrop,
+      InputBase,
+      useMediaQuery
     } = MaterialUI;
 
+    // ======================= Example Org & Data Objects =======================
+    const org = {
+      name: "ONE Local",
+      tagline: "Empower Your Community, Enrich Your Life.",
+      description:
+        "ONE Local is a platform that connects community members, encourages resource sharing, and fosters collaboration between local residents, event hosts, sellers, and organizations. Together, we build the future — one connection at a time.",
+      logo: "https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo",
+      headerImage: "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Org+Photo",
+      adminAvatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    };
+
+    // ABOUT data
+    const aboutData = {
+      mission: "Our mission is to bring neighbors together, encourage mutual aid, and grow thriving local economies.",
+      orgWebsite: "https://example.com",
+      contactEmail: "contact@onelocal.org"
+    };
+
+    // POSTS data
+    const postsData = [
+      {
+        id: 1,
+        user: "Leif",
+        title: "Jam Session This Friday",
+        content: "Bring your instruments to the community space at 7pm!",
+        date: "Dec 26, 2024",
+        image: "https://via.placeholder.com/600x400?text=Jam+Session"
+      },
+      {
+        id: 2,
+        user: "Nate",
+        title: "New Art Gallery Opening",
+        content: "Local artists will showcase their work this weekend.",
+        date: "Dec 25, 2024",
+        image: "https://via.placeholder.com/600x400?text=Art+Gallery"
+      },
+    ];
+
+    // EVENTS data
+    const eventsData = [
+      {
+        id: 101,
+        title: "Community Potluck",
+        host: "Miranda",
+        description: "Bring your favorite dish and meet the neighbors.",
+        date: "Jan 5, 2025",
+        image: "https://via.placeholder.com/600x400?text=Potluck"
+      },
+      {
+        id: 102,
+        title: "Live Music Night",
+        host: "Cameron",
+        description: "Local bands perform for a great evening of music.",
+        date: "Jan 12, 2025",
+        image: "https://via.placeholder.com/600x400?text=Live+Music"
+      },
+    ];
+
+    // GROUPS data
+    const groupsData = [
+      {
+        id: 301,
+        name: "Artists Collective",
+        description: "A place for local artists to collaborate and share their work.",
+        image: "https://via.placeholder.com/400x250?text=Artists+Collective"
+      },
+      {
+        id: 302,
+        name: "Volunteer Network",
+        description: "Organize volunteer projects and connect helpers with those in need.",
+        image: "https://via.placeholder.com/400x250?text=Volunteer+Network"
+      },
+    ];
+
+    // MEMBERS data
+    const membersData = [
+      {
+        id: 401,
+        name: "Miranda Clendening",
+        role: "Finance Treasurer",
+        bio: "Ensuring sustainable financial growth and resource allocation.",
+        avatar: "https://via.placeholder.com/150?text=Miranda"
+      },
+      {
+        id: 402,
+        name: "Kathleen Gafney",
+        role: "Outreach Secretary",
+        bio: "Building partnerships and connecting with local organizations.",
+        avatar: "https://via.placeholder.com/150?text=Kathleen"
+      },
+      {
+        id: 403,
+        name: "Grig Bilham",
+        role: "Operations Manager",
+        bio: "Overseeing daily processes to keep everything running smoothly.",
+        avatar: "https://via.placeholder.com/150?text=Grig"
+      },
+      {
+        id: 404,
+        name: "You?",
+        role: "Open Volunteer Position",
+        bio: "Ready to help your local community? Join us!",
+        avatar: "https://via.placeholder.com/150?text=Open+Volunteer"
+      },
+    ];
+
+    // JOB BOARD data
+    const jobBoardData = [
+      {
+        id: 501,
+        job: "Set up chairs for potluck",
+        points: 20,
+        description: "Need help arranging chairs before the community potluck event.",
+      },
+      {
+        id: 502,
+        job: "Cleanup after music night",
+        points: 30,
+        description: "Volunteers needed to restore the venue to its original state.",
+      },
+    ];
+
+    // ======================= Custom Theme =======================
     const theme = createTheme({
       palette: {
-        primary: { main: '#6d4c41' },
-        secondary: { main: '#8d6e63' },
-        background: { default: '#f5f5f5' },
+        mode: 'light',
+        primary: {
+          main: '#6d4c41', // Muted Brown
+        },
+        secondary: {
+          main: '#8d6e63', // Muted Coral
+        },
+        background: {
+          default: '#f5f5f5',
+        },
       },
       typography: {
         fontFamily: 'Montserrat, sans-serif',
-        h5: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+          fontWeight: 700,
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
       },
-      shape: { borderRadius: 10 },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+            },
+          },
+        },
+      },
     });
 
+    // ======================= Main App =======================
     function App() {
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box className="animatedBackground">
+            <NavigationBar />
             <OrgProfilePage />
           </Box>
         </ThemeProvider>
       );
     }
 
+    // ======================= Navigation Bar (simplified) =======================
+    function NavigationBar() {
+      return (
+        <AppBar position="fixed">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+              {org.name}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    // ======================= Org Profile Page =======================
     function OrgProfilePage() {
       const [currentTab, setCurrentTab] = React.useState(0);
+      const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-      const aboutData = {
-        description: "The Stand is a vibrant community hub in Riverside dedicated to fostering local collaboration and connection. From farmers' markets and urban gardening workshops to art shows and live music, The Stand empowers people to share skills, resources, and opportunities in a warm, welcoming environment."
+      // For Modals
+      const [modalOpen, setModalOpen] = React.useState(false);
+      const [modalData, setModalData] = React.useState(null);
+
+      const handleOpenModal = (data) => {
+        setModalData(data);
+        setModalOpen(true);
+      };
+      const handleCloseModal = () => {
+        setModalOpen(false);
+        setModalData(null);
       };
 
-      const postsData = [
-        { id: 1, user: "Miranda Clendening", content: "We’re hosting a craft night this Friday. Bring your projects and join us for an evening of creativity!", date: "Dec 24, 2024" },
-        { id: 2, user: "Kathleen Gafney", content: "Fresh produce from local farms is available this weekend at our market. Don’t miss out!", date: "Dec 23, 2024" },
-      ];
-
-      const eventsData = [
-        { id: 101, title: "Live Music Night", date: "Jan 6, 2025" },
-        { id: 102, title: "Community Potluck", date: "Jan 13, 2025" },
-      ];
-
-      const jobBoardData = [
-        { id: 501, job: "Set up for Farmers' Market", points: 40 },
-        { id: 502, job: "Help clean up after Music Night", points: 50 },
-      ];
-
+      // Renders content for each tab
       const renderTabContent = () => {
         switch (currentTab) {
-          case 0:
+          case 0: // About
             return (
               <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1">{aboutData.description}</Typography>
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Mission
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 4 }}>
+                  {aboutData.mission}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Website:</strong>{" "}
+                  <a href={aboutData.orgWebsite} target="_blank" rel="noreferrer">
+                    {aboutData.orgWebsite}
+                  </a>
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Contact Email:</strong> {aboutData.contactEmail}
+                </Typography>
               </Paper>
             );
-          case 1:
-            return postsData.map((post) => (
-              <Paper key={post.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                  {post.user}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {post.date}
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 1 }}>
-                  {post.content}
-                </Typography>
-              </Paper>
-            ));
-          case 2:
-            return eventsData.map((event) => (
-              <Paper key={event.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  {event.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {event.date}
-                </Typography>
-              </Paper>
-            ));
-          case 6:
+          case 1: // Posts
+            return (
+              <Grid container spacing={2}>
+                {postsData.map((post) => (
+                  <Grid item xs={12} sm={6} md={4} key={post.id}>
+                    <Card
+                      onClick={() => handleOpenModal(post)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {post.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          By {post.user} — {post.date}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {post.content.slice(0, 60)}...
+                        </Typography>
+                        <img src={post.image} alt={post.title} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 2: // Events
+            return (
+              <Grid container spacing={2}>
+                {eventsData.map((evt) => (
+                  <Grid item xs={12} sm={6} md={4} key={evt.id}>
+                    <Card
+                      onClick={() => handleOpenModal(evt)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {evt.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          Hosted by {evt.host} — {evt.date}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {evt.description.slice(0, 60)}...
+                        </Typography>
+                        <img src={evt.image} alt={evt.title} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 3: // Groups
+            return (
+              <Grid container spacing={2}>
+                {groupsData.map((grp) => (
+                  <Grid item xs={12} sm={6} md={4} key={grp.id}>
+                    <Card
+                      onClick={() => handleOpenModal(grp)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                          {grp.name}
+                        </Typography>
+                        <Typography variant="body1" sx={{ mb: 2 }}>
+                          {grp.description.slice(0, 60)}...
+                        </Typography>
+                        <img src={grp.image} alt={grp.name} style={{ width: '100%', borderRadius: '8px' }} />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 4: // Members
+            return (
+              <Grid container spacing={2}>
+                {membersData.map((mem) => (
+                  <Grid item xs={12} sm={6} md={4} key={mem.id}>
+                    <Card
+                      onClick={() => handleOpenModal(mem)}
+                      sx={{ cursor: 'pointer', height: '100%' }}
+                    >
+                      <CardContent>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                          <Avatar src={mem.avatar} sx={{ width: 50, height: 50, mr: 2 }} />
+                          <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                              {mem.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {mem.role}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Typography variant="body1">
+                          {mem.bio.slice(0, 60)}...
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            );
+          case 5: // Job Board
             return (
               <Box>
-                {jobBoardData.map((jobItem) => (
-                  <Paper
-                    key={jobItem.id}
-                    elevation={1}
-                    sx={{
-                      p: 2,
-                      borderRadius: '10px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      mb: 2,
-                    }}
-                  >
-                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                      {jobItem.job}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" color="text.secondary">
-                        {jobItem.points} pts
-                      </Typography>
-                      <IconButton color="primary">
-                        <Icon>check_circle</Icon>
-                      </IconButton>
-                    </Box>
-                  </Paper>
-                ))}
+                {/* "Create a job" input (example - not fully functional) */}
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    mb: 2,
+                    p: 1,
+                    borderRadius: '10px',
+                    backgroundColor: '#f9f9f9',
+                  }}
+                >
+                  <InputBase
+                    fullWidth
+                    placeholder="Create a job"
+                    sx={{ ml: 1 }}
+                  />
+                  <IconButton color="primary">
+                    <Icon>add_circle</Icon>
+                  </IconButton>
+                </Paper>
+
+                <Grid container spacing={2}>
+                  {jobBoardData.map((job) => (
+                    <Grid item xs={12} sm={6} md={4} key={job.id}>
+                      <Card onClick={() => handleOpenModal(job)} sx={{ cursor: 'pointer', height: '100%' }}>
+                        <CardContent>
+                          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                            {job.job}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                            {job.points} pts
+                          </Typography>
+                          <Typography variant="body1">
+                            {job.description.slice(0, 60)}...
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
               </Box>
             );
           default:
-            return <></>;
+            return null;
         }
       };
 
-      const groupPhoto =
-        "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand";
-      const adminAvatar =
-        "https://randomuser.me/api/portraits/women/39.jpg";
-
       return (
         <Container maxWidth="md" sx={{ pb: 5 }}>
-          <AppBar position="fixed">
-            <Toolbar>
-              <Typography
-                variant="h6"
-                sx={{ flexGrow: 1, fontWeight: 'bold' }}
-              >
-                ONE Local
-              </Typography>
-            </Toolbar>
-          </AppBar>
-
+          {/* Org Header */}
           <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
             <Grid container spacing={2} alignItems="center">
               <Grid item>
                 <Avatar
-                  src={groupPhoto}
+                  src={org.headerImage}
                   sx={{ width: 80, height: 80, borderRadius: 2 }}
                   variant="square"
                 />
               </Grid>
               <Grid item xs>
-                <Typography variant="h5">The Stand</Typography>
+                <Typography variant="h4">
+                  {org.name}
+                </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Riverside's Community Hub
+                  {org.tagline}
                 </Typography>
               </Grid>
               <Grid item>
-                <Avatar src={adminAvatar} sx={{ width: 56, height: 56 }} />
+                <Avatar src={org.adminAvatar} sx={{ width: 56, height: 56 }} />
               </Grid>
             </Grid>
 
             <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
+              <Grid item>
+                <img
+                  src={org.logo}
+                  alt="Organization Logo"
+                  style={{ width: '50px', borderRadius: '10px' }}
+                />
+              </Grid>
               <Grid item>
                 <Button variant="contained" color="primary" size="small">
                   Join This Org
                 </Button>
               </Grid>
             </Grid>
+
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body1">
+                {org.description}
+              </Typography>
+            </Box>
           </Paper>
 
+          {/* Tabs */}
           <Tabs
             value={currentTab}
             onChange={(e, newVal) => setCurrentTab(newVal)}
@@ -257,16 +585,77 @@
             scrollButtons="auto"
             sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
           >
-            {["About", "Posts", "Events", "Job-Board"].map((label, idx) => (
-              <Tab key={idx} label={label} />
-            ))}
+            <Tab label="About" />
+            <Tab label="Posts" />
+            <Tab label="Events" />
+            <Tab label="Groups" />
+            <Tab label="Members" />
+            <Tab label="Job Board" />
           </Tabs>
 
+          {/* Tab Content */}
           {renderTabContent()}
+
+          {/* Modal for card detail */}
+          <Modal
+            open={modalOpen}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          >
+            <Fade in={modalOpen}>
+              <Box className="modalContent">
+                {modalData && (
+                  <>
+                    {/* We'll conditionally render fields based on the data shape */}
+                    {modalData.title && (
+                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                        {modalData.title}
+                      </Typography>
+                    )}
+                    {/* If there's a 'name' field (like Groups or Members) */}
+                    {modalData.name && (
+                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                        {modalData.name}
+                      </Typography>
+                    )}
+                    {/* If there's an image */}
+                    {modalData.image && (
+                      <img
+                        src={modalData.image}
+                        alt={modalData.title || modalData.name || "Modal Image"}
+                        style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
+                      />
+                    )}
+                    <Typography id="modal-description" sx={{ mb: 4 }}>
+                      {/* Render different properties if they exist */}
+                      {modalData.content && <><strong>Content:</strong> {modalData.content}<br/><br/></>}
+                      {modalData.description && <><strong>Description:</strong> {modalData.description}<br/><br/></>}
+                      {modalData.user && <><strong>User:</strong> {modalData.user}<br/></>}
+                      {modalData.host && <><strong>Host:</strong> {modalData.host}<br/></>}
+                      {modalData.date && <><strong>Date:</strong> {modalData.date}<br/></>}
+                      {modalData.role && <><strong>Role:</strong> {modalData.role}<br/></>}
+                      {modalData.bio && <><strong>Bio:</strong> {modalData.bio}<br/></>}
+                      {modalData.points && <><strong>Points:</strong> {modalData.points}<br/></>}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
         </Container>
       );
     }
 
+    // ======================= Render the App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
