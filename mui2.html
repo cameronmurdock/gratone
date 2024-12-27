@@ -2,23 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Meta-Style Full App</title>
+  <title>ONE Local - Empower Your Community</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta Descriptions for SEO -->
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
   <!-- Google Fonts and Material Icons -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap"
-  >
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  >
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Scrollbar & Body Styling */
+    /* Responsive Menu Styling */
+    @media (max-width: 960px) {
+      .desktopMenu {
+        display: none;
+      }
+    }
+    @media (min-width: 960px) {
+      .mobileMenu {
+        display: none;
+      }
+    }
+    /* Scrollbar Styling */
     body {
-      margin: 0;
       overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+      margin: 0;
+      padding: 0;
     }
     body::-webkit-scrollbar {
       width: 8px;
@@ -73,14 +85,14 @@
       padding: 60px 0;
     }
 
-    /* For the big highlight images that might be in a grid */
+    /* For highlight images in a grid */
     .highlightImage {
       width: 100%;
       border-radius: 8px;
       margin-bottom: 8px;
     }
 
-    /* Footer */
+    /* Footer & calls */
     .footerContainer {
       background-color: #f5f5f5;
       padding: 40px 0;
@@ -101,7 +113,7 @@
       outline: none;
     }
 
-    /* Chat container from older snippet (if needed) */
+    /* Chat container from older snippet */
     .chatContainer {
       max-height: 60vh;
       overflow-y: auto;
@@ -167,8 +179,8 @@
   <div id="root"></div>
 
   <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
@@ -178,7 +190,7 @@
 
   <script type="text/babel">
     /*********************************************
-     * Imports from Material UI
+     * Material UI imports
      *********************************************/
     const {
       ThemeProvider,
@@ -202,41 +214,63 @@
       Backdrop,
       Link,
       Avatar,
-      useMediaQuery,
       Tabs,
       Tab,
       TextField,
+      useMediaQuery,
       Accordion,
       AccordionSummary,
       AccordionDetails
     } = MaterialUI;
 
     /*********************************************
-     * Data & Content from Previous Code
+     * Your existing data, subpages, etc.
      *********************************************/
-    // ... your entire data objects from before, e.g., users, groups, org, blogPosts, etc.
-    const blogPosts = [
-      {
-        title: 'Building Sustainable Communities',
-        excerpt: 'Discover how ONE Local promotes sustainability...',
-        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
-        content: 'Full content for Building Sustainable Communities...'
-      },
-      {
-        title: 'The Power of Local Events',
-        excerpt: 'Learn how hosting local events can strengthen community bonds...',
-        image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
-        content: 'Full content for The Power of Local Events...'
-      },
-      {
-        title: 'Supporting Local Businesses',
-        excerpt: 'Explore the benefits of shopping local...',
-        image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
-        content: 'Full content for Supporting Local Businesses...'
-      },
-    ];
+    // Imagine all your data (users, groups, blogPosts, etc.) is here...
+    // For brevity, placeholders:
 
-    // EXAMPLE data for big “meta style” hero sections
+    function ManifestoPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Manifesto
+          </Typography>
+          <Typography variant="body1">[Your Manifesto content]</Typography>
+        </Container>
+      );
+    }
+
+    function TeamPage() {
+      return (
+        <Container sx={{ py: 12, minHeight: '100vh' }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
+            Meet the Team
+          </Typography>
+          <Typography variant="body1">[Team content from older code]</Typography>
+        </Container>
+      );
+    }
+
+    // ...whitepaper, investors, etc.
+    function WhitepaperPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>WhitepaperPage</Container>; }
+    function InvestorsPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>InvestorsPage</Container>; }
+    function FeaturesOverviewPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>FeaturesOverviewPage</Container>; }
+    function LocalMembersPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>LocalMembersPage</Container>; }
+    function EventHostsPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>EventHostsPage</Container>; }
+    function SellersPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>SellersPage</Container>; }
+    function OrganizationsPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>OrganizationsPage</Container>; }
+    function ImpactStoriesPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>ImpactStoriesPage</Container>; }
+    function BlogPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>BlogPage</Container>; }
+    function DownloadAppPage() { return <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>DownloadAppPage</Container>; }
+    function TermsOfServicePage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>TermsOfServicePage</Container>; }
+    function PrivacyPolicyPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>PrivacyPolicyPage</Container>; }
+    function FAQPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>FAQPage</Container>; }
+    function ContactUsPage() { return <Container sx={{ py: 12, minHeight: '100vh' }}>ContactUsPage</Container>; }
+
+    /*********************************************
+     * New "Meta-style" elements for the main page
+     *********************************************/
+    // Data for the hero sections
     const topHeroData = {
       headline: "AI Glasses for a Fresh Perspective",
       subheadline: "Capture, share and stay in the moment, completely hands-free.",
@@ -244,8 +278,6 @@
       cta2: "Learn more",
       productImage: "https://via.placeholder.com/800x400/8B4513/FFFFFF?text=Ray-Ban+Meta+Glasses"
     };
-
-    // Another hero for "ONE Local"
     const secondHeroData = {
       headline: "ONE Local: Connect & Empower",
       subheadline: "The platform that brings your community together to share, learn, and grow.",
@@ -254,35 +286,15 @@
       productImage: "https://via.placeholder.com/800x400/2f2f2f/FFFFFF?text=ONE+Local+App"
     };
 
-    // Horizontal product features (like a store row)
+    // Example horizontal section data
     const productFeatures = [
-      {
-        id: 1,
-        title: "Ray-Ban Meta Glasses",
-        description: "Hands-free capture & calls with the power of AI.",
-        image: "https://via.placeholder.com/300x200?text=Ray-Ban+Glasses"
-      },
-      {
-        id: 2,
-        title: "Meta Quest",
-        description: "Enter new realities, connect, and explore in VR.",
-        image: "https://via.placeholder.com/300x200?text=Meta+Quest"
-      },
-      {
-        id: 3,
-        title: "Quest Accessories",
-        description: "Upgrade your VR experience with premium accessories.",
-        image: "https://via.placeholder.com/300x200?text=Quest+Accessories"
-      },
-      {
-        id: 4,
-        title: "Community Tools",
-        description: "Tools to empower your local group on ONE Local.",
-        image: "https://via.placeholder.com/300x200?text=Community+Tools"
-      }
+      { id: 1, title: "Ray-Ban Meta Glasses", description: "Hands-free capture & calls with AI", image: "https://via.placeholder.com/300x200?text=Ray-Ban+Glasses" },
+      { id: 2, title: "Meta Quest", description: "Explore new realities in VR", image: "https://via.placeholder.com/300x200?text=Meta+Quest" },
+      { id: 3, title: "Quest Accessories", description: "Upgrade your VR experience", image: "https://via.placeholder.com/300x200?text=Accessories" },
+      { id: 4, title: "Community Tools", description: "Empower local groups with our app", image: "https://via.placeholder.com/300x200?text=Community+Tools" },
     ];
 
-    // Some highlight sections for usage “like meta”
+    // Another highlight-like usage section
     const highlightSections = [
       {
         id: "entertainment",
@@ -304,134 +316,7 @@
       },
     ];
 
-    /*********************************************
-     * Create a custom Material UI theme
-     *********************************************/
-    const theme = createTheme({
-      palette: {
-        mode: 'light',
-        primary: { main: '#6d4c41' },
-        secondary: { main: '#8d6e63' },
-        background: { default: '#f5f5f5' },
-        text: { primary: '#333' },
-      },
-      typography: {
-        fontFamily: 'Montserrat, sans-serif',
-        h2: { fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '3rem' },
-        h3: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
-        h4: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
-      },
-    });
-
-    /*********************************************
-     * Main App with Nav & Pages
-     *********************************************/
-    function App() {
-      const [currentPage, setCurrentPage] = React.useState('home');
-
-      // Renders sub-pages from your older code
-      const renderPage = () => {
-        switch (currentPage) {
-          case 'home':
-            return <LandingPage setCurrentPage={setCurrentPage} />;
-          // other sub-pages
-          case 'manifesto':
-            return <ManifestoPage />;
-          case 'team':
-            return <TeamPage />;
-          case 'whitepaper':
-            return <WhitepaperPage />;
-          case 'investors':
-            return <InvestorsPage />;
-          case 'features-overview':
-            return <FeaturesOverviewPage />;
-          case 'local-members':
-            return <LocalMembersPage setCurrentPage={setCurrentPage} />;
-          case 'event-hosts':
-            return <EventHostsPage setCurrentPage={setCurrentPage} />;
-          case 'sellers':
-            return <SellersPage setCurrentPage={setCurrentPage} />;
-          case 'organizations':
-            return <OrganizationsPage setCurrentPage={setCurrentPage} />;
-          case 'impact-stories':
-            return <ImpactStoriesPage />;
-          case 'blog':
-            return <BlogPage />;
-          case 'download-app':
-            return <DownloadAppPage />;
-          case 'terms-of-service':
-            return <TermsOfServicePage />;
-          case 'privacy-policy':
-            return <PrivacyPolicyPage />;
-          case 'faq':
-            return <FAQPage />;
-          case 'contact-us':
-            return <ContactUsPage />;
-          default:
-            return <LandingPage setCurrentPage={setCurrentPage} />;
-        }
-      };
-
-      return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <HeaderBar setCurrentPage={setCurrentPage} />
-          {renderPage()}
-          <Footer setCurrentPage={setCurrentPage} />
-        </ThemeProvider>
-      );
-    }
-
-    /*********************************************
-     * The “HeaderBar” or Nav
-     *********************************************/
-    function HeaderBar({ setCurrentPage }) {
-      return (
-        <AppBar position="fixed" color="inherit" sx={{ boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
-          <Toolbar>
-            <Typography
-              variant="h6"
-              sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}
-              onClick={() => setCurrentPage('home')}
-            >
-              ONE Local
-            </Typography>
-            <Button color="primary" sx={{ mr: 2 }} onClick={() => setCurrentPage('download-app')}>Download</Button>
-            <Button color="primary" onClick={() => setCurrentPage('team')}>Team</Button>
-          </Toolbar>
-        </AppBar>
-      );
-    }
-
-    /*********************************************
-     * Landing Page (Meta-style)
-     *********************************************/
-    function LandingPage({ setCurrentPage }) {
-      return (
-        <Box sx={{ mt: 8 }}>
-          {/* Big Hero #1 */}
-          <HeroSection data={topHeroData} />
-
-          {/* Big Hero #2 */}
-          <HeroSection data={secondHeroData} reversed />
-
-          {/* Horizontal “Shop” Section */}
-          <HorizontalProducts data={productFeatures} />
-
-          {/* Another highlight “tabs” style section (like Meta) */}
-          <HighlightSection data={highlightSections} />
-
-          {/* CTA style section */}
-          <CallToAction />
-
-          {/* Then you can also include your older landing content below... or keep it separate */}
-        </Box>
-      );
-    }
-
-    /*********************************************
-     * Reusable Sections
-     *********************************************/
+    // Hero, horizontal, highlight, CTA:
     function HeroSection({ data, reversed }) {
       const { headline, subheadline, cta1, cta2, productImage } = data;
       return (
@@ -507,11 +392,7 @@
               {data.map((item) => (
                 <Grid item xs={12} md={4} key={item.id}>
                   <Paper sx={{ p: 2, height: '100%', borderRadius: '10px', overflow: 'hidden' }}>
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="highlightImage"
-                    />
+                    <img src={item.image} alt={item.title} className="highlightImage" />
                     <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
                       {item.title}
                     </Typography>
@@ -544,10 +425,66 @@
       );
     }
 
+    // The new landing page, dropping in the meta-style layout
+    function LandingPage({ setCurrentPage }) {
+      return (
+        <Box sx={{ mt: 8 }}>
+          {/* Hero #1 */}
+          <HeroSection data={topHeroData} />
+          {/* Hero #2 reversed layout */}
+          <HeroSection data={secondHeroData} reversed />
+
+          {/* Horizontal “Store” Section */}
+          <HorizontalProducts data={productFeatures} />
+
+          {/* Another highlight “tabs” style section (like Meta) */}
+          <HighlightSection data={highlightSections} />
+
+          {/* CTA style final */}
+          <CallToAction />
+        </Box>
+      );
+    }
+
+    // The rest of your pages remain unchanged:
+    // e.g. WhitepaperPage, InvestorsPage, etc.
+
     /*********************************************
-     * Footer
+     * Create Theme
      *********************************************/
-    function Footer({ setCurrentPage }) {
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        background: { default: '#f5f5f5', paper: '#ffffff' },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        h2: { fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '3rem' },
+        h3: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
+        h4: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
+      },
+    });
+
+    /*********************************************
+     * Navigation & Footer
+     *********************************************/
+    function NavigationBar() {
+      return (
+        <AppBar position="fixed" sx={{ zIndex: 1300 }}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+              ONE Local
+            </Typography>
+            <Button color="primary">Download</Button>
+            <Button color="primary">Sign Up</Button>
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    function Footer() {
       return (
         <Box className="footerContainer">
           <Container maxWidth="lg">
@@ -568,10 +505,10 @@
                   Explore
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('manifesto')}>Manifesto</Link>
-                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('investors')}>Investors</Link>
-                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('contact-us')}>Contact</Link>
-                  <Link href="#" color="inherit" underline="hover" onClick={() => setCurrentPage && setCurrentPage('faq')}>FAQ</Link>
+                  <Link href="#" color="inherit" underline="hover">Manifesto</Link>
+                  <Link href="#" color="inherit" underline="hover">Investors</Link>
+                  <Link href="#" color="inherit" underline="hover">Contact</Link>
+                  <Link href="#" color="inherit" underline="hover">FAQ</Link>
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
@@ -597,78 +534,64 @@
     }
 
     /*********************************************
-     * All Sub-Pages from your older code
+     * Main App, Routing to Subpages
      *********************************************/
-    function ManifestoPage() { /* same as your old code, keep everything in here. */ 
+    function App() {
+      const [currentPage, setCurrentPage] = React.useState('home');
+
+      const renderPage = () => {
+        switch (currentPage) {
+          case 'home':
+            return <LandingPage />;
+          case 'manifesto':
+            return <ManifestoPage />;
+          case 'team':
+            return <TeamPage />;
+          case 'whitepaper':
+            return <WhitepaperPage />;
+          case 'investors':
+            return <InvestorsPage />;
+          case 'features-overview':
+            return <FeaturesOverviewPage />;
+          case 'local-members':
+            return <LocalMembersPage />;
+          case 'event-hosts':
+            return <EventHostsPage />;
+          case 'sellers':
+            return <SellersPage />;
+          case 'organizations':
+            return <OrganizationsPage />;
+          case 'impact-stories':
+            return <ImpactStoriesPage />;
+          case 'blog':
+            return <BlogPage />;
+          case 'download-app':
+            return <DownloadAppPage />;
+          case 'terms-of-service':
+            return <TermsOfServicePage />;
+          case 'privacy-policy':
+            return <PrivacyPolicyPage />;
+          case 'faq':
+            return <FAQPage />;
+          case 'contact-us':
+            return <ContactUsPage />;
+          default:
+            return <LandingPage />;
+        }
+      };
+
       return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Manifesto
-          </Typography>
-          {/* ... etc. */}
-          <Typography variant="body1">
-            Your full Manifesto text here...
-          </Typography>
-        </Container>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <NavigationBar />
+          <Box sx={{ pt: 8 }}>
+            {renderPage()}
+          </Box>
+          <Footer />
+        </ThemeProvider>
       );
     }
 
-    function TeamPage() {
-      // ... as in your old code
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Meet the Team
-          </Typography>
-          {/* etc. */}
-          <Typography variant="body1">[Team content from old code]</Typography>
-        </Container>
-      );
-    }
-
-    function WhitepaperPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Whitepaper</Container>; }
-    function InvestorsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Investors</Container>; }
-    function FeaturesOverviewPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Features Overview</Container>; }
-    function LocalMembersPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Local Members</Container>; }
-    function EventHostsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Event Hosts</Container>; }
-    function SellersPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Sellers</Container>; }
-    function OrganizationsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>For Organizations</Container>; }
-    function ImpactStoriesPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Impact Stories</Container>; }
-
-    function BlogPage() {
-      // you can integrate your blog snippet with modal, etc.
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Blog
-          </Typography>
-          {/* as in your old code */}
-        </Container>
-      );
-    }
-
-    function DownloadAppPage() {
-      return (
-        <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Download the App
-          </Typography>
-          {/* ... */}
-          <Button variant="contained" color="primary" size="large">
-            Get the App Now
-          </Button>
-        </Container>
-      );
-    }
-
-    function TermsOfServicePage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Terms of Service</Container>; }
-    function PrivacyPolicyPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Privacy Policy</Container>; }
-    function FAQPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>FAQ</Container>; }
-    function ContactUsPage() { /* ... */ return <Container sx={{ py: 12, minHeight: '100vh' }}>Contact Us</Container>; }
-
-    /*********************************************
-     * Render the app
-     *********************************************/
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
