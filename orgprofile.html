@@ -2,214 +2,272 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>The Stand - ONE Local Org Profile</title>
+  <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ONE Local - Organization Profile</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <!-- Google Fonts and Material Icons -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
     body {
       margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #333;
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
     }
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333;
     }
-    .header {
-      text-align: center;
-      padding: 50px 20px;
-    }
-    .header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-    .header p {
-      font-size: 1.2rem;
-      color: #555;
-    }
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin: 20px 0;
-      padding: 20px;
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card img {
-      width: 100%;
-      border-radius: 10px 10px 0 0;
-    }
-    .card-content {
-      padding: 20px;
-    }
-    .card-content h3 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    .card-content p {
-      font-size: 1rem;
-      color: #666;
-    }
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 600px;
-      padding: 20px;
-      z-index: 1000;
-      display: none;
-    }
-    .modal.open {
-      display: block;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-header h2 {
-      font-size: 1.5rem;
-      margin: 0;
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    .modal-body {
-      margin-top: 20px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #23a6d5;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 1rem;
-      text-align: center;
-      transition: background 0.3s;
-    }
-    .button:hover {
-      background: #1d8eb5;
+    #root {
+      padding-top: 80px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>The Stand</h1>
-      <p>A vibrant community hub fostering creativity, collaboration, and connection in Boulder.</p>
-    </div>
+  <div id="root"></div>
 
-    <h2>Events</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-content">
-          <h3>Community Potluck</h3>
-          <p>Join us for a night of sharing and connection. Bring a dish to share!</p>
-          <a href="#" class="button" onclick="openModal('potluckModal')">Learn More</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <h3>Live Music Night</h3>
-          <p>Enjoy performances by local bands and artists. A night of great vibes!</p>
-          <a href="#" class="button" onclick="openModal('musicModal')">Learn More</a>
-        </div>
-      </div>
-    </div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <script
+    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
+    crossorigin
+  ></script>
+  <script
+    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
+    crossorigin
+  ></script>
 
-    <h2>Groups</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-content">
-          <h3>Artists Collective</h3>
-          <p>A group for local artists to collaborate and showcase their work.</p>
-          <a href="#" class="button" onclick="openModal('artistsModal')">Learn More</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <h3>Volunteer Network</h3>
-          <p>Join our network of volunteers and make a difference in our community.</p>
-          <a href="#" class="button" onclick="openModal('volunteerModal')">Learn More</a>
-        </div>
-      </div>
-    </div>
+  <script type="text/babel">
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Container,
+      Box,
+      Grid,
+      Paper,
+      Avatar,
+      Button,
+      IconButton,
+      Icon,
+      Tabs,
+      Tab,
+      InputBase,
+      Card,
+      CardContent
+    } = MaterialUI;
 
-    <h2>Job Board</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="card-content">
-          <h3>Set up chairs for the potluck</h3>
-          <p>Earn points while helping out at our community potluck event.</p>
-          <a href="#" class="button" onclick="openModal('job1Modal')">Learn More</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <h3>Assist with gardening workshop</h3>
-          <p>Help facilitate our gardening workshop and connect with green thumbs!</p>
-          <a href="#" class="button" onclick="openModal('job2Modal')">Learn More</a>
-        </div>
-      </div>
-    </div>
-  </div>
+    const theme = createTheme({
+      palette: {
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        background: { default: '#f5f5f5' },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        h5: { fontFamily: 'Playfair Display, serif', fontWeight: 700 },
+      },
+      shape: { borderRadius: 10 },
+    });
 
-  <!-- Modals -->
-  <div id="potluckModal" class="modal">
-    <div class="modal-header">
-      <h2>Community Potluck</h2>
-      <button class="modal-close" onclick="closeModal('potluckModal')">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p>Bring your favorite dish and join us for a night of sharing and connection. Meet your neighbors and enjoy a variety of delicious food!</p>
-    </div>
-  </div>
-
-  <div id="musicModal" class="modal">
-    <div class="modal-header">
-      <h2>Live Music Night</h2>
-      <button class="modal-close" onclick="closeModal('musicModal')">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p>Enjoy live performances by some of the best local talent. A night filled with great vibes and community spirit!</p>
-    </div>
-  </div>
-
-  <script>
-    function openModal(modalId) {
-      document.getElementById(modalId).classList.add('open');
+    function App() {
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <OrgProfilePage />
+          </Box>
+        </ThemeProvider>
+      );
     }
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('open');
+
+    function OrgProfilePage() {
+      const [currentTab, setCurrentTab] = React.useState(0);
+
+      const aboutData = {
+        description: "The Stand is a vibrant community hub in Riverside dedicated to fostering local collaboration and connection. From farmers' markets and urban gardening workshops to art shows and live music, The Stand empowers people to share skills, resources, and opportunities in a warm, welcoming environment."
+      };
+
+      const postsData = [
+        { id: 1, user: "Miranda Clendening", content: "We’re hosting a craft night this Friday. Bring your projects and join us for an evening of creativity!", date: "Dec 24, 2024" },
+        { id: 2, user: "Kathleen Gafney", content: "Fresh produce from local farms is available this weekend at our market. Don’t miss out!", date: "Dec 23, 2024" },
+      ];
+
+      const eventsData = [
+        { id: 101, title: "Live Music Night", date: "Jan 6, 2025" },
+        { id: 102, title: "Community Potluck", date: "Jan 13, 2025" },
+      ];
+
+      const jobBoardData = [
+        { id: 501, job: "Set up for Farmers' Market", points: 40 },
+        { id: 502, job: "Help clean up after Music Night", points: 50 },
+      ];
+
+      const renderTabContent = () => {
+        switch (currentTab) {
+          case 0:
+            return (
+              <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="body1">{aboutData.description}</Typography>
+              </Paper>
+            );
+          case 1:
+            return postsData.map((post) => (
+              <Paper key={post.id} elevation={2} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                  {post.user}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {post.date}
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>
+                  {post.content}
+                </Typography>
+              </Paper>
+            ));
+          case 2:
+            return eventsData.map((event) => (
+              <Paper key={event.id} elevation={2} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                  {event.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {event.date}
+                </Typography>
+              </Paper>
+            ));
+          case 6:
+            return (
+              <Box>
+                {jobBoardData.map((jobItem) => (
+                  <Paper
+                    key={jobItem.id}
+                    elevation={1}
+                    sx={{
+                      p: 2,
+                      borderRadius: '10px',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      mb: 2,
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                      {jobItem.job}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" color="text.secondary">
+                        {jobItem.points} pts
+                      </Typography>
+                      <IconButton color="primary">
+                        <Icon>check_circle</Icon>
+                      </IconButton>
+                    </Box>
+                  </Paper>
+                ))}
+              </Box>
+            );
+          default:
+            return <></>;
+        }
+      };
+
+      const groupPhoto =
+        "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand";
+      const adminAvatar =
+        "https://randomuser.me/api/portraits/women/39.jpg";
+
+      return (
+        <Container maxWidth="md" sx={{ pb: 5 }}>
+          <AppBar position="fixed">
+            <Toolbar>
+              <Typography
+                variant="h6"
+                sx={{ flexGrow: 1, fontWeight: 'bold' }}
+              >
+                ONE Local
+              </Typography>
+            </Toolbar>
+          </AppBar>
+
+          <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <Avatar
+                  src={groupPhoto}
+                  sx={{ width: 80, height: 80, borderRadius: 2 }}
+                  variant="square"
+                />
+              </Grid>
+              <Grid item xs>
+                <Typography variant="h5">The Stand</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Riverside's Community Hub
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Avatar src={adminAvatar} sx={{ width: 56, height: 56 }} />
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
+              <Grid item>
+                <Button variant="contained" color="primary" size="small">
+                  Join This Org
+                </Button>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          <Tabs
+            value={currentTab}
+            onChange={(e, newVal) => setCurrentTab(newVal)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
+          >
+            {["About", "Posts", "Events", "Job-Board"].map((label, idx) => (
+              <Tab key={idx} label={label} />
+            ))}
+          </Tabs>
+
+          {renderTabContent()}
+        </Container>
+      );
     }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
