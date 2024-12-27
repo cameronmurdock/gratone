@@ -14,10 +14,8 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
   >
-  <!-- Favicon (optional) -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    /* Scrollbar & Body Styling */
     body {
       margin: 0;
       overflow-x: hidden;
@@ -35,7 +33,6 @@
       border-radius: 4px;
     }
 
-    /* Animated Gradient Background */
     @keyframes gradientBG {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -49,18 +46,10 @@
       color: #333;
     }
 
-    /* Hide default margin for the root React node */
     #root {
-      padding-top: 70px; /* reserve space for AppBar */
+      padding-top: 70px;
     }
 
-    /* Enhanced Card Hover Effect */
-    .MuiCard-root:hover {
-      transform: translateY(-5px);
-      transition: transform 0.3s;
-    }
-
-    /* Modal Content Styling */
     .modalContent {
       position: absolute;
       top: 50%;
@@ -74,67 +63,6 @@
       padding: 20px;
       outline: none;
     }
-
-    /* === Chat Tab Styles === */
-    .chatContainer {
-      max-height: 60vh;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      background: #f9f9f9;
-      border-radius: 10px;
-    }
-    .chatMessage {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-    .chatMessage .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 1rem;
-    }
-    .chatMessage .bubble {
-      max-width: 80%;
-      padding: 0.5rem 1rem;
-      border-radius: 15px;
-      background: #e0f7fa;
-      color: #333;
-      font-size: 1rem;
-      word-wrap: break-word;
-    }
-    .chatInputContainer {
-      display: flex;
-      align-items: center;
-      margin-top: 1rem;
-      background: #ffffff;
-      padding: 0.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .chatInput {
-      flex-grow: 1;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      padding: 0.5rem;
-    }
-    .chatSendButton {
-      margin-left: 0.5rem;
-      background-color: #6d4c41;
-      color: white;
-      border: none;
-      outline: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .chatSendButton:hover {
-      background-color: #8d6e63;
-    }
   </style>
 </head>
 <body>
@@ -146,15 +74,8 @@
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
-  <script
-    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
-    crossorigin
-  ></script>
-  <!-- Material UI Icons -->
-  <script
-    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
@@ -166,173 +87,44 @@
       Typography,
       Container,
       Box,
-      Grid,
       Paper,
-      Avatar,
-      Button,
-      IconButton,
-      Icon,
       Tabs,
       Tab,
-      Card,
-      CardContent,
+      Grid,
+      Checkbox,
+      Button,
       Modal,
       Fade,
       Backdrop,
-      InputBase
+      IconButton,
+      InputBase,
     } = MaterialUI;
 
-    // ======================= "The Stand" Unified Org Object =======================
     const theStand = {
       name: "The Stand",
       tagline: "A Boulder-based community hub",
-      description:
-        "The Stand is a vibrant community hub in Boulder that fosters creativity, collaboration, and connection. We host events, support local artists, and provide a welcoming space for gatherings.",
-      logo: "https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo",
-      headerImage: "https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=The+Stand",
-      adminAvatar: "https://randomuser.me/api/portraits/women/39.jpg",
-
-      aboutData: {
-        mission:
-          "We’re dedicated to building a thriving local ecosystem for artists, entrepreneurs, and neighbors alike.",
-        orgWebsite: "https://example.com/the-stand",
-        contactEmail: "the_stand@community.org",
-      },
-
-      postsData: [
-        {
-          id: 1,
-          user: "Leif",
-          title: "Jam Session This Friday",
-          content: "We're hosting a jam session—bring your instruments to The Stand at 7pm!",
-          date: "Dec 26, 2024",
-          image: "https://via.placeholder.com/600x400?text=Jam+Session"
-        },
-        {
-          id: 2,
-          user: "Nate",
-          title: "Art Gallery Grand Opening",
-          content: "We’re featuring local artists’ work in our new exhibit hall. Come check it out!",
-          date: "Dec 25, 2024",
-          image: "https://via.placeholder.com/600x400?text=Art+Gallery"
-        },
-      ],
-
-      eventsData: [
-        {
-          id: 101,
-          title: "Community Potluck",
-          host: "Miranda",
-          description: "Bring your favorite dish and come meet neighbors, artists, and local entrepreneurs.",
-          date: "Jan 5, 2025",
-          image: "https://via.placeholder.com/600x400?text=Potluck"
-        },
-        {
-          id: 102,
-          title: "Live Music Night",
-          host: "Cameron",
-          description: "Multiple local bands will perform. Let’s celebrate Boulder’s music talent!",
-          date: "Jan 12, 2025",
-          image: "https://via.placeholder.com/600x400?text=Live+Music"
-        },
-      ],
-
-      groupsData: [
-        {
-          id: 301,
-          name: "Artists Collective",
-          description: "A place for local artists to collaborate, share techniques, and plan exhibits.",
-          image: "https://via.placeholder.com/400x250?text=Artists+Collective"
-        },
-        {
-          id: 302,
-          name: "Volunteer Network",
-          description: "Organize volunteer projects and connect helpers with community needs.",
-          image: "https://via.placeholder.com/400x250?text=Volunteer+Network"
-        },
-      ],
-
-      membersData: [
-        {
-          id: 401,
-          name: "Miranda Clendening",
-          role: "Finance Treasurer",
-          bio: "Ensuring sustainable resource allocation. Passionate about supporting local talent.",
-          avatar: "https://randomuser.me/api/portraits/women/24.jpg"
-        },
-        {
-          id: 402,
-          name: "Kathleen Gafney",
-          role: "Outreach Coordinator",
-          bio: "Connecting local organizations, reaching out to new community members.",
-          avatar: "https://randomuser.me/api/portraits/women/25.jpg"
-        },
-        {
-          id: 403,
-          name: "Grig Bilham",
-          role: "Operations Manager",
-          bio: "Keeping everything running smoothly at The Stand’s events and daily programs.",
-          avatar: "https://randomuser.me/api/portraits/men/85.jpg"
-        },
-        {
-          id: 404,
-          name: "Volunteer Needed",
-          role: "Open Volunteer Position",
-          bio: "Ready to help out? Join us to keep The Stand vibrant and active!",
-          avatar: "https://via.placeholder.com/150?text=Open+Volunteer"
-        },
-      ],
-
       jobBoardData: [
         {
           id: 501,
           job: "Set Up Chairs for Music Night",
           points: 20,
-          description: "Need a few hands arranging seating for Live Music Night. Takes about 30 minutes."
+          description: "Need a few hands arranging seating for Live Music Night. Takes about 30 minutes.",
         },
         {
           id: 502,
           job: "Assist with Cleanup After Gallery",
           points: 30,
-          description: "Help pack up supplies and tidy the exhibit hall once the event wraps up."
-        },
-      ],
-
-      chatMessages: [
-        {
-          id: 1,
-          sender: "Leif",
-          avatar: "https://randomuser.me/api/portraits/men/31.jpg",
-          message: "Hi everyone! So stoked for the potluck. Anyone bringing dessert?"
-        },
-        {
-          id: 2,
-          sender: "Miranda",
-          avatar: "https://randomuser.me/api/portraits/women/32.jpg",
-          message: "Yes! I’ll bring cookies from that new bakery. They’re so good."
-        },
-        {
-          id: 3,
-          sender: "Cameron",
-          avatar: "https://randomuser.me/api/portraits/men/33.jpg",
-          message: "Great! I’ll make homemade lemonade. Squeeze you all soon."
+          description: "Help pack up supplies and tidy the exhibit hall once the event wraps up.",
         },
       ],
     };
 
-    // ======================= Custom Theme =======================
     const theme = createTheme({
       palette: {
         mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        background: {
-          default: '#f5f5f5',
-        },
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        background: { default: '#f5f5f5' },
       },
       typography: {
         fontFamily: 'Montserrat, sans-serif',
@@ -341,62 +133,21 @@
           fontWeight: 700,
           fontSize: '2.5rem',
         },
-        h5: {
-          fontSize: '2rem',
-          fontWeight: 700,
-        },
-        body1: {
-          fontSize: '1.2rem',
-        },
-      },
-      shape: {
-        borderRadius: 10,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              borderRadius: '20px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              transition: '0.3s',
-            },
-          },
-        },
-        MuiAppBar: {
-          styleOverrides: {
-            root: {
-              background: 'rgba(255, 255, 255, 0.95)',
-              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: '10px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              transition: 'transform 0.3s',
-            },
-          },
-        },
       },
     });
 
-    // ======================= Main App =======================
     function App() {
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar />
-            <OrgProfilePage orgData={theStand} />
+            <JobBoard orgData={theStand} />
           </Box>
         </ThemeProvider>
       );
     }
 
-    // ======================= Navigation Bar (simplified) =======================
     function NavigationBar() {
       return (
         <AppBar position="fixed">
@@ -409,11 +160,7 @@
       );
     }
 
-    // ======================= Org Profile Page =======================
-    function OrgProfilePage({ orgData }) {
-      const [currentTab, setCurrentTab] = React.useState(0);
-
-      // For Modals
+    function JobBoard({ orgData }) {
       const [modalOpen, setModalOpen] = React.useState(false);
       const [modalData, setModalData] = React.useState(null);
 
@@ -421,294 +168,77 @@
         setModalData(data);
         setModalOpen(true);
       };
+
       const handleCloseModal = () => {
         setModalOpen(false);
         setModalData(null);
       };
 
-      const renderTabContent = () => {
-        switch (currentTab) {
-          case 0: // About
-            return (
-              <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  Mission
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 4 }}>
-                  {orgData.aboutData.mission}
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Website:</strong>{" "}
-                  <a href={orgData.aboutData.orgWebsite} target="_blank" rel="noreferrer">
-                    {orgData.aboutData.orgWebsite}
-                  </a>
-                </Typography>
-                <Typography variant="body1">
-                  <strong>Contact Email:</strong> {orgData.aboutData.contactEmail}
-                </Typography>
-              </Paper>
-            );
-          case 1: // Posts
-            return (
-              <Grid container spacing={2}>
-                {orgData.postsData.map((post) => (
-                  <Grid item xs={12} sm={6} md={4} key={post.id}>
-                    <Card
-                      onClick={() => handleOpenModal(post)}
-                      sx={{ cursor: 'pointer', height: '100%' }}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                          {post.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          By {post.user} — {post.date}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          {post.content.slice(0, 60)}...
-                        </Typography>
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          style={{ width: '100%', borderRadius: '8px' }}
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            );
-          case 2: // Events
-            return (
-              <Grid container spacing={2}>
-                {orgData.eventsData.map((evt) => (
-                  <Grid item xs={12} sm={6} md={4} key={evt.id}>
-                    <Card
-                      onClick={() => handleOpenModal(evt)}
-                      sx={{ cursor: 'pointer', height: '100%' }}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                          {evt.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                          Hosted by {evt.host} — {evt.date}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          {evt.description.slice(0, 60)}...
-                        </Typography>
-                        <img
-                          src={evt.image}
-                          alt={evt.title}
-                          style={{ width: '100%', borderRadius: '8px' }}
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            );
-          case 3: // Groups
-            return (
-              <Grid container spacing={2}>
-                {orgData.groupsData.map((grp) => (
-                  <Grid item xs={12} sm={6} md={4} key={grp.id}>
-                    <Card
-                      onClick={() => handleOpenModal(grp)}
-                      sx={{ cursor: 'pointer', height: '100%' }}
-                    >
-                      <CardContent>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
-                          {grp.name}
-                        </Typography>
-                        <Typography variant="body1" sx={{ mb: 2 }}>
-                          {grp.description.slice(0, 60)}...
-                        </Typography>
-                        <img
-                          src={grp.image}
-                          alt={grp.name}
-                          style={{ width: '100%', borderRadius: '8px' }}
-                        />
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            );
-          case 4: // Members
-            return (
-              <Grid container spacing={2}>
-                {orgData.membersData.map((mem) => (
-                  <Grid item xs={12} sm={6} md={4} key={mem.id}>
-                    <Card
-                      onClick={() => handleOpenModal(mem)}
-                      sx={{ cursor: 'pointer', height: '100%' }}
-                    >
-                      <CardContent>
-                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                          <Avatar src={mem.avatar} sx={{ width: 50, height: 50, mr: 2 }} />
-                          <Box>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
-                              {mem.name}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {mem.role}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Typography variant="body1">
-                          {mem.bio.slice(0, 60)}...
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-            );
-          case 5: // Job Board
-            return (
-              <Box>
-                {/* Job Creation Input */}
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    mb: 2,
-                    p: 1,
-                    borderRadius: '10px',
-                    backgroundColor: '#f9f9f9',
-                  }}
-                >
-                  <InputBase
-                    fullWidth
-                    placeholder="Create a job"
-                    sx={{ ml: 1 }}
-                  />
-                  <IconButton color="primary">
-                    <Icon>add_circle</Icon>
-                  </IconButton>
-                </Paper>
-          
-                {/* Task List */}
-                <Typography variant="h5" sx={{ mb: 2 }}>Available Jobs</Typography>
-                <Box sx={{ p: 2, backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: 1 }}>
-                  {orgData.jobBoardData.map((job) => (
-                    <Box
-                      key={job.id}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        mb: 2,
-                        p: 1,
-                        border: '1px solid #d9d9d9',
-                        borderRadius: '10px',
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Checkbox
-                          color="primary"
-                          onChange={() => alert(`Task "${job.job}" marked as completed!`)}
-                        />
-                        <Box>
-                          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                            {job.job}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {job.points} points
-                          </Typography>
-                          <Typography variant="body1">{job.description}</Typography>
-                        </Box>
-                      </Box>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleOpenModal(job)}
-                      >
-                        Details
-                      </Button>
-                    </Box>
-                  ))}
-                </Box>
-              </Box>
-            );
-
-          case 6: // Chat
-            return <ChatTab initialMessages={orgData.chatMessages} />;
-          default:
-            return null;
-        }
-      };
-
       return (
-        <Container maxWidth="md" sx={{ pb: 5 }}>
-          {/* Org Header */}
-          <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item>
-                <Avatar
-                  src={orgData.headerImage}
-                  sx={{ width: 80, height: 80, borderRadius: 2 }}
-                  variant="square"
-                />
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h4">
-                  {orgData.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {orgData.tagline}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Avatar src={orgData.adminAvatar} sx={{ width: 56, height: 56 }} />
-              </Grid>
-            </Grid>
+        <Container maxWidth="md" sx={{ pb: 5, mt: 8 }}>
+          <Typography variant="h4" sx={{ mb: 3 }}>
+            Job Board
+          </Typography>
 
-            <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
-              <Grid item>
-                <img
-                  src={orgData.logo}
-                  alt="Organization Logo"
-                  style={{ width: '50px', borderRadius: '10px' }}
-                />
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="primary" size="small">
-                  Join This Org
-                </Button>
-              </Grid>
-            </Grid>
-
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="body1">
-                {orgData.description}
-              </Typography>
-            </Box>
+          <Paper
+            variant="outlined"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mb: 2,
+              p: 1,
+              borderRadius: '10px',
+              backgroundColor: '#f9f9f9',
+            }}
+          >
+            <InputBase
+              fullWidth
+              placeholder="Create a new job"
+              sx={{ ml: 1 }}
+            />
+            <IconButton color="primary">
+              <i className="material-icons">add_circle</i>
+            </IconButton>
           </Paper>
 
-          {/* Tabs */}
-          <Tabs
-            value={currentTab}
-            onChange={(e, newVal) => setCurrentTab(newVal)}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
-          >
-            <Tab label="About" />
-            <Tab label="Posts" />
-            <Tab label="Events" />
-            <Tab label="Groups" />
-            <Tab label="Members" />
-            <Tab label="Job Board" />
-            <Tab label="Chat" />
-          </Tabs>
+          {orgData.jobBoardData.map((job) => (
+            <Box
+              key={job.id}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                mb: 2,
+                p: 2,
+                border: '1px solid #d9d9d9',
+                borderRadius: '10px',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Checkbox
+                  color="primary"
+                  onChange={() => alert(`Task "${job.job}" marked as completed!`)}
+                />
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {job.job}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {job.points} points
+                  </Typography>
+                  <Typography variant="body1">{job.description}</Typography>
+                </Box>
+              </Box>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleOpenModal(job)}
+              >
+                Details
+              </Button>
+            </Box>
+          ))}
 
-          {/* Tab Content */}
-          {renderTabContent()}
-
-          {/* Modal for card detail */}
           <Modal
             open={modalOpen}
             onClose={handleCloseModal}
@@ -717,42 +247,24 @@
             BackdropProps={{
               timeout: 500,
             }}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
           >
             <Fade in={modalOpen}>
               <Box className="modalContent">
                 {modalData && (
                   <>
-                    {/* We'll conditionally render fields based on the data shape */}
-                    {modalData.title && (
-                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                        {modalData.title}
-                      </Typography>
-                    )}
-                    {modalData.name && (
-                      <Typography id="modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
-                        {modalData.name}
-                      </Typography>
-                    )}
-                    {modalData.image && (
-                      <img
-                        src={modalData.image}
-                        alt={modalData.title || modalData.name || "Modal Image"}
-                        style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
-                      />
-                    )}
-                    <Typography id="modal-description" sx={{ mb: 4 }}>
-                      {modalData.content && <><strong>Content:</strong> {modalData.content}<br/><br/></>}
-                      {modalData.description && <><strong>Description:</strong> {modalData.description}<br/><br/></>}
-                      {modalData.user && <><strong>User:</strong> {modalData.user}<br/></>}
-                      {modalData.host && <><strong>Host:</strong> {modalData.host}<br/></>}
-                      {modalData.date && <><strong>Date:</strong> {modalData.date}<br/></>}
-                      {modalData.role && <><strong>Role:</strong> {modalData.role}<br/></>}
-                      {modalData.bio && <><strong>Bio:</strong> {modalData.bio}<br/></>}
-                      {modalData.points && <><strong>Points:</strong> {modalData.points}<br/></>}
+                    <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+                      {modalData.job}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {modalData.points} points
+                    </Typography>
+                    <Typography variant="body1">{modalData.description}</Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCloseModal}
+                      sx={{ mt: 2 }}
+                    >
                       Close
                     </Button>
                   </>
@@ -764,61 +276,6 @@
       );
     }
 
-    // ======================= Chat Tab Component =======================
-    function ChatTab({ initialMessages }) {
-      const [messages, setMessages] = React.useState(initialMessages || []);
-      const [newMessage, setNewMessage] = React.useState("");
-
-      const handleSendMessage = () => {
-        if (newMessage.trim() === "") return;
-
-        const newChatMessage = {
-          id: messages.length + 1,
-          sender: "You",
-          avatar: "https://via.placeholder.com/40?text=You",
-          message: newMessage,
-        };
-
-        setMessages([...messages, newChatMessage]);
-        setNewMessage("");
-      };
-
-      return (
-        <Box>
-          <Box className="chatContainer">
-            {messages.map((msg) => (
-              <Box key={msg.id} className="chatMessage">
-                <img
-                  src={msg.avatar}
-                  alt={`${msg.sender} avatar`}
-                  className="avatar"
-                />
-                <Box className="bubble">
-                  <Typography variant="body1">
-                    <strong>{msg.sender}:</strong> {msg.message}
-                  </Typography>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-          <Box className="chatInputContainer">
-            <input
-              type="text"
-              placeholder="Type a message..."
-              className="chatInput"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-            />
-            <button className="chatSendButton" onClick={handleSendMessage}>
-              Send
-            </button>
-          </Box>
-        </Box>
-      );
-    }
-
-    // ======================= Render the App =======================
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
