@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ONE Local - Org Profile</title>
+  <title>ONE Local - Empower Your Community</title>
   <!-- Responsive Meta Tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Meta Descriptions for SEO -->
-  <meta name="description" content="ONE Local - Organization Profile">
+  <meta name="description" content="ONE Local - Connect with your community, share resources, and empower local growth">
   <!-- Google Fonts and Material Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -44,10 +44,17 @@
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       min-height: 100vh;
-      color: #333;
+      color: #333333;
+      position: relative;
     }
 
-    /* Modal */
+    /* Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+
+    /* Modal Content */
     .modalContent {
       position: absolute;
       top: 50%;
@@ -61,12 +68,6 @@
       padding: 20px;
       outline: none;
     }
-
-    /* Card Hover */
-    .MuiCard-root:hover {
-      transform: translateY(-5px);
-      transition: transform 0.3s;
-    }
   </style>
 </head>
 <body>
@@ -78,64 +79,93 @@
   <!-- Babel for JSX transformation -->
   <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <!-- Material UI v5 -->
-  <script
-    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js" crossorigin></script>
   <!-- Material UI Icons -->
-  <script
-    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
-    crossorigin
-  ></script>
+  <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
     const {
       ThemeProvider,
       createTheme,
       CssBaseline,
-      AppBar,
-      Toolbar,
-      Typography,
       Container,
       Box,
+      Typography,
       Grid,
-      Paper,
-      Avatar,
+      Card,
+      CardContent,
+      CardActions,
       Button,
       IconButton,
       Icon,
-      Tabs,
-      Tab,
-      InputBase,
       Modal,
       Fade,
-      Backdrop,
-      Chip,
+      Backdrop
     } = MaterialUI;
 
-    // Same theme
+    // ------------------ Data: Blog Posts with Additional Fields ------------------ //
+    const blogPosts = [
+      {
+        id: 101,
+        title: 'Building Sustainable Communities',
+        excerpt: 'Discover how ONE Local promotes sustainability through shared resources...',
+        image: 'https://via.placeholder.com/600x400?text=Building+Sustainable+Communities',
+        location: 'Boulder, CO',
+        date: 'Dec 26, 2024',
+        author: 'Cameron E.',
+        content: `Full content for Building Sustainable Communities. 
+        Explores how local connections reduce waste and strengthen community bonds. 
+        Discusses resource sharing, collaborative projects, and future initiatives in Boulder.`,
+      },
+      {
+        id: 102,
+        title: 'The Power of Local Events',
+        excerpt: 'How hosting local events can strengthen community bonds...',
+        image: 'https://via.placeholder.com/600x400?text=The+Power+of+Local+Events',
+        location: 'Denver, CO',
+        date: 'Dec 20, 2024',
+        author: 'Miranda C.',
+        content: `Full content for The Power of Local Events. 
+        Showcases event-hosting best practices, success stories from the Denver region, 
+        and how to measure community engagement.`,
+      },
+      {
+        id: 103,
+        title: 'Supporting Local Businesses',
+        excerpt: 'Why shopping local boosts the entire community...',
+        image: 'https://via.placeholder.com/600x400?text=Supporting+Local+Businesses',
+        location: 'Online',
+        date: 'Dec 15, 2024',
+        author: 'Kathleen G.',
+        content: `Full content for Supporting Local Businesses.
+        Highlights local entrepreneurs' success stories, tips for marketing, 
+        and how the community can rally behind these ventures.`,
+      },
+    ];
+
+    // ------------------ Shared Theme ------------------ //
     const theme = createTheme({
       palette: {
         mode: 'light',
         primary: {
-          main: '#6d4c41',
+          main: '#6d4c41', // Muted Brown
         },
         secondary: {
-          main: '#8d6e63',
+          main: '#8d6e63', // Muted Coral
         },
         background: {
           default: '#f5f5f5',
         },
         text: {
           primary: '#333333',
-          secondary: '#555555',
         },
       },
       typography: {
         fontFamily: 'Montserrat, sans-serif',
-        h5: {
+        h2: {
           fontFamily: 'Playfair Display, serif',
           fontWeight: 700,
+          fontSize: '3rem',
         },
       },
       shape: {
@@ -143,240 +173,123 @@
       },
     });
 
-    // Example data
-    const orgData = {
-      name: 'Community Garden Collective',
-      description: 'Growing together, nurturing nature, cultivating community.',
-      logo: 'https://via.placeholder.com/50/23a6d5/FFFFFF?text=Logo',
-      coverPhoto: 'https://via.placeholder.com/300x200/6d4c41/FFFFFF?text=Org+Cover',
-      adminAvatar: 'https://randomuser.me/api/portraits/women/39.jpg',
-    };
-
-    const tabLabels = ['About', 'Posts', 'Events', 'Groups', 'Members', 'Job-Board'];
-
-    const aboutData = {
-      description:
-        "We are a collective of urban gardeners and volunteers working together to cultivate greenspaces and share fresh produce with local communities. Join us to learn, to grow, and to foster a healthier environment.",
-    };
-
-    // Sample posts
-    const postsData = [
-      {
-        id: 1,
-        user: 'Alice',
-        content: 'Check out our new greenhouse build progress!',
-        date: 'Dec 29, 2024',
-        avatar: 'https://randomuser.me/api/portraits/women/32.jpg',
-      },
-      {
-        id: 2,
-        user: 'Bob',
-        content: 'Volunteers needed for a composting workshop this Sunday!',
-        date: 'Dec 28, 2024',
-        avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
-      },
-    ];
-
-    // Sample events
-    const eventsData = [
-      { id: 101, title: 'Seed Swap', date: 'Jan 15, 2025' },
-      { id: 102, title: 'Spring Planting Day', date: 'Feb 5, 2025' },
-      { id: 103, title: 'Compost Workshop', date: 'Feb 20, 2025' },
-    ];
-
-    // Sample groups
-    const groupsData = [
-      { id: 201, name: 'Rookie Gardeners' },
-      { id: 202, name: 'Permaculture Enthusiasts' },
-      { id: 203, name: 'Veggie Cooks' },
-    ];
-
-    // Sample members
-    const membersData = [
-      { id: 301, name: 'Carlos', role: 'Volunteer Coordinator' },
-      { id: 302, name: 'Diana', role: 'Lead Gardener' },
-      { id: 303, name: 'Eliza', role: 'Compost Specialist' },
-    ];
-
-    // Sample job board
-    const jobBoardData = [
-      { id: 401, job: 'Water the seedlings', points: 20 },
-      { id: 402, job: 'Collect and turn compost', points: 30 },
-    ];
-
+    // ------------------ Main App ------------------ //
     function App() {
       return (
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Box className="animatedBackground">
-            <OrgProfilePage />
+            <OrgLandingPage />
           </Box>
         </ThemeProvider>
       );
     }
 
-    function OrgProfilePage() {
-      const [currentTab, setCurrentTab] = React.useState(0);
+    // ------------------ Org Landing Page ------------------ //
+    function OrgLandingPage() {
+      const [selectedPost, setSelectedPost] = React.useState(null);
 
-      const renderTabContent = () => {
-        switch (currentTab) {
-          case 0: // About
-            return (
-              <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1">{aboutData.description}</Typography>
-              </Paper>
-            );
-          case 1: // Posts
-            return postsData.map((post) => (
-              <Paper key={post.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Grid container spacing={2}>
-                  <Grid item>
-                    <Avatar src={post.avatar} />
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                      {post.user}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {post.date}
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  {post.content}
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Chip icon={<Icon>favorite</Icon>} label="Like" sx={{ mr: 1 }} />
-                  <Chip icon={<Icon>comment</Icon>} label="Comment" />
-                </Box>
-              </Paper>
-            ));
-          case 2: // Events
-            return eventsData.map((event) => (
-              <Paper key={event.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                  {event.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {event.date}
-                </Typography>
-              </Paper>
-            ));
-          case 3: // Groups
-            return groupsData.map((grp) => (
-              <Paper key={grp.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {grp.name}
-                </Typography>
-              </Paper>
-            ));
-          case 4: // Members
-            return membersData.map((member) => (
-              <Paper key={member.id} elevation={2} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {member.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {member.role}
-                </Typography>
-              </Paper>
-            ));
-          case 5: // Job Board
-            return jobBoardData.map((job) => (
-              <Paper
-                key={job.id}
-                elevation={1}
-                sx={{
-                  p: 2,
-                  borderRadius: '10px',
-                  border: '1px solid #f0f0f0',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  mb: 2,
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {job.job}
-                </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {job.points} pts
-                  </Typography>
-                  <IconButton color="primary">
-                    <Icon>check_circle</Icon>
-                  </IconButton>
-                </Box>
-              </Paper>
-            ));
-          default:
-            return <></>;
-        }
+      const handleOpenModal = (post) => {
+        setSelectedPost(post);
+      };
+
+      const handleCloseModal = () => {
+        setSelectedPost(null);
       };
 
       return (
-        <Container maxWidth="md" sx={{ pb: 5 }}>
-          <AppBar position="fixed">
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-                ONE Local
-              </Typography>
-            </Toolbar>
-          </AppBar>
+        <Container maxWidth="lg" sx={{ pt: 8, pb: 8 }}>
+          <Typography variant="h2" align="center" sx={{ mb: 4, fontWeight: 'bold' }}>
+            Empower Your Community, Enrich Your Life
+          </Typography>
+          <Typography variant="h5" align="center" sx={{ mb: 6, color: 'text.secondary' }}>
+            Together, we build the future—one connection, one offering, one moment at a time.
+          </Typography>
+          <Box display="flex" justifyContent="center" sx={{ mb: 8 }}>
+            <Button variant="contained" color="primary" size="large">
+              Download the App
+            </Button>
+          </Box>
 
-          <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item>
-                <Avatar
-                  src={orgData.coverPhoto}
-                  sx={{ width: 80, height: 80, borderRadius: 2 }}
-                  variant="square"
-                />
+          <Typography variant="h4" align="center" sx={{ mb: 4, fontWeight: 'bold' }}>
+            Recent Blog Posts
+          </Typography>
+          <Grid container spacing={4} justifyContent="center">
+            {blogPosts.map((post) => (
+              <Grid item xs={12} sm={6} md={4} key={post.id}>
+                <Card
+                  className="MuiCard-root"
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => handleOpenModal(post)}
+                >
+                  <CardContent>
+                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      {post.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
+                      By {post.author} | {post.location} | {post.date}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+                      {post.excerpt}
+                    </Typography>
+                    <Box sx={{ height: 180, overflow: 'hidden', borderRadius: 2 }}>
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        style={{ width: '100%', height: 'auto' }}
+                      />
+                    </Box>
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="text" color="primary" sx={{ ml: 1, mb: 1 }}>
+                      Read More
+                    </Button>
+                  </CardActions>
+                </Card>
               </Grid>
-              <Grid item xs>
-                <Typography variant="h5">{orgData.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {orgData.description}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Avatar src={orgData.adminAvatar} sx={{ width: 56, height: 56 }} />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={2} alignItems="center" sx={{ mt: 2 }}>
-              <Grid item>
-                <img
-                  src={orgData.logo}
-                  alt="Organization Logo"
-                  style={{ width: '50px', borderRadius: '10px' }}
-                />
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="primary" size="small">
-                  Join This Org
-                </Button>
-              </Grid>
-            </Grid>
-          </Paper>
-
-          <Tabs
-            value={currentTab}
-            onChange={(e, newVal) => setCurrentTab(newVal)}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
-          >
-            {tabLabels.map((label, idx) => (
-              <Tab key={idx} label={label} />
             ))}
-          </Tabs>
+          </Grid>
 
-          {renderTabContent()}
+          {/* Modal for Blog Post Details */}
+          <Modal
+            open={Boolean(selectedPost)}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{ timeout: 500 }}
+          >
+            <Fade in={Boolean(selectedPost)}>
+              <Box className="modalContent">
+                {selectedPost && (
+                  <>
+                    <Typography variant="h5" sx={{ mb: 2 }}>
+                      {selectedPost.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      By {selectedPost.author} | {selectedPost.location} | {selectedPost.date}
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 3 }}>
+                      {selectedPost.content}
+                    </Typography>
+                    <Button variant="contained" color="primary" onClick={handleCloseModal}>
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+
+          <Box textAlign="center" sx={{ mt: 8 }}>
+            <Typography variant="body2" color="text.secondary">
+              © 2024 ONE Local. All rights reserved.
+            </Typography>
+          </Box>
         </Container>
       );
     }
 
+    // ------------------ Render ------------------ //
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
