@@ -718,6 +718,11 @@
 
           {/* Hero #2 (Reversed) */}
           <Box className="metaHero reverse" sx={{ flexDirection: ['column', 'column', 'row-reverse'] }}>
+            <img
+                src="https://via.placeholder.com/600x400/666666/FFFFFF?text=Community+Connection"
+                alt="Community connection"
+                className="metaHeroImg"
+              />
             <Box className="metaHeroText">
               <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
                 Connect with Neighbors, Anywhere
@@ -733,13 +738,6 @@
                   See Our Blog
                 </Button>
               </Box>
-            </Box>
-            <Box>
-              <img
-                src="https://via.placeholder.com/600x400/666666/FFFFFF?text=Community+Connection"
-                alt="Community connection"
-                className="metaHeroImg"
-              />
             </Box>
           </Box>
 
@@ -1498,7 +1496,7 @@
       return (
         <Box id="logoCollection" sx={{ py: 8 }}>
           <Typography component="p" variant="h6" align="center" sx={{ color: 'text.secondary', mb: 6 }}>
-            Trusted by communities worldwide
+            Afilliated Orgs
           </Typography>
           <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
             {organization.affiliatedOrganizations.map((aff) => (
