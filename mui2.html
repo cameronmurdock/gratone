@@ -728,6 +728,8 @@
               backgroundImage: `url("https://via.placeholder.com/600x400/666666/FFFFFF?text=Community+Connection")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              borderRadius: '20px', // Rounded corners for the entire container
+              overflow: 'hidden', // Ensures the corners apply to content within
               color: 'white',
               textAlign: 'center',
               flexDirection: ['column', 'column', 'row-reverse'], // Responsive layout
@@ -747,6 +749,7 @@
                 justifyContent: 'center',
                 padding: '20px',
                 background: 'rgba(0, 0, 0, 0.5)', // Optional dark overlay for readability
+                borderRadius: '20px', // Rounded corners for the text box overlay
               }}
             >
               <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -775,7 +778,6 @@
               </Box>
             </Box>
           </Box>
-
 
           {/* Horizontal Row: Product/Feature Cards */}
           <Box sx={{ mt: 8 }}>
