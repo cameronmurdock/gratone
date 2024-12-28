@@ -786,13 +786,13 @@
             </Typography>
             <Box className="metaHorizontalRow">
               {[
-                { id: 1, title: 'Groups', text: 'Join neighborhood groups', img: 'https://via.placeholder.com/300x200?text=Groups' },
+                { id: 1, title: 'Groups', text: 'Join local groups', img: 'https://via.placeholder.com/300x200?text=Groups' },
                 { id: 2, title: 'Events', text: 'Host or attend local events', img: 'https://via.placeholder.com/300x200?text=Events' },
-                { id: 3, title: 'Marketplace', text: 'Buy & sell locally', img: 'https://via.placeholder.com/300x200?text=Marketplace' },
-                { id: 4, title: 'Services', text: 'Offer or find local services', img: 'https://via.placeholder.com/300x200?text=Services' }
+                { id: 3, title: 'Marketplace', text: 'Buy & sell products or services locally', img: 'https://via.placeholder.com/300x200?text=Marketplace' },
+                { id: 4, title: 'Community', text: 'Manage projects and complete tasks together, earning points inside your group to track contribution', img: 'https://via.placeholder.com/300x200?text=Services' }
               ].map(item => (
                 <Box className="metaCardWrapper" key={item.id}>
-                  <Card sx={{ width: 280 }}>
+                  <Card sx={{ width: 250 }}>
                     <CardContent>
                       <img src={item.img} alt={item.title} style={{ width: '100%', borderRadius: 8, marginBottom: 8 }} />
                       <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
