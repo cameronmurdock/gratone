@@ -365,38 +365,38 @@
       affiliatedOrganizations: [
         {
           id: 'aff1',
-          name: 'Yellow Barn',
-          logo: 'https://via.placeholder.com/150x100?text=Yellow+Barn',
-          url: 'https://yellowbarn.org',
-          description: 'Yellow Barn is a community center fostering art and creativity.',
+          name: 'Open Civics',
+          logo: 'https://publish-01.obsidian.md/access/cca177abb4aecc60d53992ba8f3fb0c6/Meta/Attachments/Asset%204%402x.png',
+          url: 'https://www.opencivics.co/',
+          description: 'Open Civics is a protocol system and hub for dynamic self organizing.',
         },
         {
           id: 'aff2',
           name: 'Mystery Works',
-          logo: 'https://via.placeholder.com/150x100?text=Mystery+Works',
+          logo: 'https://i.imgur.com/0pv4s3E.png',
           url: 'https://mysteryworks.com',
           description: 'Mystery Works engages the community through interactive experiences.',
         },
         {
           id: 'aff3',
-          name: 'Boulder Housing Coalition',
-          logo: 'https://via.placeholder.com/150x100?text=Boulder+Housing+Coalition',
-          url: 'https://boulderhousing.org',
-          description: 'Providing affordable housing solutions for the Boulder community.',
+          name: 'Cohere',
+          logo: 'https://cohereboulder.org/wp-content/uploads/2024/09/COHERE-Logo-Branding-2.png',
+          url: 'https://cohereboulder.org',
+          description: 'Cohere is a coallition of social organisms working to develop the regenerative ecology of boulder, fostering collaboration and innovation.',
         },
         {
           id: 'aff4',
-          name: 'Community Gardens',
-          logo: 'https://via.placeholder.com/150x100?text=Community+Gardens',
-          url: 'https://communitygardens.org',
-          description: 'Promoting sustainable agriculture and community bonding through gardening.',
+          name: 'Riverside',
+          logo: 'https://boulderriverside.com/wp-content/uploads/2019/08/Riverside-Name-3a3a3c-600x148.png',
+          url: 'https://boulderriverside.com/',
+          description: 'Riverside is a community of people who are passionate about creating a better world.',
         },
         {
           id: 'aff5',
-          name: 'Local Art Collective',
-          logo: 'https://via.placeholder.com/150x100?text=Local+Art+Collective',
-          url: 'https://localartcollective.com',
-          description: 'A collective of local artists sharing and collaborating on creative projects.',
+          name: 'Regen Hub',
+          logo: 'https://i.imgur.com/1q9nwmb.png',
+          url: 'https://forum.regenhub.xyz',
+          description: 'The Regen Hub is a dedicated space focused on promoting local projects and initiatives, fostering discussions around regenerative work in web3',
         },
       ],
     };
@@ -2245,12 +2245,17 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
     }
 
     function LogoCollection() {
+    // Updated logoStyle to maintain aspect ratio and prevent squishing
       const logoStyle = {
-        width: '150px',
-        height: '100px',
+        maxWidth: '150px', // Maximum width of the logo
+        maxHeight: '100px', // Maximum height of the logo
+        width: 'auto', // Allow width to adjust automatically
+        height: 'auto', // Allow height to adjust automatically
         margin: '0 20px',
         opacity: 0.8,
         cursor: 'pointer',
+        objectFit: 'contain', // Ensures the image fits within the container without distortion
+        display: 'block', // Removes any inline spacing
       };
 
       const [openModal, setOpenModal] = React.useState(false);
@@ -2267,18 +2272,35 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
       };
 
       return (
-        <Box id="logoCollection" sx={{ py: 8 }}>
+        <Box id="logoCollection" sx={{ py: 8, px: 2 }}>
           <Typography
             component="p"
             variant="h6"
             align="center"
             sx={{ color: 'text.secondary', mb: 6 }}
           >
-            Afilliated Orgs
+            Affiliated Orgs
           </Typography>
-          <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
+          <Grid
+            container
+            sx={{
+              justifyContent: 'center', // Centers the grid items
+              alignItems: 'center', // Vertically centers the grid items
+              gap: 4, // Adds consistent spacing between items
+            }}
+          >
             {organization.affiliatedOrganizations.map((aff) => (
-              <Grid item key={aff.id}>
+              <Grid
+                item
+                key={aff.id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '150px', // Ensures consistent grid item width
+                  height: '100px', // Ensures consistent grid item height
+                }}
+              >
                 <img
                   src={aff.logo}
                   alt={aff.name}
@@ -2302,25 +2324,56 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
             aria-describedby="organization-modal-description"
           >
             <Fade in={openModal}>
-              <Box className="modalContent">
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: { xs: '80%', sm: '60%', md: '40%' },
+                  bgcolor: 'background.paper',
+                  border: '2px solid #000',
+                  boxShadow: 24,
+                  p: 4,
+                  borderRadius: 2,
+                }}
+              >
                 {selectedOrganization && (
                   <>
-                    <Typography id="organization-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                    <Typography
+                      id="organization-modal-title"
+                      variant="h5"
+                      component="h2"
+                      sx={{ mb: 2, textAlign: 'center' }}
+                    >
                       {selectedOrganization.name}
                     </Typography>
-                    <Typography id="organization-modal-description" sx={{ mb: 4 }}>
-                      {selectedOrganization.description || 'No description available.'}
-                    </Typography>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => window.open(selectedOrganization.url, '_blank')}
+                    <Typography
+                      id="organization-modal-description"
+                      sx={{ mb: 4, textAlign: 'center' }}
                     >
-                      Visit Website
-                    </Button>
-                    <Button variant="text" color="secondary" onClick={handleCloseModal} sx={{ ml: 2 }}>
-                      Close
-                    </Button>
+                      {selectedOrganization.description ||
+                        'No description available.'}
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() =>
+                          window.open(selectedOrganization.url, '_blank')
+                        }
+                        sx={{ mr: 2 }}
+                      >
+                        Visit Website
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={handleCloseModal}
+                      >
+                        Close
+                      </Button>
+                    </Box>
                   </>
                 )}
               </Box>
