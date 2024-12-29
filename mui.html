@@ -2247,12 +2247,12 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
     function LogoCollection() {
     // Updated logoStyle to maintain aspect ratio and prevent squishing
       const logoStyle = {
-        maxWidth: '150px', // Maximum width of the logo
+        maxWidth: '180px', // Maximum width of the logo
         maxHeight: '100px', // Maximum height of the logo
         width: 'auto', // Allow width to adjust automatically
         height: 'auto', // Allow height to adjust automatically
-        margin: '0 20px',
-        opacity: 0.8,
+        margin: '20px',
+        opacity: 1,
         cursor: 'pointer',
         objectFit: 'contain', // Ensures the image fits within the container without distortion
         display: 'block', // Removes any inline spacing
@@ -2275,7 +2275,7 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
         <Box id="logoCollection" sx={{ py: 8, px: 2 }}>
           <Typography
             component="p"
-            variant="h6"
+            variant="h4"
             align="center"
             sx={{ color: 'text.secondary', mb: 6 }}
           >
@@ -2298,7 +2298,7 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
                   justifyContent: 'center',
                   alignItems: 'center',
                   width: '150px', // Ensures consistent grid item width
-                  height: '100px', // Ensures consistent grid item height
+                  height: '200px', // Ensures consistent grid item height
                 }}
               >
                 <img
