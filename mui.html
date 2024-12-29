@@ -47,9 +47,14 @@
       100% { background-position: 0% 50%; }
     }
     .animatedBackground {
-      background: linear-gradient(-45deg, #f6b5a2, #f9a7c8, #a6e3fc, #a4f9e3);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      background: linear-gradient(-45deg,  
+        #f6b5a2, 
+        #f9a7c8, 
+        #a6e3fc, 
+        #a4f9e3
+      );
+      background-size: 4000% 4000%;
+      animation: gradientBG 55s ease infinite;
       min-height: 100vh;
       color: #333333;
       position: relative; /* Ensure proper stacking context */
@@ -140,6 +145,42 @@
       transform: translateY(-5px);
       transition: transform 0.3s;
     }
+
+    /* ======= Additional styles for "Meta-like" landing page layout ======= */
+
+    /* Large hero sections with text + image side by side */
+    .metaHero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 80px 0;
+    }
+    .metaHero.reverse {
+      flex-direction: row-reverse;
+    }
+    .metaHeroImg {
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .metaHeroText {
+      max-width: 45%;
+    }
+
+    /* Horizontal product row */
+    .metaHorizontalRow {
+      white-space: nowrap;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+    }
+    .metaHorizontalRow .metaCardWrapper {
+      display: inline-block;
+      vertical-align: top;
+      width: 280px;
+      margin-right: 16px;
+    }
   </style>
 </head>
 <body style="margin: 0;">
@@ -156,6 +197,10 @@
   <script src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js" crossorigin></script>
 
   <script type="text/babel">
+    /****************************************************************
+     * THIS IS THE COMPLETE SINGLE-PAGE SCRIPT, NOTHING OMITTED.   *
+     ***************************************************************/
+
     const {
       ThemeProvider,
       createTheme,
@@ -188,11 +233,13 @@
       Modal,
       Fade,
       Backdrop,
+      Tabs,
+      Tab
     } = MaterialUI;
 
     // ======================= Data Objects =======================
 
-    // Users Data (real members + open positions)
+    // Users Data
     const users = [
       {
         id: '1',
@@ -269,43 +316,43 @@
       },
     ];
 
-    // Groups Data (with open positions included)
+    // Groups Data
     const groups = [
       {
         id: 'group1',
         name: 'Admin + Org Structure',
         description: 'Overseeing organizational strategy and administration.',
-        members: ['1'], // Cameron is in "Admin + Org Structure" (and can also appear in Governance)
+        members: ['1'], 
       },
       {
         id: 'group2',
         name: 'Funding and Finance',
         description: 'Managing financial planning and resource allocation.',
-        members: ['2'], // Miranda
+        members: ['2'],
       },
       {
         id: 'group3',
         name: 'Community Outreach',
         description: 'Connecting with community members and building relationships.',
-        members: ['3', 'open_2'], // Kathleen + open position for Volunteer Coordinator
+        members: ['3', 'open_2'],
       },
       {
         id: 'group4',
         name: 'Operations',
         description: 'Ensuring day-to-day processes run efficiently.',
-        members: ['4', 'open_1'], // Grig + open position for Assistant Operations Manager
+        members: ['4', 'open_1'],
       },
       {
         id: 'group5',
         name: 'Tech Development',
         description: 'Building and maintaining the ONE Local platform.',
-        members: ['5'], // Shawn
+        members: ['5'],
       },
       {
         id: 'group6',
         name: 'Governance',
         description: 'Guiding strategic vision and collective decision-making.',
-        members: ['1', 'open_3'], // Cameron + open position for Additional Governance Advisor
+        members: ['1', 'open_3'],
       },
     ];
 
@@ -385,27 +432,14 @@
     ];
 
     // ======================= Custom Theme =======================
-    // Custom Theme with Muted Earthtone Rainbow Pastel Palette
     const theme = createTheme({
       palette: {
         mode: 'light',
-        primary: {
-          main: '#6d4c41', // Muted Brown
-        },
-        secondary: {
-          main: '#8d6e63', // Muted Coral
-        },
-        error: {
-          main: '#e57373', // Soft Red
-        },
-        background: {
-          default: '#f5f5f5', // Light Gray
-          paper: '#ffffff', // White
-        },
-        text: {
-          primary: '#333333', // Dark Gray
-          secondary: '#555555', // Medium Gray
-        },
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        error: { main: '#e57373' },
+        background: { default: '#f5f5f5', paper: '#ffffff' },
+        text: { primary: '#333333', secondary: '#555555' },
       },
       typography: {
         fontFamily: 'Montserrat, sans-serif',
@@ -430,9 +464,7 @@
           fontSize: '1rem',
         },
       },
-      shape: {
-        borderRadius: 10,
-      },
+      shape: { borderRadius: 10 },
       components: {
         MuiButton: {
           styleOverrides: {
@@ -444,22 +476,16 @@
             },
             containedPrimary: {
               backgroundColor: '#6d4c41',
-              '&:hover': {
-                backgroundColor: '#BF820A',
-              },
+              '&:hover': { backgroundColor: '#BF820A' },
             },
             containedSecondary: {
               backgroundColor: '#8d6e63',
-              '&:hover': {
-                backgroundColor: '#7a5e55',
-              },
+              '&:hover': { backgroundColor: '#7a5e55' },
             },
             outlinedPrimary: {
               borderColor: '#6d4c41',
               color: '#6d4c41',
-              '&:hover': {
-                backgroundColor: 'rgba(109, 76, 65, 0.1)',
-              },
+              '&:hover': { backgroundColor: 'rgba(109, 76, 65, 0.1)' },
             },
           },
         },
@@ -477,9 +503,7 @@
               borderRadius: '10px',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
               transition: 'transform 0.3s',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-              },
+              '&:hover': { transform: 'translateY(-5px)' },
             },
           },
         },
@@ -487,9 +511,7 @@
           styleOverrides: {
             root: {
               boxShadow: 'none',
-              '&::before': {
-                display: 'none',
-              },
+              '&::before': { display: 'none' },
             },
           },
         },
@@ -514,7 +536,7 @@
           case 'investors':
             return <InvestorsPage />;
           case 'features-overview':
-            return <FeaturesOverviewPage />;
+            return <FeaturesOverviewPage setCurrentPage={setCurrentPage} />;
           case 'local-members':
             return <LocalMembersPage setCurrentPage={setCurrentPage} />;
           case 'event-hosts':
@@ -547,7 +569,7 @@
           <CssBaseline />
           <Box className="animatedBackground">
             <NavigationBar setCurrentPage={setCurrentPage} isMobile={isMobile} />
-            <Toolbar /> {/* This will push the content below the AppBar */}
+            <Toolbar />
             {renderPage()}
             <Footer setCurrentPage={setCurrentPage} />
           </Box>
@@ -665,11 +687,186 @@
       );
     }
 
-    // ======================= Landing Page =======================
+    // ======================= Landing Page (Meta-like) =======================
     function LandingPage({ setCurrentPage }) {
       return (
         <Container maxWidth="lg" sx={{ mt: 4 }}>
-          <HeroSection setCurrentPage={setCurrentPage} />
+          {/* Hero #1 */}
+          <Box className="metaHero" sx={{ flexDirection: ['column', 'column', 'row'] }}>
+            <Box className="metaHeroText">
+              <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+                {organization.tagline}
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4 }}>
+                {organization.mission}
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
+                  Download the App
+                </Button>
+                <Button variant="outlined" color="primary" size="large" onClick={() => setCurrentPage('impact-stories')}>
+                  Learn More
+                </Button>
+              </Box>
+            </Box>
+            <Box>
+              <img
+                src="https://via.placeholder.com/600x400/434343/FFFFFF?text=Hero+Product"
+                alt="Hero Visual"
+                className="metaHeroImg"
+              />
+            </Box>
+          </Box>
+
+          {/* Hero #2 (Reversed) */}
+          <Box
+            className="metaHero reverse"
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '420px',
+              backgroundImage: `url("https://via.placeholder.com/600x400/666666/FFFFFF?text=Community+Connection")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              color: 'white',
+              textAlign: 'center',
+              flexDirection: ['column', 'column', 'row-reverse'],
+            }}
+          >
+            <Box
+              className="metaHeroText"
+              sx={{
+                position: 'absolute',
+                top: '10%',
+                bottom: '10%',
+                left: 0,
+                right: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+                borderRadius: '20px',
+              }}
+            >
+              <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 2 }}>
+                Connect with Neighbors, Anywhere
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'white', mb: 4 }}>
+                A new lens on local life: events, resources, and community at your fingertips.
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={() => setCurrentPage('local-members')}
+                >
+                  Join Now
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  onClick={() => setCurrentPage('blog')}
+                >
+                  See Our Blog
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+
+         {/* Horizontal Row: Product/Feature Cards */}
+          <Box sx={{ mt: 8 }}>
+            <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+              Discover ONE Local’s Essential Features
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 3,
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
+              {[
+                { id: 5, title: 'Share', text: 'find what you need, and share what you have', img: 'https://via.placeholder.com/300x200?text=Groups' },
+                { id: 1, title: 'Groups', text: 'Join local groups doing things you care about', img: 'https://via.placeholder.com/300x200?text=Groups' },
+                { id: 2, title: 'Events', text: 'Host or attend local events', img: 'https://via.placeholder.com/300x200?text=Events' },
+                { id: 3, title: 'Marketplace', text: 'Buy & sell products or services locally', img: 'https://via.placeholder.com/300x200?text=Marketplace' },
+                {
+                  id: 4,
+                  title: 'Community',
+                  text: (
+                    <span
+                      style={{
+                        background: 'linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)',
+                        backgroundSize: '400% 400%',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        animation: 'gradientBG 5s ease infinite',
+                        display: 'inline-block',
+                        padding: '0.2em 0'
+                      }}
+                    >
+                      Manage tasks, make decisions, and earn stake in collaborative projects
+                    </span>
+                  ),
+                  img: 'https://via.placeholder.com/300x200?text=Community'
+                }
+              ].map((item) => (
+                <Box key={item.id}>
+                  <Card
+                    sx={{
+                      width: 280,
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <CardContent>
+                      <img
+                        src={item.img}
+                        alt={item.title}
+                        style={{
+                          width: '100%',
+                          borderRadius: 8,
+                          marginBottom: 8,
+                        }}
+                      />
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          color: 'text.secondary',
+                          fontWeight: 'bold',
+                          wordWrap: 'break-word',
+                          overflowWrap: 'break-word',
+                          whiteSpace: 'normal',
+                        }}
+                      >
+                        {item.text}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button variant="contained" color="primary" size="small">
+                        Explore
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+
+          {/* The remainder of the original landing sections */}
           <LogoCollection />
           <FeaturesSection />
           <MembershipTypes setCurrentPage={setCurrentPage} />
@@ -705,21 +902,17 @@
     }
 
     function TeamPage() {
-      // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
 
-      // Modal for Claiming an Open Position
       const [openPositionModal, setOpenPositionModal] = React.useState(false);
       const [selectedPosition, setSelectedPosition] = React.useState(null);
 
       const handleOpenModal = (member) => {
-        // If it's an open position, show the "Claim Role" flow
         if (member.name === 'Open Position') {
           setSelectedPosition(member);
           setOpenPositionModal(true);
         } else {
-          // Else, show the normal user info
           setSelectedMember(member);
           setOpenModal(true);
         }
@@ -735,10 +928,8 @@
         setSelectedPosition(null);
       };
 
-      // Simulate "taking" the role
       const handleClaimRole = (position) => {
         alert(`You have claimed the role: ${position.role}`);
-        // Here you could add logic to update the data, etc.
         handleClosePositionModal();
       };
 
@@ -798,9 +989,7 @@
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="team-modal-title"
             aria-describedby="team-modal-description"
           >
@@ -837,9 +1026,7 @@
             onClose={handleClosePositionModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="open-position-modal-title"
             aria-describedby="open-position-modal-description"
           >
@@ -931,17 +1118,190 @@
       );
     }
 
-    function FeaturesOverviewPage() {
+    /*******************************************************************
+     * Replaced the original FeaturesOverviewPage with doc-style Tabs. *
+     *******************************************************************/
+     function FeaturesOverviewPage({ setCurrentPage }) {
+      // Maintain a tab state to switch between "Overview", "Local Members", etc.
+      const [tabValue, setTabValue] = React.useState(0);
+
+      const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+      };
+
       return (
-        <Container sx={{ py: 12, minHeight: '100vh' }}>
-          <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
-            Discover What’s Possible with ONE Local
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+          {/* Side Menu */}
+          <Box
+            sx={{
+              width: 240,
+              bgcolor: 'background.paper',
+              borderRight: '1px solid #ddd',
+              display: 'flex',
+              flexDirection: 'column',
+              py: 2,
+            }}
+          >
+            <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center', mb: 4 }}>
+              Features
+            </Typography>
+            <Tabs
+              orientation="vertical"
+              value={tabValue}
+              onChange={handleTabChange}
+              textColor="primary"
+              indicatorColor="primary"
+              sx={{
+                flexGrow: 1,
+                '& .MuiTab-root': { textAlign: 'left', alignItems: 'flex-start', pl: 2 },
+              }}
+            >
+              <Tab label="Overview" />
+              <Tab label="Local Members" />
+              <Tab label="Event Hosts" />
+              <Tab label="Sellers" />
+              <Tab label="Organizations" />
+            </Tabs>
+          </Box>
+
+          {/* Content Area */}
+          <Container sx={{ flexGrow: 1, py: 2 }}>
+            {/* Render the tab content */}
+            {tabValue === 0 && <FeaturesOverviewDoc />}
+            {tabValue === 1 && <LocalMembersPage setCurrentPage={setCurrentPage} />}
+            {tabValue === 2 && <EventHostsPage setCurrentPage={setCurrentPage} />}
+            {tabValue === 3 && <SellersPage setCurrentPage={setCurrentPage} />}
+            {tabValue === 4 && <OrganizationsPage setCurrentPage={setCurrentPage} />}
+          </Container>
+        </Box>
+      );
+    }
+
+
+    // The "Overview" content from your original FeaturesOverviewPage
+    function FeaturesOverviewDoc() {
+      return (
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3 }}>
+            Discover ONE Local's Essential Features
           </Typography>
+
           <Typography variant="body1" sx={{ mb: 6 }}>
-            A place where resources meet needs, skills meet opportunity, and people meet each other. It’s simple, it’s powerful, and it’s yours.
+            Welcome to ONE Local, your community-powered cooperative platform. At ONE Local, you're not just a user – you're a member and a co-creator. As a cooperative, our platform is built with your needs in mind, giving every member the opportunity to connect, contribute, and benefit from the collective success of our communities.
           </Typography>
-          <FeaturesSection />
-        </Container>
+
+          {/* Groups Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Groups
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Find Your Circle, Build Your Community
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Join or create groups that matter to you – whether it's a neighborhood project, a hobby group, or a grassroots movement.<br/><br/>
+              • Collaborate on shared goals.<br/>
+              • Stay organized with tools for managing tasks, discussions, and events.<br/>
+              • Earn recognition and stake for your contributions to the group's success.
+            </Typography>
+          </Box>
+
+          {/* Events Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Events
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Celebrate, Learn, and Grow Together
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Host or attend events that bring people together. From skill-building workshops to local festivals, ONE Local makes it easy to connect in person or online.<br/><br/>
+              • Tools to organize and promote your events.<br/>
+              • Integrated ticketing and RSVPs.<br/>
+              • Find opportunities to connect with like-minded members.
+            </Typography>
+          </Box>
+
+          {/* Marketplace Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Marketplace
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Support Local, Buy and Sell with Purpose
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Discover a community-driven marketplace where you can offer or find products, services, and even shared resources.<br/><br/>
+              • Showcase your creations or services to people who value local.<br/>
+              • Rent tools, share items, or give what you no longer need.<br/>
+              • Keep the economy close to home by buying and selling within your community.
+            </Typography>
+          </Box>
+
+          {/* Community Projects Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Community Projects
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Empowered Together, Thriving Together
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Our co-op model ensures that your contributions are recognized and rewarded. Manage tasks, make decisions, and shape your projects in a way that benefits everyone involved.<br/><br/>
+              • Transparent tools for collaboration and decision-making.<br/>
+              • Earn points or stake in your group for completing tasks and contributing resources.<br/>
+              • See the direct impact of your efforts as your projects grow.
+            </Typography>
+          </Box>
+
+          {/* Member Ownership Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Member Ownership
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Be More Than a User – Be a Stakeholder
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              As a cooperative, ONE Local is owned and governed by its members. This means you have a voice, a vote, and a real stake in the platform.<br/><br/>
+              • Participate in decisions that shape the future of ONE Local.<br/>
+              • Share in the surplus when our collective efforts succeed.<br/>
+              • Build trust through visible contributions and community-driven governance.
+            </Typography>
+          </Box>
+
+          {/* Learning and Growth Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Learning and Growth
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Expand Your Skills, Share Your Knowledge
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              ONE Local fosters personal and professional growth through skill-building opportunities.<br/><br/>
+              • Access workshops, mentorships, and training sessions led by other members.<br/>
+              • Share your expertise by hosting your own events or tutorials.<br/>
+              • Learn as you grow alongside a supportive and collaborative community.
+            </Typography>
+          </Box>
+
+          {/* Governance Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Governance
+            </Typography>
+            <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+              Your Voice, Your Vision
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Take part in shaping the policies and priorities of ONE Local. We are committed to participatory governance that ensures every voice matters.<br/><br/>
+              • Vote on key initiatives and decisions.<br/>
+              • Propose changes or new features for the platform.<br/>
+              • Ensure the platform evolves to meet the community's needs.
+            </Typography>
+          </Box>
+        </Box>
       );
     }
 
@@ -952,7 +1312,8 @@
             For Local Members
           </Typography>
           <Typography variant="body1" sx={{ mb: 6 }}>
-            Access local events, meetups, and happenings. Share tools, skills, and knowledge. Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
+            Access local events, meetups, and happenings. Share tools, skills, and knowledge. 
+            Connect through messaging and forums. Participate in skill-building workshops and mentorship programs.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
             Join Now
@@ -968,7 +1329,8 @@
             For Event Hosts
           </Typography>
           <Typography variant="body1" sx={{ mb: 6 }}>
-            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. Integrated ticketing and payments.
+            Easy event creation and promotion tools. Engagement tracking — see who’s coming, who’s buzzing. 
+            Integrated ticketing and payments.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
             Start Hosting Events
@@ -984,7 +1346,8 @@
             For Sellers
           </Typography>
           <Typography variant="body1" sx={{ mb: 6 }}>
-            Set up a storefront in minutes. Secure payments, local connections. Promote your offerings and reach customers who care.
+            Set up a storefront in minutes. Secure payments, local connections. 
+            Promote your offerings and reach customers who care.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
             Open Your Shop
@@ -1000,7 +1363,8 @@
             For Organizations
           </Typography>
           <Typography variant="body1" sx={{ mb: 6 }}>
-            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. Share updates and rally support.
+            Create a profile for your group or nonprofit. Manage tasks, events, and member engagement. 
+            Share updates and rally support.
           </Typography>
           <Button variant="contained" color="primary" size="large" onClick={() => setCurrentPage('download-app')}>
             Register Your Organization
@@ -1100,7 +1464,7 @@
         return () => clearInterval(timer);
       }, []);
 
-      // Modal State for Blog Posts
+      // Modal for Blog Posts
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedPost, setSelectedPost] = React.useState(null);
 
@@ -1156,9 +1520,7 @@
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="blog-modal-title"
             aria-describedby="blog-modal-description"
           >
@@ -1206,9 +1568,7 @@
             onClose={handleClose}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="download-app-modal-title"
             aria-describedby="download-app-modal-description"
           >
@@ -1386,7 +1746,6 @@
         cursor: 'pointer',
       };
 
-      // Modal state
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedOrganization, setSelectedOrganization] = React.useState(null);
 
@@ -1408,7 +1767,7 @@
             align="center"
             sx={{ color: 'text.secondary', mb: 6 }}
           >
-            Trusted by communities worldwide
+            Afilliated Orgs
           </Typography>
           <Grid container sx={{ justifyContent: 'center', mt: 0.5, opacity: 0.8 }}>
             {organization.affiliatedOrganizations.map((aff) => (
@@ -1470,7 +1829,7 @@
           title: 'Connect',
           description: 'A message away from neighbors you haven’t met yet.',
           iconName: 'connect_without_contact',
-          details: 'Connect with your local community members through our integrated messaging system. Share interests, organize meetups, and build meaningful relationships effortlessly.',
+          details: 'Connect with your local community members through group pages. Share interests, organize meetups, and build meaningful relationships effortlessly.',
         },
         {
           title: 'Share',
@@ -1492,7 +1851,6 @@
         },
       ];
 
-      // Modal State
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedFeature, setSelectedFeature] = React.useState(null);
 
@@ -1531,15 +1889,12 @@
             ))}
           </Grid>
 
-          {/* Feature Details Modal */}
           <Modal
             open={openModal}
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="feature-modal-title"
             aria-describedby="feature-modal-description"
           >
@@ -1569,39 +1924,41 @@
       const membershipsData = [
         {
           title: 'Local Members',
-          description:
-            'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
+          description: 'Join the heartbeat of your town. Swap skills, share tools, find events, or simply find your people.',
           cta: 'Join Now',
           page: 'local-members',
           details: 'As a Local Member, you gain access to exclusive events, resource sharing, and a vibrant community eager to connect and collaborate.',
         },
         {
           title: 'Event Hosts',
-          description:
-            'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
+          description: 'Your moment, your masterpiece. Set the scene, make the invite, and let the magic unfold.',
           cta: 'Start Hosting',
           page: 'event-hosts',
           details: 'Event Hosts can create, manage, and promote events effortlessly. Engage your community with memorable experiences and track engagement metrics.',
         },
         {
           title: 'Sellers',
-          description:
-            'Your storefront in the village square. Share what you create with those who’ll love it most.',
+          description: 'Your storefront in the village square. Share what you create with those who’ll love it most.',
           cta: 'Open Shop',
           page: 'sellers',
           details: 'Sellers can set up their own storefronts, showcase products, and reach customers who value the local touch and craftsmanship.',
         },
         {
+          title: 'Gig Workers',
+          description: 'Your skills, your schedule. Find gigs, build your portfolio, and connect with local clients.',
+          cta: 'Register Now',
+          page: 'sellers',
+          details: 'Gig Workers can find local opportunities, showcase their skills, and connect with clients who value their expertise and dedication.',
+        },
+        {
           title: 'Organizations',
-          description:
-            'Your mission, our platform. Unite your team, manage your projects, rally your community.',
+          description: 'Your mission, our platform. Unite your team, manage your projects, rally your community.',
           cta: 'Register Now',
           page: 'organizations',
           details: 'Organizations can create profiles, manage projects, coordinate teams, and engage with the community to drive impactful initiatives.',
         },
       ];
 
-      // Modal State
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMembership, setSelectedMembership] = React.useState(null);
 
@@ -1620,7 +1977,7 @@
           <Typography variant="h4" component="h2" gutterBottom align="center" sx={{ fontWeight: 'bold', mb: 8 }}>
             How Will You Show Up?
           </Typography>
-          <Grid container spacing={6}>
+          <Grid container spacing={4}>
             {membershipsData.map((membership) => (
               <Grid item xs={12} sm={6} md={3} key={membership.title}>
                 <Card
@@ -1646,15 +2003,12 @@
             ))}
           </Grid>
 
-          {/* Membership Details Modal */}
           <Modal
             open={openModal}
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="membership-modal-title"
             aria-describedby="membership-modal-description"
           >
@@ -1672,6 +2026,8 @@
                       variant="contained"
                       color="primary"
                       onClick={() => {
+                        // Jump to the correct page
+                        // (the membership.page might be 'sellers' or 'local-members', etc.)
                         setCurrentPage(selectedMembership.page);
                         handleCloseModal();
                       }}
@@ -1691,14 +2047,11 @@
     }
 
     function TeamSection() {
-      // Reusing partial TeamPage logic for the Landing Page
       const displayGroups = groups.slice(0, 2); // Only first two groups for the Landing Page preview
 
-      // Modal State for Team Members
       const [openModal, setOpenModal] = React.useState(false);
       const [selectedMember, setSelectedMember] = React.useState(null);
 
-      // Modal for Claiming an Open Position
       const [openPositionModal, setOpenPositionModal] = React.useState(false);
       const [selectedPosition, setSelectedPosition] = React.useState(null);
 
@@ -1722,7 +2075,6 @@
         setSelectedPosition(null);
       };
 
-      // Simulate claiming the open role
       const handleClaimRole = (position) => {
         alert(`You have claimed the role: ${position.role}`);
         handleClosePositionModal();
@@ -1784,9 +2136,7 @@
             onClose={handleCloseModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="team-modal-title-landing"
             aria-describedby="team-modal-description-landing"
           >
@@ -1818,9 +2168,7 @@
             onClose={handleClosePositionModal}
             closeAfterTransition
             BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}
+            BackdropProps={{ timeout: 500 }}
             aria-labelledby="open-position-modal-title-landing"
             aria-describedby="open-position-modal-description-landing"
           >
@@ -1884,7 +2232,7 @@
         metrics.forEach(metric => {
           const target = parseInt(metric.value.replace(/,/g, ''));
           let current = 0;
-          const increment = target / 200; // Adjust for animation speed
+          const increment = target / 200; 
 
           const timer = setInterval(() => {
             current += increment;
@@ -1892,8 +2240,8 @@
               current = target;
               clearInterval(timer);
             }
-            setCount(prevCount => ({
-              ...prevCount,
+            setCount(prev => ({
+              ...prev,
               [metric.label]: Math.floor(current),
             }));
           }, 30);
@@ -1993,7 +2341,7 @@
                 {testimonials[currentTestimonial].quote}
               </Typography>
             </Box>
-            {/* Navigation Buttons */}
+            {/* Nav Buttons */}
             <IconButton
               className="carousel-button left"
               onClick={prevTestimonial}
@@ -2162,7 +2510,7 @@
       );
     }
 
-    // ======================= Render App =======================
+    // Finally, render the app
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
