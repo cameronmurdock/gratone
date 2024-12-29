@@ -1275,27 +1275,125 @@
     function InvestorsPage() {
       return (
         <Container sx={{ py: 12, minHeight: '100vh' }}>
+          {/* Header Section */}
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
             Invest in a New Kind of Social Infrastructure
           </Typography>
+
+          {/* Introductory Section */}
           <Typography variant="body1" sx={{ mb: 6 }}>
-            We’re building a digital village green. Your investment helps communities reclaim their power, one shared resource at a time.
+            We’re building a digital village green. A thriving ecosystem where people,
+            businesses, and communities come together to share resources, skills, and
+            opportunities. Your investment helps communities reclaim their power—one
+            shared resource at a time.
           </Typography>
+
           <Typography variant="body1" sx={{ mb: 6 }}>
-            By investing in ONE Local, you're supporting a platform that fosters community engagement, local economies, and sustainable growth. We offer equity options and the opportunity to be part of a movement that prioritizes people over profits.
+            By investing in ONE Local, you’re not just funding a platform—you’re
+            fueling a movement. A movement that fosters community engagement, strengthens
+            local economies, and paves the way for sustainable, equitable growth.
           </Typography>
+
           <Typography variant="body1" sx={{ mb: 8 }}>
-            For investment inquiries, please contact us at{' '}
-            <Link href="mailto:investors@onelocal.com" color="secondary">investors@onelocal.com</Link>.
+            For inquiries about how you can become a steward of the future, please
+            contact us at{' '}
+            <Link href="mailto:investors@onelocal.com" color="secondary">
+              investors@onelocal.com
+            </Link>.
           </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            onClick={() => window.alert('Invest Now')}
-          >
-            Join the Movement — Invest Today
-          </Button>
+
+          {/* Member Classes Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+              How the Co-op Works
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              ONE Local is structured as a multi-stakeholder cooperative, designed to
+              ensure every member has a stake in its success. Revenue is reinvested in
+              the platform and redistributed to members as <strong>surplus distributions</strong>.
+            </Typography>
+
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Our member classes include:
+            </Typography>
+            <ul>
+              <li>
+                <Typography variant="body1">
+                  <strong>Local Members:</strong> Individuals connecting with their
+                  communities and sharing resources.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="body1">
+                  <strong>Event Hosts & Sellers:</strong> Contributors who drive local
+                  engagement through events, services, and products.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="body1">
+                  <strong>Organizations:</strong> Nonprofits, businesses, and groups
+                  using the platform to organize and grow.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="body1">
+                  <strong>Stewards:</strong> Investors and strategic partners who
+                  hold <strong>Participating Preferred Shares</strong> tied to the
+                  co-op's growth and success.
+                </Typography>
+              </li>
+            </ul>
+          </Box>
+
+          {/* Steward Shares Section */}
+          <Box sx={{ mb: 8 }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 4 }}>
+              Steward Class Shares
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Stewards are the backbone of ONE Local, ensuring the platform’s long-term
+              sustainability and growth. As a Steward, you hold <strong>Participating
+              Preferred Shares</strong>, aligning your financial interests with the
+              co-op's mission.
+            </Typography>
+
+            <Typography variant="body1" sx={{ mb: 4 }}>
+              Steward shares offer:
+            </Typography>
+            <ul>
+              <li>
+                <Typography variant="body1">
+                  <strong>Equity Appreciation:</strong> Your shares grow in value as
+                  the co-op thrives, ensuring a return on investment that’s tied to
+                  real-world impact.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="body1">
+                  <strong>Surplus Distributions:</strong> Receive a portion of the
+                  co-op’s annual profits, rewarding your role in our shared success.
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="body1">
+                  <strong>Strategic Influence:</strong> Help shape the future of ONE
+                  Local with voting power and direct input on high-level decisions.
+                </Typography>
+              </li>
+            </ul>
+          </Box>
+
+          {/* Call to Action */}
+          <Box textAlign="center" sx={{ mt: 6 }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={() => window.alert('Invest Now')}
+            >
+              Join the Movement — Invest Today
+            </Button>
+          </Box>
         </Container>
       );
     }
