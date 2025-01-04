@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ONE Local - Event Profile</title>
+  <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts and Material Icons -->
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Playfair+Display&display=swap"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  >
+  <!-- Favicon (optional) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+   <!-- Social Sharing Metadata -->
+   <meta property="og:title" content="ONE Local - Community Cleanup & Picnic" />
+   <meta property="og:description" content="Join us to clean Springfield Park and enjoy a picnic with your community!" />
+   <meta property="og:image" content="https://yourapp.com/images/cleanup-picnic-banner.jpg" />
+   <meta property="og:url" content="https://yourapp.com/events/cleanup-picnic" />
+   <meta property="og:type" content="event" />
+   <meta property="og:site_name" content="ONE Local" />
+ 
+   <meta name="twitter:card" content="summary_large_image" />
+   <meta name="twitter:title" content="ONE Local - Community Cleanup & Picnic" />
+   <meta name="twitter:description" content="Join us to clean Springfield Park and enjoy a picnic with your community!" />
+   <meta name="twitter:image" content="https://yourapp.com/images/cleanup-picnic-banner.jpg" />
+ 
+   <!-- RDFa Metadata -->
+   <div vocab="https://schema.org/" typeof="Event">
+     <span property="name">Community Cleanup & Picnic</span>
+     <span property="description">Join us for a day of volunteering, helping restore Springfield Park, followed by a casual picnic for all participants.</span>
+     <span property="startDate" content="2025-03-15T09:00:00-05:00">March 15, 2025, 9:00 AM</span>
+     <span property="endDate" content="2025-03-15T14:00:00-05:00">March 15, 2025, 2:00 PM</span>
+     <div property="location" typeof="Place">
+       <span property="name">Springfield Park</span>
+       <div property="address" typeof="PostalAddress">
+         <span property="streetAddress">123 Park Lane</span>,
+         <span property="addressLocality">Springfield</span>,
+         <span property="addressRegion">IL</span>,
+         <span property="postalCode">62701</span>,
+         <span property="addressCountry">US</span>
+       </div>
+     </div>
+     <span property="image" content="https://yourapp.com/images/cleanup-picnic-banner.jpg">Event Image</span>
+     <div property="organizer" typeof="Organization">
+       <span property="name">ONE Local</span>
+       <span property="url">https://yourapp.com</span>
+     </div>
+     <div property="offers" typeof="Offer">
+       <span property="price" content="0">Free</span>
+       <span property="priceCurrency" content="USD">USD</span>
+       <span property="availability" content="https://schema.org/InStock">Available</span>
+       <span property="url">https://yourapp.com/events/cleanup-picnic/tickets</span>
+     </div>
+   </div>
+ 
+
+  <style>
+    /* Scrollbar & Body Styling */
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      scrollbar-color: #a8d5ba #ffffff;
+      scrollbar-width: thin;
+    }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+    body::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+    body::-webkit-scrollbar-thumb {
+      background-color: #a8d5ba;
+      border-radius: 4px;
+    }
+
+    /* Animated Gradient Background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animatedBackground {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    /* Hide default margin for the root React node */
+    #root {
+      padding-top: 70px; /* Reserve space for AppBar */
+    }
+
+    /* Enhanced Card Hover Effect */
+    .MuiCard-root:hover {
+      transform: translateY(-5px);
+      transition: transform 0.3s;
+    }
+
+    /* Modal Content Styling */
+    .modalContent {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      outline: none;
+    }
+
+    /* === Chat Tab Styles === */
+    .chatContainer {
+      max-height: 60vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+    .chatMessage {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .chatMessage .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+    .chatMessage .bubble {
+      max-width: 80%;
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      background: #e0f7fa;
+      color: #333;
+      font-size: 1rem;
+      word-wrap: break-word;
+    }
+    .chatInputContainer {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      background: #ffffff;
+      padding: 0.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chatInput {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+    .chatSendButton {
+      margin-left: 0.5rem;
+      background-color: #6d4c41;
+      color: white;
+      border: none;
+      outline: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .chatSendButton:hover {
+      background-color: #8d6e63;
+    }
+  </style>
+
+  <!-- JSON-LD for Schema.org with Ticket Info, plus standard Event properties -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "Community Cleanup & Picnic",
+    "description": "Join us for a day of volunteering, helping restore Springfield Park, followed by a casual picnic for all participants. Families welcome!",
+    "image": "https://yourapp.com/images/cleanup-picnic-banner.jpg",
+    "startDate": "2025-03-15T09:00:00-05:00",
+    "endDate": "2025-03-15T14:00:00-05:00",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "Springfield Park",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Park Lane",
+        "addressLocality": "Springfield",
+        "addressRegion": "IL",
+        "postalCode": "62701",
+        "addressCountry": "US"
+      }
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://yourapp.com/events/cleanup-picnic/tickets",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "validFrom": "2025-02-01T12:00:00-05:00"
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "ONE Local",
+      "url": "https://yourapp.com"
+    }
+  }
+  </script>
+
+    <!-- JSON-LD for Google & Multiple Contexts -->
+    <script type="application/ld+json">
+    {
+      "@context": [
+        "https://schema.org",
+        "https://www.w3.org/ns/activitystreams",
+        "https://www.murmurations.network/schemas/v0.4/murmurations.json",
+        "https://popoloproject.com/schemas",
+        "https://openactive.io/",
+        "https://schema.theodi.org/odrs",
+        "https://open.civicdata.com/",
+        "https://activityhub.io/ns/",
+        "https://fed.brid.gy/"
+      ],
+      "@type": "Event",
+      "name": "Community Cleanup & Picnic",
+      "description": "Join us for a day of volunteering, helping restore Springfield Park, followed by a casual picnic for all participants.",
+      "image": "https://yourapp.com/images/cleanup-picnic-banner.jpg",
+      "startDate": "2025-03-15T09:00:00-05:00",
+      "endDate": "2025-03-15T14:00:00-05:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Springfield Park",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "123 Park Lane",
+          "addressLocality": "Springfield",
+          "addressRegion": "IL",
+          "postalCode": "62701",
+          "addressCountry": "US"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://yourapp.com/events/cleanup-picnic/tickets",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2025-02-01T12:00:00-05:00"
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "ONE Local",
+        "url": "https://yourapp.com"
+      },
+      "attendeeInstructions": "Bring gloves, trash bags, and tools if you have them. Otherwise, supplies will be provided.",
+      "activityhub:activityType": "volunteering",
+      "bridgyfed:source": "https://yourapp.com/events/cleanup-picnic",
+      "bridgyfed:target": ["https://social.example.com", "https://other-federated-instance.com"],
+      "tags": ["volunteering", "community building", "outdoor event"]
+    }
+    </script>
+  
+    <!-- JSON-LD for Open Civic Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://open.civicdata.com/",
+      "type": "Event",
+      "name": "Community Cleanup & Picnic",
+      "description": "Help restore the park and celebrate community spirit.",
+      "address": {
+        "streetAddress": "123 Park Lane",
+        "locality": "Springfield",
+        "region": "IL",
+        "postalCode": "62701",
+        "country": "US"
+      },
+      "date": {
+        "start": "2025-03-15T09:00:00-05:00",
+        "end": "2025-03-15T14:00:00-05:00"
+      },
+      "organizer": {
+        "name": "ONE Local",
+        "url": "https://yourapp.com"
+      },
+      "categories": ["Community Event", "Volunteer Opportunity"]
+    }
+    </script>
+  
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React 18 and ReactDOM 18 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX transformation -->
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <!-- Material UI v5 -->
+  <script
+    src="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.development.js"
+    crossorigin
+  ></script>
+  <!-- Material UI Icons -->
+  <script
+    src="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.development.js"
+    crossorigin
+  ></script>
+
+  <script type="text/babel">
+    const {
+      ThemeProvider,
+      createTheme,
+      CssBaseline,
+      AppBar,
+      Toolbar,
+      Typography,
+      Container,
+      Box,
+      Grid,
+      Paper,
+      Avatar,
+      Button,
+      IconButton,
+      Icon,
+      Tabs,
+      Tab,
+      Card,
+      CardContent,
+      Modal,
+      Fade,
+      Backdrop,
+      InputBase,
+      Checkbox
+    } = MaterialUI;
+
+    // ======================= Sample Event Data (with bigger description & tickets) =======================
+    const myEvent = {
+      title: "Community Cleanup & Picnic",
+      tagline: "Come Together to Restore Our Park and Enjoy a Picnic!",
+      dateRange: "March 15th, 9:00 AM - 2:00 PM",
+      location: "Springfield Park, 123 Park Lane, Springfield, IL",
+      bannerImage: "https://yourapp.com/images/cleanup-picnic-banner.jpg",
+      organizerAvatar: "https://randomuser.me/api/portraits/women/39.jpg",
+
+      shortOverview:
+        "Join us for a day of volunteering and camaraderie! We’ll pick up trash, plant a few new trees, and finish with a casual picnic. All ages welcome.",
+
+      biggerDescription:
+        "Spring is here, and so is our community’s chance to give back to our shared green space. Whether you’re an old hand at community service or new to volunteering, your presence matters. After a morning of cleaning, planting, and beautifying the park, we’ll gather for a simple picnic with sandwiches, fresh fruit, and plenty of sunshine! Feel free to bring your own food to share or special dietary items. Our aim is to enjoy good company and a sense of accomplishment. Don’t forget your water bottles, hats, and sunscreen.",
+
+      ticketInfo: {
+        instructions: "This is a free event, but please reserve your spot for planning purposes.",
+        link: "https://yourapp.com/events/cleanup-picnic/tickets",
+      },
+
+      overviewData: {
+        details:
+          "We’ll gather at the Springfield Park entrance near the playground. Cleanup supplies, gloves, and trash bags will be provided. New trees (saplings) will arrive at 10 AM. Family-friendly environment—kids are encouraged to help out in safe, designated zones. After noon, we’ll move to the picnic area to share food and celebrate a morning of solid teamwork!",
+        website: "https://yourapp.com/events/cleanup-picnic",
+        contactEmail: "organizer@onelocal.com",
+      },
+
+      announcements: [
+        {
+          id: 1,
+          poster: "Jane Doe (Organizer)",
+          title: "Rain Contingency Plan",
+          content: "If it rains, we’ll reschedule for March 22. We’ll email everyone the night before.",
+          date: "Mar 1, 2025",
+        },
+        {
+          id: 2,
+          poster: "John Smith (Logistics)",
+          title: "Carpool Info",
+          content: "We have 3 cars leaving from Downtown at 8:30 AM. Contact me if you need a ride.",
+          date: "Mar 8, 2025",
+        },
+      ],
+
+      schedule: [
+        {
+          id: 101,
+          time: "9:00 AM",
+          title: "Check-In & Welcome",
+          description:
+            "Sign in, grab name tags, pick up your cleanup gear, and meet the rest of the crew.",
+        },
+        {
+          id: 102,
+          time: "9:30 AM",
+          title: "Trash Collection",
+          description:
+            "Divide into groups to pick up trash throughout the park’s main pathways and picnic areas.",
+        },
+        {
+          id: 103,
+          time: "10:30 AM",
+          title: "Tree Planting",
+          description:
+            "Meet near the pond area. Our arborist will explain the best planting methods.",
+        },
+        {
+          id: 104,
+          time: "12:00 PM",
+          title: "Picnic Setup",
+          description:
+            "A few volunteers will arrange tables, coolers, and the potluck items on the lawn.",
+        },
+        {
+          id: 105,
+          time: "12:30 PM",
+          title: "Picnic & Socializing",
+          description:
+            "Sit back, relax, and enjoy the fruits of our labor! A simple lunch is provided (or bring your own).",
+        },
+        {
+          id: 106,
+          time: "1:30 PM",
+          title: "Final Tidy & Wrap-Up",
+          description:
+            "Check that all trash is collected, tools are returned, and leftover food is stored or composted.",
+        },
+      ],
+
+      attendees: [
+        {
+          id: 201,
+          name: "John Smith",
+          role: "Logistics / Carpool Organizer",
+          avatar: "https://randomuser.me/api/portraits/men/85.jpg",
+        },
+        {
+          id: 202,
+          name: "Lucy Brown",
+          role: "Arborist / Tree Expert",
+          avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+        },
+        {
+          id: 203,
+          name: "Ray Daniels",
+          role: "Community Volunteer",
+          avatar: "https://randomuser.me/api/portraits/men/15.jpg",
+        },
+      ],
+
+      tasks: [
+        {
+          id: 301,
+          task: "Cleanup Zone #1",
+          points: 15,
+          description: "Collect litter and recyclables in the east side of the park, near the creek.",
+        },
+        {
+          id: 302,
+          task: "Tree Planting Station",
+          points: 25,
+          description: "Help dig holes and place saplings under arborist supervision. Some heavy lifting.",
+        },
+        {
+          id: 303,
+          task: "Snack Table Setup",
+          points: 10,
+          description: "Arrange drinks, snacks, and potluck items. Keep track of utensils and condiments.",
+        },
+      ],
+
+      volunteers: [
+        {
+          id: 401,
+          name: "Miranda",
+          bio: "Looking forward to helping plan the picnic portion!",
+          avatar: "https://randomuser.me/api/portraits/women/32.jpg",
+        },
+        {
+          id: 402,
+          name: "James",
+          bio: "I’ve got a pickup truck to haul trash bags and tools!",
+          avatar: "https://randomuser.me/api/portraits/men/66.jpg",
+        },
+      ],
+
+      chatMessages: [
+        {
+          id: 1,
+          sender: "Jane Doe (Organizer)",
+          avatar: "https://randomuser.me/api/portraits/women/39.jpg",
+          message:
+            "Excited to see everyone! Don’t forget sun protection and comfy shoes.",
+        },
+        {
+          id: 2,
+          sender: "Lucy Brown (Arborist)",
+          avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+          message: "I’ll bring some extra spades, but more are always welcome!",
+        },
+      ],
+    };
+
+    // ======================= Custom Theme =======================
+    const theme = createTheme({
+      palette: {
+        mode: 'light',
+        primary: { main: '#6d4c41' },
+        secondary: { main: '#8d6e63' },
+        background: { default: '#f5f5f5' },
+      },
+      typography: {
+        fontFamily: 'Montserrat, sans-serif',
+        h4: {
+          fontFamily: 'Playfair Display, serif',
+          fontWeight: 700,
+          fontSize: '2.5rem',
+        },
+        h5: {
+          fontSize: '2rem',
+          fontWeight: 700,
+        },
+        body1: {
+          fontSize: '1.2rem',
+        },
+      },
+      shape: {
+        borderRadius: 10,
+      },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: '20px',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              transition: '0.3s',
+            },
+          },
+        },
+        MuiAppBar: {
+          styleOverrides: {
+            root: {
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              transition: 'transform 0.3s',
+            },
+          },
+        },
+      },
+    });
+
+    // ======================= Main App =======================
+    function App() {
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box className="animatedBackground">
+            <NavigationBar eventData={myEvent} />
+            <EventProfilePage eventData={myEvent} />
+          </Box>
+        </ThemeProvider>
+      );
+    }
+
+    // ======================= Navigation Bar =======================
+    function NavigationBar({ eventData }) {
+      return (
+        <AppBar position="fixed">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 'bold', cursor: 'pointer' }}>
+              {eventData.title}
+            </Typography>
+            <Avatar src={eventData.organizerAvatar} />
+          </Toolbar>
+        </AppBar>
+      );
+    }
+
+    // ======================= EventProfilePage =======================
+    function EventProfilePage({ eventData }) {
+      const [currentTab, setCurrentTab] = React.useState(0);
+
+      // Modal State
+      const [modalOpen, setModalOpen] = React.useState(false);
+      const [modalData, setModalData] = React.useState(null);
+
+      const handleOpenModal = (data) => {
+        setModalData(data);
+        setModalOpen(true);
+      };
+      const handleCloseModal = () => {
+        setModalOpen(false);
+        setModalData(null);
+      };
+
+      // Tab Content
+      const renderTabContent = () => {
+        switch (currentTab) {
+          case 0: // Overview
+            return <OverviewTab overviewData={eventData.overviewData} eventData={eventData} />;
+          case 1: // Announcements
+            return <AnnouncementsTab data={eventData.announcements} onOpenModal={handleOpenModal} />;
+          case 2: // Schedule
+            return <ScheduleTab data={eventData.schedule} onOpenModal={handleOpenModal} />;
+          case 3: // Attendees
+            return <AttendeesTab data={eventData.attendees} onOpenModal={handleOpenModal} />;
+          case 4: // Tasks
+            return <TasksTab data={eventData.tasks} onOpenModal={handleOpenModal} />;
+          case 5: // Volunteers
+            return <VolunteersTab data={eventData.volunteers} onOpenModal={handleOpenModal} />;
+          case 6: // Chat
+            return <ChatTab initialMessages={eventData.chatMessages} />;
+          default:
+            return null;
+        }
+      };
+
+      return (
+        <Container maxWidth="md" sx={{ pb: 5 }}>
+          {/* Event Header */}
+          <Paper elevation={3} sx={{ mb: 2, p: 2, mt: 2 }}>
+            <HeaderSection eventData={eventData} />
+          </Paper>
+
+          {/* Tabs */}
+          <Tabs
+            value={currentTab}
+            onChange={(e, newVal) => setCurrentTab(newVal)}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ mb: 2, backgroundColor: '#ffffff', borderRadius: 1 }}
+          >
+            <Tab label="Overview" />
+            <Tab label="Announcements" />
+            <Tab label="Schedule" />
+            <Tab label="Attendees" />
+            <Tab label="Tasks" />
+            <Tab label="Volunteers" />
+            <Tab label="Chat" />
+          </Tabs>
+
+          {/* Tab Content */}
+          {renderTabContent()}
+
+          {/* Modal */}
+          <Modal
+            open={modalOpen}
+            onClose={handleCloseModal}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{ timeout: 500 }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          >
+            <Fade in={modalOpen}>
+              <Box className="modalContent">
+                {modalData && (
+                  <>
+                    <ModalDetails modalData={modalData} />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCloseModal}
+                      sx={{ mt: 2 }}
+                    >
+                      Close
+                    </Button>
+                  </>
+                )}
+              </Box>
+            </Fade>
+          </Modal>
+        </Container>
+      );
+    }
+
+    // ======================= Reusable Components for Event =======================
+
+    // ---- HeaderSection
+    function HeaderSection({ eventData }) {
+      return (
+        <Box>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <Avatar
+                src={eventData.bannerImage}
+                sx={{ width: 80, height: 80, borderRadius: 2 }}
+                variant="square"
+              />
+            </Grid>
+            <Grid item xs>
+              <Typography variant="h4">
+                {eventData.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {eventData.tagline}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                {eventData.dateRange} <br />
+                {eventData.location}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Avatar src={eventData.organizerAvatar} sx={{ width: 56, height: 56 }} />
+            </Grid>
+          </Grid>
+
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              {eventData.shortOverview}
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              {eventData.biggerDescription}
+            </Typography>
+            <Typography variant="body1" sx={{ fontStyle: 'italic' }}>
+              <strong>Tickets / RSVP:</strong>{" "}
+              {eventData.ticketInfo.instructions} <br />
+              <a href={eventData.ticketInfo.link} target="_blank" rel="noopener noreferrer">
+                {eventData.ticketInfo.link}
+              </a>
+            </Typography>
+          </Box>
+        </Box>
+      );
+    }
+
+    // ---- ModalDetails
+    function ModalDetails({ modalData }) {
+      return (
+        <>
+          {/* Title or Name */}
+          {(modalData.title || modalData.task || modalData.name) && (
+            <Typography id="modal-title" variant="h5" sx={{ mb: 2 }}>
+              {modalData.title || modalData.task || modalData.name}
+            </Typography>
+          )}
+
+          {/* Possibly an image or some relevant data */}
+          {modalData.bannerImage && (
+            <img
+              src={modalData.bannerImage}
+              alt={modalData.title || "Modal Image"}
+              style={{ width: '100%', borderRadius: '8px', marginBottom: '1rem' }}
+            />
+          )}
+
+          <Typography id="modal-description" sx={{ mb: 2 }}>
+            {modalData.poster && <><strong>Posted by:</strong> {modalData.poster}<br /><br /></>}
+            {modalData.content && <><strong>Content:</strong> {modalData.content}<br /><br /></>}
+            {modalData.description && <><strong>Description:</strong> {modalData.description}<br /><br /></>}
+            {modalData.time && <><strong>Time:</strong> {modalData.time}<br /><br /></>}
+            {modalData.bio && <><strong>Bio:</strong> {modalData.bio}<br /><br /></>}
+            {modalData.points !== undefined && <><strong>Points:</strong> {modalData.points}<br /></>}
+          </Typography>
+        </>
+      );
+    }
+
+    // ---- OverviewTab
+    function OverviewTab({ overviewData, eventData }) {
+      return (
+        <Paper elevation={2} sx={{ p: 2, mb: 2 }}>
+          <Typography variant="h5" sx={{ mb: 2 }}>
+            Overview
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4 }}>
+            {overviewData.details}
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Event Page:</strong>{" "}
+            <a href={overviewData.website} target="_blank" rel="noreferrer">
+              {overviewData.website}
+            </a>
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 1 }}>
+            <strong>Contact Email:</strong> {overviewData.contactEmail}
+          </Typography>
+        </Paper>
+      );
+    }
+
+    // ---- AnnouncementsTab
+    function AnnouncementsTab({ data, onOpenModal }) {
+      return (
+        <Grid container spacing={2}>
+          {data.map((announcement) => (
+            <Grid item xs={12} sm={6} md={4} key={announcement.id}>
+              <Card
+                onClick={() => onOpenModal(announcement)}
+                sx={{ cursor: 'pointer', height: '100%' }}
+              >
+                <CardContent>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
+                    {announcement.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    {announcement.poster} — {announcement.date}
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    {announcement.content.slice(0, 60)}...
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    // ---- ScheduleTab
+    function ScheduleTab({ data, onOpenModal }) {
+      return (
+        <Grid container spacing={2}>
+          {data.map((sch) => (
+            <Grid item xs={12} key={sch.id}>
+              <Paper
+                variant="outlined"
+                sx={{ p: 2, cursor: 'pointer' }}
+                onClick={() => onOpenModal(sch)}
+              >
+                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                  {sch.time} — {sch.title}
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 1 }}>
+                  {sch.description}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    // ---- AttendeesTab
+    function AttendeesTab({ data, onOpenModal }) {
+      return (
+        <Grid container spacing={2}>
+          {data.map((att) => (
+            <Grid item xs={12} sm={6} md={4} key={att.id}>
+              <Card
+                onClick={() => onOpenModal(att)}
+                sx={{ cursor: 'pointer', height: '100%' }}
+              >
+                <CardContent>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Avatar src={att.avatar} sx={{ width: 50, height: 50, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                        {att.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {att.role}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    // ---- TasksTab
+    function TasksTab({ data, onOpenModal }) {
+      return (
+        <Box>
+          <Typography variant="h5" sx={{ mb: 2 }}>Tasks</Typography>
+          <Box sx={{ p: 2, backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: 1 }}>
+            {data.map((taskItem) => (
+              <Box
+                key={taskItem.id}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  mb: 2,
+                  p: 1,
+                  border: '1px solid #d9d9d9',
+                  borderRadius: '10px',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Checkbox
+                    color="primary"
+                    onChange={() => alert(`Task "${taskItem.task}" marked as completed!`)}
+                  />
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {taskItem.task}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {taskItem.points} points
+                    </Typography>
+                    <Typography variant="body1">
+                      {taskItem.description}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => onOpenModal(taskItem)}
+                >
+                  Details
+                </Button>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      );
+    }
+
+    // ---- VolunteersTab
+    function VolunteersTab({ data, onOpenModal }) {
+      return (
+        <Grid container spacing={2}>
+          {data.map((vol) => (
+            <Grid item xs={12} sm={6} md={4} key={vol.id}>
+              <Card
+                onClick={() => onOpenModal(vol)}
+                sx={{ cursor: 'pointer', height: '100%' }}
+              >
+                <CardContent>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Avatar src={vol.avatar} sx={{ width: 50, height: 50, mr: 2 }} />
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 0.5 }}>
+                        {vol.name}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Typography variant="body1">
+                    {vol.bio}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    // ---- ChatTab
+    function ChatTab({ initialMessages }) {
+      const [messages, setMessages] = React.useState(initialMessages || []);
+      const [newMessage, setNewMessage] = React.useState("");
+
+      const handleSendMessage = () => {
+        if (newMessage.trim() === "") return;
+
+        const newChatMessage = {
+          id: messages.length + 1,
+          sender: "You",
+          avatar: "https://via.placeholder.com/40?text=You",
+          message: newMessage,
+        };
+
+        setMessages([...messages, newChatMessage]);
+        setNewMessage("");
+      };
+
+      return (
+        <Box>
+          <Box className="chatContainer">
+            {messages.map((msg) => (
+              <Box key={msg.id} className="chatMessage">
+                <img
+                  src={msg.avatar}
+                  alt={`${msg.sender} avatar`}
+                  className="avatar"
+                />
+                <Box className="bubble">
+                  <Typography variant="body1">
+                    <strong>{msg.sender}:</strong> {msg.message}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+          <Box className="chatInputContainer">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className="chatInput"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+            />
+            <button className="chatSendButton" onClick={handleSendMessage}>
+              Send
+            </button>
+          </Box>
+        </Box>
+      );
+    }
+
+    // ======================= Render the App =======================
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
