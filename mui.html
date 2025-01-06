@@ -2055,10 +2055,26 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
 
     function DownloadAppPage() {
       const [openModal, setOpenModal] = React.useState(false);
-
+    
       const handleOpen = () => setOpenModal(true);
       const handleClose = () => setOpenModal(false);
-
+    
+      const handleRedirect = () => {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+        if (/android/i.test(userAgent)) {
+          // Redirect to Android App link
+          window.location.href =
+            'https://play.google.com/store/apps/details?id=com.onelocal.app';
+        } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          // Redirect to iOS App link
+          window.location.href = 'https://apps.apple.com/app/id1234567890';
+        } else {
+          // Redirect to web app or info page
+          window.location.href = 'https://app.onelocal.one';
+        }
+      };
+    
       return (
         <Container sx={{ py: 12, minHeight: '100vh', textAlign: 'center' }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 8 }}>
@@ -2067,7 +2083,12 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
           <Typography variant="h5" sx={{ mb: 8 }}>
             Step in, the door is open.
           </Typography>
-          <Button variant="contained" color="primary" size="large" onClick={handleOpen}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={handleRedirect}
+          >
             Get the App Now
           </Button>
           <Modal
@@ -2081,7 +2102,12 @@ And the best part? You don’t have to do it alone. Collaboration isn’t just a
           >
             <Fade in={openModal}>
               <Box className="modalContent">
-                <Typography id="download-app-modal-title" variant="h5" component="h2" sx={{ mb: 2 }}>
+                <Typography
+                  id="download-app-modal-title"
+                  variant="h5"
+                  component="h2"
+                  sx={{ mb: 2 }}
+                >
                   Thank You for Your Interest!
                 </Typography>
                 <Typography id="download-app-modal-description" sx={{ mb: 4 }}>
