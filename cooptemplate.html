@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Co-op Docs Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 300px;
+      border-right: 1px solid #ccc;
+      padding: 20px;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      box-sizing: border-box;
+    }
+    .template-output {
+      white-space: pre-wrap; 
+      background: #f8f8f8; 
+      padding: 10px; 
+      border-radius: 6px; 
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 40px;
+      font-size: 1.25rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- React & Babel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function App() {
+      // We'll store the user inputs in state
+      const [placeholders, setPlaceholders] = React.useState({
+        cooperativeName: 'My Great Co-op',
+        stateName: 'Colorado',
+        boardSize: '5',
+        membershipFee: '$22/month',
+        stewardSharePrice: '$1',
+        totalStewardShares: '10000000',
+        maxOwnership: '5%',
+        userSecretary: 'Alice Smith',
+        userTreasurer: 'Bob Jones'
+      });
+
+      // Handler to update placeholders from form inputs
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPlaceholders((prev) => ({ ...prev, [name]: value }));
+      };
+
+      // Template: Bylaws
+      const bylawsTemplate = `
+# ${placeholders.cooperativeName} 
+A Multi-Stakeholder Public-Benefit Cooperative
+
+## Article I: Name & Purpose
+1. **Name**  
+   The name of the cooperative is ${placeholders.cooperativeName}, organized under the laws of ${placeholders.stateName}.
+2. **Purpose**  
+   - Operate as a public-benefit, multi-stakeholder cooperative.
+   - Conduct any lawful activity in line with its Articles of Incorporation.
+
+## Article II: Membership
+1. **Membership Classes**  
+   - General Members
+   - Chapter Members
+   - Steward Members
+2. **Qualifications**  
+   - Any person/entity over 18 that supports the mission can join by signing a Membership Agreement, paying required fees (${placeholders.membershipFee}), etc.
+
+## Article III: Governance & Meetings
+1. **Board of Directors**  
+   - The Board shall have ${placeholders.boardSize} Directors. 
+2. **Officers**  
+   - Required: President, Secretary, Treasurer. For example:
+     - Secretary: ${placeholders.userSecretary}
+     - Treasurer: ${placeholders.userTreasurer}
+3. **Meetings & Decision-Making**
+   - Annual meeting on a set date.
+   - Quorum is [some %] of Directors or Members.
+   - Major decisions might require supermajority.
+
+## Article IV: Surplus & Patronage
+- Surplus distribution might allocate a portion to Patron Members, Chapter Members, and Stewards.
+
+## Article V: Termination & Expulsion
+- The Board may expel a Member for cause.
+
+## Article VI: Records & Inspection
+- The Co-op keeps proper records. Members may inspect them for a proper purpose.
+
+## Article VII: Dissolution
+- After debts/capital returns, any leftover assets go to Members based on shares/patronage.
+
+## Article VIII: Amendments
+- Board may propose changes; major changes may require Member approval.
+
+## Article IX: Disclaimers
+- No guaranteed returns. Potential securities laws apply to Steward Shares. 
+- Forward-looking statements are aspirational only.
+
+(End of Bylaws for ${placeholders.cooperativeName})
+`;
+
+      // Template: General Membership Agreement
+      const generalMembership = `
+# ${placeholders.cooperativeName}
+General Membership Agreement
+
+1. **Parties**
+   - This Agreement is between ${placeholders.cooperativeName} ("Cooperative") and [MEMBER_NAME] ("Member").
+
+2. **Membership Status**
+   - Member is admitted as a General Member upon paying the required fee (${placeholders.membershipFee}) and signing.
+
+3. **Rights & Responsibilities**
+   - One vote on matters submitted to membership.
+   - Must abide by the Co-op's Bylaws.
+
+4. **Termination**
+   - Member may resign at any time by notice.
+   - The Board may terminate membership under the Bylaws.
+
+5. **Acknowledgment**
+   - Member acknowledges disclaimers: no guaranteed return, forward-looking statements, possible securities laws for certain share classes.
+
+(Signatures)
+`;
+
+      // Template: Steward Membership Agreement
+      const stewardMembership = `
+# ${placeholders.cooperativeName}
+Steward Membership Agreement
+
+1. **Parties**
+   - ${placeholders.cooperativeName} ("Cooperative") and [STEWARD_NAME] ("Steward Member").
+
+2. **Purchase of Steward Shares**
+   - Price: ${placeholders.stewardSharePrice} per share.
+   - Total authorized steward shares: ${placeholders.totalStewardShares}.
+   - Max ownership per user: ${placeholders.maxOwnership}.
+
+3. **Rights & Distributions**
+   - One vote total, regardless of share quantity.
+   - Share in net profits allocated to Stewards, if any (not guaranteed).
+
+4. **Transfer & Redemption**
+   - Non-transferable, except under Bylaws. 
+   - Cooperative may repurchase shares at par or a Board formula upon withdrawal.
+
+5. **Disclaimers & Securities Notice**
+   - No guaranteed return. 
+   - Potential securities law. 
+   - Forward-looking statements are not assurances.
+
+(Signatures)
+`;
+
+      // Template: Chapter Membership
+      const chapterMembership = `
+# ${placeholders.cooperativeName}
+Chapter Membership Agreement
+
+1. **Parties**
+   - ${placeholders.cooperativeName} ("Cooperative") and [CHAPTER_NAME] ("Chapter").
+
+2. **Recognition**
+   - Chapter is an official local entity aligned with the Co-op's mission.
+
+3. **Dues & Financial Arrangements**
+   - Chapter pays monthly/annual dues. 
+   - May receive portion of fees in their region.
+
+4. **Governance**
+   - One vote for the Chapter, via designated rep.
+   - Must follow Bylaws and policies.
+
+5. **Termination**
+   - Chapter may withdraw; Board may terminate status for cause.
+
+6. **Disclaimer**
+   - No guaranteed returns. Forward-looking is aspirational.
+
+(Signatures)
+`;
+
+      return (
+        <div style={{ display: 'flex', width: '100%' }}>
+          {/* Sidebar Form */}
+          <div className="sidebar">
+            <h2>Co-op Parameters</h2>
+            <label>Co-op Name</label>
+            <input
+              name="cooperativeName"
+              value={placeholders.cooperativeName}
+              onChange={handleChange}
+            />
+
+            <label>State of Formation</label>
+            <input
+              name="stateName"
+              value={placeholders.stateName}
+              onChange={handleChange}
+            />
+
+            <label>Board Size</label>
+            <input
+              name="boardSize"
+              value={placeholders.boardSize}
+              onChange={handleChange}
+              type="number"
+            />
+
+            <label>Monthly Membership Fee</label>
+            <input
+              name="membershipFee"
+              value={placeholders.membershipFee}
+              onChange={handleChange}
+            />
+
+            <label>Secretary</label>
+            <input
+              name="userSecretary"
+              value={placeholders.userSecretary}
+              onChange={handleChange}
+            />
+
+            <label>Treasurer</label>
+            <input
+              name="userTreasurer"
+              value={placeholders.userTreasurer}
+              onChange={handleChange}
+            />
+
+            <label>Steward Share Price</label>
+            <input
+              name="stewardSharePrice"
+              value={placeholders.stewardSharePrice}
+              onChange={handleChange}
+            />
+
+            <label>Total Steward Shares</label>
+            <input
+              name="totalStewardShares"
+              value={placeholders.totalStewardShares}
+              onChange={handleChange}
+            />
+
+            <label>Max Ownership %</label>
+            <input
+              name="maxOwnership"
+              value={placeholders.maxOwnership}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Main Content */}
+          <div className="main">
+            <h1>Live Preview of Documents</h1>
+
+            <h2>Bylaws</h2>
+            <div className="template-output">{bylawsTemplate}</div>
+
+            <h2>General Membership Agreement</h2>
+            <div className="template-output">{generalMembership}</div>
+
+            <h2>Steward Membership Agreement</h2>
+            <div className="template-output">{stewardMembership}</div>
+
+            <h2>Chapter Membership Agreement</h2>
+            <div className="template-output">{chapterMembership}</div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
