@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tabbed Co-op Docs Generator</title>
+  <title>Tabbed Co-op Docs with General, Patron, and Steward</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  
   <!-- Inter Font -->
- <link href="https://fonts.googleapis.com/css2?family=Pontano+Sans:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -14,20 +14,26 @@
       font-family: 'Inter', sans-serif;
       display: flex;
       min-height: 100vh;
+      background: #fdfdfd;
+      color: #222;
     }
+
+    /* Sidebar */
     .sidebar {
       width: 360px;
       border-right: 1px solid #ccc;
       padding: 20px;
-      background: #fefefe;
+      background: #fafafa;
       overflow-y: auto;
     }
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: #ffffff;
+
+    .sidebar h1 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
     }
+
+    /* Form elements */
     label {
       font-weight: 600;
       display: block;
@@ -36,14 +42,28 @@
     }
     input, select, textarea {
       width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
       padding: 8px;
       margin-bottom: 8px;
       box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
+
+    /* Main container with tabs */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    /* Tabs at top of main area */
     .tabs {
       display: flex;
       border-bottom: 1px solid #ccc;
-      background: #fafafa;
+      background: #f8f8f8;
     }
     .tab {
       padding: 12px 16px;
@@ -51,44 +71,55 @@
       border-right: 1px solid #ccc;
       font-weight: 500;
       transition: background 0.2s;
+      font-size: 14px;
     }
     .tab.active {
-      background: #fff;
+      background: #ffffff;
       border-bottom: 2px solid #333;
     }
     .tab:hover {
       background: #f0f0f0;
     }
+
+    /* Tab content styling */
     .tab-content {
       flex: 1;
       padding: 20px;
       overflow-y: auto;
     }
-    .template-output {
-      white-space: pre-wrap; 
-      background: #f9f9f9; 
-      padding: 10px; 
-      border-radius: 6px; 
-      font-family: monospace;
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-top: 12px;
-    }
-    h2 {
+    .tab-content h2 {
       margin-top: 0;
       margin-bottom: 16px;
       font-size: 1.25rem;
       border-bottom: 1px solid #ddd;
       padding-bottom: 8px;
     }
-    h1 {
-      margin-bottom: 1rem;
+    
+    /* Template output area */
+    .template-output {
+      white-space: pre-wrap; 
+      background: #f9f9f9; 
+      padding: 16px; 
+      border-radius: 6px; 
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-top: 12px;
+      color: #333;
     }
+
+    /* Distribution warning */
     .warning {
       color: #b00020;
       font-size: 0.9rem;
       margin: 4px 0 0 0;
       font-weight: 600;
+    }
+
+    hr {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      margin: 16px 0;
     }
   </style>
 </head>
@@ -108,7 +139,7 @@
         cooperativeName: 'ONE Local Co-op',
         coopEntityType: 'Public Benefit Corporation',
         stateOfFormation: 'Colorado',
-        missionStatement: 'Local community empowerment and equitable resource sharing.',
+        missionStatement: 'Fostering equitable resource sharing and local resilience.',
         registeredAgent: '',
         boardSize: '5',
         boardDirectorNames: 'Director One\nDirector Two',
@@ -119,26 +150,25 @@
         voteThreshold: '75%',
         fiscalYearEnd: 'December 31',
 
-        // Patron Class fields
+        // Distribution fields
+        generalDistPercent: '0',
+        patronDistPercent: '25',
+        stewardDistPercent: '25',
+
+        // Patron
         patronClassName: 'Patron Member',
         patronFee: '$22/month',
-        productScope: 'Offer products or services via co-op platform.',
+        productScope: 'Sell or promote products/services via the co-op platform.',
         inAppPayoutDetails: 'Stripe Connect (intrastate only), multi-sig for large withdrawals.',
-        
-        // Distribution fields
-        patronDistPercent: '25',  // default 25% to Patrons
-        generalMemberDistPercent: '0', // in case you want to allocate some % to General
-        stewardDistPercent: '25',  // default 25% to Stewards
-        // total membership distribution => sum of above must be at least 50
+        patronDistributionTerms: 'Allocated proportionally based on fees each Patron’s activity generates.',
 
-        // Extended text
-        patronDistributionTerms: 'Allocated proportionally based on fees each Patron generated.',
+        // Steward
         totalStewardShares: '10000000',
         stewardSharePrice: '$1',
         maxOwnership: '5%',
         stewardDistribution: 'Pro-rata among Stewards by shares held.',
         stewardAllocationsInitial: 'John Doe: 5,000 shares\nJane Austin: 20,000 shares',
-        futureMilestoneLogic: 'If 100x ROI is hit, co-op may mint an additional 90 million shares.',
+        futureMilestoneLogic: 'If 100x ROI is reached, co-op may mint an additional 90 million shares.',
 
         // Officers
         secretaryName: 'User 1 (Secretary)',
@@ -149,10 +179,10 @@
         disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
 • No formal "Form 147A" is filed with the SEC. The exemption is self-executing if all conditions are met.
 • Sales must be limited to in-state residents; at least 80% of business in-state.
-• Transfer restrictions apply (6 months for out-of-state resale).
+• Transfer restrictions apply (6 months min before out-of-state resale).
 • Also consider Colorado state exemptions (C.R.S. §§ 11-51-101 et seq.).
-• Co-op membership carries no guaranteed return. Surplus depends on actual net profit.
-• Please consult an attorney to confirm compliance with relevant securities laws.`
+• No guaranteed returns. Surplus depends on net profit.
+• Consult an attorney for compliance with relevant securities laws.`
       });
 
       const [activeTab, setActiveTab] = React.useState('articles'); // default tab
@@ -164,17 +194,17 @@
       };
 
       // Convert distribution inputs to numbers
+      const generalDistNum = parseFloat(formData.generalDistPercent) || 0;
       const patronDistNum = parseFloat(formData.patronDistPercent) || 0;
-      const generalMemberDistNum = parseFloat(formData.generalMemberDistPercent) || 0;
       const stewardDistNum = parseFloat(formData.stewardDistPercent) || 0;
 
       // Validate that total membership distribution is >= 50
-      const membershipTotal = patronDistNum + generalMemberDistNum + stewardDistNum;
+      const membershipTotal = generalDistNum + patronDistNum + stewardDistNum;
       const distributionWarning = membershipTotal < 50
         ? `Warning: Current membership distribution total is ${membershipTotal}%. It must be at least 50%.`
         : '';
 
-      // 1. ARTICLES
+      // 1. Articles of Incorporation
       const articlesTemplate = `
 ARTICLES OF INCORPORATION
 (for a ${formData.coopEntityType} in ${formData.stateOfFormation})
@@ -210,7 +240,7 @@ ARTICLES OF INCORPORATION
 ${formData.disclaimers}
 `;
 
-      // 2. BYLAWS
+      // 2. Bylaws
       const bylawsTemplate = `
 BYLAWS OF ${formData.cooperativeName}
 
@@ -224,63 +254,71 @@ BYLAWS OF ${formData.cooperativeName}
        • General Members
        • ${formData.patronClassName}
        • Steward Members
-   2.2 Membership Fee: ${formData.membershipFee} (adjustable by Board).
-   2.3 Acceptance & Transfer: Subject to Board approval.
-       Membership is non-transferable except as stated in these Bylaws.
+   2.2 Membership Fee: ${formData.membershipFee} (may be adjusted by Board).
+   2.3 Acceptance & Transfer: Subject to Board approval. Membership is non-transferable
+       except as stated in these Bylaws.
 
 3. BOARD OF DIRECTORS
-   3.1 Size: The Board consists of ${formData.boardSize} directors (or as
-       established by the Co-op).
-   3.2 Officers: Must include Secretary (${formData.secretaryName}) and Treasurer (${formData.treasurerName}).
+   3.1 Size: The Board consists of ${formData.boardSize} directors (or as set
+       by the Co-op).
+   3.2 Officers: Must include Secretary (${formData.secretaryName}) and Treasurer (${formData.treasurerName}), 
+       plus any other roles designated by the Board.
    3.3 Meetings: Annual & special. Notice given to all directors.
-   3.4 Quorum: ${formData.quorumRequirement} of directors or members, with
-       major decisions requiring ${formData.voteThreshold}.
+   3.4 Quorum: ${formData.quorumRequirement}% of directors or members; major decisions need
+       ${formData.voteThreshold}% approval (unless otherwise stated in these Bylaws).
 
 4. FISCAL & SURPLUS
    4.1 Fiscal Year End: ${formData.fiscalYearEnd}.
-   4.2 Net Surplus:
-       After paying all operating expenses, reserving capital,
-       and fulfilling any other obligations, the Board shall determine the net surplus.
+   4.2 Determination of Surplus:
+       The Board shall determine the net surplus after paying expenses, reserving capital,
+       and fulfilling other obligations.
    4.3 Distribution Policy:
-       (a) **Patron Members**: ${formData.patronDistPercent}% of net surplus allocated among Patron Members
-           based on the fees or revenue each Patron's activity generated.
-       (b) **General Members**: ${formData.generalMemberDistPercent}% of net surplus, if any, as determined by
-           the Board in a manner consistent with their usage or membership role.
+       (a) **General Members**: ${formData.generalDistPercent}% of net surplus allocated among
+           General Members as determined by their participation level or usage, if any.
+       (b) **${formData.patronClassName}**: ${formData.patronDistPercent}% of net surplus allocated among
+           Patron Members, based on the fees or revenue each Patron's activity generated.
        (c) **Steward Members**: ${formData.stewardDistPercent}% of net surplus allocated among Stewards
            pro rata by shares held.
-       (d) **Total to Membership**: Patron + General + Steward distributions shall never be less than 50% in aggregate.
+       (d) **Minimum Total to Membership**: General + Patron + Steward distributions shall
+           never be less than 50% in aggregate.
        (e) **Remaining Surplus**:
-           The Board may allocate any remainder to reserves, expansions,
+           The Board may allocate any remainder to co-op reserves, expansions,
            or other Co-op initiatives.
    4.4 No Guarantee of Distribution:
-       The actual amount of net surplus (if any) depends on the Cooperative's performance.
+       Actual net surplus and distribution depend on the Cooperative's performance.
 
-5. PATRON MEMBERS
-   5.1 Fee: ${formData.patronFee}
-   5.2 Scope of Activity: ${formData.productScope}
-   5.3 In-App Tracking/Payout: ${formData.inAppPayoutDetails}
+5. GENERAL MEMBERS
+   5.1 Scope: General Members have a single vote if designated by the Board or Bylaws,
+       but typically do not engage in Patron or Steward activities.
+   5.2 Fee: Included in the standard membership fee or as determined by Board policy.
 
-6. STEWARD MEMBERS
-   6.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
-   6.2 Max Ownership: ${formData.maxOwnership}
-   6.3 Distribution: ${formData.stewardDistribution}
-   6.4 Future Milestones: ${formData.futureMilestoneLogic}
-   6.5 Initial Allocations:
+6. PATRON MEMBERS
+   6.1 Fee: ${formData.patronFee}
+   6.2 Scope of Activity: ${formData.productScope}
+   6.3 In-App Tracking/Payout: ${formData.inAppPayoutDetails}
+   6.4 Distribution Terms: ${formData.patronDistributionTerms}
+
+7. STEWARD MEMBERS
+   7.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
+   7.2 Max Ownership: ${formData.maxOwnership} per individual/entity.
+   7.3 Distribution: ${formData.stewardDistribution}
+   7.4 Future Milestones: ${formData.futureMilestoneLogic}
+   7.5 Initial Allocations:
        ${formData.stewardAllocationsInitial}
 
-7. TERMINATION & EXPULSION
-   7.1 Voluntary: A Member may resign by written notice.
-   7.2 Expulsion: The Board may expel for lawful reasons after notice/opportunity to respond.
+8. TERMINATION & EXPULSION
+   8.1 Voluntary: A Member may resign by providing written notice.
+   8.2 Expulsion: The Board may expel for lawful reasons, following notice and an opportunity to respond.
 
-8. DISSOLUTION
-   After debts & returning member equity, any leftover assets are distributed among
-   membership classes or patrons in line with these Bylaws.
+9. DISSOLUTION
+   After debts & returning member equity, leftover assets are distributed among
+   membership classes or patrons in accordance with these Bylaws.
 
-9. AMENDMENTS
+10. AMENDMENTS
    The Board or membership (if required) can amend these Bylaws following the procedures
-   set herein.
+   set forth herein.
 
-10. DISCLAIMERS & EXEMPTIONS
+11. DISCLAIMERS & EXEMPTIONS
 ${formData.disclaimers}
 `;
 
@@ -294,25 +332,25 @@ PATRON MEMBERSHIP AGREEMENT
    The Member: [PATRON_NAME]
 
 2. CLASS & FEE
-   The Member joins as a "${formData.patronClassName}" upon paying ${formData.patronFee}
+   Member joins as a "${formData.patronClassName}" upon paying ${formData.patronFee}
    and signing this Agreement.
 
 3. RIGHTS & OBLIGATIONS
-   • May have voting rights if granted by Bylaws for Patron Class.
-   • May sell products or services via the Co-op: ${formData.productScope}
-   • Must abide by Bylaws & policies, maintain good standing.
+   - May have voting rights if granted by Bylaws.
+   - May engage in the co-op platform to ${formData.productScope}
+   - Must abide by Bylaws, policies, and maintain good standing.
 
 4. PATRONAGE SURPLUS ALLOCATION
-   • Per the Bylaws, ${formData.patronDistPercent}% of net surplus is allocated to Patron Members.
-   • ${formData.patronDistributionTerms}
-   • No guaranteed return; actual surplus depends on the Co-op’s net income after expenses.
+   - Per the Bylaws, ${formData.patronDistPercent}% of net surplus is allocated to Patron Members.
+   - ${formData.patronDistributionTerms}
+   - No guaranteed return; actual surplus depends on net income after expenses.
 
 5. IN-APP TRACKING & PAYOUT
    ${formData.inAppPayoutDetails}
 
 6. TERMINATION
-   • Member may withdraw with written notice to the Secretary.
-   • The Board may expel for reasons under the Bylaws (e.g., non-payment, misconduct).
+   - Member may withdraw by written notice.
+   - Board may expel if warranted under the Bylaws.
 
 7. DISCLAIMER
 ${formData.disclaimers}
@@ -333,30 +371,30 @@ STEWARD MEMBERSHIP AGREEMENT
    The Steward: [STEWARD_NAME]
 
 2. STEWARD SHARES
-   • Total authorized: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each.
-   • Max ownership: ${formData.maxOwnership}.
-   • Initial allocations (example):
+   - Total authorized: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each.
+   - Max ownership: ${formData.maxOwnership}.
+   - Initial allocations (example):
        ${formData.stewardAllocationsInitial}
 
 3. DISTRIBUTION OF SURPLUS
-   • Per the Bylaws, ${formData.stewardDistPercent}% of net surplus is allocated among Stewards
+   - Per the Bylaws, ${formData.stewardDistPercent}% of net surplus is allocated among Stewards,
      pro rata by shares held.
-   • ${formData.stewardDistribution}
-   • No guaranteed ROI. Surplus is contingent on actual net profit.
+   - ${formData.stewardDistribution}
+   - No guaranteed ROI. Surpluses depend on actual net profits.
 
 4. FUTURE MILESTONES
-   • ${formData.futureMilestoneLogic}
+   - ${formData.futureMilestoneLogic}
 
 5. TRANSFER & REDEMPTION
-   • Steward Shares are non-transferable except as allowed by the Bylaws.
-   • The Co-op may repurchase or redeem shares at par/book value if a Steward withdraws
-     or is expelled, per Board policy.
+   - Steward Shares are non-transferable except as allowed by the Bylaws.
+   - The Co-op may repurchase shares at par/book value upon withdrawal or expulsion,
+     as set by Board policy.
 
 6. TERMINATION
-   • Steward may resign by written notice. 
-   • Board may expel Stewards for lawful reason, with due process under Bylaws.
+   - A Steward may withdraw via written notice.
+   - Board may expel for lawful reasons, with due process.
 
-7. DISCLAIMERS & SEC EXEMPTIONS
+7. DISCLAIMERS & EXEMPTIONS
 ${formData.disclaimers}
 
 Signatures:
@@ -375,6 +413,7 @@ Date: __________
         );
       }
 
+      // Define the tabs
       const TABS = [
         { key: 'articles', label: 'Articles of Incorporation', content: articlesTemplate },
         { key: 'bylaws', label: 'Bylaws', content: bylawsTemplate },
@@ -386,12 +425,11 @@ Date: __________
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar Form */}
           <div className="sidebar">
-            <h1>Tabbed Co-op Docs</h1>
-
-            {/* Distribution Warning if membership < 50% */}
-            { distributionWarning && 
+            <h1>Co-op Docs Generator</h1>
+            
+            {distributionWarning && (
               <div className="warning">{distributionWarning}</div>
-            }
+            )}
 
             <label>Cooperative Name:</label>
             <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
@@ -419,23 +457,41 @@ Date: __________
             <label>Membership Fee (Bylaws):</label>
             <input name="membershipFee" value={formData.membershipFee} onChange={handleChange} />
 
-            <label>Quorum Requirement:</label>
+            <label>Quorum Requirement (%):</label>
             <input name="quorumRequirement" value={formData.quorumRequirement} onChange={handleChange} />
 
-            <label>Vote Threshold (Major Decisions):</label>
+            <label>Vote Threshold (%):</label>
             <input name="voteThreshold" value={formData.voteThreshold} onChange={handleChange} />
 
             <label>Fiscal Year End:</label>
             <input name="fiscalYearEnd" value={formData.fiscalYearEnd} onChange={handleChange} />
 
             <hr />
-            <h3>Membership Distribution Percentages</h3>
-            <label>Patron Distribution %</label>
-            <input name="patronDistPercent" value={formData.patronDistPercent} onChange={handleChange} type="number" />
-            <label>General Member Distribution %</label>
-            <input name="generalMemberDistPercent" value={formData.generalMemberDistPercent} onChange={handleChange} type="number" />
-            <label>Steward Distribution %</label>
-            <input name="stewardDistPercent" value={formData.stewardDistPercent} onChange={handleChange} type="number" />
+
+            <h3>Membership Distribution %</h3>
+            <label>General Members %</label>
+            <input
+              name="generalDistPercent"
+              value={formData.generalDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
+
+            <label>Patron Members %</label>
+            <input
+              name="patronDistPercent"
+              value={formData.patronDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
+
+            <label>Steward Members %</label>
+            <input
+              name="stewardDistPercent"
+              value={formData.stewardDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
 
             <hr />
 
@@ -452,7 +508,7 @@ Date: __________
             <label>In-App Payout Details:</label>
             <textarea name="inAppPayoutDetails" rows="2" value={formData.inAppPayoutDetails} onChange={handleChange} />
 
-            <label>Patron Distribution Terms (Text):</label>
+            <label>Patron Distribution Terms (text):</label>
             <textarea name="patronDistributionTerms" rows="2" value={formData.patronDistributionTerms} onChange={handleChange} />
 
             <hr />
@@ -490,10 +546,10 @@ Date: __________
             <hr />
 
             <label>Disclaimers (includes 147A info):</label>
-            <textarea name="disclaimers" rows="8" value={formData.disclaimers} onChange={handleChange} />
+            <textarea name="disclaimers" rows="7" value={formData.disclaimers} onChange={handleChange} />
           </div>
 
-          {/* Main Content / Output with tabs */}
+          {/* Main content with tabs */}
           <div className="main">
             <div className="tabs">
               {TABS.map(t => (
