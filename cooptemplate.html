@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Co-op Docs Generator with Exemption Disclaimers</title>
+  <title>Complete Co-op Docs (Patron & Steward) with 147A Disclaimers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Inter Font -->
@@ -91,17 +91,17 @@
         // Patron Class fields
         patronClassName: 'Patron Member',
         patronFee: '$22/month',
-        patronDistributionTerms: 'Quarterly refund based on net product sales surplus.',
-        productScope: 'Offer products or services via the co-op platform.',
+        patronDistributionTerms: '25% of net surplus allocated to Patrons, proportionate to fees generated.',
+        productScope: 'Offer products or services via co-op platform.',
         inAppPayoutDetails: 'Stripe Connect (intrastate only), multi-sig for large withdrawals.',
 
         // Steward Class fields
         totalStewardShares: '10000000',
         stewardSharePrice: '$1',
         maxOwnership: '5%',
-        stewardDistribution: '25% of net profits allocated pro-rata by shares.',
+        stewardDistribution: '25% of net surplus allocated pro-rata by shares to Stewards.',
         stewardAllocationsInitial: 'John Doe: 5,000 shares\nJane Austin: 20,000 shares',
-        futureMilestoneLogic: 'If 100x ROI achieved, co-op may mint 90 million new shares.',
+        futureMilestoneLogic: 'If 100x ROI achieved, co-op may mint additional 90 million shares.',
 
         // Officers
         secretaryName: 'User 1 (Secretary)',
@@ -110,13 +110,12 @@
         
         // disclaimers
         disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
-• There is NO formal "Form 147A" to file with the SEC. The exemption is self-executing if all criteria are met.
-• Sales must be limited to in-state residents. The co-op must have its principal place of business in [STATE].
-• At least 80% of revenues, assets, and use-of-proceeds must be in-state, among other conditions.
-• Transfer restrictions: buyers cannot sell out-of-state for at least 6 months.
-• The co-op may need to notify or file an exemption form with [STATE] regulators (C.R.S. §§ 11-51-101 et seq.).
-• No Guarantee of Return: All forward-looking statements are aspirational only.
-• Consult an attorney to confirm compliance with Rule 147A or any other exemption.`
+• No formal "Form 147A" is filed with the SEC. The exemption is self-executing if all conditions are met.
+• Sales must be limited to in-state residents; at least 80% of business is in-state.
+• Transfer restrictions apply (6 months for out-of-state resale).
+• Also consider Colorado state exemptions (C.R.S. §§ 11-51-101 et seq.).
+• Co-op membership carries no guaranteed return. Surplus depends on actual net profit.
+• Please consult an attorney to confirm compliance with relevant securities laws.`
       });
 
       const handleChange = (e) => {
@@ -188,34 +187,44 @@ BYLAWS OF ${formData.cooperativeName}
 
 4. FISCAL & SURPLUS
    4.1 Fiscal Year End: ${formData.fiscalYearEnd}.
-   4.2 Net Surplus Allocation:
-       - Patron Members: per their product/service usage
-       - Stewards: as further explained in Article 6
-       - Reserves: Board may allocate to co-op’s capital or expansions
+   4.2 Net Surplus:
+       After paying all operating expenses, reserving capital,
+       and fulfilling any other obligations, the Board shall determine the net surplus.
+   4.3 Distribution Policy:
+       (a) **Patron Members**: 
+           ${formData.patronDistributionTerms}
+           The exact patron share is based on the fees or revenue each Patron's activity generated.
+       (b) **Steward Members**: 
+           ${formData.stewardDistribution}
+           Allocated proportionally to shares held.
+       (c) **Total to Membership**: 
+           Patron + Steward distributions shall never be less than 50% in aggregate.
+       (d) **Remaining Surplus**:
+           The Board may allocate any remaining surplus to reserves, expansions,
+           or other Co-op initiatives.
 
 5. PATRON MEMBERS
    5.1 Fee: ${formData.patronFee}
-   5.2 Distribution Terms: ${formData.patronDistributionTerms}
+   5.2 Scope of Activity: ${formData.productScope}
    5.3 In-App Tracking/Payout: ${formData.inAppPayoutDetails}
 
 6. STEWARD MEMBERS
    6.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
    6.2 Max Ownership: ${formData.maxOwnership}
-   6.3 Steward Distribution: ${formData.stewardDistribution}
-   6.4 Future Milestones: ${formData.futureMilestoneLogic}
-   6.5 Initial Allocations:
+   6.3 Future Milestones: ${formData.futureMilestoneLogic}
+   6.4 Initial Allocations:
        ${formData.stewardAllocationsInitial}
 
 7. TERMINATION & EXPULSION
-   7.1 Voluntary: Member may resign by written notice.
-   7.2 Expulsion: Board can expel for lawful cause after notice/opportunity to respond.
+   7.1 Voluntary: A Member may resign by written notice.
+   7.2 Expulsion: The Board may expel for lawful reasons after notice/opportunity to respond.
 
 8. DISSOLUTION
-   After debts & returning member equity, surplus is distributed according to
-   membership class or patronage share, per these Bylaws.
+   After debts & returning member equity, any leftover assets are distributed among
+   membership classes or patrons in line with these Bylaws.
 
 9. AMENDMENTS
-   Board or membership (if required) can amend these Bylaws following the procedures
+   The Board or membership (if required) can amend these Bylaws following the procedures
    set herein.
 
 10. DISCLAIMERS & EXEMPTIONS
@@ -236,20 +245,21 @@ PATRON MEMBERSHIP AGREEMENT
    and signing this Agreement.
 
 3. RIGHTS & OBLIGATIONS
-   • One vote if granted by Bylaws for Patron Class.
-   • Access to co-op platform to ${formData.productScope}.
+   • May have voting rights if granted by Bylaws for Patron Class.
+   • May sell products or services via the Co-op: ${formData.productScope}
    • Must abide by Bylaws & policies, maintain good standing.
 
-4. PATRONAGE REFUND
-   • Surplus from Patron transactions is distributed: ${formData.patronDistributionTerms}
-   • Actual surplus depends on co-op’s net results. No guaranteed return.
+4. PATRONAGE SURPLUS ALLOCATION
+   • Per the Bylaws, **25%** of net surplus (or the portion assigned to Patrons) is allocated
+     among Patron Members based on the fees/revenues their activity generates.
+   • No guaranteed return; actual surplus depends on the Co-op’s net income after expenses.
 
 5. IN-APP TRACKING & PAYOUT
    ${formData.inAppPayoutDetails}
 
 6. TERMINATION
-   • Member may withdraw at any time with notice.
-   • Board may expel for reasons in the Bylaws.
+   • Member may withdraw with written notice to the Secretary.
+   • The Board may expel for reasons under the Bylaws (e.g., non-payment, misconduct).
 
 7. DISCLAIMER
 ${formData.disclaimers}
@@ -271,24 +281,28 @@ STEWARD MEMBERSHIP AGREEMENT
 
 2. STEWARD SHARES
    • Total authorized: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each.
-   • Max ownership: ${formData.maxOwnership}
-   • Initial allocations (example): 
+   • Max ownership: ${formData.maxOwnership}.
+   • Initial allocations (example):
        ${formData.stewardAllocationsInitial}
 
-3. DISTRIBUTIONS
-   • ${formData.stewardDistribution}
-   • Future expansions/milestones: ${formData.futureMilestoneLogic}
-   • No guaranteed ROI. Surpluses allocated only if co-op is profitable.
+3. DISTRIBUTION OF SURPLUS
+   • Per the Bylaws, **25%** of net surplus (or the portion designated to Stewards) 
+     is allocated among all Steward Members pro rata by shares held.
+   • No guaranteed ROI. Surplus is contingent on actual net profit.
 
-4. RESTRICTIONS
-   • Shares are non-transferable except as allowed by Bylaws.
-   • The co-op may repurchase or redeem shares per Board policy/BYLAWS.
+4. FUTURE MILESTONES
+   • ${formData.futureMilestoneLogic}
 
-5. TERMINATION
-   • Steward may withdraw with notice. 
-   • If membership ends, shares may be redeemed at par or book value (as set by Bylaws).
+5. TRANSFER & REDEMPTION
+   • Steward Shares are non-transferable except as allowed by the Bylaws.
+   • The Co-op may repurchase or redeem shares at par/book value if a Steward withdraws
+     or is expelled, per Board policy.
 
-6. DISCLAIMERS & EXEMPTIONS
+6. TERMINATION
+   • Steward may resign by written notice. 
+   • Board may expel Stewards for lawful reason, with due process under Bylaws.
+
+7. DISCLAIMERS & SEC EXEMPTIONS
 ${formData.disclaimers}
 
 Signatures:
@@ -301,7 +315,7 @@ Date: __________
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar Form */}
           <div className="sidebar">
-            <h1>Co-op Docs w/ 147A Disclaimers</h1>
+            <h1>Complete Co-op Docs Generator</h1>
 
             <label>Cooperative Name:</label>
             <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
