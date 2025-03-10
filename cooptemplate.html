@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Complete Co-op Docs (Patron & Steward) with 147A Disclaimers</title>
+  <title>Tabbed Co-op Docs Generator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Pontano+Sans:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -24,8 +24,8 @@
     }
     .main {
       flex: 1;
-      padding: 20px;
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
       background: #ffffff;
     }
     label {
@@ -40,24 +40,55 @@
       margin-bottom: 8px;
       box-sizing: border-box;
     }
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ccc;
+      background: #fafafa;
+    }
+    .tab {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-right: 1px solid #ccc;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .tab.active {
+      background: #fff;
+      border-bottom: 2px solid #333;
+    }
+    .tab:hover {
+      background: #f0f0f0;
+    }
+    .tab-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
     .template-output {
       white-space: pre-wrap; 
       background: #f9f9f9; 
       padding: 10px; 
       border-radius: 6px; 
-      margin-bottom: 24px;
       font-family: monospace;
       font-size: 0.9rem;
       line-height: 1.5;
+      margin-top: 12px;
     }
     h2 {
-      margin-top: 30px;
+      margin-top: 0;
+      margin-bottom: 16px;
       font-size: 1.25rem;
       border-bottom: 1px solid #ddd;
       padding-bottom: 8px;
     }
     h1 {
       margin-bottom: 1rem;
+    }
+    .warning {
+      color: #b00020;
+      font-size: 0.9rem;
+      margin: 4px 0 0 0;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -91,17 +122,23 @@
         // Patron Class fields
         patronClassName: 'Patron Member',
         patronFee: '$22/month',
-        patronDistributionTerms: '25% of net surplus allocated to Patrons, proportionate to fees generated.',
         productScope: 'Offer products or services via co-op platform.',
         inAppPayoutDetails: 'Stripe Connect (intrastate only), multi-sig for large withdrawals.',
+        
+        // Distribution fields
+        patronDistPercent: '25',  // default 25% to Patrons
+        generalMemberDistPercent: '0', // in case you want to allocate some % to General
+        stewardDistPercent: '25',  // default 25% to Stewards
+        // total membership distribution => sum of above must be at least 50
 
-        // Steward Class fields
+        // Extended text
+        patronDistributionTerms: 'Allocated proportionally based on fees each Patron generated.',
         totalStewardShares: '10000000',
         stewardSharePrice: '$1',
         maxOwnership: '5%',
-        stewardDistribution: '25% of net surplus allocated pro-rata by shares to Stewards.',
+        stewardDistribution: 'Pro-rata among Stewards by shares held.',
         stewardAllocationsInitial: 'John Doe: 5,000 shares\nJane Austin: 20,000 shares',
-        futureMilestoneLogic: 'If 100x ROI achieved, co-op may mint additional 90 million shares.',
+        futureMilestoneLogic: 'If 100x ROI is hit, co-op may mint an additional 90 million shares.',
 
         // Officers
         secretaryName: 'User 1 (Secretary)',
@@ -111,19 +148,33 @@
         // disclaimers
         disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
 • No formal "Form 147A" is filed with the SEC. The exemption is self-executing if all conditions are met.
-• Sales must be limited to in-state residents; at least 80% of business is in-state.
+• Sales must be limited to in-state residents; at least 80% of business in-state.
 • Transfer restrictions apply (6 months for out-of-state resale).
 • Also consider Colorado state exemptions (C.R.S. §§ 11-51-101 et seq.).
 • Co-op membership carries no guaranteed return. Surplus depends on actual net profit.
 • Please consult an attorney to confirm compliance with relevant securities laws.`
       });
 
+      const [activeTab, setActiveTab] = React.useState('articles'); // default tab
+
+      // Handle input changes
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
       };
 
-      // Generate Articles of Incorporation
+      // Convert distribution inputs to numbers
+      const patronDistNum = parseFloat(formData.patronDistPercent) || 0;
+      const generalMemberDistNum = parseFloat(formData.generalMemberDistPercent) || 0;
+      const stewardDistNum = parseFloat(formData.stewardDistPercent) || 0;
+
+      // Validate that total membership distribution is >= 50
+      const membershipTotal = patronDistNum + generalMemberDistNum + stewardDistNum;
+      const distributionWarning = membershipTotal < 50
+        ? `Warning: Current membership distribution total is ${membershipTotal}%. It must be at least 50%.`
+        : '';
+
+      // 1. ARTICLES
       const articlesTemplate = `
 ARTICLES OF INCORPORATION
 (for a ${formData.coopEntityType} in ${formData.stateOfFormation})
@@ -159,7 +210,7 @@ ARTICLES OF INCORPORATION
 ${formData.disclaimers}
 `;
 
-      // Generate Bylaws
+      // 2. BYLAWS
       const bylawsTemplate = `
 BYLAWS OF ${formData.cooperativeName}
 
@@ -191,17 +242,18 @@ BYLAWS OF ${formData.cooperativeName}
        After paying all operating expenses, reserving capital,
        and fulfilling any other obligations, the Board shall determine the net surplus.
    4.3 Distribution Policy:
-       (a) **Patron Members**: 
-           ${formData.patronDistributionTerms}
-           The exact patron share is based on the fees or revenue each Patron's activity generated.
-       (b) **Steward Members**: 
-           ${formData.stewardDistribution}
-           Allocated proportionally to shares held.
-       (c) **Total to Membership**: 
-           Patron + Steward distributions shall never be less than 50% in aggregate.
-       (d) **Remaining Surplus**:
-           The Board may allocate any remaining surplus to reserves, expansions,
+       (a) **Patron Members**: ${formData.patronDistPercent}% of net surplus allocated among Patron Members
+           based on the fees or revenue each Patron's activity generated.
+       (b) **General Members**: ${formData.generalMemberDistPercent}% of net surplus, if any, as determined by
+           the Board in a manner consistent with their usage or membership role.
+       (c) **Steward Members**: ${formData.stewardDistPercent}% of net surplus allocated among Stewards
+           pro rata by shares held.
+       (d) **Total to Membership**: Patron + General + Steward distributions shall never be less than 50% in aggregate.
+       (e) **Remaining Surplus**:
+           The Board may allocate any remainder to reserves, expansions,
            or other Co-op initiatives.
+   4.4 No Guarantee of Distribution:
+       The actual amount of net surplus (if any) depends on the Cooperative's performance.
 
 5. PATRON MEMBERS
    5.1 Fee: ${formData.patronFee}
@@ -211,8 +263,9 @@ BYLAWS OF ${formData.cooperativeName}
 6. STEWARD MEMBERS
    6.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
    6.2 Max Ownership: ${formData.maxOwnership}
-   6.3 Future Milestones: ${formData.futureMilestoneLogic}
-   6.4 Initial Allocations:
+   6.3 Distribution: ${formData.stewardDistribution}
+   6.4 Future Milestones: ${formData.futureMilestoneLogic}
+   6.5 Initial Allocations:
        ${formData.stewardAllocationsInitial}
 
 7. TERMINATION & EXPULSION
@@ -231,7 +284,7 @@ BYLAWS OF ${formData.cooperativeName}
 ${formData.disclaimers}
 `;
 
-      // Generate Patron Membership Agreement
+      // 3. Patron Membership Agreement
       const patronAgreementTemplate = `
 ${formData.cooperativeName}
 PATRON MEMBERSHIP AGREEMENT
@@ -250,8 +303,8 @@ PATRON MEMBERSHIP AGREEMENT
    • Must abide by Bylaws & policies, maintain good standing.
 
 4. PATRONAGE SURPLUS ALLOCATION
-   • Per the Bylaws, **25%** of net surplus (or the portion assigned to Patrons) is allocated
-     among Patron Members based on the fees/revenues their activity generates.
+   • Per the Bylaws, ${formData.patronDistPercent}% of net surplus is allocated to Patron Members.
+   • ${formData.patronDistributionTerms}
    • No guaranteed return; actual surplus depends on the Co-op’s net income after expenses.
 
 5. IN-APP TRACKING & PAYOUT
@@ -270,7 +323,7 @@ Signatures:
 Date: __________
 `;
 
-      // Generate Steward Membership Agreement
+      // 4. Steward Membership Agreement
       const stewardAgreementTemplate = `
 ${formData.cooperativeName}
 STEWARD MEMBERSHIP AGREEMENT
@@ -286,8 +339,9 @@ STEWARD MEMBERSHIP AGREEMENT
        ${formData.stewardAllocationsInitial}
 
 3. DISTRIBUTION OF SURPLUS
-   • Per the Bylaws, **25%** of net surplus (or the portion designated to Stewards) 
-     is allocated among all Steward Members pro rata by shares held.
+   • Per the Bylaws, ${formData.stewardDistPercent}% of net surplus is allocated among Stewards
+     pro rata by shares held.
+   • ${formData.stewardDistribution}
    • No guaranteed ROI. Surplus is contingent on actual net profit.
 
 4. FUTURE MILESTONES
@@ -311,11 +365,33 @@ Signatures:
 Date: __________
 `;
 
+      // Tab content
+      function TabContent({ label, template }) {
+        return (
+          <div className="tab-content">
+            <h2>{label}</h2>
+            <div className="template-output">{template}</div>
+          </div>
+        );
+      }
+
+      const TABS = [
+        { key: 'articles', label: 'Articles of Incorporation', content: articlesTemplate },
+        { key: 'bylaws', label: 'Bylaws', content: bylawsTemplate },
+        { key: 'patron', label: 'Patron Agreement', content: patronAgreementTemplate },
+        { key: 'steward', label: 'Steward Agreement', content: stewardAgreementTemplate },
+      ];
+
       return (
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar Form */}
           <div className="sidebar">
-            <h1>Complete Co-op Docs Generator</h1>
+            <h1>Tabbed Co-op Docs</h1>
+
+            {/* Distribution Warning if membership < 50% */}
+            { distributionWarning && 
+              <div className="warning">{distributionWarning}</div>
+            }
 
             <label>Cooperative Name:</label>
             <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
@@ -353,6 +429,15 @@ Date: __________
             <input name="fiscalYearEnd" value={formData.fiscalYearEnd} onChange={handleChange} />
 
             <hr />
+            <h3>Membership Distribution Percentages</h3>
+            <label>Patron Distribution %</label>
+            <input name="patronDistPercent" value={formData.patronDistPercent} onChange={handleChange} type="number" />
+            <label>General Member Distribution %</label>
+            <input name="generalMemberDistPercent" value={formData.generalMemberDistPercent} onChange={handleChange} type="number" />
+            <label>Steward Distribution %</label>
+            <input name="stewardDistPercent" value={formData.stewardDistPercent} onChange={handleChange} type="number" />
+
+            <hr />
 
             <h3>Patron Class Fields</h3>
             <label>Patron Class Name:</label>
@@ -361,14 +446,14 @@ Date: __________
             <label>Patron Fee:</label>
             <input name="patronFee" value={formData.patronFee} onChange={handleChange} />
 
-            <label>Patron Distribution Terms:</label>
-            <textarea name="patronDistributionTerms" rows="2" value={formData.patronDistributionTerms} onChange={handleChange} />
-
             <label>Product/Service Scope:</label>
             <textarea name="productScope" rows="2" value={formData.productScope} onChange={handleChange} />
 
             <label>In-App Payout Details:</label>
             <textarea name="inAppPayoutDetails" rows="2" value={formData.inAppPayoutDetails} onChange={handleChange} />
+
+            <label>Patron Distribution Terms (Text):</label>
+            <textarea name="patronDistributionTerms" rows="2" value={formData.patronDistributionTerms} onChange={handleChange} />
 
             <hr />
 
@@ -382,7 +467,7 @@ Date: __________
             <label>Max Ownership %:</label>
             <input name="maxOwnership" value={formData.maxOwnership} onChange={handleChange} />
 
-            <label>Steward Distribution Terms:</label>
+            <label>Steward Distribution Explanation:</label>
             <textarea name="stewardDistribution" rows="2" value={formData.stewardDistribution} onChange={handleChange} />
 
             <label>Initial Steward Allocations:</label>
@@ -408,29 +493,34 @@ Date: __________
             <textarea name="disclaimers" rows="8" value={formData.disclaimers} onChange={handleChange} />
           </div>
 
-          {/* Main Content / Output */}
+          {/* Main Content / Output with tabs */}
           <div className="main">
-            <h1>Live Preview of Documents</h1>
-
-            <h2>Articles of Incorporation</h2>
-            <div className="template-output">
-              {articlesTemplate}
+            <div className="tabs">
+              {TABS.map(t => (
+                <div
+                  key={t.key}
+                  className={`tab ${activeTab === t.key ? 'active' : ''}`}
+                  onClick={() => setActiveTab(t.key)}
+                >
+                  {t.label}
+                </div>
+              ))}
             </div>
+            
+            {TABS.filter(t => t.key === activeTab).map(t => (
+              <TabContent key={t.key} label={t.label} template={t.content} />
+            ))}
+          </div>
+        </div>
+      );
+    }
 
-            <h2>Bylaws</h2>
-            <div className="template-output">
-              {bylawsTemplate}
-            </div>
-
-            <h2>Patron Membership Agreement</h2>
-            <div className="template-output">
-              {patronAgreementTemplate}
-            </div>
-
-            <h2>Steward Membership Agreement</h2>
-            <div className="template-output">
-              {stewardAgreementTemplate}
-            </div>
+    function TabContent({ label, template }) {
+      return (
+        <div className="tab-content">
+          <h2>{label}</h2>
+          <div className="template-output">
+            {template}
           </div>
         </div>
       );
