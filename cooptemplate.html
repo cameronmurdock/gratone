@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Co-op Docs Generator</title>
+  <title>Co-op Docs Generator with Exemption Disclaimers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Inter Font -->
@@ -77,10 +77,10 @@
         cooperativeName: 'ONE Local Co-op',
         coopEntityType: 'Public Benefit Corporation',
         stateOfFormation: 'Colorado',
-        missionStatement: 'Community empowerment, equitable resource sharing, and local resilience.',
+        missionStatement: 'Local community empowerment and equitable resource sharing.',
         registeredAgent: '',
         boardSize: '5',
-        boardDirectorNames: '',
+        boardDirectorNames: 'Director One\nDirector Two',
         
         // Bylaws details
         membershipFee: '$22 per month',
@@ -91,25 +91,32 @@
         // Patron Class fields
         patronClassName: 'Patron Member',
         patronFee: '$22/month',
-        patronDistributionTerms: 'Quarterly refund of net surplus from product sales.',
-        productScope: 'Offer products/services inside the co-op platform.',
-        inAppPayoutDetails: 'Stripe Connect, user-initiated payouts, multi-signature if needed.',
+        patronDistributionTerms: 'Quarterly refund based on net product sales surplus.',
+        productScope: 'Offer products or services via the co-op platform.',
+        inAppPayoutDetails: 'Stripe Connect (intrastate only), multi-sig for large withdrawals.',
 
         // Steward Class fields
         totalStewardShares: '10000000',
         stewardSharePrice: '$1',
         maxOwnership: '5%',
-        stewardDistribution: '25% of net profit allocated to Stewards, pro-rata by shares.',
+        stewardDistribution: '25% of net profits allocated pro-rata by shares.',
         stewardAllocationsInitial: 'John Doe: 5,000 shares\nJane Austin: 20,000 shares',
-        futureMilestoneLogic: 'If returns reach 100x, mint additional shares (up to 90m).',
+        futureMilestoneLogic: 'If 100x ROI achieved, co-op may mint 90 million new shares.',
 
         // Officers
-        secretaryName: 'User 1',
-        treasurerName: 'User 2',
+        secretaryName: 'User 1 (Secretary)',
+        treasurerName: 'User 2 (Treasurer)',
         directorName: 'User 3 (Director)',
         
         // disclaimers
-        disclaimers: `• No Guarantee of Return: All forward-looking statements are aspirational only.\n• Securities Laws: Steward Shares may be subject to state/federal securities regulations.\n• Consult an Attorney: This is not legal advice. Please consult qualified counsel.\n`
+        disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
+• There is NO formal "Form 147A" to file with the SEC. The exemption is self-executing if all criteria are met.
+• Sales must be limited to in-state residents. The co-op must have its principal place of business in [STATE].
+• At least 80% of revenues, assets, and use-of-proceeds must be in-state, among other conditions.
+• Transfer restrictions: buyers cannot sell out-of-state for at least 6 months.
+• The co-op may need to notify or file an exemption form with [STATE] regulators (C.R.S. §§ 11-51-101 et seq.).
+• No Guarantee of Return: All forward-looking statements are aspirational only.
+• Consult an attorney to confirm compliance with Rule 147A or any other exemption.`
       });
 
       const handleChange = (e) => {
@@ -123,29 +130,32 @@ ARTICLES OF INCORPORATION
 (for a ${formData.coopEntityType} in ${formData.stateOfFormation})
 
 1. NAME & FORMATION
-   The name of the cooperative is "${formData.cooperativeName}" (the "Cooperative"). It is organized under the laws of ${formData.stateOfFormation} as a ${formData.coopEntityType}.
+   The name of the cooperative is "${formData.cooperativeName}" (the "Cooperative").
+   It is organized under the laws of ${formData.stateOfFormation} as a ${formData.coopEntityType}.
 
 2. PURPOSE
-   The purpose of the Cooperative is to engage in any lawful activity for which a public-benefit cooperative may be organized, including but not limited to:
-   - ${formData.missionStatement}
+   The purpose of the Cooperative is to engage in any lawful activity
+   consistent with a public-benefit cooperative, including:
+   • ${formData.missionStatement}
 
 3. PRINCIPAL OFFICE & REGISTERED AGENT
-   - Principal office location will be established in ${formData.stateOfFormation}.
-   - Registered Agent: ${formData.registeredAgent}.
+   • Principal office in ${formData.stateOfFormation}.
+   • Registered Agent: ${formData.registeredAgent}.
 
 4. DIRECTORS
-   The number of Directors shall initially be ${formData.boardSize}, or as stated in the Bylaws. 
-   Initial Directors may include:
+   The number of Directors shall initially be ${formData.boardSize}, or as set forth
+   in the Bylaws. Initial Directors may include:
    ${formData.boardDirectorNames}
 
-5. LIMITATION OF LIABILITY
-   No Director shall be personally liable to the Cooperative or its members for monetary damages to the full extent permitted by law.
+5. BENEFIT MISSION
+   As a Public Benefit Corporation (or LCA), the Cooperative commits to
+   advancing social and community well-being, as outlined in its Bylaws.
 
-6. PUBLIC BENEFIT MISSION
-   As a Public Benefit Corporation, the Cooperative will strive to create a positive impact on society and the environment as set forth in the Bylaws and mission statements.
+6. AMENDMENTS
+   Amendments to these Articles require approval per the Bylaws.
 
-7. ADOPTION & AMENDMENT
-   These Articles are effective upon filing with the Secretary of State. Amendments require approval in accordance with the Cooperative’s Bylaws.
+7. EFFECTIVE DATE
+   These Articles become effective upon filing with the Secretary of State.
 
 ${formData.disclaimers}
 `;
@@ -156,56 +166,60 @@ BYLAWS OF ${formData.cooperativeName}
 
 1. NAME & PURPOSE
    1.1 Name: ${formData.cooperativeName}
-   1.2 Purpose: To operate as a multi-stakeholder public-benefit cooperative focusing on:
-       - ${formData.missionStatement}
+   1.2 Purpose: To operate as a multi-stakeholder public-benefit cooperative
+       focusing on ${formData.missionStatement}.
 
 2. MEMBERSHIP & FEES
-   2.1 Membership Classes:
-       - General Members
-       - ${formData.patronClassName}
-       - Steward Members
-   2.2 Membership Fee: ${formData.membershipFee} (unless adjusted by Board).
-   2.3 Acceptance & Transfer: Subject to Board approval. Membership is non-transferable except as stated herein.
-   
+   2.1 Classes:
+       • General Members
+       • ${formData.patronClassName}
+       • Steward Members
+   2.2 Membership Fee: ${formData.membershipFee} (adjustable by Board).
+   2.3 Acceptance & Transfer: Subject to Board approval.
+       Membership is non-transferable except as stated in these Bylaws.
+
 3. BOARD OF DIRECTORS
-   3.1 Size: The Board consists of ${formData.boardSize} Directors (or a range defined by the Cooperative).
-   3.2 Officers: Must include a Secretary (${formData.secretaryName}), a Treasurer (${formData.treasurerName}), and potentially others.
-   3.3 Meetings: Annual and special meetings with proper notice.
-   3.4 Quorum & Voting: Quorum is ${formData.quorumRequirement} of Directors or Members. Major decisions require ${formData.voteThreshold} approval.
+   3.1 Size: The Board consists of ${formData.boardSize} directors (or as
+       established by the Co-op).
+   3.2 Officers: Must include Secretary (${formData.secretaryName}) and Treasurer (${formData.treasurerName}).
+   3.3 Meetings: Annual & special. Notice given to all directors.
+   3.4 Quorum: ${formData.quorumRequirement} of directors or members, with
+       major decisions requiring ${formData.voteThreshold}.
 
 4. FISCAL & SURPLUS
    4.1 Fiscal Year End: ${formData.fiscalYearEnd}.
-   4.2 Net Surplus Distribution:
-       - A portion to Patron Members (as determined by patronage).
-       - A portion to Steward Members (see Section 6).
-       - Remainder may be retained for reserves, expansions, or other uses.
+   4.2 Net Surplus Allocation:
+       - Patron Members: per their product/service usage
+       - Stewards: as further explained in Article 6
+       - Reserves: Board may allocate to co-op’s capital or expansions
 
 5. PATRON MEMBERS
-   5.1 Patron Fee & Activity: ${formData.patronFee}, engaged in ${formData.productScope}.
-   5.2 Patronage Refund: ${formData.patronDistributionTerms}. 
-   5.3 In-App Payout: ${formData.inAppPayoutDetails}.
+   5.1 Fee: ${formData.patronFee}
+   5.2 Distribution Terms: ${formData.patronDistributionTerms}
+   5.3 In-App Tracking/Payout: ${formData.inAppPayoutDetails}
 
 6. STEWARD MEMBERS
-   6.1 Total Steward Shares: ${formData.totalStewardShares} at ${formData.stewardSharePrice} each. 
-   6.2 Max Ownership: ${formData.maxOwnership} per individual or entity (unless waived by Board).
-   6.3 Profit Allocation: ${formData.stewardDistribution}.
-   6.4 Additional Issuances: ${formData.futureMilestoneLogic}.
+   6.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
+   6.2 Max Ownership: ${formData.maxOwnership}
+   6.3 Steward Distribution: ${formData.stewardDistribution}
+   6.4 Future Milestones: ${formData.futureMilestoneLogic}
    6.5 Initial Allocations:
        ${formData.stewardAllocationsInitial}
 
 7. TERMINATION & EXPULSION
-   7.1 Voluntary Withdrawal: Members may resign by written notice.
-   7.2 Expulsion: Board may expel for lawful reasons, following due process.
+   7.1 Voluntary: Member may resign by written notice.
+   7.2 Expulsion: Board can expel for lawful cause after notice/opportunity to respond.
 
-8. RECORDS & DISSOLUTION
-   8.1 Records: The Cooperative keeps adequate books, membership records, and minutes. 
-   8.2 Dissolution: After debts and returning capital, remaining assets are distributed to members or their heirs per share/patronage.
+8. DISSOLUTION
+   After debts & returning member equity, surplus is distributed according to
+   membership class or patronage share, per these Bylaws.
 
 9. AMENDMENTS
-   9.1 Amendments: Require Board approval and, if substantial, membership approval as per these Bylaws.
+   Board or membership (if required) can amend these Bylaws following the procedures
+   set herein.
 
-10. DISCLAIMERS
-   ${formData.disclaimers}
+10. DISCLAIMERS & EXEMPTIONS
+${formData.disclaimers}
 `;
 
       // Generate Patron Membership Agreement
@@ -214,34 +228,35 @@ ${formData.cooperativeName}
 PATRON MEMBERSHIP AGREEMENT
 
 1. PARTIES
-   - The Cooperative: ${formData.cooperativeName}
-   - The Member: [PATRON_NAME]
+   The Cooperative: ${formData.cooperativeName}
+   The Member: [PATRON_NAME]
 
-2. ADMISSION
-   - Member joins as a "${formData.patronClassName}" upon paying ${formData.patronFee} and signing this Agreement.
+2. CLASS & FEE
+   The Member joins as a "${formData.patronClassName}" upon paying ${formData.patronFee}
+   and signing this Agreement.
 
-3. PATRON RIGHTS & RESPONSIBILITIES
-   - One vote (if specified in the Bylaws for Patron Class).
-   - Right to sell products/services within the co-op platform: ${formData.productScope}
-   - Obligated to follow Bylaws, pay fees, and maintain good standing.
+3. RIGHTS & OBLIGATIONS
+   • One vote if granted by Bylaws for Patron Class.
+   • Access to co-op platform to ${formData.productScope}.
+   • Must abide by Bylaws & policies, maintain good standing.
 
 4. PATRONAGE REFUND
-   - Net surplus from Patron transactions is distributed as: ${formData.patronDistributionTerms}.
-   - Actual refund depends on co-op's net revenue, minus expenses, per the Bylaws.
+   • Surplus from Patron transactions is distributed: ${formData.patronDistributionTerms}
+   • Actual surplus depends on co-op’s net results. No guaranteed return.
 
 5. IN-APP TRACKING & PAYOUT
-   - Sales and fees may be tracked in real-time via: ${formData.inAppPayoutDetails}.
-   - Member consents to Stripe Connect or similar tools for receiving payouts.
+   ${formData.inAppPayoutDetails}
 
 6. TERMINATION
-   - Member may resign with written notice; the Board may expel if warranted under the Bylaws.
+   • Member may withdraw at any time with notice.
+   • Board may expel for reasons in the Bylaws.
 
-7. DISCLAIMERS
-   ${formData.disclaimers}
+7. DISCLAIMER
+${formData.disclaimers}
 
 Signatures:
 - [PATRON_NAME], Patron Member
-- [REP_NAME], for ${formData.cooperativeName}
+- [COOP_REP], ${formData.cooperativeName}
 Date: __________
 `;
 
@@ -251,36 +266,34 @@ ${formData.cooperativeName}
 STEWARD MEMBERSHIP AGREEMENT
 
 1. PARTIES
-   - The Cooperative: ${formData.cooperativeName}
-   - The Steward Member: [STEWARD_NAME]
+   The Cooperative: ${formData.cooperativeName}
+   The Steward: [STEWARD_NAME]
 
 2. STEWARD SHARES
-   - Total Authorized: ${formData.totalStewardShares} shares at ${formData.stewardSharePrice} each.
-   - Max ownership per entity: ${formData.maxOwnership}.
-   - Initial allocations: ${formData.stewardAllocationsInitial}
+   • Total authorized: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each.
+   • Max ownership: ${formData.maxOwnership}
+   • Initial allocations (example): 
+       ${formData.stewardAllocationsInitial}
 
-3. RIGHTS & PROFIT ALLOCATION
-   - One membership vote, irrespective of share count.
-   - Entitled to share in net profits: ${formData.stewardDistribution}.
-   - Future expansions or share issuance: ${formData.futureMilestoneLogic}.
+3. DISTRIBUTIONS
+   • ${formData.stewardDistribution}
+   • Future expansions/milestones: ${formData.futureMilestoneLogic}
+   • No guaranteed ROI. Surpluses allocated only if co-op is profitable.
 
-4. NO GUARANTEE OF RETURN
-   - All distributions depend on actual net surplus. No promise of any specific ROI.
+4. RESTRICTIONS
+   • Shares are non-transferable except as allowed by Bylaws.
+   • The co-op may repurchase or redeem shares per Board policy/BYLAWS.
 
-5. TRANSFER RESTRICTIONS
-   - Shares are generally non-transferable, except as allowed by Bylaws or Board approval.
-   - The co-op may repurchase or redeem shares under conditions set in the Bylaws.
+5. TERMINATION
+   • Steward may withdraw with notice. 
+   • If membership ends, shares may be redeemed at par or book value (as set by Bylaws).
 
-6. TERMINATION
-   - The Steward Member may withdraw; the Board may expel for lawful reasons. 
-   - Redeemed shares may be returned at par value or book value, as determined by the Board and Bylaws.
-
-7. DISCLAIMERS
-   ${formData.disclaimers}
+6. DISCLAIMERS & EXEMPTIONS
+${formData.disclaimers}
 
 Signatures:
 - [STEWARD_NAME], Steward Member
-- [REP_NAME], for ${formData.cooperativeName}
+- [COOP_REP], ${formData.cooperativeName}
 Date: __________
 `;
 
@@ -288,27 +301,27 @@ Date: __________
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar Form */}
           <div className="sidebar">
-            <h1>Co-op Docs Generator</h1>
+            <h1>Co-op Docs w/ 147A Disclaimers</h1>
 
             <label>Cooperative Name:</label>
             <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
 
-            <label>Entity Type (e.g. PBC, LCA):</label>
+            <label>Entity Type (PBC, LCA, etc.):</label>
             <input name="coopEntityType" value={formData.coopEntityType} onChange={handleChange} />
 
             <label>State of Formation:</label>
             <input name="stateOfFormation" value={formData.stateOfFormation} onChange={handleChange} />
 
-            <label>Mission Statement / Purpose:</label>
+            <label>Mission Statement:</label>
             <textarea name="missionStatement" rows="2" value={formData.missionStatement} onChange={handleChange} />
 
-            <label>Registered Agent (if known):</label>
+            <label>Registered Agent:</label>
             <input name="registeredAgent" value={formData.registeredAgent} onChange={handleChange} />
 
-            <label>Board Size (initial):</label>
+            <label>Initial Board Size:</label>
             <input name="boardSize" value={formData.boardSize} onChange={handleChange} type="number" />
 
-            <label>Director Names (comma or line-separated):</label>
+            <label>Board Director Names (line separated):</label>
             <textarea name="boardDirectorNames" rows="2" value={formData.boardDirectorNames} onChange={handleChange} />
 
             <hr />
@@ -319,7 +332,7 @@ Date: __________
             <label>Quorum Requirement:</label>
             <input name="quorumRequirement" value={formData.quorumRequirement} onChange={handleChange} />
 
-            <label>Vote Threshold (major decisions):</label>
+            <label>Vote Threshold (Major Decisions):</label>
             <input name="voteThreshold" value={formData.voteThreshold} onChange={handleChange} />
 
             <label>Fiscal Year End:</label>
@@ -366,19 +379,19 @@ Date: __________
 
             <hr />
 
-            <label>Secretary Name:</label>
+            <label>Secretary:</label>
             <input name="secretaryName" value={formData.secretaryName} onChange={handleChange} />
 
-            <label>Treasurer Name:</label>
+            <label>Treasurer:</label>
             <input name="treasurerName" value={formData.treasurerName} onChange={handleChange} />
 
-            <label>Another Director or Officer:</label>
+            <label>Another Director/Officer:</label>
             <input name="directorName" value={formData.directorName} onChange={handleChange} />
 
             <hr />
 
-            <label>Disclaimers (markdown-friendly):</label>
-            <textarea name="disclaimers" rows="4" value={formData.disclaimers} onChange={handleChange} />
+            <label>Disclaimers (includes 147A info):</label>
+            <textarea name="disclaimers" rows="8" value={formData.disclaimers} onChange={handleChange} />
           </div>
 
           {/* Main Content / Output */}
