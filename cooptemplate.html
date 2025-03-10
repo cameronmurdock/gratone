@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <title>Co-op Docs Generator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <!-- Inter Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
@@ -14,14 +16,17 @@
       min-height: 100vh;
     }
     .sidebar {
-      width: 300px;
+      width: 360px;
       border-right: 1px solid #ccc;
       padding: 20px;
+      background: #fefefe;
+      overflow-y: auto;
     }
     .main {
       flex: 1;
       padding: 20px;
       overflow-y: auto;
+      background: #ffffff;
     }
     label {
       font-weight: 600;
@@ -37,16 +42,22 @@
     }
     .template-output {
       white-space: pre-wrap; 
-      background: #f8f8f8; 
+      background: #f9f9f9; 
       padding: 10px; 
       border-radius: 6px; 
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
     h2 {
-      margin-top: 40px;
+      margin-top: 30px;
       font-size: 1.25rem;
       border-bottom: 1px solid #ddd;
       padding-bottom: 8px;
+    }
+    h1 {
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -60,246 +71,339 @@
 
   <script type="text/babel">
     function App() {
-      // We'll store the user inputs in state
-      const [placeholders, setPlaceholders] = React.useState({
-        cooperativeName: 'My Great Co-op',
-        stateName: 'Colorado',
+      // We'll store all user inputs in a state object
+      const [formData, setFormData] = React.useState({
+        // Basic / Articles info
+        cooperativeName: 'ONE Local Co-op',
+        coopEntityType: 'Public Benefit Corporation',
+        stateOfFormation: 'Colorado',
+        missionStatement: 'Community empowerment, equitable resource sharing, and local resilience.',
+        registeredAgent: '',
         boardSize: '5',
-        membershipFee: '$22/month',
-        stewardSharePrice: '$1',
+        boardDirectorNames: '',
+        
+        // Bylaws details
+        membershipFee: '$22 per month',
+        quorumRequirement: '50%',
+        voteThreshold: '75%',
+        fiscalYearEnd: 'December 31',
+
+        // Patron Class fields
+        patronClassName: 'Patron Member',
+        patronFee: '$22/month',
+        patronDistributionTerms: 'Quarterly refund of net surplus from product sales.',
+        productScope: 'Offer products/services inside the co-op platform.',
+        inAppPayoutDetails: 'Stripe Connect, user-initiated payouts, multi-signature if needed.',
+
+        // Steward Class fields
         totalStewardShares: '10000000',
+        stewardSharePrice: '$1',
         maxOwnership: '5%',
-        userSecretary: 'Alice Smith',
-        userTreasurer: 'Bob Jones'
+        stewardDistribution: '25% of net profit allocated to Stewards, pro-rata by shares.',
+        stewardAllocationsInitial: 'John Doe: 5,000 shares\nJane Austin: 20,000 shares',
+        futureMilestoneLogic: 'If returns reach 100x, mint additional shares (up to 90m).',
+
+        // Officers
+        secretaryName: 'User 1',
+        treasurerName: 'User 2',
+        directorName: 'User 3 (Director)',
+        
+        // disclaimers
+        disclaimers: `• No Guarantee of Return: All forward-looking statements are aspirational only.\n• Securities Laws: Steward Shares may be subject to state/federal securities regulations.\n• Consult an Attorney: This is not legal advice. Please consult qualified counsel.\n`
       });
 
-      // Handler to update placeholders from form inputs
       const handleChange = (e) => {
         const { name, value } = e.target;
-        setPlaceholders((prev) => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
       };
 
-      // Template: Bylaws
+      // Generate Articles of Incorporation
+      const articlesTemplate = `
+ARTICLES OF INCORPORATION
+(for a ${formData.coopEntityType} in ${formData.stateOfFormation})
+
+1. NAME & FORMATION
+   The name of the cooperative is "${formData.cooperativeName}" (the "Cooperative"). It is organized under the laws of ${formData.stateOfFormation} as a ${formData.coopEntityType}.
+
+2. PURPOSE
+   The purpose of the Cooperative is to engage in any lawful activity for which a public-benefit cooperative may be organized, including but not limited to:
+   - ${formData.missionStatement}
+
+3. PRINCIPAL OFFICE & REGISTERED AGENT
+   - Principal office location will be established in ${formData.stateOfFormation}.
+   - Registered Agent: ${formData.registeredAgent}.
+
+4. DIRECTORS
+   The number of Directors shall initially be ${formData.boardSize}, or as stated in the Bylaws. 
+   Initial Directors may include:
+   ${formData.boardDirectorNames}
+
+5. LIMITATION OF LIABILITY
+   No Director shall be personally liable to the Cooperative or its members for monetary damages to the full extent permitted by law.
+
+6. PUBLIC BENEFIT MISSION
+   As a Public Benefit Corporation, the Cooperative will strive to create a positive impact on society and the environment as set forth in the Bylaws and mission statements.
+
+7. ADOPTION & AMENDMENT
+   These Articles are effective upon filing with the Secretary of State. Amendments require approval in accordance with the Cooperative’s Bylaws.
+
+${formData.disclaimers}
+`;
+
+      // Generate Bylaws
       const bylawsTemplate = `
-# ${placeholders.cooperativeName} 
-A Multi-Stakeholder Public-Benefit Cooperative
+BYLAWS OF ${formData.cooperativeName}
 
-## Article I: Name & Purpose
-1. **Name**  
-   The name of the cooperative is ${placeholders.cooperativeName}, organized under the laws of ${placeholders.stateName}.
-2. **Purpose**  
-   - Operate as a public-benefit, multi-stakeholder cooperative.
-   - Conduct any lawful activity in line with its Articles of Incorporation.
+1. NAME & PURPOSE
+   1.1 Name: ${formData.cooperativeName}
+   1.2 Purpose: To operate as a multi-stakeholder public-benefit cooperative focusing on:
+       - ${formData.missionStatement}
 
-## Article II: Membership
-1. **Membership Classes**  
-   - General Members
-   - Chapter Members
-   - Steward Members
-2. **Qualifications**  
-   - Any person/entity over 18 that supports the mission can join by signing a Membership Agreement, paying required fees (${placeholders.membershipFee}), etc.
+2. MEMBERSHIP & FEES
+   2.1 Membership Classes:
+       - General Members
+       - ${formData.patronClassName}
+       - Steward Members
+   2.2 Membership Fee: ${formData.membershipFee} (unless adjusted by Board).
+   2.3 Acceptance & Transfer: Subject to Board approval. Membership is non-transferable except as stated herein.
+   
+3. BOARD OF DIRECTORS
+   3.1 Size: The Board consists of ${formData.boardSize} Directors (or a range defined by the Cooperative).
+   3.2 Officers: Must include a Secretary (${formData.secretaryName}), a Treasurer (${formData.treasurerName}), and potentially others.
+   3.3 Meetings: Annual and special meetings with proper notice.
+   3.4 Quorum & Voting: Quorum is ${formData.quorumRequirement} of Directors or Members. Major decisions require ${formData.voteThreshold} approval.
 
-## Article III: Governance & Meetings
-1. **Board of Directors**  
-   - The Board shall have ${placeholders.boardSize} Directors. 
-2. **Officers**  
-   - Required: President, Secretary, Treasurer. For example:
-     - Secretary: ${placeholders.userSecretary}
-     - Treasurer: ${placeholders.userTreasurer}
-3. **Meetings & Decision-Making**
-   - Annual meeting on a set date.
-   - Quorum is [some %] of Directors or Members.
-   - Major decisions might require supermajority.
+4. FISCAL & SURPLUS
+   4.1 Fiscal Year End: ${formData.fiscalYearEnd}.
+   4.2 Net Surplus Distribution:
+       - A portion to Patron Members (as determined by patronage).
+       - A portion to Steward Members (see Section 6).
+       - Remainder may be retained for reserves, expansions, or other uses.
 
-## Article IV: Surplus & Patronage
-- Surplus distribution might allocate a portion to Patron Members, Chapter Members, and Stewards.
+5. PATRON MEMBERS
+   5.1 Patron Fee & Activity: ${formData.patronFee}, engaged in ${formData.productScope}.
+   5.2 Patronage Refund: ${formData.patronDistributionTerms}. 
+   5.3 In-App Payout: ${formData.inAppPayoutDetails}.
 
-## Article V: Termination & Expulsion
-- The Board may expel a Member for cause.
+6. STEWARD MEMBERS
+   6.1 Total Steward Shares: ${formData.totalStewardShares} at ${formData.stewardSharePrice} each. 
+   6.2 Max Ownership: ${formData.maxOwnership} per individual or entity (unless waived by Board).
+   6.3 Profit Allocation: ${formData.stewardDistribution}.
+   6.4 Additional Issuances: ${formData.futureMilestoneLogic}.
+   6.5 Initial Allocations:
+       ${formData.stewardAllocationsInitial}
 
-## Article VI: Records & Inspection
-- The Co-op keeps proper records. Members may inspect them for a proper purpose.
+7. TERMINATION & EXPULSION
+   7.1 Voluntary Withdrawal: Members may resign by written notice.
+   7.2 Expulsion: Board may expel for lawful reasons, following due process.
 
-## Article VII: Dissolution
-- After debts/capital returns, any leftover assets go to Members based on shares/patronage.
+8. RECORDS & DISSOLUTION
+   8.1 Records: The Cooperative keeps adequate books, membership records, and minutes. 
+   8.2 Dissolution: After debts and returning capital, remaining assets are distributed to members or their heirs per share/patronage.
 
-## Article VIII: Amendments
-- Board may propose changes; major changes may require Member approval.
+9. AMENDMENTS
+   9.1 Amendments: Require Board approval and, if substantial, membership approval as per these Bylaws.
 
-## Article IX: Disclaimers
-- No guaranteed returns. Potential securities laws apply to Steward Shares. 
-- Forward-looking statements are aspirational only.
-
-(End of Bylaws for ${placeholders.cooperativeName})
+10. DISCLAIMERS
+   ${formData.disclaimers}
 `;
 
-      // Template: General Membership Agreement
-      const generalMembership = `
-# ${placeholders.cooperativeName}
-General Membership Agreement
+      // Generate Patron Membership Agreement
+      const patronAgreementTemplate = `
+${formData.cooperativeName}
+PATRON MEMBERSHIP AGREEMENT
 
-1. **Parties**
-   - This Agreement is between ${placeholders.cooperativeName} ("Cooperative") and [MEMBER_NAME] ("Member").
+1. PARTIES
+   - The Cooperative: ${formData.cooperativeName}
+   - The Member: [PATRON_NAME]
 
-2. **Membership Status**
-   - Member is admitted as a General Member upon paying the required fee (${placeholders.membershipFee}) and signing.
+2. ADMISSION
+   - Member joins as a "${formData.patronClassName}" upon paying ${formData.patronFee} and signing this Agreement.
 
-3. **Rights & Responsibilities**
-   - One vote on matters submitted to membership.
-   - Must abide by the Co-op's Bylaws.
+3. PATRON RIGHTS & RESPONSIBILITIES
+   - One vote (if specified in the Bylaws for Patron Class).
+   - Right to sell products/services within the co-op platform: ${formData.productScope}
+   - Obligated to follow Bylaws, pay fees, and maintain good standing.
 
-4. **Termination**
-   - Member may resign at any time by notice.
-   - The Board may terminate membership under the Bylaws.
+4. PATRONAGE REFUND
+   - Net surplus from Patron transactions is distributed as: ${formData.patronDistributionTerms}.
+   - Actual refund depends on co-op's net revenue, minus expenses, per the Bylaws.
 
-5. **Acknowledgment**
-   - Member acknowledges disclaimers: no guaranteed return, forward-looking statements, possible securities laws for certain share classes.
+5. IN-APP TRACKING & PAYOUT
+   - Sales and fees may be tracked in real-time via: ${formData.inAppPayoutDetails}.
+   - Member consents to Stripe Connect or similar tools for receiving payouts.
 
-(Signatures)
+6. TERMINATION
+   - Member may resign with written notice; the Board may expel if warranted under the Bylaws.
+
+7. DISCLAIMERS
+   ${formData.disclaimers}
+
+Signatures:
+- [PATRON_NAME], Patron Member
+- [REP_NAME], for ${formData.cooperativeName}
+Date: __________
 `;
 
-      // Template: Steward Membership Agreement
-      const stewardMembership = `
-# ${placeholders.cooperativeName}
-Steward Membership Agreement
+      // Generate Steward Membership Agreement
+      const stewardAgreementTemplate = `
+${formData.cooperativeName}
+STEWARD MEMBERSHIP AGREEMENT
 
-1. **Parties**
-   - ${placeholders.cooperativeName} ("Cooperative") and [STEWARD_NAME] ("Steward Member").
+1. PARTIES
+   - The Cooperative: ${formData.cooperativeName}
+   - The Steward Member: [STEWARD_NAME]
 
-2. **Purchase of Steward Shares**
-   - Price: ${placeholders.stewardSharePrice} per share.
-   - Total authorized steward shares: ${placeholders.totalStewardShares}.
-   - Max ownership per user: ${placeholders.maxOwnership}.
+2. STEWARD SHARES
+   - Total Authorized: ${formData.totalStewardShares} shares at ${formData.stewardSharePrice} each.
+   - Max ownership per entity: ${formData.maxOwnership}.
+   - Initial allocations: ${formData.stewardAllocationsInitial}
 
-3. **Rights & Distributions**
-   - One vote total, regardless of share quantity.
-   - Share in net profits allocated to Stewards, if any (not guaranteed).
+3. RIGHTS & PROFIT ALLOCATION
+   - One membership vote, irrespective of share count.
+   - Entitled to share in net profits: ${formData.stewardDistribution}.
+   - Future expansions or share issuance: ${formData.futureMilestoneLogic}.
 
-4. **Transfer & Redemption**
-   - Non-transferable, except under Bylaws. 
-   - Cooperative may repurchase shares at par or a Board formula upon withdrawal.
+4. NO GUARANTEE OF RETURN
+   - All distributions depend on actual net surplus. No promise of any specific ROI.
 
-5. **Disclaimers & Securities Notice**
-   - No guaranteed return. 
-   - Potential securities law. 
-   - Forward-looking statements are not assurances.
+5. TRANSFER RESTRICTIONS
+   - Shares are generally non-transferable, except as allowed by Bylaws or Board approval.
+   - The co-op may repurchase or redeem shares under conditions set in the Bylaws.
 
-(Signatures)
-`;
+6. TERMINATION
+   - The Steward Member may withdraw; the Board may expel for lawful reasons. 
+   - Redeemed shares may be returned at par value or book value, as determined by the Board and Bylaws.
 
-      // Template: Chapter Membership
-      const chapterMembership = `
-# ${placeholders.cooperativeName}
-Chapter Membership Agreement
+7. DISCLAIMERS
+   ${formData.disclaimers}
 
-1. **Parties**
-   - ${placeholders.cooperativeName} ("Cooperative") and [CHAPTER_NAME] ("Chapter").
-
-2. **Recognition**
-   - Chapter is an official local entity aligned with the Co-op's mission.
-
-3. **Dues & Financial Arrangements**
-   - Chapter pays monthly/annual dues. 
-   - May receive portion of fees in their region.
-
-4. **Governance**
-   - One vote for the Chapter, via designated rep.
-   - Must follow Bylaws and policies.
-
-5. **Termination**
-   - Chapter may withdraw; Board may terminate status for cause.
-
-6. **Disclaimer**
-   - No guaranteed returns. Forward-looking is aspirational.
-
-(Signatures)
+Signatures:
+- [STEWARD_NAME], Steward Member
+- [REP_NAME], for ${formData.cooperativeName}
+Date: __________
 `;
 
       return (
         <div style={{ display: 'flex', width: '100%' }}>
           {/* Sidebar Form */}
           <div className="sidebar">
-            <h2>Co-op Parameters</h2>
-            <label>Co-op Name</label>
-            <input
-              name="cooperativeName"
-              value={placeholders.cooperativeName}
-              onChange={handleChange}
-            />
+            <h1>Co-op Docs Generator</h1>
 
-            <label>State of Formation</label>
-            <input
-              name="stateName"
-              value={placeholders.stateName}
-              onChange={handleChange}
-            />
+            <label>Cooperative Name:</label>
+            <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
 
-            <label>Board Size</label>
-            <input
-              name="boardSize"
-              value={placeholders.boardSize}
-              onChange={handleChange}
-              type="number"
-            />
+            <label>Entity Type (e.g. PBC, LCA):</label>
+            <input name="coopEntityType" value={formData.coopEntityType} onChange={handleChange} />
 
-            <label>Monthly Membership Fee</label>
-            <input
-              name="membershipFee"
-              value={placeholders.membershipFee}
-              onChange={handleChange}
-            />
+            <label>State of Formation:</label>
+            <input name="stateOfFormation" value={formData.stateOfFormation} onChange={handleChange} />
 
-            <label>Secretary</label>
-            <input
-              name="userSecretary"
-              value={placeholders.userSecretary}
-              onChange={handleChange}
-            />
+            <label>Mission Statement / Purpose:</label>
+            <textarea name="missionStatement" rows="2" value={formData.missionStatement} onChange={handleChange} />
 
-            <label>Treasurer</label>
-            <input
-              name="userTreasurer"
-              value={placeholders.userTreasurer}
-              onChange={handleChange}
-            />
+            <label>Registered Agent (if known):</label>
+            <input name="registeredAgent" value={formData.registeredAgent} onChange={handleChange} />
 
-            <label>Steward Share Price</label>
-            <input
-              name="stewardSharePrice"
-              value={placeholders.stewardSharePrice}
-              onChange={handleChange}
-            />
+            <label>Board Size (initial):</label>
+            <input name="boardSize" value={formData.boardSize} onChange={handleChange} type="number" />
 
-            <label>Total Steward Shares</label>
-            <input
-              name="totalStewardShares"
-              value={placeholders.totalStewardShares}
-              onChange={handleChange}
-            />
+            <label>Director Names (comma or line-separated):</label>
+            <textarea name="boardDirectorNames" rows="2" value={formData.boardDirectorNames} onChange={handleChange} />
 
-            <label>Max Ownership %</label>
-            <input
-              name="maxOwnership"
-              value={placeholders.maxOwnership}
-              onChange={handleChange}
-            />
+            <hr />
+
+            <label>Membership Fee (Bylaws):</label>
+            <input name="membershipFee" value={formData.membershipFee} onChange={handleChange} />
+
+            <label>Quorum Requirement:</label>
+            <input name="quorumRequirement" value={formData.quorumRequirement} onChange={handleChange} />
+
+            <label>Vote Threshold (major decisions):</label>
+            <input name="voteThreshold" value={formData.voteThreshold} onChange={handleChange} />
+
+            <label>Fiscal Year End:</label>
+            <input name="fiscalYearEnd" value={formData.fiscalYearEnd} onChange={handleChange} />
+
+            <hr />
+
+            <h3>Patron Class Fields</h3>
+            <label>Patron Class Name:</label>
+            <input name="patronClassName" value={formData.patronClassName} onChange={handleChange} />
+
+            <label>Patron Fee:</label>
+            <input name="patronFee" value={formData.patronFee} onChange={handleChange} />
+
+            <label>Patron Distribution Terms:</label>
+            <textarea name="patronDistributionTerms" rows="2" value={formData.patronDistributionTerms} onChange={handleChange} />
+
+            <label>Product/Service Scope:</label>
+            <textarea name="productScope" rows="2" value={formData.productScope} onChange={handleChange} />
+
+            <label>In-App Payout Details:</label>
+            <textarea name="inAppPayoutDetails" rows="2" value={formData.inAppPayoutDetails} onChange={handleChange} />
+
+            <hr />
+
+            <h3>Steward Class Fields</h3>
+            <label>Total Steward Shares:</label>
+            <input name="totalStewardShares" value={formData.totalStewardShares} onChange={handleChange} />
+
+            <label>Steward Share Price:</label>
+            <input name="stewardSharePrice" value={formData.stewardSharePrice} onChange={handleChange} />
+
+            <label>Max Ownership %:</label>
+            <input name="maxOwnership" value={formData.maxOwnership} onChange={handleChange} />
+
+            <label>Steward Distribution Terms:</label>
+            <textarea name="stewardDistribution" rows="2" value={formData.stewardDistribution} onChange={handleChange} />
+
+            <label>Initial Steward Allocations:</label>
+            <textarea name="stewardAllocationsInitial" rows="3" value={formData.stewardAllocationsInitial} onChange={handleChange} />
+
+            <label>Future Milestone Logic:</label>
+            <textarea name="futureMilestoneLogic" rows="2" value={formData.futureMilestoneLogic} onChange={handleChange} />
+
+            <hr />
+
+            <label>Secretary Name:</label>
+            <input name="secretaryName" value={formData.secretaryName} onChange={handleChange} />
+
+            <label>Treasurer Name:</label>
+            <input name="treasurerName" value={formData.treasurerName} onChange={handleChange} />
+
+            <label>Another Director or Officer:</label>
+            <input name="directorName" value={formData.directorName} onChange={handleChange} />
+
+            <hr />
+
+            <label>Disclaimers (markdown-friendly):</label>
+            <textarea name="disclaimers" rows="4" value={formData.disclaimers} onChange={handleChange} />
           </div>
 
-          {/* Main Content */}
+          {/* Main Content / Output */}
           <div className="main">
             <h1>Live Preview of Documents</h1>
 
-            <h2>Bylaws</h2>
-            <div className="template-output">{bylawsTemplate}</div>
+            <h2>Articles of Incorporation</h2>
+            <div className="template-output">
+              {articlesTemplate}
+            </div>
 
-            <h2>General Membership Agreement</h2>
-            <div className="template-output">{generalMembership}</div>
+            <h2>Bylaws</h2>
+            <div className="template-output">
+              {bylawsTemplate}
+            </div>
+
+            <h2>Patron Membership Agreement</h2>
+            <div className="template-output">
+              {patronAgreementTemplate}
+            </div>
 
             <h2>Steward Membership Agreement</h2>
-            <div className="template-output">{stewardMembership}</div>
-
-            <h2>Chapter Membership Agreement</h2>
-            <div className="template-output">{chapterMembership}</div>
+            <div className="template-output">
+              {stewardAgreementTemplate}
+            </div>
           </div>
         </div>
       );
