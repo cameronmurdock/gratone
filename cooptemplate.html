@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Multi-Class Co-op Docs (Patron X, Patron Y, & Stewards)</title>
+  <title>Multi-Class Co-op Docs (Patron X, Patron Y, Stewards)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Inter Font -->
@@ -135,12 +135,12 @@
     function App() {
       const [activeTab, setActiveTab] = React.useState('articles');
 
-      // We'll store all user inputs in a state object
+      // We'll store all user inputs in a single state object.
       const [formData, setFormData] = React.useState({
         cooperativeName: 'ONE Local Co-op',
         coopEntityType: 'Public Benefit Corporation',
         stateOfFormation: 'Colorado',
-        missionStatement: 'Empowering local communities with robust, equitable resource sharing.',
+        missionStatement: 'Fostering local resilience and equitable resource sharing.',
         registeredAgent: '',
         boardSize: '3',
         boardDirectorNames: 'Director One\nDirector Two',
@@ -149,30 +149,30 @@
         voteThreshold: '75%',
         fiscalYearEnd: 'December 31',
 
-        // Distributions
+        // Distribution for three classes: Patron X, Patron Y, Stewards
         patronXDistPercent: '25',
         patronYDistPercent: '25',
         stewardDistPercent: '0',
 
-        // Patron Class X fields
+        // Patron Class X
         patronXName: 'Patron Class X',
         patronXFee: '$22/month',
-        patronXScope: 'Sells or promotes certain products/services via the co-op.',
-        patronXDistributionText: '25% of net surplus allocated among Patron X participants proportionate to fees they generated.',
+        patronXScope: 'Sells or promotes certain products via the co-op.',
+        patronXDistributionText: 'Distributed among Patron X participants proportionate to fees generated.',
 
-        // Patron Class Y fields
+        // Patron Class Y
         patronYName: 'Patron Class Y',
         patronYFee: '$22/month',
-        patronYScope: 'Offers a different set of products or services, or organizes local events, etc.',
-        patronYDistributionText: '25% of net surplus allocated among Patron Y participants, likewise based on usage.',
+        patronYScope: 'Offers a different set of services or organizes local events.',
+        patronYDistributionText: 'Likewise allocated proportionate to usage among Patron Y participants.',
 
-        // Steward fields
+        // Steward
         totalStewardShares: '10000000',
         stewardSharePrice: '$1',
         maxOwnership: '5%',
-        stewardDistributionText: 'Allocated pro-rata by shares, also includes contributor shares for labor or services.',
+        stewardDistributionText: 'Allocated pro-rata by shares, including contributor shares for labor/services.',
         stewardAllocationsInitial: 'John Doe: 5000 shares\nJane Austin: 20000 shares',
-        futureMilestoneLogic: 'If 100x ROI, co-op may mint 90 million new shares for expansions.',
+        futureMilestoneLogic: 'If 100x ROI is reached, co-op may mint 90 million new shares.',
 
         // Officers
         chairpersonName: 'User 1 (Chairperson)',
@@ -181,22 +181,21 @@
 
         // disclaimers
         disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
-• No formal "Form 147A" is filed with the SEC. This exemption is self-executing if conditions are met.
-• Sales must be limited to in-state residents; at least 80% business in-state.
-• Transfer restrictions: 6 months min before out-of-state resale.
+• No "Form 147A" is filed with SEC; it's self-executing if conditions are met.
+• Must limit sales to in-state residents; 80% business in-state minimum.
+• 6-month restriction before out-of-state resale.
 • Also consider CO state exemptions (C.R.S. §§ 11-51-101 et seq.).
-• No guaranteed returns. Surplus depends on net profit.
+• No guaranteed returns; depends on net profit.
 • Consult an attorney for compliance with relevant securities laws.`
       });
 
-      // Check distribution totals
+      // Validate membership distribution
       const xNum = parseFloat(formData.patronXDistPercent) || 0;
       const yNum = parseFloat(formData.patronYDistPercent) || 0;
       const sNum = parseFloat(formData.stewardDistPercent) || 0;
       const membershipTotal = xNum + yNum + sNum;
-
       const distributionWarning = membershipTotal < 50
-        ? `Warning: Current membership distribution total is ${membershipTotal}%. Must be at least 50%.`
+        ? `Warning: Current membership distribution total is ${membershipTotal}%. It must be at least 50%.`
         : '';
 
       const handleChange = (e) => {
@@ -204,7 +203,7 @@
         setFormData(prev => ({ ...prev, [name]: value }));
       };
 
-      // 1. ARTICLES
+      // 1. Articles of Incorporation
       const articlesTemplate = `
 ARTICLES OF INCORPORATION
 (for a ${formData.coopEntityType} in ${formData.stateOfFormation})
@@ -214,25 +213,24 @@ ARTICLES OF INCORPORATION
    It is organized under the laws of ${formData.stateOfFormation} as a ${formData.coopEntityType}.
 
 2. PURPOSE
-   The Cooperative engages in any lawful activity consistent with a public-benefit cooperative,
-   including: 
+   The Cooperative conducts any lawful activity consistent with a public-benefit cooperative:
    • ${formData.missionStatement}
 
 3. PRINCIPAL OFFICE & REGISTERED AGENT
    • Principal office in ${formData.stateOfFormation}.
-   • Registered Agent: ${formData.registeredAgent}
+   • Registered Agent: ${formData.registeredAgent}.
 
 4. DIRECTORS
-   Initially, the Board has ${formData.boardSize} Directors, or as set forth in the Bylaws.
+   The Board initially consists of ${formData.boardSize} Directors, or as set by the Bylaws.
    Example Directors:
    ${formData.boardDirectorNames}
 
 5. BENEFIT MISSION
    As a Public Benefit Cooperative, the entity commits to social and community well-being,
-   consistent with the Bylaws.
+   consistent with its Bylaws.
 
 6. AMENDMENTS
-   Amendments require approval as set in the Bylaws.
+   Amendments to these Articles require approval as outlined in the Bylaws.
 
 7. EFFECTIVE DATE
    These Articles become effective upon filing with the Secretary of State.
@@ -240,225 +238,215 @@ ARTICLES OF INCORPORATION
 ${formData.disclaimers}
 `;
 
-      // 2. BYLAWS (the user’s expanded text, referencing Patron Class X, Patron Class Y, and Stewards)
+      // 2. Bylaws (expanded, referencing Patron X, Patron Y, and Stewards)
       const bylawsTemplate = `
 ONE Local Public Benefit Cooperative
-Bylaws
+Bylaws (Multi-Class Version)
 
 Introduction
-One Local Cooperative PBC is a Public-Benefit Cooperative, structured as a tiered multi-stakeholder cooperative, single-taxed. Surplus from the business is distributed across multiple membership classes: ${formData.patronXName}, ${formData.patronYName}, and Stewards. Shares representing Financial Stewardship stake are allocated to Steward members (including contributors who earn shares).
-
-ARTICLE I: MEMBERSHIP 
-
-Section 1.1 Classification of Members
-The Cooperative shall have three (3) classes of Members:
+One Local Cooperative PBC is a Public-Benefit Cooperative, structured with three membership classes:
 • ${formData.patronXName}
 • ${formData.patronYName}
 • Stewards
-All references to Members in this Agreement refer to all three classes.
+Surplus is distributed proportionately. Steward Shares represent financial stake, possibly earned by contributors.
 
-Section 1.2 Membership Qualifications
-Any person 18 or older may become a Member by:
+ARTICLE I: MEMBERSHIP
+
+1.1 Classification of Members
+The Cooperative has three classes: ${formData.patronXName}, ${formData.patronYName}, and Stewards.
+
+1.2 Membership Qualifications
+Any person 18+ may join by:
 (a) Being over 18
-(b) Signing the relevant Membership Agreement and paying fees
-(c) Paying any initial capital contribution set by the Board
+(b) Signing the relevant Membership Agreement, paying required fees
+(c) Paying the initial capital contribution if set by the Board
 (d) Paying ongoing membership fees
-(e) Receiving a copy of the Disclosure Statement, Bylaws, and relevant notices.
+(e) Receiving copies of the Disclosure Statement, Bylaws, etc.
 
-Section 1.3 Acceptance of Members
-A membership committee reviews applications. Once conditions are satisfied, the committee’s recommendation goes to the Board for final approval.
+1.3 Acceptance of Members
+A membership committee reviews applications. Once conditions are satisfied, the committee submits a recommendation to the Board for final approval.
 
-Section 1.4 Transfers Prohibited
-No Member may transfer their Membership or rights. Any attempted transfer is void.
+1.4 Transfers Prohibited
+No Member may transfer their Membership. Any attempted transfer is void.
 
-Section 1.5 Initial Capital Contribution
-The Board may set an initial capital contribution, to be collected within a prescribed period.
+1.5 Initial Capital Contribution
+The Board may set an initial contribution, collected within a specified period.
 
 ARTICLE II: TERMINATION OF MEMBERSHIP
 
-Section 2.1 Voluntary Withdrawal
-A Member may resign by written notice (or via the platform). It is effective immediately.
+2.1 Voluntary Withdrawal
+A Member may resign via written notice or platform. Effective immediately.
 
-Section 2.2 Death
-Membership terminates upon death. A Steward’s shares may be transferred to a designated heir or beneficiary.
+2.2 Death
+Membership ends upon death. Steward shares may pass to heirs/beneficiaries.
 
-Section 2.3 Expulsion
-(a) A Member may be expelled by a 75% Board vote for lawful reasons.
-(b) After a vote to initiate termination, the Member gets notice and 10 days to appeal.
-(c) An appeal is heard by the Board or a committee; if not overturned, expulsion is effective 5 days after the appeal meeting or 15 days after initial notice.
-(d) The Board may direct the Member to refrain from co-op business until resolved.
-(e) Termination removes the Member from any Board or Officer position.
+2.3 Expulsion
+(a) 75% Board vote may expel a Member for lawful reasons.
+(b) The expelled Member receives notice and 10 days to appeal.
+(c) An appeal is heard by the Board or a committee; if not overturned, expulsion is final 5 days after the appeal meeting or 15 days from notice.
+(d) The Board may restrict the Member’s co-op activity until resolution.
+(e) Termination removes Board/Officer status.
 
 ARTICLE III: DIRECTOR/MEMBERSHIP MEETINGS
 
-Section 3.1 Distinction between Membership and Board
-Membership classes have rights as described. The Board has at least three Directors. Members may vote on matters at the Board’s discretion, but certain acts require membership votes (e.g., new classes, major changes).
+3.1 Distinction between Membership and Board
+Members belong to classes, but the Board manages day-to-day. Certain major acts require membership approval.
 
-Section 3.2 Regular Meetings
-Held on Jan 5 each year, or next business day if a holiday. If a matter requires membership vote, 14 days’ notice is given. 
+3.2 Regular Meetings
+Held Jan 5 annually or next business day if a holiday. 14 days’ notice if membership voting is required.
 
-Section 3.3 Special Meetings
-(a) Called by the Chairperson or Secretary, or 10% of Directors.
-(b) 4 days’ notice by mail or 48 hours phone/email. If membership voting is required, scheduling is 30-60 days out, with 14 days’ notice minimum.
-(c) Held at the principal office or as stated.
+3.3 Special Meetings
+Called by the Chairperson or Secretary or 10% of Directors. 4 days’ mail or 48 hours phone/email notice. If membership vote is involved, must be 30-60 days out with 14 days’ notice.
 
-Section 3.4 Record Date for Notice
-Record date is 30 days before a meeting.
+3.4 Record Date for Notice
+30 days before the meeting.
 
-Section 3.5 Waivers, Consents, and Approvals
-Meeting transactions are valid if a quorum is present.
+3.5 Waivers, Consents, Approvals
+A meeting’s actions are valid if quorum is present.
 
-Section 3.6 Annual Meeting
-Held annually to elect Directors and Officers, transact business. If on a holiday, moves to next business day.
+3.6 Annual Meeting
+Held annually to elect Directors/Officers.
 
-Section 3.7 Terms of Directors
-(a) Directors serve three-year terms beginning Jan 1 after election.
-(b) A slate of candidates is proposed at each Annual Meeting for membership approval.
+3.7 Terms of Directors
+Directors serve 3-year terms beginning Jan 1 following election.
 
-Section 3.8 Quorum
-50% of Membership forms a quorum.
+3.8 Quorum
+50% of membership is a quorum.
 
-Section 3.9 Loss of Quorum
-If quorum shrinks, business continues if remaining decisions are approved by 3/4 of the original quorum’s number.
+3.9 Loss of Quorum
+Remaining present can continue business if 3/4 of the original quorum number approve.
 
-Section 3.10 Adjournment
-If no quorum, the majority present may adjourn. No business transacted otherwise.
+3.10 Adjournment
+Without quorum, a majority present may adjourn.
 
-Section 3.11 Adjourned Meetings
-No notice required if time/place are announced; otherwise new notice for >45 days or new record date.
+3.11 Adjourned Meetings
+No new notice if time/place announced. Otherwise new notice if >45 days or new record date.
 
-Section 3.12 Process of Decision-Making
-Seeks consensus. If not possible, 3/4 or more indicating a need leads to a vote. 3/4 or greater of quorum to carry a proposal.
+3.12 Process of Decision-Making
+Seeks consensus. If not possible, 3/4 or more of the quorum can vote to carry a proposal.
 
-Section 3.13 Voting of Memberships
-(a) Each Member has one vote.
-(b) Record date is 25 days before the meeting or ballot mailing.
-(c) No cumulative voting; no proxy voting.
+3.13 Voting of Memberships
+Each Member has one vote. No cumulative or proxy voting.
 
-Section 3.14 Use of Written Ballots
-Officers are elected by written ballot, optionally Directors as well. Ballots distributed at least 10 days before the annual meeting.
+3.14 Use of Written Ballots
+Officers are elected by written ballot, optionally Directors as well.
 
-Section 3.15 Action Without Meeting
+3.15 Action Without Meeting
 Board actions can occur without a meeting if all Directors consent in writing.
 
-Section 3.16 Empowered Committees
-(a) The Board may create committees by resolution. Each has 2+ Members.
-(b) A committee may exercise Board authority except for certain major actions (like Bylaw amendments).
+3.16 Empowered Committees
+The Board may create committees with 2+ Members. They can act on behalf of the Board except for major actions requiring membership or full Board.
 
-Section 3.17 Qualification for Board
+3.17 Qualification for Board
 Directors must be Members.
 
-Section 3.18 Number of Directors
+3.18 Number of Directors
 At least 3, at most 13.
 
 ARTICLE IV: OFFICERS
 
-Section 4.1 Titles
-Officers: Chairperson, Secretary, Treasurer, and others as needed. Chairperson is CEO. Same person may hold multiple offices if permitted.
+4.1 Titles
+Officers: Chairperson, Secretary, Treasurer, plus any others. Chairperson is CEO.
 
-Section 4.2 Duties of Officers
-Officers have duties prescribed by law/these Bylaws. Secretary ensures records are properly kept.
+4.2 Duties of Officers
+Officers have duties per law and Bylaws. Secretary ensures records.
 
-Section 4.3 Nomination
-Any Member can nominate another for office.
+4.3 Nomination
+Any Member can nominate another Member for an office.
 
-Section 4.4 Election
-Officers are elected by written ballot at the Annual Meeting.
+4.4 Election
+Officers elected by written ballot at the Annual Meeting.
 
-Section 4.5 Resignation or Removal
-The Board may remove Officers by vote. An Officer may resign by written notice. Vacancies are filled by the Board.
+4.5 Resignation or Removal
+Officers can be removed by Board vote. An officer may resign by written notice.
 
 ARTICLE V: COOPERATIVE RECORDS AND REPORTS
 
-Section 5.1 Required Records
-The Cooperative keeps correct books, minutes, and a record of Members’ names/addresses.
+5.1 Required Records
+Keeps books, minutes, membership roster.
 
-Section 5.2 Disclosure Document
-Before joining, an applicant receives a Disclosure Document as required by Colorado Cooperative Corporations Code.
+5.2 Disclosure Document
+Applicants get a Disclosure Document as per Colorado’s co-op code.
 
-Section 5.3 Annual Report
-Prepared within 120 days after fiscal year-end, including financial statements, location of the Member list, and statement of interested-person transactions.
+5.3 Annual Report
+Prepared within 120 days of fiscal year end, includes financial statements, membership address list location, and statement of interested-person transactions.
 
 ARTICLE VI: INSPECTION RIGHTS
 
-Section 6.1 Articles and Bylaws
-The Co-op keeps the Articles/Bylaws at its principal office for Member inspection.
+6.1 Articles and Bylaws
+Kept at principal office, open to Member inspection.
 
-Section 6.2 Books and Records
-Members may inspect books/records for a purpose related to their membership interests.
+6.2 Books and Records
+Open to Member inspection with written demand for a purpose related to membership interests.
 
-Section 6.3 Inspection of Membership List
-Communications to membership are routed via the co-op platform. No personal data shared without consent.
+6.3 Membership List
+Communications are routed via platform; no personal data is shared without consent.
 
 ARTICLE VII: SURPLUS AND ALLOCATIONS
 
-Section 7.1 Fiscal Year
-Ends on ${formData.fiscalYearEnd} each year (default: Dec 31).
+7.1 Fiscal Year
+Ends on ${formData.fiscalYearEnd}.
 
-Section 7.3 Allocations and Distributions of Surplus
-(a) Profit is credited to a collective account.
-(b) Surplus, after expenses, is distributed annually. For example:
-   25% Patron X
-   25% Patron Y
-   50% Retained or allocated to Stewards
-   (Or as otherwise set by the Board for the different classes; distributions must meet or exceed membership minimum percentages.)
+7.3 Allocations and Distributions
+After expenses, net surplus is allocated. For example:
+- ${formData.patronXDistPercent}% to Patron Class X
+- ${formData.patronYDistPercent}% to Patron Class Y
+- ${formData.stewardDistPercent}% to Stewards
+Membership classes total at least 50%. The Board may retain the remainder or allocate to expansions.
 
-Section 7.4 Patronage Distribution
-(a) Patronage typically via Stripe, unless the Board changes the distribution method.
-(b) Can be via qualified or non-qualified written notices of allocation.
+7.4 Patronage Distribution
+Via Stripe or alternative within 8.5 months of year-end, unless Directors choose otherwise.
 
-Section 7.5 Member's Consent for Tax Purposes
-Each Member consents to declare the stated amounts of qualified notices in their taxable income.
+7.5 Member's Consent
+Each Member consents to declare the dollar amounts of qualified notices in their taxable income.
 
-Section 7.6 Payment Rights (Member Accounts)
-(a) On termination, a Member’s account may transfer to their connected bank or any designated account.
-(b) The Co-op may offset debts owed by the departing Member.
+7.6 Payment Rights
+A departing Member’s account can be transferred to their linked account, minus offsets for debts.
 
-Section 7.8 Unclaimed Equity Interests
-If a Member’s equity would escheat, the Co-op notifies them by email 60 days prior. If no objection, it reverts to the Co-op.
+7.8 Unclaimed Equity
+If it would escheat, the Co-op notifies the Member 60 days prior by email; if no objection, it reverts to the Co-op.
 
-Section 7.9 Dissolution Distributions
-After paying debts and returning Member balances, leftover is distributed proportionally to Steward share ownership or as determined by these Bylaws.
+7.9 Dissolution
+After debts and returning balances, leftover is distributed proportionally to Stewards or as set forth.
 
-Section 7.10 Maintaining Equitable Membership Fees
-Membership capital contributions won’t be raised faster than the Consumer Price Index for Colorado.
+7.10 Maintaining Equitable Fees
+Initial capital contribution cannot be raised faster than the Colorado CPI.
 
 ARTICLE VIII: CHANGES
 
-Section 8.1 Bylaw Changes
-Policy changes can be made by Board vote unless membership approval is legally required.
+8.1 Bylaw Changes
+Policy changes may be made by the Board unless membership approval is legally required.
 
 (END OF BYLAWS)
 
 ${formData.disclaimers}
 `;
 
-      // 3. Patron Class X Agreement
+      // 3. Patron X Agreement
       const patronXTemplate = `
 ${formData.cooperativeName}
 ${formData.patronXName} MEMBERSHIP AGREEMENT
 
 1. PARTIES
-   - The Cooperative: ${formData.cooperativeName}
-   - The Member: [MEMBER_NAME] (joining ${formData.patronXName})
+   The Cooperative: ${formData.cooperativeName}
+   The Member: [MEMBER_NAME] joining ${formData.patronXName}
 
 2. CLASS & FEE
-   - The Member joins ${formData.patronXName} upon paying ${formData.patronXFee}
-     and signing this Agreement.
+   The Member joins "${formData.patronXName}" by paying ${formData.patronXFee} and signing this Agreement.
 
 3. RIGHTS & OBLIGATIONS
-   - May have one vote if granted by the Bylaws.
-   - Engages in the co-op platform to ${formData.patronXScope}
-   - Must abide by the Bylaws and policies, remain in good standing.
+   - May have one vote if authorized by Bylaws.
+   - Engages in co-op platform to ${formData.patronXScope}
+   - Must follow Bylaws/policies, remain in good standing.
 
 4. SURPLUS ALLOCATION
-   - Per the Bylaws, ${formData.patronXDistPercent}% of net surplus is allocated among ${formData.patronXName}.
+   - By Bylaws, ${formData.patronXDistPercent}% of net surplus is allocated among ${formData.patronXName}.
    - ${formData.patronXDistributionText}
-   - No guarantee of returns; actual surplus depends on co-op performance.
+   - No guaranteed returns; depends on actual net profit.
 
 5. TERMINATION
-   - The Member may withdraw by written notice.
-   - The Board may expel if warranted under Bylaws.
+   - The Member may withdraw via written notice.
+   - The Board may expel for reasons under Bylaws.
 
 6. DISCLAIMER
 ${formData.disclaimers}
@@ -469,32 +457,31 @@ Signatures:
 Date: __________
 `;
 
-      // 4. Patron Class Y Agreement
+      // 4. Patron Y Agreement
       const patronYTemplate = `
 ${formData.cooperativeName}
 ${formData.patronYName} MEMBERSHIP AGREEMENT
 
 1. PARTIES
-   - The Cooperative: ${formData.cooperativeName}
-   - The Member: [MEMBER_NAME] (joining ${formData.patronYName})
+   The Cooperative: ${formData.cooperativeName}
+   The Member: [MEMBER_NAME] joining ${formData.patronYName}
 
 2. CLASS & FEE
-   - The Member joins ${formData.patronYName} upon paying ${formData.patronYFee}
-     and signing this Agreement.
+   The Member joins "${formData.patronYName}" by paying ${formData.patronYFee} and signing this Agreement.
 
 3. RIGHTS & OBLIGATIONS
-   - May have one vote if granted by the Bylaws.
-   - Engages in the co-op platform to ${formData.patronYScope}
-   - Must abide by the Bylaws and policies, remain in good standing.
+   - May have one vote if authorized by Bylaws.
+   - Engages in co-op platform to ${formData.patronYScope}
+   - Must follow Bylaws/policies, remain in good standing.
 
 4. SURPLUS ALLOCATION
-   - Per the Bylaws, ${formData.patronYDistPercent}% of net surplus is allocated among ${formData.patronYName}.
+   - By Bylaws, ${formData.patronYDistPercent}% of net surplus is allocated among ${formData.patronYName}.
    - ${formData.patronYDistributionText}
-   - No guarantee of returns; actual surplus depends on co-op performance.
+   - No guaranteed returns; depends on net profit.
 
 5. TERMINATION
-   - The Member may withdraw by written notice.
-   - The Board may expel if warranted under Bylaws.
+   - The Member may withdraw via written notice.
+   - The Board may expel for reasons under Bylaws.
 
 6. DISCLAIMER
 ${formData.disclaimers}
@@ -505,37 +492,35 @@ Signatures:
 Date: __________
 `;
 
-      // 5. Steward Agreement (including contributor share concept)
+      // 5. Steward Agreement
       const stewardTemplate = `
 ${formData.cooperativeName}
 STEWARD MEMBERSHIP AGREEMENT
 
 1. PARTIES
-   - The Cooperative: ${formData.cooperativeName}
-   - The Steward: [STEWARD_NAME]
+   The Cooperative: ${formData.cooperativeName}
+   The Steward: [STEWARD_NAME]
 
 2. STEWARD SHARES
    - Total authorized: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each.
-   - Maximum ownership: ${formData.maxOwnership}.
-   - Shares may also be **earned** by Contributors who provide labor, development, or other services
-     as approved by the Board. Those shares will vest per separate Contributor Agreement or Board resolutions.
+   - Max ownership: ${formData.maxOwnership}
+   - Includes contributors earning shares for labor/services if Board-approved.
 
 3. SURPLUS ALLOCATION
-   - Per the Bylaws, ${formData.stewardDistPercent}% of net surplus is allocated to Stewards,
-     pro-rata by shares held.
+   - By Bylaws, ${formData.stewardDistPercent}% of net surplus goes to Stewards, pro-rata by shares.
    - ${formData.stewardDistributionText}
-   - No guaranteed ROI; actual surpluses depend on performance.
+   - No guaranteed ROI; depends on co-op performance.
 
 4. FUTURE MILESTONES
    - ${formData.futureMilestoneLogic}
 
 5. TRANSFER & REDEMPTION
-   - Steward Shares are non-transferable except as allowed by the Bylaws.
-   - The Co-op may repurchase shares at par/book value upon withdrawal/expulsion, per Board policies.
+   - Shares are non-transferable unless Bylaws permit.
+   - The Co-op may buy back shares at par/book value upon withdrawal or expulsion.
 
 6. TERMINATION
-   - A Steward may withdraw by written notice.
-   - The Board may expel a Steward for lawful reasons with due process.
+   - A Steward may resign via notice.
+   - The Board may expel for lawful reasons, with due process.
 
 7. DISCLAIMERS & EXEMPTIONS
 ${formData.disclaimers}
@@ -565,111 +550,255 @@ Date: __________
 
       return (
         <div style={{ display: 'flex', width: '100%' }}>
+          {/* Sidebar form */}
           <div className="sidebar">
             <h1>Multi-Class Co-op Docs</h1>
+            
             {distributionWarning && (
               <div className="warning">{distributionWarning}</div>
             )}
 
             <label>Co-op Name:</label>
-            <input name="cooperativeName" value={formData.cooperativeName} onChange={handleChange} />
+            <input
+              name="cooperativeName"
+              value={formData.cooperativeName}
+              onChange={handleChange}
+            />
 
             <label>Entity Type (PBC, etc.):</label>
-            <input name="coopEntityType" value={formData.coopEntityType} onChange={handleChange} />
+            <input
+              name="coopEntityType"
+              value={formData.coopEntityType}
+              onChange={handleChange}
+            />
 
             <label>State of Formation:</label>
-            <input name="stateOfFormation" value={formData.stateOfFormation} onChange={handleChange} />
+            <input
+              name="stateOfFormation"
+              value={formData.stateOfFormation}
+              onChange={handleChange}
+            />
 
             <label>Mission Statement:</label>
-            <textarea name="missionStatement" rows="2" value={formData.missionStatement} onChange={handleChange} />
+            <textarea
+              name="missionStatement"
+              rows="2"
+              value={formData.missionStatement}
+              onChange={handleChange}
+            />
 
             <label>Registered Agent:</label>
-            <input name="registeredAgent" value={formData.registeredAgent} onChange={handleChange} />
+            <input
+              name="registeredAgent"
+              value={formData.registeredAgent}
+              onChange={handleChange}
+            />
 
             <label>Board Size:</label>
-            <input name="boardSize" value={formData.boardSize} onChange={handleChange} type="number" />
+            <input
+              name="boardSize"
+              value={formData.boardSize}
+              onChange={handleChange}
+              type="number"
+            />
 
             <label>Board Director Names:</label>
-            <textarea name="boardDirectorNames" rows="2" value={formData.boardDirectorNames} onChange={handleChange} />
+            <textarea
+              name="boardDirectorNames"
+              rows="2"
+              value={formData.boardDirectorNames}
+              onChange={handleChange}
+            />
 
-            <hr />
+            <hr/>
 
             <label>Membership Fee (Bylaws):</label>
-            <input name="membershipFee" value={formData.membershipFee} onChange={handleChange} />
+            <input
+              name="membershipFee"
+              value={formData.membershipFee}
+              onChange={handleChange}
+            />
 
             <label>Quorum Requirement (%):</label>
-            <input name="quorumRequirement" value={formData.quorumRequirement} onChange={handleChange} />
+            <input
+              name="quorumRequirement"
+              value={formData.quorumRequirement}
+              onChange={handleChange}
+            />
 
             <label>Vote Threshold (%):</label>
-            <input name="voteThreshold" value={formData.voteThreshold} onChange={handleChange} />
+            <input
+              name="voteThreshold"
+              value={formData.voteThreshold}
+              onChange={handleChange}
+            />
 
             <label>Fiscal Year End:</label>
-            <input name="fiscalYearEnd" value={formData.fiscalYearEnd} onChange={handleChange} />
+            <input
+              name="fiscalYearEnd"
+              value={formData.fiscalYearEnd}
+              onChange={handleChange}
+            />
 
-            <hr />
+            <hr/>
 
-            <h3>Multi-Class Distribution %</h3>
-            <label>{`Patron X %`}:</label>
-            <input name="patronXDistPercent" value={formData.patronXDistPercent} onChange={handleChange} type="number" />
-            <label>{`Patron Y %`}:</label>
-            <input name="patronYDistPercent" value={formData.patronYDistPercent} onChange={handleChange} type="number" />
-            <label>Steward %:</label>
-            <input name="stewardDistPercent" value={formData.stewardDistPercent} onChange={handleChange} type="number" />
+            <h3>Distribution Percentages</h3>
+            <label>Patron X %</label>
+            <input
+              name="patronXDistPercent"
+              value={formData.patronXDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
+            <label>Patron Y %</label>
+            <input
+              name="patronYDistPercent"
+              value={formData.patronYDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
+            <label>Stewards %</label>
+            <input
+              name="stewardDistPercent"
+              value={formData.stewardDistPercent}
+              onChange={handleChange}
+              type="number"
+            />
 
             <hr/>
 
             <h3>Patron Class X</h3>
             <label>Class X Name:</label>
-            <input name="patronXName" value={formData.patronXName} onChange={handleChange} />
+            <input
+              name="patronXName"
+              value={formData.patronXName}
+              onChange={handleChange}
+            />
             <label>Class X Fee:</label>
-            <input name="patronXFee" value={formData.patronXFee} onChange={handleChange} />
+            <input
+              name="patronXFee"
+              value={formData.patronXFee}
+              onChange={handleChange}
+            />
             <label>Class X Scope:</label>
-            <textarea name="patronXScope" rows="2" value={formData.patronXScope} onChange={handleChange} />
+            <textarea
+              name="patronXScope"
+              rows="2"
+              value={formData.patronXScope}
+              onChange={handleChange}
+            />
             <label>Class X Distribution Text:</label>
-            <textarea name="patronXDistributionText" rows="2" value={formData.patronXDistributionText} onChange={handleChange} />
+            <textarea
+              name="patronXDistributionText"
+              rows="2"
+              value={formData.patronXDistributionText}
+              onChange={handleChange}
+            />
 
             <hr/>
 
             <h3>Patron Class Y</h3>
             <label>Class Y Name:</label>
-            <input name="patronYName" value={formData.patronYName} onChange={handleChange} />
+            <input
+              name="patronYName"
+              value={formData.patronYName}
+              onChange={handleChange}
+            />
             <label>Class Y Fee:</label>
-            <input name="patronYFee" value={formData.patronYFee} onChange={handleChange} />
+            <input
+              name="patronYFee"
+              value={formData.patronYFee}
+              onChange={handleChange}
+            />
             <label>Class Y Scope:</label>
-            <textarea name="patronYScope" rows="2" value={formData.patronYScope} onChange={handleChange} />
+            <textarea
+              name="patronYScope"
+              rows="2"
+              value={formData.patronYScope}
+              onChange={handleChange}
+            />
             <label>Class Y Distribution Text:</label>
-            <textarea name="patronYDistributionText" rows="2" value={formData.patronYDistributionText} onChange={handleChange} />
+            <textarea
+              name="patronYDistributionText"
+              rows="2"
+              value={formData.patronYDistributionText}
+              onChange={handleChange}
+            />
 
             <hr/>
 
             <h3>Steward Class</h3>
             <label>Total Steward Shares:</label>
-            <input name="totalStewardShares" value={formData.totalStewardShares} onChange={handleChange} />
+            <input
+              name="totalStewardShares"
+              value={formData.totalStewardShares}
+              onChange={handleChange}
+            />
             <label>Steward Share Price:</label>
-            <input name="stewardSharePrice" value={formData.stewardSharePrice} onChange={handleChange} />
+            <input
+              name="stewardSharePrice"
+              value={formData.stewardSharePrice}
+              onChange={handleChange}
+            />
             <label>Max Ownership %:</label>
-            <input name="maxOwnership" value={formData.maxOwnership} onChange={handleChange} />
+            <input
+              name="maxOwnership"
+              value={formData.maxOwnership}
+              onChange={handleChange}
+            />
             <label>Steward Distribution Explanation:</label>
-            <textarea name="stewardDistributionText" rows="2" value={formData.stewardDistributionText} onChange={handleChange} />
+            <textarea
+              name="stewardDistributionText"
+              rows="2"
+              value={formData.stewardDistributionText}
+              onChange={handleChange}
+            />
             <label>Initial Steward Allocations:</label>
-            <textarea name="stewardAllocationsInitial" rows="3" value={formData.stewardAllocationsInitial} onChange={handleChange} />
+            <textarea
+              name="stewardAllocationsInitial"
+              rows="3"
+              value={formData.stewardAllocationsInitial}
+              onChange={handleChange}
+            />
             <label>Future Milestone Logic:</label>
-            <textarea name="futureMilestoneLogic" rows="2" value={formData.futureMilestoneLogic} onChange={handleChange} />
+            <textarea
+              name="futureMilestoneLogic"
+              rows="2"
+              value={formData.futureMilestoneLogic}
+              onChange={handleChange}
+            />
 
             <hr/>
 
             <h3>Board Officers</h3>
             <label>Chairperson:</label>
-            <input name="chairpersonName" value={formData.chairpersonName} onChange={handleChange} />
+            <input
+              name="chairpersonName"
+              value={formData.chairpersonName}
+              onChange={handleChange}
+            />
             <label>Secretary:</label>
-            <input name="secretaryName" value={formData.secretaryName} onChange={handleChange} />
+            <input
+              name="secretaryName"
+              value={formData.secretaryName}
+              onChange={handleChange}
+            />
             <label>Treasurer:</label>
-            <input name="treasurerName" value={formData.treasurerName} onChange={handleChange} />
+            <input
+              name="treasurerName"
+              value={formData.treasurerName}
+              onChange={handleChange}
+            />
 
             <hr/>
 
-            <label>Disclaimers (147A, etc.):</label>
-            <textarea name="disclaimers" rows="6" value={formData.disclaimers} onChange={handleChange} />
+            <label>Disclaimers (Rule 147A, etc.):</label>
+            <textarea
+              name="disclaimers"
+              rows="6"
+              value={formData.disclaimers}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="main">
@@ -697,9 +826,7 @@ Date: __________
       return (
         <div className="tab-content">
           <h2>{label}</h2>
-          <div className="template-output">
-            {template}
-          </div>
+          <div className="template-output">{template}</div>
         </div>
       );
     }
