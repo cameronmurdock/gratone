@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Tabbed Co-op Docs with General, Patron, and Steward</title>
+  <title>Tabbed Co-op Docs (Including General Member Agreement)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Inter Font -->
@@ -125,15 +125,14 @@
 </head>
 <body>
   <!-- React & Babel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 
   <div id="root"></div>
 
   <script type="text/babel">
     function App() {
-      // We'll store all user inputs in a state object
       const [formData, setFormData] = React.useState({
         // Basic / Articles info
         cooperativeName: 'ONE Local Co-op',
@@ -171,9 +170,9 @@
         futureMilestoneLogic: 'If 100x ROI is reached, co-op may mint an additional 90 million shares.',
 
         // Officers
-        secretaryName: 'User 1 (Secretary)',
-        treasurerName: 'User 2 (Treasurer)',
-        directorName: 'User 3 (Director)',
+        chairpersonName: 'User 1 (Chairperson)',
+        secretaryName: 'User 2 (Secretary)',
+        treasurerName: 'User 3 (Treasurer)',
         
         // disclaimers
         disclaimers: `DISCLAIMER - SECURITIES & INTRASTATE OFFERING (RULE 147A):
@@ -255,14 +254,14 @@ BYLAWS OF ${formData.cooperativeName}
        • ${formData.patronClassName}
        • Steward Members
    2.2 Membership Fee: ${formData.membershipFee} (may be adjusted by Board).
-   2.3 Acceptance & Transfer: Subject to Board approval. Membership is non-transferable
+   2.3 Acceptance & Transfer: Subject to Board approval; membership is non-transferable
        except as stated in these Bylaws.
 
 3. BOARD OF DIRECTORS
    3.1 Size: The Board consists of ${formData.boardSize} directors (or as set
        by the Co-op).
-   3.2 Officers: Must include Secretary (${formData.secretaryName}) and Treasurer (${formData.treasurerName}), 
-       plus any other roles designated by the Board.
+   3.2 Officers: Must include Chairperson (${formData.chairpersonName}), 
+       Secretary (${formData.secretaryName}), and Treasurer (${formData.treasurerName}).
    3.3 Meetings: Annual & special. Notice given to all directors.
    3.4 Quorum: ${formData.quorumRequirement}% of directors or members; major decisions need
        ${formData.voteThreshold}% approval (unless otherwise stated in these Bylaws).
@@ -274,13 +273,13 @@ BYLAWS OF ${formData.cooperativeName}
        and fulfilling other obligations.
    4.3 Distribution Policy:
        (a) **General Members**: ${formData.generalDistPercent}% of net surplus allocated among
-           General Members as determined by their participation level or usage, if any.
+           General Members (if any) based on usage or membership policies.
        (b) **${formData.patronClassName}**: ${formData.patronDistPercent}% of net surplus allocated among
-           Patron Members, based on the fees or revenue each Patron's activity generated.
+           Patron Members, proportionate to fees or revenue their activity generated.
        (c) **Steward Members**: ${formData.stewardDistPercent}% of net surplus allocated among Stewards
            pro rata by shares held.
-       (d) **Minimum Total to Membership**: General + Patron + Steward distributions shall
-           never be less than 50% in aggregate.
+       (d) **Minimum Total to Membership**: The sum of General + Patron + Steward distribution
+           must never be less than 50%.
        (e) **Remaining Surplus**:
            The Board may allocate any remainder to co-op reserves, expansions,
            or other Co-op initiatives.
@@ -288,9 +287,10 @@ BYLAWS OF ${formData.cooperativeName}
        Actual net surplus and distribution depend on the Cooperative's performance.
 
 5. GENERAL MEMBERS
-   5.1 Scope: General Members have a single vote if designated by the Board or Bylaws,
-       but typically do not engage in Patron or Steward activities.
-   5.2 Fee: Included in the standard membership fee or as determined by Board policy.
+   5.1 Scope: General Members pay the standard membership fee and may have voting rights
+       as determined by Board policy or these Bylaws. They do not engage as Patrons or Stewards
+       unless they specifically join those classes.
+   5.2 Fee: Included in the membership fee or as specified by the Board.
 
 6. PATRON MEMBERS
    6.1 Fee: ${formData.patronFee}
@@ -300,7 +300,7 @@ BYLAWS OF ${formData.cooperativeName}
 
 7. STEWARD MEMBERS
    7.1 Total Shares: ${formData.totalStewardShares} @ ${formData.stewardSharePrice} each
-   7.2 Max Ownership: ${formData.maxOwnership} per individual/entity.
+   7.2 Max Ownership: ${formData.maxOwnership} per entity.
    7.3 Distribution: ${formData.stewardDistribution}
    7.4 Future Milestones: ${formData.futureMilestoneLogic}
    7.5 Initial Allocations:
@@ -308,7 +308,7 @@ BYLAWS OF ${formData.cooperativeName}
 
 8. TERMINATION & EXPULSION
    8.1 Voluntary: A Member may resign by providing written notice.
-   8.2 Expulsion: The Board may expel for lawful reasons, following notice and an opportunity to respond.
+   8.2 Expulsion: The Board may expel for lawful reasons, with notice/opportunity to respond.
 
 9. DISSOLUTION
    After debts & returning member equity, leftover assets are distributed among
@@ -322,7 +322,42 @@ BYLAWS OF ${formData.cooperativeName}
 ${formData.disclaimers}
 `;
 
-      // 3. Patron Membership Agreement
+      // 3. General Membership Agreement
+      const generalAgreementTemplate = `
+${formData.cooperativeName}
+GENERAL MEMBERSHIP AGREEMENT
+
+1. PARTIES
+   The Cooperative: ${formData.cooperativeName}
+   The Member: [GENERAL_MEMBER_NAME]
+
+2. CLASS & FEE
+   The Member joins as a "General Member" by paying the standard membership fee (${formData.membershipFee})
+   and signing this Agreement.
+
+3. RIGHTS & OBLIGATIONS
+   - May have one vote in Co-op decisions if authorized by the Bylaws.
+   - Commits to abide by the Co-op’s Bylaws, policies, and mission.
+   - Understands that the Co-op offers distinct classes for Patron or Steward involvement.
+
+4. SURPLUS DISTRIBUTION
+   - Per the Bylaws, ${formData.generalDistPercent}% of net surplus may be allocated to General Members.
+   - Actual surplus depends on the Co-op’s financial performance.
+
+5. TERMINATION
+   - Member may withdraw by giving written notice to the Secretary.
+   - The Board may expel a Member for lawful reasons as outlined in the Bylaws.
+
+6. DISCLAIMER
+${formData.disclaimers}
+
+Signatures:
+- [GENERAL_MEMBER_NAME], General Member
+- [COOP_REP], ${formData.cooperativeName}
+Date: __________
+`;
+
+      // 4. Patron Membership Agreement
       const patronAgreementTemplate = `
 ${formData.cooperativeName}
 PATRON MEMBERSHIP AGREEMENT
@@ -361,7 +396,7 @@ Signatures:
 Date: __________
 `;
 
-      // 4. Steward Membership Agreement
+      // 5. Steward Membership Agreement
       const stewardAgreementTemplate = `
 ${formData.cooperativeName}
 STEWARD MEMBERSHIP AGREEMENT
@@ -403,7 +438,15 @@ Signatures:
 Date: __________
 `;
 
-      // Tab content
+      // Now define the tabs, including the new "General Agreement"
+      const TABS = [
+        { key: 'articles', label: 'Articles of Incorporation', content: articlesTemplate },
+        { key: 'bylaws', label: 'Bylaws', content: bylawsTemplate },
+        { key: 'general', label: 'General Agreement', content: generalAgreementTemplate },
+        { key: 'patron', label: 'Patron Agreement', content: patronAgreementTemplate },
+        { key: 'steward', label: 'Steward Agreement', content: stewardAgreementTemplate },
+      ];
+
       function TabContent({ label, template }) {
         return (
           <div className="tab-content">
@@ -412,14 +455,6 @@ Date: __________
           </div>
         );
       }
-
-      // Define the tabs
-      const TABS = [
-        { key: 'articles', label: 'Articles of Incorporation', content: articlesTemplate },
-        { key: 'bylaws', label: 'Bylaws', content: bylawsTemplate },
-        { key: 'patron', label: 'Patron Agreement', content: patronAgreementTemplate },
-        { key: 'steward', label: 'Steward Agreement', content: stewardAgreementTemplate },
-      ];
 
       return (
         <div style={{ display: 'flex', width: '100%' }}>
@@ -534,14 +569,15 @@ Date: __________
 
             <hr />
 
+            <h3>Board Officers</h3>
+            <label>Chairperson:</label>
+            <input name="chairpersonName" value={formData.chairpersonName} onChange={handleChange} />
+
             <label>Secretary:</label>
             <input name="secretaryName" value={formData.secretaryName} onChange={handleChange} />
 
             <label>Treasurer:</label>
             <input name="treasurerName" value={formData.treasurerName} onChange={handleChange} />
-
-            <label>Another Director/Officer:</label>
-            <input name="directorName" value={formData.directorName} onChange={handleChange} />
 
             <hr />
 
