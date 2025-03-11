@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ONE|Local Whitepaper (Side Nav Fixed)</title>
-  
+  <title>ONE|Local Whitepaper (Parsed Into Sections)</title>
+
   <!-- Inter Font -->
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  
+
   <style>
     body {
       margin: 0;
@@ -44,13 +44,6 @@
       background-color: rgba(255, 255, 255, 0.1);
     }
 
-    .active-link {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-    .dark .active-link {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
     .theme-toggle {
       padding: 8px;
       border-radius: 6px;
@@ -75,13 +68,13 @@
       margin: 0 auto;
       white-space: pre-wrap; /* preserve line breaks as typed */
     }
-    h2 {
+    .prose h2 {
       margin-top: 1em;
       margin-bottom: 1em;
       font-size: 1.2em;
       font-weight: bold;
     }
-    p {
+    .prose p {
       margin-bottom: 0.8em;
     }
   </style>
@@ -95,8 +88,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 
   <script type="text/babel">
-    // The whitepaper text is stored EXACTLY as provided.
-    const whitepaperText = `## ONE|Local: A Comprehensive Blueprint for Decentralized, Regenerative, and Culturally Enriched Communities
+    /*
+      This code loads the entire text unchanged, then parses it
+      into sections by recognized headings. Each section is displayed
+      in the main area, with references for side nav. The user can
+      jump to sections by clicking the side nav. The text lines are
+      otherwise unmodified.
+    */
+
+    // The entire, unaltered text:
+    const rawText = `## ONE|Local: A Comprehensive Blueprint for Decentralized, Regenerative, and Culturally Enriched Communities
 
 **Technical, Philosophical, Cultural, Ecological, and Economic Whitepaper**
 
@@ -761,66 +762,76 @@ This section will include detailed technical specifications, whitepapers for spe
 **End of Whitepaper**
 `;
 
-    // We define headings to appear in side navigation:
-    // Must match the EXACT lines in the text above:
+    // We define headingLabels to define how we parse the text into sections:
     const headingLabels = [
-      { label: "Preamble", match: "**Preamble: The Unfolding Potential of Community**" },
-      { label: "Table of Contents", match: "**Table of Contents**" },
-      { label: "1. Executive Summary", match: "**1. Executive Summary**" },
-      { label: "2. The Existential Imperative", match: "**2. The Existential Imperative: Reclaiming Community and Purpose**" },
-      { label: "3. Vision", match: "**3. The Vision of ONE|Local: A Synthesis of Innovation and Heritage**" },
-      { label: "4. Core Tenets", match: "**4. Core Tenets: Efficiency, Enjoyment, Hope – The Guiding Principles**" },
-      { label: "5. Architectural Pillars", match: "**5. The Architectural Pillars: A Multi-Layered Framework**" },
-      { label: "6. Tech Landscape", match: "**6. The Technological Landscape: A Symphony of Innovation**" },
-      { label: "7. Data Architecture", match: "**7. Data Architecture: The Lifeblood of ONE|Local**" },
-      { label: "8. Regenerative Economy", match: "**8. The Regenerative Economic Engine: Cultivating Shared Prosperity**" },
-      { label: "9. Governance", match: "**9. Governance: Distributed Power and Collective Wisdom**" },
-      { label: "10. Cultural Tapestry", match: "**10. The Cultural Tapestry: Weaving Together Heritage and Innovation**" },
-      { label: "11. Ecological Harmony", match: "**11. Ecological Harmony: Designing for Sustainability and Regeneration**" },
-      { label: "12. User Experience", match: "**12. The User Experience: Intuitive, Engaging, and Empowering**" },
-      { label: "13. Agentic Ecosystem", match: "**13. The Agentic Ecosystem: Proactive Intelligence and Assistance**" },
-      { label: "14. Security, Privacy, Ethics", match: "**14. Security, Privacy, and Ethical Considerations: Guiding Principles for Development**" },
-      { label: "15. Scaling & Interop", match: "**15. Scaling and Interoperability: Building a Global Network of Thriving Communities**" },
-      { label: "16. Path Forward", match: "**16. The Path Forward: Implementation, Adoption, and Continuous Evolution**" },
-      { label: "17. Conclusion", match: "**17. Conclusion: A Future Forged in Community, Driven by Purpose**" },
-      { label: "18. Appendices", match: "**18. Appendices and References**" },
+      { label: 'Preamble',    match: '**Preamble: The Unfolding Potential of Community**' },
+      { label: 'Table of Contents', match: '**Table of Contents**' },
+      { label: '1. Executive Summary', match: '**1. Executive Summary**' },
+      { label: '2. The Existential Imperative', match: '**2. The Existential Imperative: Reclaiming Community and Purpose**' },
+      { label: '3. Vision', match: '**3. The Vision of ONE|Local: A Synthesis of Innovation and Heritage**' },
+      { label: '4. Core Tenets', match: '**4. Core Tenets: Efficiency, Enjoyment, Hope – The Guiding Principles**' },
+      { label: '5. Architectural Pillars', match: '**5. The Architectural Pillars: A Multi-Layered Framework**' },
+      { label: '6. Tech Landscape', match: '**6. The Technological Landscape: A Symphony of Innovation**' },
+      { label: '7. Data Architecture', match: '**7. Data Architecture: The Lifeblood of ONE|Local**' },
+      { label: '8. Regenerative Economy', match: '**8. The Regenerative Economic Engine: Cultivating Shared Prosperity**' },
+      { label: '9. Governance', match: '**9. Governance: Distributed Power and Collective Wisdom**' },
+      { label: '10. Cultural Tapestry', match: '**10. The Cultural Tapestry: Weaving Together Heritage and Innovation**' },
+      { label: '11. Ecological Harmony', match: '**11. Ecological Harmony: Designing for Sustainability and Regeneration**' },
+      { label: '12. User Experience', match: '**12. The User Experience: Intuitive, Engaging, and Empowering**' },
+      { label: '13. Agentic Ecosystem', match: '**13. The Agentic Ecosystem: Proactive Intelligence and Assistance**' },
+      { label: '14. Security, Privacy, Ethics', match: '**14. Security, Privacy, and Ethical Considerations: Guiding Principles for Development**' },
+      { label: '15. Scaling & Interop', match: '**15. Scaling and Interoperability: Building a Global Network of Thriving Communities**' },
+      { label: '16. Path Forward', match: '**16. The Path Forward: Implementation, Adoption, and Continuous Evolution**' },
+      { label: '17. Conclusion', match: '**17. Conclusion: A Future Forged in Community, Driven by Purpose**' },
+      { label: '18. Appendices', match: '**18. Appendices and References**' },
     ];
+
+    // parseSections splits the text into an array of { title, content[] },
+    // each content[] is the lines of that section.
+    function parseSections(text, headingDefs) {
+      const lines = text.split('\\n');
+      const sections = [];
+
+      let currentSection = {
+        title: 'Intro', // This is for any text before first recognized heading
+        content: [],
+      };
+
+      function startNewSection(title) {
+        // Push the existing section if it has anything
+        if (currentSection.content.length > 0 || currentSection.title !== 'Intro') {
+          sections.push({ ...currentSection });
+        }
+        currentSection = { title, content: [] };
+      }
+
+      lines.forEach((line) => {
+        const headingDef = headingDefs.find((h) => line.includes(h.match));
+        if (headingDef) {
+          // start new section
+          startNewSection(headingDef.label);
+          // include this line in the new section
+          currentSection.content.push(line);
+        } else {
+          // continue current
+          currentSection.content.push(line);
+        }
+      });
+
+      // push last
+      if (currentSection.content.length > 0) {
+        sections.push({ ...currentSection });
+      }
+      return sections;
+    }
+
+    const sections = parseSections(rawText, headingLabels);
 
     function App() {
       const [isDark, setIsDark] = React.useState(false);
       const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
-      // We'll store references to headings
-      const headingRefs = React.useRef({});
-
-      // Break text into lines
-      const lines = whitepaperText.split("\\n");
-
-      // Convert lines to elements
-      const processedElements = lines.map((line, i) => {
-        for (const h of headingLabels) {
-          if (line.includes(h.match)) {
-            return (
-              <h2
-                key={i}
-                ref={(el) => {
-                  if (el) headingRefs.current[h.label] = el;
-                }}
-              >
-                {line}
-              </h2>
-            );
-          }
-        }
-        return <p key={i}>{line}</p>;
-      });
-
-      const handleNavClick = (label) => {
-        const el = headingRefs.current[label];
-        if (el && el.scrollIntoView) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      };
+      const sectionsRefs = React.useRef({});
 
       React.useEffect(() => {
         const handleResize = () => {
@@ -830,6 +841,13 @@ This section will include detailed technical specifications, whitepapers for spe
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
       }, []);
+
+      const handleNavClick = (title) => {
+        const el = sectionsRefs.current[title];
+        if (el && el.scrollIntoView) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
 
       return (
         <div className={isDark ? 'dark' : ''} style={{ minHeight: '100vh' }}>
@@ -890,18 +908,18 @@ This section will include detailed technical specifications, whitepapers for spe
               zIndex: 50,
             }}
           >
-            {headingLabels.map((h) => (
+            {sections.map((sec) => (
               <div
-                key={h.label}
+                key={sec.title}
                 className="nav-link"
                 onClick={() => {
-                  handleNavClick(h.label);
+                  handleNavClick(sec.title);
                   if (window.innerWidth <= 768) {
                     setIsSidebarOpen(false);
                   }
                 }}
               >
-                {h.label}
+                {sec.title}
               </div>
             ))}
           </aside>
@@ -915,7 +933,25 @@ This section will include detailed technical specifications, whitepapers for spe
             }}
           >
             <div className="prose">
-              {processedElements}
+              {sections.map((sec) => (
+                <div
+                  key={sec.title}
+                  ref={(el) => {
+                    if (el) sectionsRefs.current[sec.title] = el;
+                  }}
+                  style={{ marginBottom: '2em' }}
+                >
+                  {sec.content.map((line, idx) => {
+                    // If line is recognized as a heading line, show <h2>
+                    const headingDef = headingLabels.find((h) => line.includes(h.match));
+                    if (headingDef) {
+                      return <h2 key={idx}>{line}</h2>;
+                    } else {
+                      return <p key={idx}>{line}</p>;
+                    }
+                  })}
+                </div>
+              ))}
             </div>
           </main>
         </div>
