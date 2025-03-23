@@ -2,87 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Defex | Legendary Denver Punk Band from the 80s</title>
-  <meta name="description" content="The official website of The Defex, Denver's legendary 80s punk rock band. Videos, merch, and more." />
-  <meta name="keywords" content="The Defex, Denver Punk Band, 80s Punk, Punk Rock Denver, Colorado Punk, Punk Merchandise" />
+  <title>The Defex | Legendary Denver Punk Band</title>
+  <meta name="description" content="The official website of The Defex, Denver's legendary 80s punk rock band. Watch videos, grab merch, and explore the legacy.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- React and ReactDOM via CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- React and Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Simple CSS -->
   <style>
     body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      color: #333;
       margin: 0;
       padding: 0;
-      background-color: #fff;
-      font-family: Arial, sans-serif;
-      color: #333;
+      line-height: 1.6;
     }
     .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
       text-align: center;
-      border-bottom: 2px solid #f0f0f0;
+      padding: 50px 20px;
+      background: linear-gradient(135deg, #ffffff, #f4f8ff);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .hero .logo {
-      max-width: 300px;
-      height: auto;
+    .hero img {
+      max-width: 250px;
       margin-bottom: 20px;
     }
     .hero h1 {
-      font-size: 2.5rem;
-      margin: 0;
+      font-size: 3rem;
+      margin: 10px 0;
+      color: #222;
     }
     .hero .tagline {
-      margin: 10px 0 30px;
       font-size: 1.2rem;
-      color: #555;
+      color: #666;
+      margin-bottom: 30px;
     }
-    .tshirt-btn {
+    .btn {
       display: inline-block;
-      padding: 14px 28px;
-      background-color: #e53935;
+      padding: 12px 30px;
+      background-color: #ff4757;
       color: #fff;
+      border-radius: 50px;
       text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-      transition: 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255,71,87,0.3);
+      transition: all 0.3s ease;
     }
-    .tshirt-btn:hover {
-      background-color: #c62828;
+    .btn:hover {
+      transform: translateY(-3px);
+      background-color: #e8414f;
+      box-shadow: 0 6px 20px rgba(255,71,87,0.4);
     }
     .videos {
+      max-width: 1100px;
+      margin: 50px auto;
+      padding: 20px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 900px;
-      margin: 30px auto;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      padding: 0 20px;
     }
-    .videos iframe {
+    .video-container {
+      flex: 1 1 340px;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #fff;
+      transition: transform 0.3s;
+    }
+    .video-container:hover {
+      transform: translateY(-5px);
+    }
+    .video-container iframe {
       width: 100%;
-      max-width: 560px;
-      height: 315px;
+      height: 250px;
       border: none;
-      border-radius: 6px;
+      display: block;
     }
 
-    /* Optional: Make videos a grid on wider screens */
-    @media (min-width: 768px) {
-      .videos {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .videos iframe {
-        flex: 1 1 calc(45% - 40px);
-        margin: 10px;
-      }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero .tagline { font-size: 1rem; }
     }
   </style>
 </head>
@@ -91,42 +99,37 @@
 
   <script type="text/babel">
     const App = () => {
-      // All five YouTube videos
       const videos = [
         "https://www.youtube.com/embed/j1ExxJlBn5A",
         "https://www.youtube.com/embed/v97n-QJGCKM",
         "https://www.youtube.com/embed/AtdUPrFOth4",
         "https://www.youtube.com/embed/LP4_7dSm9Ew",
-        "https://www.youtube.com/embed/Bs2miebxgBU",
+        "https://www.youtube.com/embed/Bs2miebxgBU"
       ];
 
       return (
         <div>
-          {/* Hero Section */}
-          <div className="hero">
-            <img
-              src="https://i.imgur.com/mLCSLUy.png"
-              alt="The Defex Logo"
-              className="logo"
-            />
+          <section className="hero">
+            <img src="https://i.imgur.com/mLCSLUy.png" alt="The Defex Logo"/>
             <h1>The Defex</h1>
             <p className="tagline">Denver Punk Rock Legends from the 80s</p>
-            <a
-              className="tshirt-btn"
+            <a 
+              className="btn"
               href="https://www.ebay.com/itm/256128050540?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=LGhnF0aAR6W&sssrc=2051273&ssuid=LGhnF0aAR6W&var=&widget_ver=artemis&media=COPY"
               target="_blank"
               rel="noopener noreferrer"
             >
               Buy T-Shirts
             </a>
-          </div>
+          </section>
 
-          {/* Video Section */}
-          <div className="videos">
+          <section className="videos">
             {videos.map((src, idx) => (
-              <iframe key={idx} src={src} allowFullScreen></iframe>
+              <div key={idx} className="video-container">
+                <iframe src={src} allowFullScreen></iframe>
+              </div>
             ))}
-          </div>
+          </section>
         </div>
       );
     };
