@@ -1,141 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>The Defex | Legendary Denver Punk Band</title>
-  <meta name="description" content="The official website of The Defex, Denver's legendary 80s punk rock band. Watch videos, grab merch, and explore the legacy.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- React and Babel -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #ffffff;
-      color: #333;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    .hero {
-      text-align: center;
-      padding: 50px 20px;
-      background: linear-gradient(135deg, #ffffff, #f4f8ff);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .hero img {
-      max-width: 250px;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin: 10px 0;
-      color: #222;
-    }
-    .hero .tagline {
-      font-size: 1.2rem;
-      color: #666;
-      margin-bottom: 30px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 30px;
-      background-color: #ff4757;
-      color: #fff;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      box-shadow: 0 4px 15px rgba(255,71,87,0.3);
-      transition: all 0.3s ease;
-    }
-    .btn:hover {
-      transform: translateY(-3px);
-      background-color: #e8414f;
-      box-shadow: 0 6px 20px rgba(255,71,87,0.4);
-    }
-    .videos {
-      max-width: 1100px;
-      margin: 50px auto;
-      padding: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .video-container {
-      flex: 1 1 340px;
-      max-width: 500px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      border-radius: 8px;
-      overflow: hidden;
-      background-color: #fff;
-      transition: transform 0.3s;
-    }
-    .video-container:hover {
-      transform: translateY(-5px);
-    }
-    .video-container iframe {
-      width: 100%;
-      height: 250px;
-      border: none;
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
-      .hero .tagline { font-size: 1rem; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>The Defex | Legendary Denver Punk Band from the 80s</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The official website of The Defex, Denver's legendary 80s punk rock band. Watch videos, get merch, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            background-color: #f7f7f7;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #e53935;
+        }
+        .hero img {
+            max-width: 350px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .tshirt-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #e53935;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .tshirt-btn:hover {
+            background-color: #c62828;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 10px;
+        }
+        .videos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        iframe {
+            width: 100%;
+            max-width: 420px;
+            height: 236px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
-  <div id="root"></div>
+<div id="root"></div>
 
-  <script type="text/babel">
-    const App = () => {
-      const videos = [
+<script type="text/babel">
+const App = () => {
+    const videos = [
         "https://www.youtube.com/embed/j1ExxJlBn5A",
         "https://www.youtube.com/embed/v97n-QJGCKM",
         "https://www.youtube.com/embed/AtdUPrFOth4",
         "https://www.youtube.com/embed/LP4_7dSm9Ew",
         "https://www.youtube.com/embed/Bs2miebxgBU"
-      ];
+    ];
 
-      return (
-        <div>
-          <section className="hero">
-            <img src="https://i.imgur.com/mLCSLUy.png" alt="The Defex Logo"/>
-            <h1>The Defex</h1>
-            <p className="tagline">Denver Punk Rock Legends from the 80s</p>
-            <a 
-              className="btn"
-              href="https://www.ebay.com/itm/256128050540?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=LGhnF0aAR6W&sssrc=2051273&ssuid=LGhnF0aAR6W&var=&widget_ver=artemis&media=COPY"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Buy T-Shirts
-            </a>
-          </section>
+    return (
+        <>
+            <div className="hero">
+                <img src="https://i.imgur.com/mLCSLUy.png" alt="The Defex Logo"/>
+                <div>
+                    <a className="tshirt-btn"
+                       href="https://www.ebay.com/itm/256128050540?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=LGhnF0aAR6W&sssrc=2051273&ssuid=LGhnF0aAR6W&var=&widget_ver=artemis&media=COPY"
+                       target="_blank" rel="noopener noreferrer">
+                        Buy Official T-Shirts on eBay
+                    </a>
+                </div>
+            </div>
 
-          <section className="videos">
-            {videos.map((src, idx) => (
-              <div key={idx} className="video-container">
-                <iframe src={src} allowFullScreen></iframe>
-              </div>
-            ))}
-          </section>
-        </div>
-      );
-    };
+            <div className="container">
+                <h2 style={{textAlign: 'center'}}>Watch The Defex Live</h2>
+                <div className="videos">
+                    {videos.map((src, idx) => (
+                        <iframe key={idx} src={src} allowFullScreen></iframe>
+                    ))}
+                </div>
+            </div>
 
-    const container = document.getElementById("root");
-    ReactDOM.createRoot(container).render(<App />);
-  </script>
+            <footer>
+                &copy; {new Date().getFullYear()} The Defex. All rights reserved.
+            </footer>
+        </>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
 </body>
 </html>
