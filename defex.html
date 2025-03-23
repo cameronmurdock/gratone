@@ -3,73 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Defex - Denver's 80s Punk Band</title>
+    <title>The Defex - Denver Punk Legends</title>
+    <!-- React and ReactDOM CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: #eee;
-            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #fff;
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #333;
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
-        header h1 {
-            margin: 0;
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
-        section {
-            padding: 20px;
-        }
-        .video-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .video-container iframe {
-            margin: 10px;
-            width: 560px;
-            height: 315px;
-        }
-        footer {
-            background-color: #333;
-            padding: 10px;
-            position: fixed;
+        .videos iframe {
             width: 100%;
-            bottom: 0;
+            max-width: 560px;
+            height: 315px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
         }
-        a {
-            color: #1e90ff;
+        .tshirt-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #e53935;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .tshirt-btn:hover {
+            background-color: #ff5252;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>The Defex</h1>
-        <p>Denver's Iconic 80s Punk Band</p>
-    </header>
-    <section>
-        <h2>About Us</h2>
-        <p>The Defex emerged from the vibrant Denver punk scene in the 1980s, delivering raw energy and unforgettable performances that left a lasting impact on the local music landscape.</p>
-    </section>
-    <section>
-        <h2>Merchandise</h2>
-        <p>Show your support by purchasing our exclusive T-shirts!</p>
-        <a href="https://www.ebay.com/itm/256128050540" target="_blank">Buy T-Shirts on eBay</a>
-    </section>
-    <section>
-        <h2>Videos</h2>
-        <div class="video-container">
-            <!-- Video 1 -->
-            <iframe src="https://www.youtube.com/embed/Y3UvrN24spI" frameborder="0" allowfullscreen></iframe>
-            <!-- Video 2 -->
-            <iframe src="https://www.youtube.com/embed/u8VG8LASjMo" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </section>
-    <footer>
-        <p>&copy; 2025 The Defex. All rights reserved.</p>
-    </footer>
+<div id="root"></div>
+
+<script type="text/babel">
+    const App = () => {
+        const videos = [
+            'https://www.youtube.com/embed/j1ExxJlBn5A',
+            'https://www.youtube.com/embed/v97n-QJGCKM',
+            'https://www.youtube.com/embed/AtdUPrFOth4'
+        ];
+
+        return (
+            <div className="container">
+                <h1>The Defex</h1>
+                <p>Denver Punk Rock Legends from the '80s</p>
+                <div className="videos">
+                    {videos.map((src, idx) => (
+                        <iframe key={idx} src={src} allowFullScreen></iframe>
+                    ))}
+                </div>
+                <a className="tshirt-btn"
+                   href="https://www.ebay.com/itm/256128050540?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=LGhnF0aAR6W&sssrc=2051273&ssuid=LGhnF0aAR6W&var=&widget_ver=artemis&media=COPY"
+                   target="_blank" rel="noopener noreferrer">
+                    Buy T-Shirts on eBay
+                </a>
+            </div>
+        );
+    };
+
+    const container = document.getElementById('root');
+    ReactDOM.createRoot(container).render(<App />);
+</script>
 </body>
 </html>
