@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey on a Flowing River</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            outline: none;
+            z-index: -1; /* Place canvas behind content */
+        }
+
+        .scroll-content {
+            height: 800vh; /* Taller for a longer journey */
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            padding: 2rem;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .title-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem 4rem;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+
+        p {
+            max-width: 600px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="webgl-canvas"></canvas>
+    
+    <div class="scroll-content">
+        <div class="content-section">
+            <div class="title-card">
+                <h1>River Journey</h1>
+                <p>Scroll down to flow with the river. You are now on an endless journey. Watch as new currents and rapids appear before you.</p>
+            </div>
+        </div>
+        <div class="content-section"></div>
+        <div class="content-section">
+             <div class="title-card">
+                <h2>Dynamic Rapids</h2>
+                <p>The river itself is now more dynamic. As you travel, the water will shift between calm stretches and turbulent rapids, with higher waves and more foam.</p>
+            </div>
+        </div>
+        <div class="content-section"></div>
+        <div class="content-section"></div>
+        <div class="content-section"></div>
+        <div class="content-section"></div>
+        <div class="content-section">
+             <div class="title-card">
+                <h1>End of the Journey</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // --- NOISE FUNCTION (Used by the river shader) ---
+        const snoise = `
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+            float snoise(vec3 v) {
+                const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+                vec3 i = floor(v + dot(v, C.yyy));
+                vec3 x0 = v - i + dot(i, C.xxx);
+                vec3 g = step(x0.yzx, x0.xyz);
+                vec3 l = 1.0 - g;
+                vec3 i1 = min(g.xyz, l.zxy);
+                vec3 i2 = max(g.xyz, l.zxy);
+                vec3 x1 = x0 - i1 + C.xxx;
+                vec3 x2 = x0 - i2 + C.yyy;
+                vec3 x3 = x0 - D.yyy;
+                i = mod289(i);
+                vec4 p = permute(permute(permute(
+                    i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                    + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                    + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+                float n_ = 0.142857142857;
+                vec3 ns = n_ * D.wyz - D.xzx;
+                vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+                vec4 x_ = floor(j * ns.z);
+                vec4 y_ = floor(j - 7.0 * x_);
+                vec4 x = x_ * ns.x + ns.yyyy;
+                vec4 y = y_ * ns.x + ns.yyyy;
+                vec4 h = 1.0 - abs(x) - abs(y);
+                vec4 b0 = vec4(x.xy, y.xy);
+                vec4 b1 = vec4(x.zw, y.zw);
+                vec4 s0 = floor(b0)*2.0 + 1.0;
+                vec4 s1 = floor(b1)*2.0 + 1.0;
+                vec4 sh = -step(h, vec4(0.0));
+                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+                vec3 p0 = vec3(a0.xy,h.x);
+                vec3 p1 = vec3(a0.zw,h.y);
+                vec3 p2 = vec3(a1.xy,h.z);
+                vec3 p3 = vec3(a1.zw,h.w);
+                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+                p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                m = m * m;
+                return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+            }
+        `;
+
+        // --- SETUP ---
+        const scene = new THREE.Scene();
+        // Adjusted fog for a more open feel
+        scene.fog = new THREE.Fog(0x1a1a1a, 15, 40); 
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        // Camera positioned as if in a boat
+        camera.position.set(0, 1.2, 0); 
+        camera.rotation.x = -0.1;
+
+        const globalUniforms = {
+            u_time: { value: 0.0 },
+        };
+
+        // --- RIVER ---
+        const riverUniforms = {
+            ...globalUniforms,
+            u_deepColor: { value: new THREE.Color(0x045D5D) },
+            u_shallowColor: { value: new THREE.Color(0x93F5CF) },
+            u_foamColor: { value: new THREE.Color(0xffffff) },
+            u_waveElevation: { value: 0.2 },
+            u_waveFrequency: { value: new THREE.Vector2(2.0, 1.0) },
+            u_waveSpeed: { value: 0.1 },
+            u_smallWaveElevation: { value: 0.08 },
+            u_smallWaveFrequency: { value: 6.0 },
+            u_smallWaveSpeed: { value: 0.2 },
+            u_rapidsIntensity: { value: 0.4 },
+        };
+
+        const riverVertexShader = `
+            ${snoise}
+            uniform float u_time;
+            uniform float u_waveElevation;
+            uniform vec2 u_waveFrequency;
+            uniform float u_waveSpeed;
+            uniform float u_smallWaveElevation;
+            uniform float u_smallWaveFrequency;
+            uniform float u_smallWaveSpeed;
+            uniform float u_rapidsIntensity;
+            varying float v_elevation;
+            varying float v_is_rapid;
+            void main() {
+                vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                float rapids_noise = snoise(vec3(modelPosition.z * 0.1 - u_time * u_waveSpeed * 0.2, 0.0, 0.0));
+                float rapids_factor = pow((rapids_noise + 1.0) * 0.5, 2.0);
+                float bigWaveNoise = snoise(vec3(modelPosition.x * u_waveFrequency.x - u_time * u_waveSpeed, modelPosition.z * u_waveFrequency.y - u_time * u_waveSpeed, u_time * 0.1));
+                float bigWave = (bigWaveNoise + 1.0) * 0.5;
+                float smallWaveNoise = snoise(vec3(modelPosition.x * u_smallWaveFrequency - u_time * u_smallWaveSpeed, modelPosition.z * u_smallWaveFrequency - u_time * u_smallWaveSpeed, u_time * 0.3));
+                float smallWave = (smallWaveNoise + 1.0) * 0.5;
+                float elevation = (bigWave * u_waveElevation) + (smallWave * u_smallWaveElevation);
+                elevation *= (1.0 + rapids_factor * u_rapidsIntensity);
+                modelPosition.y += elevation;
+                v_elevation = bigWave;
+                v_is_rapid = rapids_factor;
+                gl_Position = projectionMatrix * viewMatrix * modelPosition;
+            }
+        `;
+        const riverFragmentShader = `
+            uniform vec3 u_deepColor;
+            uniform vec3 u_shallowColor;
+            uniform vec3 u_foamColor;
+            varying float v_elevation;
+            varying float v_is_rapid;
+            void main() {
+                vec3 shallowColor = mix(u_shallowColor, vec3(1.0), v_is_rapid * 0.3);
+                vec3 color = mix(u_deepColor, shallowColor, v_elevation);
+                float foam_threshold = 0.7 - v_is_rapid * 0.2;
+                float foam_softness = 0.1;
+                float foam_strength = smoothstep(foam_threshold - foam_softness, foam_threshold + foam_softness, v_elevation);
+                color = mix(color, u_foamColor, foam_strength);
+                vec3 viewDirection = normalize(cameraPosition - gl_FragCoord.xyz);
+                vec3 sunDirection = normalize(vec3(0.5, 0.8, 0.5));
+                vec3 normal = normalize(vec3(0.0, 1.0, 0.0));
+                float specular = pow(max(0.0, dot(reflect(-sunDirection, normal), viewDirection)), 128.0);
+                specular *= 0.5 * (1.0 + v_is_rapid);
+                color += vec3(specular);
+                gl_FragColor = vec4(color, 1.0);
+            }
+        `;
+        // Widened the river plane slightly to fill the view
+        const riverGeometry = new THREE.PlaneGeometry(20, 50, 200, 500); 
+        riverGeometry.rotateX(-Math.PI / 2);
+        const riverMaterial = new THREE.ShaderMaterial({ vertexShader: riverVertexShader, fragmentShader: riverFragmentShader, uniforms: riverUniforms });
+        const river = new THREE.Mesh(riverGeometry, riverMaterial);
+        scene.add(river);
+
+        // --- SCROLL CONTROL ---
+        let targetTime = 0;
+        function updateScroll() {
+            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            targetTime = scrollPercent * 200.0;
+        }
+        window.addEventListener('scroll', updateScroll);
+        updateScroll();
+
+        // --- ANIMATION LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+            globalUniforms.u_time.value += (targetTime - globalUniforms.u_time.value) * 0.05;
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+
+</body>
+</html>
